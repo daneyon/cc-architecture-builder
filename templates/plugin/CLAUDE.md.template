@@ -1,0 +1,56 @@
+# {{PROJECT_NAME}}
+
+> {{PROJECT_DESCRIPTION}}
+
+## Purpose
+
+{{PURPOSE_DETAILED}}
+
+## Domain
+
+{{DOMAIN_DESCRIPTION}}
+
+## Personal Customization (Optional)
+
+@~/.claude/{{PROJECT_NAME}}-preferences.md
+
+## Knowledge Base
+
+Domain knowledge is organized in `knowledge/`:
+
+- `knowledge/INDEX.md` — Master catalog of all knowledge files
+- `knowledge/concepts/` — Foundational understanding
+- `knowledge/procedures/` — How-to guides
+- `knowledge/reference/` — Specifications and standards
+- `knowledge/examples/` — Sample inputs and outputs
+
+For domain questions, first consult `knowledge/INDEX.md` to identify relevant files.
+
+## Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `/{{COMMAND_1}}` | {{COMMAND_1_DESCRIPTION}} |
+| `/{{COMMAND_2}}` | {{COMMAND_2_DESCRIPTION}} |
+
+## Specialized Agents
+
+| Agent | Use When |
+|-------|----------|
+| `{{AGENT_1}}` | {{AGENT_1_USE_CASE}} |
+| `{{AGENT_2}}` | {{AGENT_2_USE_CASE}} |
+
+## Capabilities
+
+- {{CAPABILITY_1}}
+- {{CAPABILITY_2}}
+- {{CAPABILITY_3}}
+
+## Constraints
+
+- {{CONSTRAINT_1}}
+- {{CONSTRAINT_2}}
+
+## Output Guidelines
+
+{{OUTPUT_GUIDELINES}}

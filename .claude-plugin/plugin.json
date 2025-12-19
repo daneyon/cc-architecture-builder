@@ -1,0 +1,17 @@
+{
+  "name": "cc-architecture-builder",
+  "version": "0.1.0",
+  "description": "Interactive builder for Claude Code projects following standardized architecture patterns. Scaffolds global user configurations and distributable plugin projects with proper knowledge base structure.",
+  "author": {
+    "name": "Daneyon"
+  },
+  "repository": "",
+  "license": "[INTERNAL USE ONLY]",
+  "keywords": [
+    "architecture",
+    "scaffolding",
+    "project-builder",
+    "knowledge-base",
+    "custom-llm"
+  ]
+}

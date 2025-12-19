@@ -1,0 +1,99 @@
+# {{PROJECT_NAME}}
+
+{{PROJECT_DESCRIPTION}}
+
+## Installation
+
+### Via Marketplace
+
+```bash
+claude
+/plugin marketplace add {{MARKETPLACE_SOURCE}}
+/plugin install {{PROJECT_NAME}}@{{MARKETPLACE_NAME}}
+```
+
+### Manual Installation
+
+1. Clone this repository
+2. Add to your Claude Code plugins
+
+## Features
+
+- {{FEATURE_1}}
+- {{FEATURE_2}}
+- {{FEATURE_3}}
+
+## Usage
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `/{{COMMAND_1}}` | {{COMMAND_1_DESCRIPTION}} |
+| `/{{COMMAND_2}}` | {{COMMAND_2_DESCRIPTION}} |
+
+### Agents
+
+This plugin provides specialized agents:
+
+- **{{AGENT_1}}**: {{AGENT_1_DESCRIPTION}}
+- **{{AGENT_2}}**: {{AGENT_2_DESCRIPTION}}
+
+### Skills
+
+Claude will automatically use these skills when relevant:
+
+- **{{SKILL_1}}**: {{SKILL_1_DESCRIPTION}}
+
+## Configuration
+
+### Personal Preferences (Optional)
+
+Create `~/.claude/{{PROJECT_NAME}}-preferences.md` to customize behavior:
+
+```markdown
+# {{PROJECT_NAME}} Preferences
+
+## My Preferences
+- Preference 1
+- Preference 2
+```
+
+### MCP Integration
+
+If using external tools, configure `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "example": {
+      "type": "http",
+      "url": "https://api.example.com/mcp"
+    }
+  }
+}
+```
+
+## Knowledge Base
+
+The `knowledge/` directory contains domain-specific content:
+
+- `concepts/` — Foundational understanding
+- `procedures/` — How-to guides
+- `reference/` — Specifications and standards
+- `examples/` — Sample inputs and outputs
+
+## Contributing
+
+1. Fork this repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+{{LICENSE}}
+
+## Author
+
+{{AUTHOR_NAME}} ({{AUTHOR_EMAIL}})

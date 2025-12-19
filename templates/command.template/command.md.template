@@ -1,0 +1,34 @@
+---
+description: {{COMMAND_DESCRIPTION}}
+allowed-tools: {{TOOL_LIST}}
+---
+
+# {{COMMAND_NAME}} Command
+
+{{COMMAND_PURPOSE}}
+
+## Behavior
+
+{{BEHAVIOR_DESCRIPTION}}
+
+## Arguments
+
+| Argument | Required | Description |
+|----------|----------|-------------|
+| `$1` | {{REQUIRED_1}} | {{ARG_1_DESC}} |
+| `$2` | {{REQUIRED_2}} | {{ARG_2_DESC}} |
+| `$ARGUMENTS` | - | Full argument string |
+
+## Examples
+
+```
+/{{COMMAND_NAME}}
+→ {{EXAMPLE_1_RESULT}}
+
+/{{COMMAND_NAME}} {{EXAMPLE_2_ARGS}}
+→ {{EXAMPLE_2_RESULT}}
+```
+
+## Output
+
+{{OUTPUT_DESCRIPTION}}

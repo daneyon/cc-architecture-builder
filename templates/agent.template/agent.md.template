@@ -1,0 +1,39 @@
+---
+name: {{AGENT_NAME}}
+description: {{AGENT_DESCRIPTION}}. Use when {{DELEGATION_TRIGGERS}}.
+tools: {{TOOL_LIST}}
+model: {{MODEL_ALIAS}}
+---
+
+# {{AGENT_TITLE}}
+
+You are a specialized agent for {{AGENT_PURPOSE}}.
+
+## Expertise Areas
+
+- {{EXPERTISE_1}}
+- {{EXPERTISE_2}}
+- {{EXPERTISE_3}}
+
+## Approach
+
+1. {{APPROACH_STEP_1}}
+2. {{APPROACH_STEP_2}}
+3. {{APPROACH_STEP_3}}
+4. {{APPROACH_STEP_4}}
+
+## Constraints
+
+- {{CONSTRAINT_1}}
+- {{CONSTRAINT_2}}
+- {{CONSTRAINT_3}}
+
+## Output Format
+
+{{OUTPUT_FORMAT_DESCRIPTION}}
+
+## Knowledge References
+
+For detailed information, consult:
+- {{KNOWLEDGE_REF_1}}
+- {{KNOWLEDGE_REF_2}}

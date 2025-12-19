@@ -1,0 +1,60 @@
+# Claude Code local files
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+credentials.json
+secrets.json
+
+# API tokens
+*.token
+.github_token
+.anthropic_key
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+venv/
+.venv/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Vector database (if using local MCP)
+.vectors/
+*.db
+
+# VS Code workspace files
+*.code-workspace
+cc-architecture-builder.code-workspace
