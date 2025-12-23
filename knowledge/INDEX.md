@@ -2,8 +2,9 @@
 type: index
 scope: master
 file_count: 24
-last_updated: 2025-12-12
-version: 0.3.0
+last_updated: 2025-12-18
+version: 0.4.0
+changelog: Updated agent-skills.md and mcp-integration.md based on Anthropic skill-creator and mcp-builder review; added bundled skills references
 ---
 
 # Knowledge Base Index
@@ -23,6 +24,17 @@ version: 0.3.0
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
 
+## Bundled Skills Reference
+
+This project includes two Anthropic-derived skills with comprehensive guidance:
+
+| Skill | Purpose | Key Resources |
+|-------|---------|---------------|
+| `skills/skill-creator/` | Guide for creating effective skills | `references/workflows.md`, `references/output-patterns.md`, `scripts/init_skill.py` |
+| `skills/mcp-builder/` | Guide for building MCP servers | `reference/mcp_best_practices.md`, `reference/python_mcp_server.md`, `reference/node_mcp_server.md` |
+
+**When to use**: Consult these skills for detailed implementation guidance beyond what's in the knowledge base.
+
 ## Navigation Guide
 
 ### New to Claude Code Architecture?
@@ -40,6 +52,10 @@ version: 0.3.0
 ### Deep Dive on Components?
 
 See `components/INDEX.md` for reading order and relationships.
+
+**Key updated files (v0.4.0)**:
+- `components/agent-skills.md` — Updated with Anthropic skill-creator insights
+- `components/mcp-integration.md` — Updated with Anthropic mcp-builder insights
 
 ### Advanced Patterns?
 
@@ -70,11 +86,11 @@ Complete structure specifications for both configuration layers.
 Detailed documentation for each plugin component type.
 
 - `memory-claudemd.md` — CLAUDE.md memory system, imports, hierarchy
-- `agent-skills.md` — Model-invoked capabilities, SKILL.md format
+- `agent-skills.md` — Model-invoked capabilities, SKILL.md format, progressive disclosure, bundled resources **(Updated v0.4.0)**
 - `subagents.md` — Specialized assistants, separate context
 - `custom-commands.md` — User-invoked shortcuts, slash commands
 - `hooks.md` — Event-driven automation
-- `mcp-integration.md` — External tool connections
+- `mcp-integration.md` — External tool connections, server development patterns **(Updated v0.4.0)**
 - `knowledge-base-structure.md` — KB organization, indexing, retrieval
 
 ### Distribution (1 file)
@@ -98,7 +114,7 @@ Practical execution guide.
 Reference materials.
 
 - `glossary.md` — Term definitions
-- `references.md` — Official documentation links
+- `references.md` — Official documentation links, bundled skills reference **(Updated v0.4.0)**
 
 ## Search Tips
 
@@ -107,3 +123,5 @@ When looking for information:
 - Check INDEX.md in each category for file summaries
 - Follow `related` links in file frontmatter
 - Start with foundational files before advanced topics
+- **For skill creation**: Consult `skills/skill-creator/SKILL.md`
+- **For MCP development**: Consult `skills/mcp-builder/SKILL.md`

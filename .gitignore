@@ -47,6 +47,7 @@ build/
 logs/
 
 # Temporary files
+_archive/
 tmp/
 temp/
 *.tmp

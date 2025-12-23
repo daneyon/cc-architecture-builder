@@ -5,22 +5,24 @@
 <!-- DOCUMENT METADATA (Machine-Readable) -->
 <!--
 status: DRAFT
-version: 0.3.0
+version: 0.4.0
 author: Daneyon (with Claude)
-last_updated: 2025-12-12
+last_updated: 2025-12-18
 document_type: architecture_guide
 primary_audience: [human, llm]
 sections_complete: [executive_summary, architecture_philosophy, prerequisites_git, schema_1, schema_2, components, distribution, operational_patterns, implementation]
 sections_in_progress: []
 sections_placeholder: [sdk_integration, enterprise_deployment, advanced_mcp, cicd, kb_deep_dive, agents_deep_dive]
-pending_reviews: [skill-creator, mcp-builder]
+pending_reviews: []
+reviewed_skills: [skill-creator, mcp-builder]
+notes: Updated sections 6.2 and 6.6 based on Anthropic skill-creator and mcp-builder review
 -->
 
 > **DRAFT STATUS**: This is a living document under active development. Sections marked with `[PLACEHOLDER]` are incomplete. Last substantive edit: December 12, 2025.
 
-**Version**: 0.3.0-draft  
+**Version**: 0.4.0-draft  
 **Author**: Daneyon (with Claude)  
-**Last Updated**: December 12, 2025
+**Last Updated**: December 18, 2025
 
 ---
 
