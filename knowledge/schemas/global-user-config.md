@@ -3,7 +3,7 @@ id: global-user-config
 title: Global User Configuration (Schema 1)
 category: schemas
 tags: [schema-1, global, user-config, claude-directory, personal]
-summary: Complete specification for the global user configuration at ~/.claude/, including directory structure, CLAUDE.md baseline template, and settings.local.json configuration.
+summary: Complete specification for the global user configuration at ~/.claude/, including directory structure, CLAUDE.md baseline template, and settings.json configuration.
 depends_on: [executive-summary, architecture-philosophy]
 related: [distributable-plugin, memory-claudemd]
 complexity: intermediate
@@ -27,7 +27,7 @@ Schema 1 defines your **personal baseline**—configuration that applies across 
 ```
 ~/.claude/
 ├── CLAUDE.md                     # Personal baseline (always loaded)
-├── settings.local.json           # Local settings overrides
+├── settings.json                 # User settings (model, permissions)
 │
 ├── skills/                       # Personal skills (cross-project)
 │   ├── research-methodology/
@@ -90,7 +90,7 @@ Schema 1 defines your **personal baseline**—configuration that applies across 
 - Tables for comparisons, diagrams for flows
 ```
 
-## settings.local.json
+## settings.json
 
 ```json
 {

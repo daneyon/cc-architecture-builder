@@ -1,0 +1,37 @@
+{
+  "allowedTools": {
+    "bash": "ask",
+    "edit": "ask",
+    "write": "ask",
+    "read": "auto_approve",
+    "list_dir": "auto_approve",
+    "search": "auto_approve",
+    "grep": "auto_approve",
+    "glob": "auto_approve"
+  },
+  "hooks": {
+    "beforeEdit": [
+      {
+        "name": "backup_before_edit",
+        "command": "Copy-Item ${FILE} ${FILE}.backup",
+        "enabled": true
+      }
+    ],
+    "afterEdit": [
+      {
+        "name": "format_python",
+        "command": "black ${FILE}",
+        "pattern": "\\.py$",
+        "enabled": false,
+        "description": "Auto-format with Black (enable when ready)"
+      },
+      {
+        "name": "type_check_python",
+        "command": "mypy ${FILE}",
+        "pattern": "\\.py$",
+        "enabled": false,
+        "description": "Type check with mypy (enable when ready)"
+      }
+    ]
+  }
+}

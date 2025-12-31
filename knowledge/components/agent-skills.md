@@ -2,265 +2,252 @@
 id: agent-skills
 title: Agent Skills
 category: components
-tags: [skills, model-invoked, SKILL.md, capabilities, progressive-disclosure, scripts, references, assets]
-summary: Model-invoked capabilities that Claude autonomously triggers based on task context. Covers SKILL.md format, frontmatter fields, bundled resources, progressive disclosure, and creation workflow.
+tags: [skills, model-invoked, capabilities, SKILL.md, progressive-disclosure]
+summary: Complete guide to Agent Skills - model-invoked capabilities that extend Claude's functionality through SKILL.md files with optional bundled resources.
 depends_on: [memory-claudemd]
-related: [subagents, custom-commands, mcp-integration]
+related: [subagents, custom-commands, knowledge-base-structure]
 complexity: intermediate
-last_updated: 2025-12-18
-estimated_tokens: 1200
-source: Updated based on Anthropic skill-creator reference skill
+last_updated: 2025-12-23
+estimated_tokens: 1000
+source: https://code.claude.com/docs/en/skills
 ---
 
 # Agent Skills
 
 ## Overview
 
-Skills are **model-invoked** capabilities—Claude autonomously decides when to use them based on the task context and skill description. This differs from commands, which require explicit user invocation.
+Skills are **model-invoked** capabilities—Claude autonomously decides when to use them based on task context and skill description. This differs from commands, which require explicit user invocation.
 
-> **Core Philosophy**: The context window is a public good. Skills share context with everything else Claude needs. Only add context Claude doesn't already have. Challenge each piece of information: "Does Claude really need this?"
+**Source**: [Agent Skills](https://code.claude.com/docs/en/skills)
 
-## Key Distinction
+> **Core Philosophy**: The context window is a public good. Only add context Claude doesn't already have.
 
-| Aspect | Skills | Commands |
-|--------|--------|----------|
-| Invocation | Model decides | User types `/command` |
-| Trigger | Task context matches description | Explicit request |
-| Discovery | Metadata loaded at startup | Listed in `/help` |
+---
 
-## Anatomy of a Skill
+## Skill Locations
 
-Every skill consists of a required SKILL.md file and optional bundled resources:
+| Type | Location | Scope |
+|------|----------|-------|
+| **Personal Skills** | `~/.claude/skills/` | All your projects |
+| **Project Skills** | `.claude/skills/` | Current project (team via git) |
+| **Plugin Skills** | Bundled with plugins | When plugin installed |
+
+---
+
+## Skill Structure
 
 ```
 skill-name/
 ├── SKILL.md              # Required
-│   ├── YAML frontmatter  # name, description (required)
-│   └── Markdown body     # Instructions (required)
 └── Bundled Resources     # Optional
-    ├── scripts/          # Executable code (Python/Bash/etc.)
-    ├── references/       # Documentation loaded into context as needed
-    └── assets/           # Files used in output (templates, images, fonts)
+    ├── scripts/          # Executable code
+    ├── references/       # Documentation (loaded on demand)
+    └── assets/           # Templates, images, fonts
 ```
 
-## SKILL.md Format
+**Bundled Resource Types**:
 
-### Frontmatter (Required)
+| Type | Purpose | Loaded Into Context? |
+|------|---------|---------------------|
+| `scripts/` | Executable code for deterministic operations | No (outputs only) |
+| `references/` | Documentation Claude references while working | Yes (on demand) |
+| `assets/` | Templates, images, fonts for output | No (used in output) |
+
+---
+
+## SKILL.md Format
 
 ```yaml
 ---
 name: skill-name
-description: What this skill does and when to use it. Be specific about triggers. Third-person voice.
+description: What this skill does AND when to use it. Include specific triggers. Third-person voice.
 ---
+
+# Skill Name
+
+## Instructions
+1. Step-by-step guidance
+2. Clear procedures
+
+## Examples
+Show concrete examples of using this Skill.
+
+## References
+For details, see [reference.md](reference.md)
 ```
 
-**Allowed frontmatter properties** (per validation):
+**Critical**: The `description` field determines when Claude uses the skill. Include both what it does AND when to use it.
+
+---
+
+## Frontmatter Fields
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `name` | Yes | Skill identifier (max 64 chars, lowercase+hyphens) |
-| `description` | Yes | What skill does and when to use (max 1024 chars) |
-| `license` | No | License reference (e.g., "Complete terms in LICENSE.txt") |
+| `name` | Yes | Lowercase letters, numbers, hyphens (max 64 chars) |
+| `description` | Yes | What skill does + when to use (max 1024 chars) |
 | `allowed-tools` | No | Restrict which tools the skill can use |
-| `metadata` | No | Custom metadata object |
 
-### Body (Required)
+### Naming Requirements
 
-```markdown
-# Skill Name
+- Max 64 characters
+- Lowercase letters, numbers, hyphens only
+- Cannot start/end with hyphen
+- No `--` sequences
+- No reserved words ("anthropic", "claude")
 
-## Overview
-[1-2 sentences explaining what this skill enables]
+**Convention**: Use gerund form: `processing-pdfs`, `analyzing-data`, `managing-databases`
 
-## Instructions
-[Step-by-step guidance for Claude]
+---
 
-## When to Apply
-[Specific trigger conditions - though better in description]
+## Tool Restrictions (allowed-tools)
 
-## Output Format
-[Expected structure of results]
-
-## References
-For details, see [reference/detailed-guide.md](reference/detailed-guide.md)
-```
-
-## Bundled Resources
-
-### scripts/ — Executable Code
-
-For tasks requiring deterministic reliability or frequently rewritten code.
-
-- **When to include**: Same code being rewritten repeatedly, or deterministic reliability needed
-- **Benefits**: Token efficient, deterministic, executed without loading into context
-- **Note**: Scripts may still be read by Claude for patching or environment adjustments
-
-### references/ — Documentation
-
-Documentation intended to be loaded into context as needed.
-
-- **When to include**: Documentation Claude should reference while working
-- **Use cases**: Database schemas, API docs, domain knowledge, detailed guides
-- **Best practice**: If files are large (>10k words), include grep search patterns in SKILL.md
-- **Avoid duplication**: Information should live in SKILL.md OR references files, not both
-
-### assets/ — Output Files
-
-Files not loaded into context, but used in output Claude produces.
-
-- **When to include**: Files used in final output
-- **Examples**: Templates (.pptx, .docx), images, icons, fonts, boilerplate code
-- **Benefits**: Claude can use files without loading them into context
-
-## What NOT to Include in Skills
-
-> **Important**: Skills are for AI agents, not human users.
-
-Do NOT create extraneous documentation:
-- README.md
-- INSTALLATION_GUIDE.md
-- QUICK_REFERENCE.md
-- CHANGELOG.md
-- User documentation
-
-The skill should only contain information needed for an AI agent to do the job.
-
-## Naming Requirements
-
-| Field | Constraint |
-|-------|------------|
-| `name` | Max 64 chars |
-| `name` | Lowercase letters, numbers, hyphens only |
-| `name` | Cannot start/end with hyphen or contain `--` |
-| `name` | No reserved words ("anthropic", "claude") |
-| `description` | Max 1024 chars, non-empty |
-| `description` | No angle brackets (< or >) |
-| `description` | Third-person voice |
-
-### Naming Convention
-
-Use **gerund form** (verb + -ing):
-- `processing-pdfs`
-- `analyzing-spreadsheets`
-- `managing-databases`
-
-### Description Best Practices
+Limit which tools Claude can use when a skill is active:
 
 ```yaml
-# GOOD: Specific, includes all trigger information
-description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
-
-# BAD: Vague, no triggers
-description: Helps with documents
+---
+name: safe-file-reader
+description: Read files without making changes. Use for read-only file access.
+allowed-tools: Read, Grep, Glob
+---
 ```
 
-**Include ALL "when to use" information in the description** — not in the body. The body is only loaded after triggering, so "When to Use" sections in the body don't help Claude decide.
+When specified, Claude can only use listed tools without asking permission. Useful for:
+- Read-only skills
+- Security-sensitive workflows
+- Limited-scope operations
+
+If omitted, Claude asks for permission as normal.
+
+---
 
 ## Progressive Disclosure
 
-Skills use three-level loading to conserve tokens:
+Skills use a three-level loading model:
 
-| Level | Content | When Loaded | Token Cost |
-|-------|---------|-------------|------------|
-| **1** | Metadata (name + description) | Session start | ~100 tokens/skill |
-| **2** | SKILL.md body | Skill triggered | < 5k words |
-| **3** | Bundled resources | As needed | Unlimited (scripts execute without loading) |
+| Level | When Loaded | Token Cost | Content |
+|-------|-------------|------------|---------|
+| **Level 1: Metadata** | Always (startup) | ~100 tokens/skill | `name` and `description` |
+| **Level 2: Instructions** | When triggered | < 5k tokens | SKILL.md body |
+| **Level 3: Resources** | As needed | Unlimited | Bundled files, scripts |
 
-### Progressive Disclosure Patterns
+**Key Principle**: Keep SKILL.md body focused. Split into reference files as needed.
 
-**Pattern 1: High-level guide with references**
-```markdown
-# PDF Processing
+---
 
-## Quick start
-[Basic instructions with code example]
+## View Available Skills
 
-## Advanced features
-- **Form filling**: See [references/forms.md](references/forms.md)
-- **API reference**: See [references/api.md](references/api.md)
+Ask Claude directly:
+```
+What Skills are available?
 ```
 
-**Pattern 2: Domain-specific organization**
-```
-bigquery-skill/
-├── SKILL.md (overview and navigation)
-└── references/
-    ├── finance.md (revenue, billing)
-    ├── sales.md (opportunities, pipeline)
-    └── product.md (API usage, features)
-```
-When user asks about sales, Claude only reads sales.md.
+Or check filesystem:
+```bash
+# Personal skills
+ls ~/.claude/skills/
 
-**Pattern 3: Framework/variant organization**
-```
-cloud-deploy/
-├── SKILL.md (workflow + provider selection)
-└── references/
-    ├── aws.md
-    ├── gcp.md
-    └── azure.md
+# Project skills
+ls .claude/skills/
 ```
 
-**Guidelines:**
-- Avoid deeply nested references (keep one level deep from SKILL.md)
-- Structure longer reference files with table of contents at top
-- Keep SKILL.md body under 500 lines
+---
 
-## Degrees of Freedom
+## Debugging Skills
 
-Match specificity to task fragility:
+### Claude doesn't use my skill
 
-| Level | When to Use | Form |
-|-------|-------------|------|
-| **High freedom** | Multiple approaches valid, context-dependent | Text instructions |
-| **Medium freedom** | Preferred pattern exists, some variation OK | Pseudocode, scripts with parameters |
-| **Low freedom** | Operations fragile, consistency critical | Specific scripts, few parameters |
+**Check description specificity**:
 
-Think of Claude as exploring a path: a narrow bridge needs guardrails (low freedom), an open field allows many routes (high freedom).
+```yaml
+# Too vague
+description: Helps with documents
 
-## Skill Creation Process
+# Specific
+description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
+```
 
-1. **Understand** — Gather concrete usage examples
-2. **Plan** — Identify reusable resources (scripts, references, assets)
-3. **Initialize** — Create skill structure (use init script if available)
-4. **Edit** — Implement resources, write SKILL.md
-5. **Package** — Create distributable .skill file
-6. **Iterate** — Improve based on real usage
-
-## Skill Locations
-
-| Location | Scope |
-|----------|-------|
-| `~/.claude/skills/` | Personal (all projects) |
-| `.claude/skills/` | Project (team via git) |
-| `plugin/skills/` | Plugin (when installed) |
-
-## Skills vs Subagents
-
-| When to Use | Skills | Subagents |
-|-------------|--------|-----------|
-| Adds to main context | Yes | No (separate) |
-| Preserves context window | No | Yes |
-| Stateless | Yes | Can resume |
-| Simple capability | Preferred | Overkill |
-| Complex delegation | Less suitable | Preferred |
-
-## Packaging Skills
-
-Skills can be packaged into `.skill` files (zip format) for distribution:
+### Verify file path
 
 ```bash
-# Using skill-creator scripts
-python scripts/package_skill.py path/to/skill-folder
-
-# Creates: skill-name.skill
+# Personal: ~/.claude/skills/skill-name/SKILL.md
+# Project: .claude/skills/skill-name/SKILL.md
+ls ~/.claude/skills/my-skill/SKILL.md
 ```
 
-The packaging script validates before creating the package.
+### Check YAML syntax
+
+```bash
+cat SKILL.md | head -n 10
+```
+
+Ensure:
+- Opening `---` on line 1
+- Closing `---` before Markdown content
+- Valid YAML (no tabs, correct indentation)
+
+---
+
+## Sharing Skills
+
+**Recommended**: Distribute through [plugins](https://code.claude.com/docs/en/plugins).
+
+**Alternative**: Commit to project repository:
+
+```bash
+mkdir -p .claude/skills/team-skill
+# Create SKILL.md
+git add .claude/skills/
+git commit -m "Add team skill"
+git push
+```
+
+Team members get skills automatically on `git pull`.
+
+---
+
+## Example: Code Reviewer Skill
+
+```yaml
+---
+name: code-reviewer
+description: Review code for best practices and potential issues. Use when reviewing code, checking PRs, or analyzing code quality.
+allowed-tools: Read, Grep, Glob
+---
+
+# Code Reviewer
+
+## Review checklist
+
+1. Code organization and structure
+2. Error handling
+3. Performance considerations
+4. Security concerns
+5. Test coverage
+
+## Instructions
+
+1. Read target files using Read tool
+2. Search for patterns using Grep
+3. Find related files using Glob
+4. Provide detailed feedback on code quality
+```
+
+---
+
+## Best Practices
+
+| Practice | Description |
+|----------|-------------|
+| **Keep focused** | One skill = one capability |
+| **Clear descriptions** | Include what AND when |
+| **Test with team** | Verify activation and clarity |
+| **Document versions** | Track changes in SKILL.md |
+
+---
 
 ## See Also
 
-- [Subagents](subagents.md) — Separate context alternative
-- [Custom Commands](custom-commands.md) — User-invoked alternative
-- [Memory System](memory-claudemd.md) — Foundation
-- Anthropic skill-creator skill — Detailed skill creation guidance
+- [Subagents](subagents.md) — Specialized assistants with separate context
+- [Custom Commands](custom-commands.md) — User-invoked shortcuts
+- [Agent Skills Best Practices](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/best-practices)

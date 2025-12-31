@@ -7,8 +7,8 @@ summary: High-level overview of the two-schema Claude Code architecture, core de
 depends_on: []
 related: [architecture-philosophy, global-user-config, distributable-plugin]
 complexity: foundational
-last_updated: 2025-12-12
-estimated_tokens: 600
+last_updated: 2025-12-23
+estimated_tokens: 700
 ---
 
 # Executive Summary
@@ -32,7 +32,8 @@ Claude Code is not merely a coding assistant—it is a configurable AI platform 
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  ~/.claude/                                                                  │
 │  ├── CLAUDE.md              # Your personal system instructions              │
-│  ├── settings.local.json    # Local settings overrides                       │
+│  ├── settings.json          # User settings (model, permissions)             │
+│  ├── rules/                 # Personal modular rules                         │
 │  ├── skills/                # Personal skills (available everywhere)         │
 │  └── agents/                # Personal agents                                │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -48,6 +49,8 @@ Claude Code is not merely a coding assistant—it is a configurable AI platform 
 │  your-plugin/                                                                │
 │  ├── .claude-plugin/plugin.json   # Marketplace metadata                     │
 │  ├── CLAUDE.md                    # Project system instructions              │
+│  ├── CLAUDE.local.md              # Personal project overrides (gitignored)  │
+│  ├── .claude/rules/               # Modular project rules                    │
 │  ├── .mcp.json                    # MCP server configurations                │
 │  ├── commands/                    # Custom slash commands                    │
 │  ├── agents/                      # Project-specific subagents               │
@@ -57,6 +60,18 @@ Claude Code is not merely a coding assistant—it is a configurable AI platform 
 │  └── docs/                        # Documentation                            │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+## Memory Hierarchy (5 Tiers)
+
+| Tier | Location | Purpose | Shared With |
+|------|----------|---------|-------------|
+| **1. Enterprise Policy** | System paths | Organization-wide standards | All org users |
+| **2. Project Memory** | `./CLAUDE.md` | Team-shared instructions | Team via git |
+| **3. Project Rules** | `./.claude/rules/*.md` | Modular topic-specific rules | Team via git |
+| **4. User Memory** | `~/.claude/CLAUDE.md` | Personal preferences | Just you |
+| **5. Local Memory** | `./CLAUDE.local.md` | Personal project-specific | Just you |
+
+**Precedence**: Higher tiers load first and take precedence.
 
 ## Key Design Principles
 

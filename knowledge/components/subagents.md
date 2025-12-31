@@ -2,167 +2,245 @@
 id: subagents
 title: Subagents
 category: components
-tags: [subagents, delegation, separate-context, agents]
-summary: Specialized AI assistants operating in separate context windows for task delegation. Can be model-invoked (automatic) or user-invoked (explicit).
-depends_on: [memory-claudemd]
-related: [agent-skills, custom-commands]
+tags: [subagents, delegation, context, specialized, agents]
+summary: Complete guide to subagents - specialized AI assistants that operate in their own context window for task-specific workflows.
+depends_on: [memory-claudemd, agent-skills]
+related: [custom-commands, hooks]
 complexity: intermediate
-last_updated: 2025-12-12
-estimated_tokens: 700
+last_updated: 2025-12-23
+estimated_tokens: 900
+source: https://code.claude.com/docs/en/sub-agents
 ---
 
 # Subagents
 
 ## Overview
 
-Subagents are specialized AI assistants that operate in their **own context window**, preventing pollution of the main conversation. Claude can delegate tasks to subagents automatically or users can invoke them explicitly.
+Subagents are specialized AI assistants that operate in their **own context window**, preventing pollution of the main conversation. Claude can delegate tasks automatically or users can invoke them explicitly.
 
-## Key Distinction from Skills
+**Source**: [Subagents](https://code.claude.com/docs/en/sub-agents)
 
-| Aspect | Skills | Subagents |
-|--------|--------|-----------|
-| **Context** | Loads into main context | Separate context window |
-| **Invocation** | Model-invoked only | Model or user-invoked |
-| **State** | Stateless | Can be resumed via agentId |
-| **Token impact** | Adds to main context | Preserves main context |
-| **Purpose** | Procedural knowledge | Specialized assistant |
+---
 
-## When to Use Subagents
+## Key Benefits
 
-- **Complex delegated tasks**: Research, analysis, review workflows
-- **Context preservation**: Long-running tasks that would pollute main conversation
-- **Specialized expertise**: Dedicated personas for specific domains
-- **Parallel work**: Multiple agents working on different aspects
+| Benefit | Description |
+|---------|-------------|
+| **Context preservation** | Each subagent has its own context |
+| **Specialized expertise** | Fine-tuned instructions for specific domains |
+| **Reusability** | Share across projects and teams |
+| **Flexible permissions** | Different tool access per subagent |
 
-## File Structure
+---
 
-**Location**: `agents/` directory (project or personal)
+## Subagent Locations
 
-```
-agents/
-├── code-reviewer.md
-├── data-analyst.md
-└── domain-expert.md
-```
+| Type | Location | Scope | Priority |
+|------|----------|-------|----------|
+| **Project** | `.claude/agents/` | Current project | Highest |
+| **User** | `~/.claude/agents/` | All projects | Lower |
+| **Plugin** | Bundled with plugins | When installed | Varies |
 
-## Agent File Format
+When names conflict, project-level takes precedence.
+
+---
+
+## File Format
 
 ```yaml
 ---
-name: agent-name
-description: When this agent should be invoked (natural language)
-tools: Read, Grep, Glob, Bash    # Optional: comma-separated
-model: sonnet                     # Optional: sonnet, opus, haiku, inherit
+name: my-agent-name
+description: Description of when this subagent should be invoked
+tools: Read, Grep, Glob, Bash    # Optional
+model: sonnet                     # Optional
+permissionMode: default           # Optional
+skills: skill1, skill2            # Optional
 ---
-
-# Agent Name
 
 You are a specialized agent focused on [specific purpose].
 
 ## Approach
 1. [Step 1]
 2. [Step 2]
-3. [Step 3]
 
 ## Constraints
 - [Constraint 1]
 - [Constraint 2]
-
-## Output Format
-[Expected structure]
 ```
+
+---
 
 ## Configuration Fields
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `name` | Yes | Unique identifier (lowercase + hyphens) |
-| `description` | Yes | When to invoke (Claude uses this for auto-delegation) |
-| `tools` | No | Comma-separated tool list; inherits all if omitted |
-| `model` | No | Model alias or 'inherit'; defaults to configured subagent model |
+| `name` | Yes | Lowercase letters and hyphens |
+| `description` | Yes | When to invoke (natural language) |
+| `tools` | No | Comma-separated list; inherits all if omitted |
+| `model` | No | `sonnet`, `opus`, `haiku`, or `inherit` |
+| `permissionMode` | No | `default`, `acceptEdits`, `bypassPermissions`, `plan`, `ignore` |
+| `skills` | No | Skills to auto-load when agent starts |
 
-## Invocation Patterns
+---
+
+## Model Selection
+
+| Value | Behavior |
+|-------|----------|
+| `sonnet` | Use Sonnet model |
+| `opus` | Use Opus model |
+| `haiku` | Use Haiku model |
+| `inherit` | Use same model as main conversation |
+| (omitted) | Use configured subagent default |
+
+---
+
+## Managing Subagents
+
+### Using /agents Command (Recommended)
+
+```
+/agents
+```
+
+Interactive menu to:
+- View all available subagents
+- Create new subagents (generate with Claude first)
+- Edit existing subagents
+- Delete subagents
+- Manage tool permissions
+
+### CLI-Based Configuration
+
+```bash
+claude --agents '{
+  "code-reviewer": {
+    "description": "Expert code reviewer.",
+    "prompt": "You are a senior code reviewer...",
+    "tools": ["Read", "Grep", "Glob", "Bash"],
+    "model": "sonnet"
+  }
+}'
+```
+
+---
+
+## Using Subagents
 
 ### Automatic Delegation
 
-Claude automatically delegates based on `description` matching task context:
+Claude proactively delegates based on:
+- Task description in request
+- `description` field in subagent config
+- Current context
 
-```
-User: "Review this code for security issues"
-Claude: [Delegates to security-reviewer agent if description matches]
-```
+**Tip**: Include "use PROACTIVELY" in description for more automatic use.
 
 ### Explicit Invocation
 
-Users can explicitly request an agent:
-
 ```
-User: "Use the data-analyst agent to examine this dataset"
-```
-
-### Resuming Agents
-
-Subagents can be resumed to continue previous work:
-
-```
-> Resume agent abc123 and continue the analysis
+> Use the code-reviewer subagent to check my changes
+> Have the debugger subagent investigate this error
 ```
 
-Claude displays agent ID when subagent completes.
+---
 
-## Example: Code Reviewer Agent
+## Built-in Subagents
+
+### General-Purpose Subagent
+- **Model**: Sonnet
+- **Tools**: All tools
+- **Purpose**: Complex multi-step tasks requiring exploration and action
+
+### Plan Subagent
+- **Model**: Sonnet
+- **Tools**: Read, Glob, Grep, Bash
+- **Purpose**: Research codebase during plan mode
+
+### Explore Subagent
+- **Model**: Haiku (fast)
+- **Mode**: Read-only
+- **Tools**: Glob, Grep, Read, limited Bash
+- **Purpose**: Fast codebase searching and analysis
+
+---
+
+## Skills vs Subagents
+
+| Aspect | Skills | Subagents |
+|--------|--------|-----------|
+| **Invocation** | Model-invoked | Model or user-invoked |
+| **Context** | Loads into main context | Separate context window |
+| **Purpose** | Procedural knowledge | Specialized assistant |
+| **State** | Stateless | Can be resumed |
+| **Token Impact** | Adds to main context | Preserves main context |
+
+---
+
+## Example: Code Reviewer
 
 ```yaml
 ---
 name: code-reviewer
-description: Reviews code for quality, security, and best practices. Use proactively after code changes or when user requests code review.
+description: Expert code review specialist. Use immediately after writing or modifying code.
 tools: Read, Grep, Glob, Bash
-model: sonnet
+model: inherit
 ---
 
-# Code Reviewer
+You are a senior code reviewer ensuring high standards.
 
-You are a senior code reviewer focused on code quality, security, and maintainability.
+When invoked:
+1. Run git diff to see recent changes
+2. Focus on modified files
+3. Begin review immediately
 
-## Review Approach
+Review checklist:
+- Code clarity and readability
+- Proper error handling
+- No exposed secrets
+- Good test coverage
 
-1. **Understand context**: Read relevant files to understand the codebase
-2. **Check correctness**: Verify logic, edge cases, error handling
-3. **Assess security**: Look for vulnerabilities, injection risks, auth issues
-4. **Evaluate style**: Check naming, formatting, documentation
-5. **Consider performance**: Identify potential bottlenecks
-
-## Output Format
-
-Provide reviews as:
-- **Summary**: Overall assessment (1-2 sentences)
-- **Critical Issues**: Must-fix problems
-- **Suggestions**: Improvements to consider
-- **Positive Notes**: What's done well
-
-## Constraints
-
-- Focus on actionable feedback
-- Prioritize security and correctness over style
-- Be constructive, not dismissive
+Provide feedback by priority:
+- Critical (must fix)
+- Warnings (should fix)
+- Suggestions (consider)
 ```
+
+---
+
+## Resumable Subagents
+
+Subagents can be resumed to continue previous work:
+
+```
+> Use the code-analyzer agent to review auth module
+[Agent completes, returns agentId: "abc123"]
+
+> Resume agent abc123 and analyze authorization logic
+[Agent continues with full previous context]
+```
+
+Useful for:
+- Long-running research
+- Iterative refinement
+- Multi-step workflows
+
+---
 
 ## Best Practices
 
-1. **Write clear descriptions**: Claude uses this for auto-delegation decisions
-2. **Restrict tools appropriately**: Limit to what the agent actually needs
-3. **Define clear scope**: Agents should have focused expertise
-4. **Use for context-heavy tasks**: Leverage separate context for large analyses
-5. **Consider model selection**: Use opus for complex reasoning, haiku for simple tasks
+| Practice | Description |
+|----------|-------------|
+| **Generate with Claude first** | Start by having Claude generate, then customize |
+| **Design focused agents** | Single, clear responsibility |
+| **Write detailed prompts** | Specific instructions, examples, constraints |
+| **Limit tool access** | Only necessary tools |
+| **Version control** | Check project agents into git |
 
-## Performance Considerations
-
-- **Context efficiency**: Agents preserve main context for longer sessions
-- **Latency**: Subagents start fresh and may need to gather context
-- **Cost**: Separate context means separate token usage
+---
 
 ## See Also
 
-- [Agent Skills](agent-skills.md) — Model-invoked capabilities (main context)
+- [Agent Skills](agent-skills.md) — Model-invoked capabilities
 - [Custom Commands](custom-commands.md) — User-invoked shortcuts
-- [Official Documentation](https://docs.anthropic.com/en/docs/claude-code/sub-agents)
+- [Plugins](https://code.claude.com/docs/en/plugins) — Bundle and share agents

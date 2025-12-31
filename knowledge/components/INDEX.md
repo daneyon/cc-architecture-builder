@@ -2,9 +2,9 @@
 type: index
 scope: components
 file_count: 7
-last_updated: 2025-12-18
-version: 0.4.0
-changelog: Updated agent-skills.md and mcp-integration.md with Anthropic skill-creator/mcp-builder insights
+last_updated: 2025-12-23
+version: 0.5.0
+changelog: Updated memory-claudemd.md (5-tier), agent-skills.md, mcp-integration.md, subagents.md with new URLs and content
 ---
 
 # Components Index
@@ -16,34 +16,42 @@ changelog: Updated agent-skills.md and mcp-integration.md with Anthropic skill-c
 | Component | Invocation | Purpose |
 |-----------|------------|---------|
 | [Memory (CLAUDE.md)](memory-claudemd.md) | Automatic | Persistent instructions |
-| [Agent Skills](agent-skills.md) | Model-invoked | Capabilities **(Updated v0.4.0)** |
+| [Agent Skills](agent-skills.md) | Model-invoked | Capabilities |
 | [Subagents](subagents.md) | Model/user | Specialized assistants |
 | [Custom Commands](custom-commands.md) | User-invoked | Shortcuts |
 | [Hooks](hooks.md) | Event-driven | Automation |
-| [MCP Integration](mcp-integration.md) | Tool calls | External connections **(Updated v0.4.0)** |
+| [MCP Integration](mcp-integration.md) | Tool calls | External connections |
 | [Knowledge Base](knowledge-base-structure.md) | Reference | Domain content |
 
-## What's New in v0.4.0
+## What's New in v0.5.0
 
-**agent-skills.md** — Updated based on Anthropic skill-creator review:
-- Three bundled resource types: `scripts/`, `references/`, `assets/`
-- Allowed frontmatter fields (name, description, license, allowed-tools, metadata)
-- Degrees of freedom framework (high/medium/low)
-- What NOT to include in skills
-- Skill creation process (6 steps)
-- Packaging skills as `.skill` files
+All files updated with:
+- New documentation URLs (`code.claude.com/docs/en/*`)
+- `source:` metadata linking to authoritative docs
 
-**mcp-integration.md** — Updated based on Anthropic mcp-builder review:
-- Server naming conventions (Python vs TypeScript)
-- Tool naming best practices (service prefix)
-- Transport selection guide (stdio vs Streamable HTTP)
-- Tool annotations (readOnlyHint, destructiveHint, etc.)
-- Error handling patterns
-- Security best practices
+**memory-claudemd.md** — Major updates:
+- 5-tier memory hierarchy (added Project Rules tier)
+- `.claude/rules/` modular rules system
+- Path-specific rules with `paths:` frontmatter
+- User-level rules (`~/.claude/rules/`)
 
-**Related bundled skills**:
-- `skills/skill-creator/` — Comprehensive skill authoring guidance
-- `skills/mcp-builder/` — MCP server development guide
+**agent-skills.md** — Updated:
+- `allowed-tools` frontmatter for tool restrictions
+- Plugin skills documentation
+- Debugging guidance
+
+**mcp-integration.md** — Updated:
+- Transport types (HTTP recommended, SSE deprecated)
+- Scope changes (local/project/user)
+- Plugin MCP servers
+- Resources and prompts
+- Enterprise configuration
+
+**subagents.md** — Updated:
+- Built-in subagents (General-purpose, Plan, Explore)
+- `permissionMode` and `skills` fields
+- Resumable subagents
+- CLI-based configuration
 
 ## Reading Order (Recommended)
 
@@ -58,7 +66,8 @@ changelog: Updated agent-skills.md and mcp-integration.md with Anthropic skill-c
 ## By Invocation Pattern
 
 ### Automatic (Always Loaded)
-- [memory-claudemd.md](memory-claudemd.md) — Loaded at session start
+- [memory-claudemd.md](memory-claudemd.md) — All tiers at session start
+- Project rules from `.claude/rules/`
 
 ### Model-Invoked (Claude Decides)
 - [agent-skills.md](agent-skills.md) — Triggered by task context
@@ -73,23 +82,10 @@ changelog: Updated agent-skills.md and mcp-integration.md with Anthropic skill-c
 ### Tool Calls
 - [mcp-integration.md](mcp-integration.md) — External service integration
 
-## By Complexity
-
-### Foundational
-- memory-claudemd.md
-- custom-commands.md
-
-### Intermediate
-- agent-skills.md
-- subagents.md
-- hooks.md
-- mcp-integration.md
-- knowledge-base-structure.md
-
 ## Component Relationships
 
 ```
-CLAUDE.md (memory)
+CLAUDE.md (memory) + .claude/rules/
     │
     ├── Points to → Knowledge Base
     │
@@ -111,6 +107,7 @@ Hooks → React to all tool usage (cross-cutting)
 | Need | Component |
 |------|-----------|
 | Persistent instructions | CLAUDE.md |
+| Modular topic rules | .claude/rules/ |
 | Automatic capability trigger | Skills |
 | Delegated specialized work | Subagents |
 | User-triggered shortcuts | Commands |
@@ -118,14 +115,13 @@ Hooks → React to all tool usage (cross-cutting)
 | External tool access | MCP |
 | Domain reference content | Knowledge Base |
 
-## For Detailed Implementation
+## Official Documentation
 
-| Topic | Bundled Skill |
-|-------|---------------|
-| Creating new skills | `skills/skill-creator/SKILL.md` |
-| Workflow patterns | `skills/skill-creator/references/workflows.md` |
-| Output patterns | `skills/skill-creator/references/output-patterns.md` |
-| Building MCP servers | `skills/mcp-builder/SKILL.md` |
-| MCP best practices | `skills/mcp-builder/reference/mcp_best_practices.md` |
-| Python MCP servers | `skills/mcp-builder/reference/python_mcp_server.md` |
-| TypeScript MCP servers | `skills/mcp-builder/reference/node_mcp_server.md` |
+| Component | URL |
+|-----------|-----|
+| Memory | https://code.claude.com/docs/en/memory |
+| Skills | https://code.claude.com/docs/en/skills |
+| Subagents | https://code.claude.com/docs/en/sub-agents |
+| Hooks | https://code.claude.com/docs/en/hooks-guide |
+| MCP | https://code.claude.com/docs/en/mcp |
+| Plugins | https://code.claude.com/docs/en/plugins |

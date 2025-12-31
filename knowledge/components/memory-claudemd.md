@@ -2,139 +2,186 @@
 id: memory-claudemd
 title: Memory System (CLAUDE.md)
 category: components
-tags: [memory, claude-md, imports, hierarchy, instructions]
-summary: CLAUDE.md memory system including file hierarchy, @import syntax, lookup behavior, and best practices for persistent instructions.
+tags: [memory, claude-md, instructions, imports, hierarchy, rules]
+summary: Complete guide to Claude Code's memory system including CLAUDE.md files, project rules, imports, and the 5-tier memory hierarchy.
 depends_on: [architecture-philosophy]
-related: [agent-skills, global-user-config, distributable-plugin]
+related: [agent-skills, subagents, knowledge-base-structure]
 complexity: foundational
-last_updated: 2025-12-12
-estimated_tokens: 650
+last_updated: 2025-12-23
+estimated_tokens: 900
+source: https://code.claude.com/docs/en/memory
 ---
 
 # Memory System (CLAUDE.md)
 
 ## Overview
 
-CLAUDE.md files serve as **persistent memory**—instructions that Claude reads at the start of every session. They form the foundation of custom LLM behavior.
+Claude Code's memory system enables persistent instructions across sessions. Memory files are automatically loaded into context when Claude Code launches.
 
-## Memory Hierarchy
+**Source**: [Manage Claude's memory](https://code.claude.com/docs/en/memory)
 
-Claude Code reads CLAUDE.md files from multiple locations with defined precedence:
+---
 
-| Tier | Location | Purpose |
-|------|----------|---------|
-| 1 | Enterprise policy | Organization standards |
-| 2 | `~/.claude/CLAUDE.md` | Personal (all projects) |
-| 3 | `./CLAUDE.md` | Project (team-shared) |
-| 4 | `./subdir/CLAUDE.md` | Subtree-specific |
+## Memory Types (5-Tier Hierarchy)
 
-**Precedence**: Higher tiers load first and take precedence.
+Claude Code offers five memory locations in a hierarchical structure:
 
-## Import Syntax
+| Memory Type | Location | Purpose | Shared With |
+|---|---|---|---|
+| **Enterprise policy** | System paths* | Organization-wide standards | All org users |
+| **Project memory** | `./CLAUDE.md` or `./.claude/CLAUDE.md` | Team-shared instructions | Team via git |
+| **Project rules** | `./.claude/rules/*.md` | Modular, topic-specific instructions | Team via git |
+| **User memory** | `~/.claude/CLAUDE.md` | Personal preferences (all projects) | Just you |
+| **Project memory (local)** | `./CLAUDE.local.md` | Personal project-specific | Just you |
 
-CLAUDE.md files can import additional files using `@path/to/file`:
+*Enterprise paths:
+- macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`
+- Linux: `/etc/claude-code/CLAUDE.md`
+- Windows: `C:\Program Files\ClaudeCode\CLAUDE.md`
+
+**Precedence**: Files higher in hierarchy load first and take precedence.
+
+**Note**: `CLAUDE.local.md` files are automatically added to `.gitignore`.
+
+---
+
+## Project Rules (.claude/rules/)
+
+For larger projects, organize instructions into modular files:
+
+```
+.claude/
+├── CLAUDE.md           # Main project instructions
+└── rules/
+    ├── code-style.md   # Code style guidelines
+    ├── testing.md      # Testing conventions
+    └── security.md     # Security requirements
+```
+
+All `.md` files in `.claude/rules/` are automatically loaded as project memory.
+
+### Path-Specific Rules
+
+Rules can be scoped to specific files using YAML frontmatter:
+
+```yaml
+---
+paths: src/api/**/*.ts
+---
+
+# API Development Rules
+
+- All API endpoints must include input validation
+- Use the standard error response format
+```
+
+Rules without a `paths` field apply to all files.
+
+### Glob Patterns
+
+| Pattern | Matches |
+|---------|---------|
+| `**/*.ts` | All TypeScript files |
+| `src/**/*` | All files under `src/` |
+| `*.md` | Markdown files in root |
+| `{src,lib}/**/*.ts` | TS files in src or lib |
+
+### User-Level Rules
+
+Personal rules that apply to all projects:
+
+```
+~/.claude/rules/
+├── preferences.md    # Personal coding preferences
+└── workflows.md      # Preferred workflows
+```
+
+User-level rules are loaded before project rules (project rules have higher priority).
+
+---
+
+## CLAUDE.md Imports
+
+Import additional files using `@path/to/file` syntax:
 
 ```markdown
-# Project Instructions
-
-See @README.md for project overview.
+See @README for project overview.
 See @docs/architecture.md for system design.
 
-## Personal Preferences
-@~/.claude/my-preferences.md
+# Individual Preferences (for team projects)
+@~/.claude/my-project-instructions.md
 ```
 
-### Import Rules
+**Rules**:
+- Both relative and absolute paths allowed
+- Imports are recursive (max depth: 5 hops)
+- Imports inside code blocks are ignored
+- Use `/memory` command to see loaded files
 
-| Rule | Description |
-|------|-------------|
-| Relative paths | `@docs/guide.md` — relative to current file |
-| Absolute paths | `@~/.claude/prefs.md` — from home directory |
-| Max depth | 5 hops (imports can import, up to 5 levels) |
-| Code blocks | Imports inside code blocks are ignored |
-| Missing files | Claude proceeds without error |
+**Team Tip**: Import user-specific files from home directory as an alternative to `CLAUDE.local.md` that works better across git worktrees.
 
-## Lookup Behavior
+---
 
-Claude reads memories **recursively from current directory upward**:
+## Memory Lookup Behavior
 
-1. Starting in `foo/bar/`, Claude finds both:
-   - `foo/bar/CLAUDE.md`
-   - `foo/CLAUDE.md`
-2. Subtree CLAUDE.md files load when Claude reads files in those directories
+Claude Code reads memories recursively from current directory upward (stopping before root `/`).
 
-### View Loaded Memories
+**Example**: Working in `foo/bar/`:
+- Claude finds both `foo/CLAUDE.md` and `foo/bar/CLAUDE.md`
+- Subtree CLAUDE.md files are loaded when Claude reads files in those subtrees
 
-```
-/memory
-```
+---
 
-Shows all currently loaded memory files.
+## Commands
 
-### Quick Add Memory
+| Command | Purpose |
+|---------|---------|
+| `/memory` | View all loaded memory files |
+| `/init` | Bootstrap a CLAUDE.md for your codebase |
 
-```
-# some instruction to remember
-```
-
-The `#` shortcut adds to project CLAUDE.md.
+---
 
 ## Best Practices
 
-### Do
+| Do | Don't |
+|----|-------|
+| Be specific: "Use 2-space indentation" | Be vague: "Format code properly" |
+| Use bullet points for instructions | Write long paragraphs |
+| Group related memories under headings | Mix unrelated instructions |
+| Keep files under 500 lines | Bloat with rarely-used instructions |
+| Use `@imports` for detailed material | Inline everything |
+| Use `.claude/rules/` for modular organization | Put everything in one CLAUDE.md |
 
-| Practice | Example |
-|----------|---------|
-| Be specific | "Use 2-space indentation" |
-| Use bullet points | Individual, scannable instructions |
-| Group related items | Under clear headings |
-| Keep concise | Under 500 lines total |
-| Use @imports | For detailed reference material |
+---
 
-### Don't
-
-| Avoid | Why |
-|-------|-----|
-| Vague instructions | "Format code properly" — too ambiguous |
-| Long paragraphs | Hard to scan, easy to miss |
-| Mixed topics | Group related instructions |
-| Bloated files | Move details to referenced files |
-| Inline everything | Use @imports for large content |
-
-## Template Structure
+## Example Project Memory
 
 ```markdown
 # Project Name
 
-## Purpose
-[One-line description]
+## Build Commands
+- `npm run dev` - Start development server
+- `npm test` - Run tests
+- `npm run lint` - Check code style
 
-## Core Instructions
-[Essential behaviors]
+## Code Style
+- Use TypeScript strict mode
+- Prefer functional components
+- 2-space indentation
 
-## Knowledge Base
-See `knowledge/INDEX.md` for available resources.
+## Architecture
+- `/src/components` - React components
+- `/src/services` - API clients
+- `/src/utils` - Shared utilities
 
-## Constraints
-[What NOT to do]
-
-## Optional Imports
-@~/.claude/personal-preferences.md
+## Personal Preferences (Optional)
+@~/.claude/my-preferences.md
 ```
 
-## Memory vs Skills
-
-| Aspect | CLAUDE.md | Skills |
-|--------|-----------|--------|
-| Loading | Always at startup | When triggered |
-| Purpose | Baseline instructions | Specific capabilities |
-| Scope | Session-wide | Task-specific |
-| Size | Keep small (< 500 lines) | Can be larger |
-
-Use CLAUDE.md for always-needed instructions. Use Skills for specific procedures that should only load when relevant.
+---
 
 ## See Also
 
+- [Architecture Philosophy](../overview/architecture-philosophy.md) — Memory hierarchy principles
 - [Agent Skills](agent-skills.md) — Model-invoked capabilities
-- [Global User Config](../schemas/global-user-config.md) — Personal CLAUDE.md
-- [Architecture Philosophy](../overview/architecture-philosophy.md) — Hierarchy details
+- [Knowledge Base Structure](knowledge-base-structure.md) — Organizing domain knowledge

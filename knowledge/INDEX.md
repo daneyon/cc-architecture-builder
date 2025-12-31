@@ -2,9 +2,9 @@
 type: index
 scope: master
 file_count: 24
-last_updated: 2025-12-18
-version: 0.4.0
-changelog: Updated agent-skills.md and mcp-integration.md based on Anthropic skill-creator and mcp-builder review; added bundled skills references
+last_updated: 2025-12-23
+version: 0.5.0
+changelog: Updated all URLs to new domain (code.claude.com), updated memory system to 5-tier hierarchy with project rules, removed duplicate Anthropic skills
 ---
 
 # Knowledge Base Index
@@ -24,16 +24,21 @@ changelog: Updated agent-skills.md and mcp-integration.md based on Anthropic ski
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
 
-## Bundled Skills Reference
+## Documentation Sources
 
-This project includes two Anthropic-derived skills with comprehensive guidance:
+All KB files include `source:` metadata linking to official documentation:
+- **Primary**: https://code.claude.com/docs/en/
+- **Agent Skills**: https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/
+- **MCP Protocol**: https://modelcontextprotocol.io/
 
-| Skill | Purpose | Key Resources |
-|-------|---------|---------------|
-| `skills/skill-creator/` | Guide for creating effective skills | `references/workflows.md`, `references/output-patterns.md`, `scripts/init_skill.py` |
-| `skills/mcp-builder/` | Guide for building MCP servers | `reference/mcp_best_practices.md`, `reference/python_mcp_server.md`, `reference/node_mcp_server.md` |
+## External Skills Reference
 
-**When to use**: Consult these skills for detailed implementation guidance beyond what's in the knowledge base.
+For detailed skill/MCP authoring guidance, install from marketplace:
+```bash
+claude /plugin marketplace add https://github.com/anthropics/anthropic-agent-skills
+claude /plugin install skill-creator@anthropic-agent-skills
+claude /plugin install mcp-builder@anthropic-agent-skills
+```
 
 ## Navigation Guide
 
@@ -53,9 +58,10 @@ This project includes two Anthropic-derived skills with comprehensive guidance:
 
 See `components/INDEX.md` for reading order and relationships.
 
-**Key updated files (v0.4.0)**:
-- `components/agent-skills.md` — Updated with Anthropic skill-creator insights
-- `components/mcp-integration.md` — Updated with Anthropic mcp-builder insights
+**Key files (v0.5.0)**:
+- `components/memory-claudemd.md` — 5-tier hierarchy with project rules
+- `components/agent-skills.md` — Model-invoked capabilities
+- `components/mcp-integration.md` — External tool connections
 
 ### Advanced Patterns?
 
@@ -67,7 +73,7 @@ See `components/INDEX.md` for reading order and relationships.
 ### Overview (2 files)
 Foundational understanding of the architecture and its principles.
 
-- `executive-summary.md` — Two-schema architecture, core principles, visual overview
+- `executive-summary.md` — Two-schema architecture, 5-tier memory, visual overview
 - `architecture-philosophy.md` — Memory hierarchy, invocation patterns, distribution strategy
 
 ### Prerequisites (2 files)
@@ -85,12 +91,12 @@ Complete structure specifications for both configuration layers.
 ### Components (7 files)
 Detailed documentation for each plugin component type.
 
-- `memory-claudemd.md` — CLAUDE.md memory system, imports, hierarchy
-- `agent-skills.md` — Model-invoked capabilities, SKILL.md format, progressive disclosure, bundled resources **(Updated v0.4.0)**
-- `subagents.md` — Specialized assistants, separate context
+- `memory-claudemd.md` — 5-tier memory system, imports, project rules
+- `agent-skills.md` — Model-invoked capabilities, SKILL.md format, progressive disclosure
+- `subagents.md` — Specialized assistants, separate context, built-in agents
 - `custom-commands.md` — User-invoked shortcuts, slash commands
 - `hooks.md` — Event-driven automation
-- `mcp-integration.md` — External tool connections, server development patterns **(Updated v0.4.0)**
+- `mcp-integration.md` — External tool connections, server development patterns
 - `knowledge-base-structure.md` — KB organization, indexing, retrieval
 
 ### Distribution (1 file)
@@ -114,7 +120,7 @@ Practical execution guide.
 Reference materials.
 
 - `glossary.md` — Term definitions
-- `references.md` — Official documentation links, bundled skills reference **(Updated v0.4.0)**
+- `references.md` — Official documentation links (updated URLs)
 
 ## Search Tips
 
@@ -123,5 +129,4 @@ When looking for information:
 - Check INDEX.md in each category for file summaries
 - Follow `related` links in file frontmatter
 - Start with foundational files before advanced topics
-- **For skill creation**: Consult `skills/skill-creator/SKILL.md`
-- **For MCP development**: Consult `skills/mcp-builder/SKILL.md`
+- Check `source:` metadata for authoritative docs
