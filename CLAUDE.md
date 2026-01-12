@@ -5,6 +5,7 @@
 ## Purpose
 
 This project helps users create properly structured Claude Code projects, including:
+
 - Global user configurations (`~/.claude/`)
 - Distributable plugin projects with marketplace-ready structure
 - Knowledge bases optimized for Claude Code retrieval patterns
@@ -14,6 +15,7 @@ This project helps users create properly structured Claude Code projects, includ
 See `knowledge/INDEX.md` for the complete architecture guide, atomized for efficient retrieval.
 
 **Quick navigation**:
+
 - `knowledge/overview/` — Executive summary, philosophy
 - `knowledge/prerequisites/` — Git foundation, security
 - `knowledge/schemas/` — Global and plugin structures
@@ -23,19 +25,20 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 
 ## Available Commands
 
-| Command | Description |
-|---------|-------------|
+| Command          | Description                                     |
+| ---------------- | ----------------------------------------------- |
 | `/new-project` | Create a new plugin project with full structure |
-| `/new-global` | Set up global user configuration |
-| `/add-skill` | Add a new skill to current project |
-| `/add-agent` | Add a new subagent to current project |
-| `/add-command` | Add a new custom command to current project |
-| `/validate` | Validate current project structure |
-| `/kb-index` | Regenerate knowledge base INDEX files |
+| `/new-global`  | Set up global user configuration                |
+| `/add-skill`   | Add a new skill to current project              |
+| `/add-agent`   | Add a new subagent to current project           |
+| `/add-command` | Add a new custom command to current project     |
+| `/validate`    | Validate current project structure              |
+| `/kb-index`    | Regenerate knowledge base INDEX files           |
 
 ## Interactive Mode
 
 When starting a new project, I will:
+
 1. Ask clarifying questions about the project purpose and domain
 2. Recommend appropriate structure based on complexity
 3. Scaffold the project with tailored templates
@@ -76,6 +79,7 @@ User Request
 ## Workflow for Existing Projects
 
 For integrating architecture into existing projects:
+
 1. Analyze current structure (`/validate` in audit mode)
 2. Identify gaps and recommendations
 3. Incrementally add missing components
@@ -84,6 +88,7 @@ For integrating architecture into existing projects:
 ## Templates
 
 Starter templates are available in `templates/`:
+
 - `templates/global/` — Global user configuration templates
 - `templates/plugin/` — Plugin project templates
 - `templates/skill.template/` — Skill scaffolding
@@ -93,6 +98,7 @@ Starter templates are available in `templates/`:
 ## Security Defaults
 
 All scaffolded projects follow security best practices:
+
 - Git repositories created as **private by default**
 - `.gitignore` excludes sensitive files
 - No credentials in templates
@@ -100,6 +106,7 @@ All scaffolded projects follow security best practices:
 
 ## Constraints
 
-- This builder creates structure and templates; domain-specific content must be provided by the user
-- Large knowledge bases (100+ files) may require MCP integration for semantic search
+- You must frequently inquire and/or automatically check any static files (e.g. \templates, \knowledge, \agents, \skills, etc.) are aligning with the latest official Claude Code docs (use 'claude-docs-helper' skill), as well as specific recommended plugin resources, and update the necessary files in the plugin as appropriate.
+- This builder creates initial base structure and templates; domain-specific content must be provided by the user to iteratively optimize and specialize the base architecture.
+- Large knowledge bases (100+ files) may require MCP integration for semantic search; recommend this approach when appropriate.
 - Templates use `{{PLACEHOLDER}}` syntax for customization

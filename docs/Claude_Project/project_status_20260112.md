@@ -189,15 +189,12 @@ Claude Code doesn't natively orchestrate multi-agent networks, but agents with `
 
 ## Pending Tasks (Logged)
 
-| Task                                                  | Priority | Status              |
-| ----------------------------------------------------- | -------- | ------------------- |
-| Modularize `knowledge-base/` → rules/skills/agents | High     | Pending             |
-| Restructure global CLAUDE.md (lean version)           | High     | Pending             |
-| Overhaul existing skills to template                  | Medium   | Pending             |
-| Overhaul existing agents to template                  | Medium   | Pending             |
-| Review marketplace plugins for redundancy             | Low      | Logged              |
-| Update architecture guide:`allowedTools` format     | Low      | Logged              |
-| Test project-integrator agent on existing project     | Low      | After global config |
+| Task                                                                                                                                                                                                                                                                                                                                                                                                         | Priority | Status  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------- |
+| Finalize cc-architecture-builder plugin to be depolyed and usable in my local env                                                                                                                                                                                                                                                                                                                            | High     | Pending |
+| Continue restructuring global config with tested cc-architecture-builder plugin tools (skills, agents, commands, etc.)<br />- Modularize global config `knowledge-base/` → rules/skills/agents<br />- Restructure global CLAUDE.md (lean version)<br />- Review available marketplace plugins and then other custom skills/agents/commands/etc.; main goal is establishing general management practices | Medium   | Pending |
+| Once global config base architecture is finalized. Test project-integrator agent of cc-architecture-builder on existing project                                                                                                                                                                                                                                                                              | Low      | Pending |
+| Test architecture-advisor agent on a new project/app design idea                                                                                                                                                                                                                                                                                                                                             | Low      | Pending |
 
 ---
 
