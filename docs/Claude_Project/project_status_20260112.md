@@ -108,16 +108,16 @@ cc-architecture-builder/
 
 **Current State** (`~/.claude/`):
 
-| Component           | Status                    | Notes                                           |
-| ------------------- | ------------------------- | ----------------------------------------------- |
-| `settings.json`   | ✅ Reviewed               | Security issue fixed (PAT removed)              |
-| `CLAUDE.md`       | ⚠️ Needs restructure    | Currently monolithic, should be lean + @imports |
-| `rules/`          | ✅ Created (empty)        | Ready for modularized rules                     |
-| `skills/`         | ⚠️ Exists (4 skills)    | Need template alignment, reference updates      |
-| `agents/`         | ⚠️ Exists (3 agents)    | Need template alignment                         |
-| `knowledge-base/` | ⚠️ Needs modularization | Source material for rules/skills/agents         |
+| Component           | Status                    | Notes                                                       |
+| ------------------- | ------------------------- | ----------------------------------------------------------- |
+| `settings.json`   | ⚠️ Needs restructure    | Security issue fixed (PAT removed)                          |
+| `CLAUDE.md`       | ⚠️ Needs restructure    | Currently monolithic, should be lean + appropriate @imports |
+| `rules/`          | ⚠️ Needs restructure    | Ready for modularized rules                                 |
+| `skills/`         | ⚠️ Needs restructure    | Need template alignment, reference updates                  |
+| `agents/`         | ⚠️ Needs restructure    | Need template alignment                                     |
+| `knowledge-base/` | ⚠️ Needs modularization | Source material for rules/skills/agents                     |
 
-**Proposed Target Structure**:
+**Proposed Target Structure (w/ draft examples as reference-only)**:
 
 ```
 ~/.claude/
@@ -143,17 +143,7 @@ cc-architecture-builder/
 └── plugins/                     # System-managed
 ```
 
-### Knowledge Base Modularization Map
-
-| KB Folder                 | Target Migration                                                          |
-| ------------------------- | ------------------------------------------------------------------------- |
-| `coding/`               | →`rules/coding-philosophy.md` + `skills/code-standards/`             |
-| `communication/`        | →`rules/communication-style.md` + `skills/prompting-techniques/`     |
-| `practical_philosophy/` | →`rules/analysis-framework.md` + `rules/learning-framework.md`       |
-| `strategist/`           | →`agents/strategic-advisor.md` (with bundled references)               |
-| `summarization/`        | →`skills/implementation-planner/` + `skills/visualization-designer/` |
-| `risk_mgmt/`            | → Review (minimal content)                                               |
-| `_general/`             | → Reference material                                                     |
+### Knowledge Base Modularization Map (TBD)
 
 ---
 
@@ -185,7 +175,7 @@ Is it about WHO you are / HOW Claude should behave?
 | Commands           | User-invoked          | Explicitly typed (`/command`)      |
 | Hooks              | Event-driven          | System events                        |
 
-### Skills → Agents Pipeline
+### General CC architect Pipeline (Skills → Agents/Commands → Character Roles → MCP )
 
 Your vision (validated):
 
@@ -205,7 +195,6 @@ Claude Code doesn't natively orchestrate multi-agent networks, but agents with `
 | Restructure global CLAUDE.md (lean version)           | High     | Pending             |
 | Overhaul existing skills to template                  | Medium   | Pending             |
 | Overhaul existing agents to template                  | Medium   | Pending             |
-| Migrate Water Resources to project workspace          | Low      | Logged              |
 | Review marketplace plugins for redundancy             | Low      | Logged              |
 | Update architecture guide:`allowedTools` format     | Low      | Logged              |
 | Test project-integrator agent on existing project     | Low      | After global config |
@@ -220,7 +209,7 @@ Claude Code doesn't natively orchestrate multi-agent networks, but agents with `
 - Memory: https://code.claude.com/docs/en/memory
 - Skills: https://code.claude.com/docs/en/skills
 - Subagents: https://code.claude.com/docs/en/sub-agents
-- MCP: https://code.claude.com/docs/en/mcp
+- MCP: https://code.claude.com/docs/en/mcp, https://modelcontextprotocol.io/
 - Plugins: https://code.claude.com/docs/en/plugins
 
 ### Project Resources
