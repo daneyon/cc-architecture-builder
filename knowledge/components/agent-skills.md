@@ -11,12 +11,25 @@ last_updated: 2025-12-23
 estimated_tokens: 1000
 source: https://code.claude.com/docs/en/skills
 ---
-
 # Agent Skills
 
 ## Overview
 
-Skills are **model-invoked** capabilities—Claude autonomously decides when to use them based on task context and skill description. This differs from commands, which require explicit user invocation.
+Skills are **model-invoked** capabilities—Claude autonomously decides when to use them based on task context and skill description. This differs from commands, which require explicit user invocation. 
+
+Skills are lazy-loaded. Only metadata is present in context; full skill content loads on invocation.
+
+  How I Select Skills
+
+1. Pattern match on user request — I scan the short descriptions for keyword/intent matches
+2. Explicit invocation — User types /skill-name directly
+3. Contextual relevance — If a task clearly matches a skill's trigger description
+
+  Implication for you: Your skill descriptions (the when to use metadata) are critical. Keep them:
+
+- Keyword-rich — Include trigger terms users might say
+- Concise — ~1-2 sentences max
+- Distinct — Avoid overlap that causes ambiguity between skills
 
 **Source**: [Agent Skills](https://code.claude.com/docs/en/skills)
 
@@ -26,11 +39,11 @@ Skills are **model-invoked** capabilities—Claude autonomously decides when to 
 
 ## Skill Locations
 
-| Type | Location | Scope |
-|------|----------|-------|
-| **Personal Skills** | `~/.claude/skills/` | All your projects |
-| **Project Skills** | `.claude/skills/` | Current project (team via git) |
-| **Plugin Skills** | Bundled with plugins | When plugin installed |
+| Type                      | Location              | Scope                          |
+| ------------------------- | --------------------- | ------------------------------ |
+| **Personal Skills** | `~/.claude/skills/` | All your projects              |
+| **Project Skills**  | `.claude/skills/`   | Current project (team via git) |
+| **Plugin Skills**   | Bundled with plugins  | When plugin installed          |
 
 ---
 
@@ -47,11 +60,11 @@ skill-name/
 
 **Bundled Resource Types**:
 
-| Type | Purpose | Loaded Into Context? |
-|------|---------|---------------------|
-| `scripts/` | Executable code for deterministic operations | No (outputs only) |
-| `references/` | Documentation Claude references while working | Yes (on demand) |
-| `assets/` | Templates, images, fonts for output | No (used in output) |
+| Type            | Purpose                                       | Loaded Into Context? |
+| --------------- | --------------------------------------------- | -------------------- |
+| `scripts/`    | Executable code for deterministic operations  | No (outputs only)    |
+| `references/` | Documentation Claude references while working | Yes (on demand)      |
+| `assets/`     | Templates, images, fonts for output           | No (used in output)  |
 
 ---
 
@@ -82,11 +95,11 @@ For details, see [reference.md](reference.md)
 
 ## Frontmatter Fields
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Lowercase letters, numbers, hyphens (max 64 chars) |
-| `description` | Yes | What skill does + when to use (max 1024 chars) |
-| `allowed-tools` | No | Restrict which tools the skill can use |
+| Field             | Required | Description                                        |
+| ----------------- | -------- | -------------------------------------------------- |
+| `name`          | Yes      | Lowercase letters, numbers, hyphens (max 64 chars) |
+| `description`   | Yes      | What skill does + when to use (max 1024 chars)     |
+| `allowed-tools` | No       | Restrict which tools the skill can use             |
 
 ### Naming Requirements
 
@@ -113,6 +126,7 @@ allowed-tools: Read, Grep, Glob
 ```
 
 When specified, Claude can only use listed tools without asking permission. Useful for:
+
 - Read-only skills
 - Security-sensitive workflows
 - Limited-scope operations
@@ -125,11 +139,11 @@ If omitted, Claude asks for permission as normal.
 
 Skills use a three-level loading model:
 
-| Level | When Loaded | Token Cost | Content |
-|-------|-------------|------------|---------|
-| **Level 1: Metadata** | Always (startup) | ~100 tokens/skill | `name` and `description` |
-| **Level 2: Instructions** | When triggered | < 5k tokens | SKILL.md body |
-| **Level 3: Resources** | As needed | Unlimited | Bundled files, scripts |
+| Level                           | When Loaded      | Token Cost        | Content                      |
+| ------------------------------- | ---------------- | ----------------- | ---------------------------- |
+| **Level 1: Metadata**     | Always (startup) | ~100 tokens/skill | `name` and `description` |
+| **Level 2: Instructions** | When triggered   | < 5k tokens       | SKILL.md body                |
+| **Level 3: Resources**    | As needed        | Unlimited         | Bundled files, scripts       |
 
 **Key Principle**: Keep SKILL.md body focused. Split into reference files as needed.
 
@@ -138,11 +152,13 @@ Skills use a three-level loading model:
 ## View Available Skills
 
 Ask Claude directly:
+
 ```
 What Skills are available?
 ```
 
 Or check filesystem:
+
 ```bash
 # Personal skills
 ls ~/.claude/skills/
@@ -182,6 +198,7 @@ cat SKILL.md | head -n 10
 ```
 
 Ensure:
+
 - Opening `---` on line 1
 - Closing `---` before Markdown content
 - Valid YAML (no tabs, correct indentation)
@@ -237,12 +254,12 @@ allowed-tools: Read, Grep, Glob
 
 ## Best Practices
 
-| Practice | Description |
-|----------|-------------|
-| **Keep focused** | One skill = one capability |
-| **Clear descriptions** | Include what AND when |
-| **Test with team** | Verify activation and clarity |
-| **Document versions** | Track changes in SKILL.md |
+| Practice                     | Description                   |
+| ---------------------------- | ----------------------------- |
+| **Keep focused**       | One skill = one capability    |
+| **Clear descriptions** | Include what AND when         |
+| **Test with team**     | Verify activation and clarity |
+| **Document versions**  | Track changes in SKILL.md     |
 
 ---
 
