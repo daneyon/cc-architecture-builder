@@ -1,4 +1,4 @@
-# Claude Code (CC) Architecture Master Strategist — Project Status (2026-01-12)
+# Claude Code (CC) Architecture Master Strategist — Project Status (2026-01-28)
 
 **Status Summary**: Comprehensive record of cc-architecture-builder development progress
 
@@ -46,6 +46,8 @@ Established a **two-schema architecture** separating:
 
 ### 2. Plugin Project Structure
 
+Below is an example plugin project structure standard. In practice, this CC plugin folder will be under the project root directory (e.g. [project-name]/[CCplugin_name]/...), which effectively differentiates from claude code-related materials and the actual project/codebase content for efficient project management.
+
 ```
 cc-architecture-builder/
 ├── .claude-plugin/
@@ -64,7 +66,7 @@ cc-architecture-builder/
 │   ├── scaffolding-projects/
 │   ├── validating-structure/
 │   └── quick-scaffold/           ✅ NEW: Fast scaffolding
-├── knowledge/                    ✅ Modular KB packs
+├── knowledge/                    ✅ Plugin-specific Modular KB packs (for AI/LLM)
 │   ├── INDEX.md
 │   ├── overview/
 │   ├── schemas/
@@ -73,7 +75,7 @@ cc-architecture-builder/
 │   ├── operational-patterns/
 │   └── appendices/
 └── docs/
-    └── claude_code_architecture_guide.md  ✅ v0.5.0
+    └── claude_code_architecture_guide.md  ✅ Project-specific domain content (for human user)
 ```
 
 ### 3. New Agents Created
@@ -196,8 +198,6 @@ General hierarchical, progressive vision:
 Claude Code doesn't natively orchestrate multi-agent networks, but agents with `skills:` field effectively create coordination by loading relevant skills into the agent's context.
 
 The general philosophy here is that CC skills essentially serve as domain-specific long-term context, in addition to the main memory/rules -> wrapped into agents or commands with autonomous actions/workflows with tailored reasoning and tools -> (TBD) wrapped into specialized.
-
-In particular with the relationship of skills and agents, it's my personal idea currently that most agents should always stem from skill(s); I say most, not all, because some agents may be simple enough with the single markdown as sufficiently required context to operate properly or require to purposefully maintain separate context, but my conjecture is that all agents will continuously build up and eventually reach a point that squeezing all context in single markdown will become inefficient to implement/manage, needing connections to skills (with more layered framework e.g. "references", "scripts", etc.) in addition to @imports. **This is still in debate** since skills are read automatically (i could be misunderstanding here), which may inefficiently exhaust tokens/context window by being read upfront by atomically creating every agent context as skills fundamentally.
 
 ---
 
