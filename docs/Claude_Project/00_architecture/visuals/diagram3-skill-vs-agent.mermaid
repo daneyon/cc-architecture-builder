@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph SKILL_USE["USE SKILL WHEN"]
+        S1["Reusable across contexts"]
+        S2["Auto-invoke desired"]
+        S3["Load into MAIN context OK"]
+        S4["Procedural how-to"]
+        S5["Update once, benefit everywhere"]
+    end
+    
+    subgraph AGENT_USE["USE AGENT WHEN"]
+        A1["Sustained focus needed"]
+        A2["Isolated context beneficial"]
+        A3["Load multiple skills"]
+        A4["Specialized persona"]
+        A5["May need resumption"]
+    end
+    
+    SKILL_USE --> EXAMPLES_S["Examples:<br/>pdf-processing<br/>code-standards<br/>documentation-templates"]
+    AGENT_USE --> EXAMPLES_A["Examples:<br/>code-reviewer<br/>research-analyst<br/>project-integrator"]
+    
+    style SKILL_USE fill:#fff8e1
+    style AGENT_USE fill:#fce4ec

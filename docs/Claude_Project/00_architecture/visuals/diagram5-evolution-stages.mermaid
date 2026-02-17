@@ -1,0 +1,49 @@
+flowchart LR
+    subgraph STAGE1["STAGE 1: Claude Web Project"]
+        W1["Single instruction file"]
+        W2["Project knowledge folder"]
+        W3["Conversation history"]
+    end
+    
+    subgraph STAGE2["STAGE 2: Modularization"]
+        M1["Extract identity → CLAUDE.md"]
+        M2["Extract principles → rules/"]
+        M3["Extract procedures → skills/"]
+        M4["Extract personas → agents/"]
+        M5["Extract workflows → commands/"]
+    end
+    
+    subgraph STAGE3["STAGE 3: Claude Code Plugin"]
+        C1["Memory Layer"]
+        C2["Capability Registry"]
+        C3["MCP Integration"]
+        C4["Hooks & Automation"]
+    end
+    
+    subgraph STAGE4["STAGE 4: Distribution"]
+        D1["Marketplace publish"]
+        D2["Git repository"]
+        D3["Team sharing"]
+    end
+    
+    W1 --> M1
+    W1 --> M2
+    W2 --> M3
+    W2 --> M4
+    W3 --> M5
+    
+    M1 --> C1
+    M2 --> C1
+    M3 --> C2
+    M4 --> C2
+    M5 --> C2
+    
+    C1 --> D1
+    C2 --> D1
+    C3 --> D2
+    C4 --> D3
+    
+    style STAGE1 fill:#e3f2fd
+    style STAGE2 fill:#fff8e1
+    style STAGE3 fill:#e8f5e9
+    style STAGE4 fill:#f3e5f5

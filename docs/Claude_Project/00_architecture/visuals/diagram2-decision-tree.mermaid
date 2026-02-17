@@ -1,0 +1,24 @@
+flowchart TD
+    START["New Content to Organize"] --> Q1{"Is it WHO you are<br/>or HOW you ALWAYS behave?"}
+    
+    Q1 -->|YES| MEMORY["MEMORY LAYER<br/>CLAUDE.md + rules/"]
+    Q1 -->|NO| Q2{"Is it procedural<br/>HOW TO knowledge?"}
+    
+    Q2 -->|YES| SKILL["SKILL<br/>Lazy-loaded, reusable"]
+    Q2 -->|NO| Q3{"Needs separate context<br/>or sustained work?"}
+    
+    Q3 -->|YES| AGENT["AGENT<br/>Own context, subprocess"]
+    Q3 -->|NO| Q4{"Repeatable workflow<br/>or shortcut?"}
+    
+    Q4 -->|YES| COMMAND["COMMAND<br/>User or model invoked"]
+    Q4 -->|NO| REF["REFERENCE ONLY<br/>Knowledge base"]
+    
+    MEMORY -.->|"~2-5k tokens<br/>ALWAYS loaded"| M_NOTE(("Keep lean!"))
+    SKILL -.->|"On invocation"| S_NOTE(("Adds to MAIN"))
+    AGENT -.->|"Isolated"| A_NOTE(("FREE to parent"))
+    
+    style MEMORY fill:#e3f2fd
+    style SKILL fill:#fff8e1
+    style AGENT fill:#fce4ec
+    style COMMAND fill:#e8f5e9
+    style REF fill:#f5f5f5

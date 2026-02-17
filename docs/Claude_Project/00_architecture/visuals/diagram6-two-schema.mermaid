@@ -1,0 +1,28 @@
+flowchart TB
+    subgraph SCHEMA1["SCHEMA 1: Global User Config ~/.claude/"]
+        direction TB
+        G_CLAUDE["CLAUDE.md<br/>Personal baseline"]
+        G_RULES["rules/<br/>Personal principles"]
+        G_SKILLS["skills/<br/>Cross-project skills"]
+        G_AGENTS["agents/<br/>Personal agents"]
+        G_CMDS["commands/<br/>Personal shortcuts"]
+    end
+    
+    subgraph SCHEMA2["SCHEMA 2: Distributable Plugin ./"]
+        direction TB
+        P_PLUGIN[".claude-plugin/<br/>Marketplace metadata"]
+        P_CLAUDE["CLAUDE.md<br/>Project instructions"]
+        P_RULES[".claude/rules/<br/>Project rules"]
+        P_SKILLS["skills/<br/>Project skills"]
+        P_AGENTS["agents/<br/>Project agents"]
+        P_KNOWLEDGE["knowledge/<br/>Domain KB"]
+    end
+    
+    SCHEMA1 -->|"inherits + supplements"| SCHEMA2
+    SCHEMA2 -->|"distributes via"| MARKETPLACE["Marketplace / Git"]
+    SCHEMA1 -->|"travels with you"| EVERYWHERE["All Projects"]
+    
+    style SCHEMA1 fill:#e8f5e9
+    style SCHEMA2 fill:#e3f2fd
+    style MARKETPLACE fill:#fff8e1
+    style EVERYWHERE fill:#f5f5f5

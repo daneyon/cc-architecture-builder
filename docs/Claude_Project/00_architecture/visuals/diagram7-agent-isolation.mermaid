@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant User
+    participant Main as Main Context
+    participant Agent as Agent Subprocess
+    participant MCP as MCP Server
+
+    User->>Main: "Review this code"
+    Main->>Main: Match → code-reviewer agent
+    Main->>Agent: Spawn subprocess
+    Note over Agent: Own context window
+    Note over Agent: Loads AGENT.md
+    Note over Agent: Loads skills: [security, standards]
+    Note over Main: Context UNCHANGED
+    Agent->>MCP: Tool calls
+    MCP-->>Agent: Results
+    Agent-->>Main: Return summary
+    Note over Main: Only summary added
