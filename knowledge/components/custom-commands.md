@@ -203,4 +203,4 @@ Uncommitted changes: !git status --porcelain!
 
 - [Agent Skills](agent-skills.md) — Model-invoked alternative
 - [Subagents](subagents.md) — Delegated specialized tasks
-- [Official Documentation](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+- [Official Documentation](https://code.claude.com/docs/en/slash-commands)

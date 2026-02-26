@@ -5,7 +5,7 @@ category: components
 tags: [hooks, events, automation, validation, event-driven]
 summary: Event-driven scripts that execute automatically in response to Claude Code system events. Enable validation, automation, and custom workflows.
 depends_on: [memory-claudemd]
-related: [custom-commands, mcp-integration]
+related: [custom-commands, mcp-integration, orchestration-framework]
 complexity: intermediate
 last_updated: 2025-12-12
 estimated_tokens: 650
@@ -230,4 +230,5 @@ Hooks receive JSON input via stdin:
 
 - [Custom Commands](custom-commands.md) — User-invoked actions
 - [MCP Integration](mcp-integration.md) — External tool connections
-- [Official Documentation](https://docs.anthropic.com/en/docs/claude-code/hooks)
+- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — PostToolUse auto-format hook, Stop hook for session-end checks
+- [Official Documentation](https://code.claude.com/docs/en/hooks-guide)

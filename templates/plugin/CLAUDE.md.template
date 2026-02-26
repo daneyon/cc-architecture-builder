@@ -1,56 +1,38 @@
 # {{PROJECT_NAME}}
 
-> {{PROJECT_DESCRIPTION}}
+## Role
+{{Who Claude is in this project. One sentence defining the primary persona and expertise.}}
 
-## Purpose
+## Workflows
+1. {{Primary workflow — e.g., "Feature development: plan → implement → test → PR"}}
+2. {{Secondary workflow — e.g., "Bug fix: reproduce → diagnose → fix → verify"}}
+3. {{Maintenance workflow — e.g., "Dependency updates, security patches"}}
 
-{{PURPOSE_DETAILED}}
+## Standards
+- {{Language/framework standard — e.g., "TypeScript strict mode, no `any` types"}}
+- {{Testing standard — e.g., "All new code requires unit tests with >80% coverage"}}
+- {{Formatting — e.g., "Run `npm run format` after editing files"}}
+- {{Commit style — e.g., "Conventional commits: feat:, fix:, docs:, refactor:"}}
 
-## Domain
+## Verification
+{{How to verify work in this project. These are the go-to commands:}}
+```bash
+npm run typecheck    # Type checking
+npm run lint         # Linting
+npm run test         # Full test suite
+npm run test -- -t "name"  # Single test
+npm run build        # Build verification
+```
 
-{{DOMAIN_DESCRIPTION}}
+## Learned Corrections
+{{This section grows over time. After correcting Claude, end with:
+"Update CLAUDE.md so you don't repeat this."}}
 
-## Personal Customization (Optional)
+{{Examples of what goes here:}}
+- Never use `enum` — always prefer string literal unions
+- Always check for null before accessing `.data` on API responses
+- Use `bun`, not `npm` for this project
 
-@~/.claude/{{PROJECT_NAME}}-preferences.md
-
-## Knowledge Base
-
-Domain knowledge is organized in `knowledge/`:
-
-- `knowledge/INDEX.md` — Master catalog of all knowledge files
-- `knowledge/concepts/` — Foundational understanding
-- `knowledge/procedures/` — How-to guides
-- `knowledge/reference/` — Specifications and standards
-- `knowledge/examples/` — Sample inputs and outputs
-
-For domain questions, first consult `knowledge/INDEX.md` to identify relevant files.
-
-## Available Commands
-
-| Command | Description |
-|---------|-------------|
-| `/{{COMMAND_1}}` | {{COMMAND_1_DESCRIPTION}} |
-| `/{{COMMAND_2}}` | {{COMMAND_2_DESCRIPTION}} |
-
-## Specialized Agents
-
-| Agent | Use When |
-|-------|----------|
-| `{{AGENT_1}}` | {{AGENT_1_USE_CASE}} |
-| `{{AGENT_2}}` | {{AGENT_2_USE_CASE}} |
-
-## Capabilities
-
-- {{CAPABILITY_1}}
-- {{CAPABILITY_2}}
-- {{CAPABILITY_3}}
-
-## Constraints
-
-- {{CONSTRAINT_1}}
-- {{CONSTRAINT_2}}
-
-## Output Guidelines
-
-{{OUTPUT_GUIDELINES}}
+## Project Notes
+{{Point to notes directory if used:}}
+@./notes/

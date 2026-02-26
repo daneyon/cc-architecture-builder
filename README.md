@@ -1,13 +1,17 @@
-# CC Architecture Builder
+# CAB (cc-architecture-builder)
 
-An interactive Claude Code plugin for scaffolding properly structured Claude Code projects.
+> Your taxi to stay in line to properly integrate CC with best practices — and you as the driver to apply project context engineering.
+
+A standardized framework and interactive Claude Code plugin for building custom LLM solutions.
 
 ## Overview
 
-This builder helps you create:
+CAB provides:
 - **Global user configurations** (`~/.claude/`) with personal preferences
 - **Distributable plugin projects** with marketplace-ready structure
 - **Knowledge bases** optimized for Claude Code's retrieval patterns
+- **Orchestration framework** with 5 canonical agentic workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer)
+- **Verification-first development** with structured task execution protocol
 
 ## Installation
 
@@ -95,7 +99,12 @@ Full architecture documentation is available in `knowledge/`:
 - `knowledge/INDEX.md` — Master index
 - `knowledge/overview/` — Philosophy and principles
 - `knowledge/components/` — Component deep dives
-- `knowledge/operational-patterns/` — Advanced workflows
+- `knowledge/operational-patterns/` — **Orchestration framework**, worktrees, sessions, multi-agent
+
+Key v0.6.0 additions:
+- `knowledge/operational-patterns/orchestration-framework.md` — Canonical patterns, cost model, failure modes
+- `agents/verifier.md` — Verification specialist agent
+- `templates/plugin/settings.json.template` — Starter settings with hooks
 
 ## Security
 

@@ -7,8 +7,9 @@ summary: Comprehensive reference links to official Claude Code documentation, Ag
 depends_on: []
 related: [glossary]
 complexity: foundational
-last_updated: 2025-12-23
-estimated_tokens: 500
+last_updated: 2026-02-25
+estimated_tokens: 600
+revision_note: "v0.6.0 — Added Anthropic engineering articles (agentic workflows, harnesses, multi-agent) and Boris Cherny CC creator tips."
 ---
 
 # References
@@ -125,6 +126,30 @@ claude /plugin install skill-creator@anthropic-agent-skills
 | Anthropic Engineering Blog | https://www.anthropic.com/engineering |
 | Trust Center | https://trust.anthropic.com |
 | Support | https://support.claude.com |
+
+---
+
+## Anthropic Engineering Articles (v0.6.0 Sources)
+
+These articles are the primary sources for the orchestration framework, agentic workflow patterns, and multi-agent collaboration content added in v0.6.0.
+
+| Article | Date | URL | Key Topics |
+|---------|------|-----|------------|
+| Building Effective Agents | Dec 2024 | https://www.anthropic.com/engineering/building-effective-agents | 5 canonical workflow patterns, simplicity-first principle |
+| Effective Context Engineering for AI Agents | Sep 2025 | https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents | Context window as shared resource, token efficiency |
+| Effective Harnesses for Long-Running Agents | Nov 2025 | https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents | Initializer/iterator harness, feature lists, progress files, failure modes |
+| Building a Multi-Agent Research System | Jun 2025 | https://www.anthropic.com/engineering/building-a-multi-agent-research-system | Multi-agent cost model, delegation templates, effort scaling |
+
+---
+
+## CC Creator Tips (Boris Cherny)
+
+Practical tips from Boris Cherny, creator of Claude Code, validated against Opus 4.6 (Feb 2026).
+
+| Source | URL | Key Topics |
+|--------|-----|------------|
+| CC Tips Gist (consolidated) | https://gist.github.com/AriSafTech/a63ddca53e24e450d5bea1a56a0e2df3 | Verification methods, CLAUDE.md as feedback loop, plan mode, worktrees, hooks, effort levels |
+| Boris Cherny Twitter/Threads | https://x.com/basaborern | Real-time CC development tips |
 
 ---
 

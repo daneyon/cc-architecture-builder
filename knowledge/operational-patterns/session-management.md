@@ -5,7 +5,7 @@ category: operational-patterns
 tags: [sessions, resume, history, persistence, continue]
 summary: Managing Claude Code conversation state including resuming sessions, accessing history, and session persistence patterns.
 depends_on: []
-related: [git-worktree, multi-agent-collaboration]
+related: [git-worktree, multi-agent-collaboration, orchestration-framework]
 complexity: foundational
 last_updated: 2025-12-12
 estimated_tokens: 350
@@ -140,3 +140,4 @@ Sessions are scoped to working directory:
 
 - [Git Worktree](git-worktree.md) — Parallel session management
 - [Multi-Agent Collaboration](multi-agent-collaboration.md)
+- [Orchestration Framework](orchestration-framework.md) — Initializer/iterator harness for cross-session state management

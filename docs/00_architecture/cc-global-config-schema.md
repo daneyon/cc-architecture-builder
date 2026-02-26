@@ -237,3 +237,45 @@ Commands are workflow triggers (imperative):
 | Rules bloat | Review total token footprint; condense overlapping content |
 | Skill count growth | Enforce the metadata budget ceiling; migrate to agents or plugins |
 | Naming convention changes | Update this document; rename all affected components atomically |
+
+---
+
+## settings.json Configuration
+
+Claude Code's `settings.json` (project-level at `.claude/settings.json` or user-level at `~/.claude/settings.json`) provides declarative configuration for permissions, hooks, environment variables, and behavioral settings.
+
+### Key Settings for Agentic Workflows
+
+| Setting | Scope | Purpose | Example |
+|---------|-------|---------|--------|
+| `agent` | Project or user | Default agent for main conversation | `"agent": "orchestrator"` |
+| `permissions.allow` | Project or user | Pre-approved safe commands (team shares via git) | `["Bash(npm run test:*)"]` |
+| `permissions.deny` | Project or user | Explicitly blocked commands | `["Bash(rm -rf *)"]` |
+| `hooks.PostToolUse` | Project | Auto-format after Write/Edit | See settings.json template |
+| `hooks.Stop` | Project | Deterministic checks at session end | Progress file update reminder |
+| `env` | Project or user | Environment variables without wrapper scripts | `{"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"}` |
+| `spinnerVerbs` | User | Custom spinner verbs | `["Architecting", "Analyzing"]` |
+
+### Sandbox Configuration
+
+The `/sandbox` command enables file and network isolation for Claude's bash commands:
+
+| Mode | Description | Best For |
+|------|-------------|----------|
+| Sandbox + auto-allow | Commands run in sandbox, auto-approved | Long-running autonomous agents |
+| Sandbox + regular permissions | Sandbox with normal permission prompts | Safety-sensitive projects |
+| No Sandbox (default) | Standard behavior | Interactive development |
+
+Enable via `/sandbox` in Claude Code. Sandboxing supports file and network isolation. Windows support pending.
+
+### Effort Levels
+
+`/model` sets the effort level, which directly controls token consumption:
+
+| Level | Token Impact | Use When |
+|-------|-------------|----------|
+| Low | Fewer tokens, faster | Well-defined, repetitive tasks |
+| Medium | Balanced | General development |
+| High | More tokens, more intelligence | Complex architecture, debugging, planning |
+
+Boris Cherny uses High for everything on Opus 4.6. For multi-agent cost optimization, consider using Medium for worker agents while keeping High for the orchestrator.

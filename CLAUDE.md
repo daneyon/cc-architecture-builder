@@ -1,14 +1,16 @@
-# CC Architecture Builder
+# CAB (cc-architecture-builder)
 
-> Interactive builder for Claude Code projects following standardized architecture patterns.
+> Your taxi to stay in line to properly integrate CC with best practices — and you as the driver to apply project context engineering.
 
 ## Purpose
 
-This project helps users create properly structured Claude Code projects, including:
+CAB is a standardized framework for building custom LLM solutions using Claude Code. It provides:
 
 - Global user configurations (`~/.claude/`)
 - Distributable plugin projects with marketplace-ready structure
 - Knowledge bases optimized for Claude Code retrieval patterns
+- **Orchestration framework** with 5 canonical agentic workflow patterns
+- **Verification-first development** with structured task execution protocol
 
 ## Knowledge Base
 
@@ -21,7 +23,7 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 - `knowledge/schemas/` — Global and plugin structures
 - `knowledge/components/` — Deep dives on each component
 - `knowledge/distribution/` — Marketplace, sharing
-- `knowledge/operational-patterns/` — Worktrees, sessions, multi-agent
+- `knowledge/operational-patterns/` — **Orchestration framework**, worktrees, sessions, multi-agent
 
 ## Available Commands
 
@@ -103,6 +105,16 @@ All scaffolded projects follow security best practices:
 - `.gitignore` excludes sensitive files
 - No credentials in templates
 - Pre-publication checklist included
+
+## Core Principles (v0.6.0)
+
+1. **Verification as Architectural Requirement** — Every agent, task, and phase gate requires a verification method
+2. **Simplicity-First Complexity Ladder** — Start simple, escalate only when measured improvement justifies complexity
+3. **Plan Before Execute** — PLAN → REVIEW → EXECUTE → VERIFY → COMMIT
+4. **Compounding Knowledge via CLAUDE.md** — Every correctable error becomes a permanent learning
+5. **Token Efficiency as Public Good** — Context window space is shared; load only what each task requires
+
+See `knowledge/operational-patterns/orchestration-framework.md` for full detail.
 
 ## Constraints
 

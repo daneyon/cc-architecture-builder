@@ -1,40 +1,74 @@
 ---
+# REQUIRED FIELDS
 name: {{AGENT_NAME}}
-description: {{AGENT_DESCRIPTION}}. Use when {{DELEGATION_TRIGGERS}}.
-tools: {{TOOL_LIST}}
-skills: {{SKILL_LIST}}
-model: {{MODEL_ALIAS}}
+description: >
+  {{When to invoke this agent. Be specific and action-oriented.
+  Good descriptions enable automatic routing from the main session.
+  Include "Use PROACTIVELY" if the agent should be auto-suggested.}}
+
+# OPTIONAL FIELDS (omit to inherit defaults)
+tools: Read, Write, Edit, Bash, Grep, Glob, Search, Task  # comma-separated; omit to inherit all
+model: opus  # opus | sonnet | haiku | inherit
+permissionMode: default  # default | acceptEdits | bypassPermissions | plan | ignore
+skills:
+  - skill-name-1  # auto-loaded into agent context
+  - skill-name-2
+# memory: .claude/memory/{{AGENT_NAME}}  # persistent knowledge directory (survives across sessions)
 ---
 
-# {{AGENT_TITLE}}
+# {{AGENT_DISPLAY_NAME}}
 
-You are a specialized agent for {{AGENT_PURPOSE}}.
+## Role
 
-## Expertise Areas
-
-- {{EXPERTISE_1}}
-- {{EXPERTISE_2}}
-- {{EXPERTISE_3}}
+{{One paragraph defining this agent's expertise, perspective, and value.
+What does this agent know that the main session doesn't? What unique
+perspective does it bring?}}
 
 ## Approach
 
-1. {{APPROACH_STEP_1}}
-2. {{APPROACH_STEP_2}}
-3. {{APPROACH_STEP_3}}
-4. {{APPROACH_STEP_4}}
+{{Numbered steps this agent follows. Typically:}}
+
+1. **Gather context** — Read relevant files, state, and prior work
+2. **Analyze/Plan** — Assess the situation and form an approach
+3. **Execute** — Perform the core work
+4. **Verify** — Confirm the work meets acceptance criteria (see below)
+5. **Report** — Return structured results to the parent session
+
+## Verification (REQUIRED)
+
+{{How this agent confirms its work is correct. Every agent MUST have this section.
+Specify concrete, runnable verification methods — not vague assertions.}}
+
+- Run `{{test command}}` — all tests must pass
+- Run `{{lint command}}` — no new warnings
+- {{Domain-specific check, e.g., "Verify all API endpoints return correct status codes"}}
+- {{Human review gate if applicable}}
 
 ## Constraints
 
-- {{CONSTRAINT_1}}
-- {{CONSTRAINT_2}}
-- {{CONSTRAINT_3}}
+{{Boundaries for this agent's behavior:}}
+
+- Do not modify files outside of `{{scope}}`
+- Do not introduce new dependencies without noting them in output
+- Maximum {{N}} iterations before reporting back
+- {{Any other guardrails}}
 
 ## Output Format
 
-{{OUTPUT_FORMAT_DESCRIPTION}}
+{{Structure of what this agent returns to the parent session:}}
 
-## Knowledge References
+```markdown
+## Results: {{Task Name}}
 
-For detailed information, consult:
-- {{KNOWLEDGE_REF_1}}
-- {{KNOWLEDGE_REF_2}}
+### Completed
+- {{What was done}}
+
+### Verification
+- {{Test results, lint results, etc.}}
+
+### Issues Found
+- {{Any problems or blockers}}
+
+### Recommended Next Steps
+- {{What should happen after this agent's work}}
+```

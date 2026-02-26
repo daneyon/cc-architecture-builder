@@ -1,7 +1,7 @@
 {
   "name": "cc-architecture-builder",
-  "version": "0.1.0",
-  "description": "Interactive builder for Claude Code projects following standardized architecture patterns. Scaffolds global user configurations and distributable plugin projects with proper knowledge base structure.",
+  "version": "0.6.0",
+  "description": "CAB (cc-architecture-builder): Standardized framework for building custom LLM solutions using Claude Code. Provides base architecture patterns, workflow orchestration (5 canonical agentic patterns), verification-first development, and best practices for skills, agents, commands, hooks, and MCP integration.",
   "author": {
     "name": "Daneyon"
   },

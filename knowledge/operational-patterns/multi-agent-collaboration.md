@@ -2,70 +2,90 @@
 id: multi-agent-collaboration
 title: Multi-Agent Collaboration
 category: operational-patterns
-tags: [agents, collaboration, orchestration, multi-agent, subagents]
-summary: Patterns for coordinating multiple Claude agents working together on complex tasks, including subagent chaining and parallel execution.
+tags: [agents, collaboration, orchestration, multi-agent, subagents, worktrees, agent-teams]
+summary: Patterns for coordinating multiple Claude agents working together on complex tasks, from git worktrees (daily driver) through Agent Teams (experimental).
 depends_on: [subagents, git-worktree]
-related: [session-management]
+related: [session-management, orchestration-framework]
 complexity: advanced
-last_updated: 2025-12-12
-estimated_tokens: 500
-revision_note: Content may be expanded in Appendix D (AI Agents Deep Dive).
+last_updated: 2026-02-25
+estimated_tokens: 900
+revision_note: "v2.0 — Added Agent Teams pattern, reordered to worktrees-first, added effort scaling, cross-session persistence, subagent triggering patterns. Sources: Anthropic engineering articles (Dec 2024 – Nov 2025), Boris Cherny threads (Dec 2025 – Feb 2026)."
 ---
 
 # Multi-Agent Collaboration
 
 ## Overview
 
-Complex tasks often benefit from multiple specialized agents working together. Claude Code supports this through subagents (same session) and worktrees (parallel sessions).
+Complex tasks often benefit from multiple specialized agents working together. Claude Code supports this through several coordination mechanisms, ordered here from most practical (daily use by the CC team) to most advanced (experimental).
 
 ## Collaboration Patterns
 
-### Pattern 1: Sequential Subagent Chain
+### Pattern 1: Parallel via Git Worktrees (Daily Driver)
+
+The CC team's preferred approach for parallel work. Each worktree is an isolated git checkout with its own Claude session.
+
+```
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│ Worktree 1 (za) │  │ Worktree 2 (zb) │  │ Worktree 3 (zc) │
+│ Tab: Blue       │  │ Tab: Green       │  │ Tab: Orange      │
+│                 │  │                 │  │                 │
+│ Feature: Auth   │  │ Feature: API    │  │ Analysis-only   │
+│ Claude Session  │  │ Claude Session  │  │ Claude Session  │
+└────────┬────────┘  └────────┬────────┘  └────────┬────────┘
+         │                    │                    │
+         └────────────────────┼────────────────────┘
+                              ▼
+                    Shared Git Repository
+                    (merge in main worktree)
+```
+
+**Use when**: Tasks can run independently. This is the default for most parallel work.
+
+**Setup**:
+```bash
+# Create worktrees
+git worktree add .claude/worktrees/feature-auth origin/main
+git worktree add .claude/worktrees/feature-api origin/main
+git worktree add .claude/worktrees/analysis origin/main  # read-only investigation
+
+# Shell aliases for fast switching (add to .zshrc)
+alias za='cd .claude/worktrees/feature-auth && claude'
+alias zb='cd .claude/worktrees/feature-api && claude'
+alias zc='cd .claude/worktrees/analysis && claude'
+```
+
+**Tips from the CC team**:
+- Name and color-code terminal tabs (one per worktree)
+- Enable system notifications to know when a session needs input
+- Keep a dedicated "analysis" worktree for read-only investigation (log reading, queries)
+- 3-5 worktrees is the practical sweet spot
+
+### Pattern 2: Sequential Subagent Chain
+
+Subagents within a single session, executed sequentially with explicit context passing.
 
 ```
 Main Agent
     │
-    ├──▶ Subagent A (analyze)
-    │         │
-    │         ▼ results
+    ├──▶ Subagent A (analyze) → results
     │
-    ├──▶ Subagent B (implement based on A's analysis)
-    │         │
-    │         ▼ results
+    ├──▶ Subagent B (implement, using A's results) → results
     │
-    └──▶ Subagent C (review B's implementation)
-              │
-              ▼ final results
+    └──▶ Subagent C (review B's implementation) → final results
 ```
 
-**Use when**: Tasks have clear sequential dependencies.
+**Use when**: Tasks have clear sequential dependencies and benefit from context isolation between steps.
 
 **Example prompt**:
 ```
-Use the analyzer agent to find issues, then use the implementer 
-agent to fix them, then use the reviewer agent to verify.
+Use the analyzer agent to find security issues in src/auth/,
+then use the implementer agent to fix them,
+then use the reviewer agent to verify the fixes.
 ```
-
-### Pattern 2: Parallel via Worktrees
-
-```
-┌─────────────────┐     ┌─────────────────┐
-│ Worktree 1      │     │ Worktree 2      │
-│ Claude + Agent A│     │ Claude + Agent B│
-│                 │     │                 │
-│ Security audit  │     │ Performance     │
-│                 │     │ analysis        │
-└────────┬────────┘     └────────┬────────┘
-         │                       │
-         └───────────┬───────────┘
-                     ▼
-            Merge findings in
-            main worktree
-```
-
-**Use when**: Tasks can run independently.
 
 ### Pattern 3: Main Agent + Specialists
+
+The main session acts as orchestrator, delegating to specialist agents based on task type.
 
 ```
 ┌─────────────────────────────────────────┐
@@ -81,110 +101,119 @@ agent to fix them, then use the reviewer agent to verify.
    └───────┘  └───────┘  └───────┘
 ```
 
-**Use when**: Need diverse expertise on single problem.
+**Use when**: A single problem needs diverse expertise. Each specialist has focused tools and skills loaded.
 
-## Implementation
+### Pattern 4: Agent Teams (Experimental)
 
-### Define Complementary Agents
+Multi-session coordination with shared task lists and inter-agent messaging.
 
-```yaml
-# agents/analyzer.md
----
-name: analyzer
-description: Analyzes code structure and identifies issues. Use as first step before implementation changes.
-tools: Read, Grep, Glob
-model: sonnet
----
+```
+┌─────────────────────────────────────────┐
+│         TEAM LEAD (Session 1)           │
+│   Coordinates, assigns, synthesizes     │
+└─────┬──────────┬──────────┬─────────────┘
+      │          │          │
+      ▼          ▼          ▼
+┌──────────┐ ┌──────────┐ ┌──────────┐
+│Teammate A│ │Teammate B│ │Teammate C│
+│Session 2 │ │Session 3 │ │Session 4 │
+│Own CW    │ │Own CW    │ │Own CW    │
+│Shared    │ │Shared    │ │Shared    │
+│task list │ │task list │ │task list │
+└──────────┘ └──────────┘ └──────────┘
 ```
 
-```yaml
-# agents/implementer.md
----
-name: implementer
-description: Implements fixes and improvements based on analysis. Use after analyzer provides findings.
-tools: Read, Write, Edit, Bash
-model: sonnet
----
+**Use when**: Tasks genuinely require inter-agent communication (research with competing hypotheses, cross-layer coordination, tasks where agents need to share intermediate findings).
+
+**Requirements**:
+- Feature flag: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+- Higher token cost (~15x vs chat)
+- 2-5 teammates recommended for most tasks
+
+**Caution**: Agent Teams is significantly more expensive than worktrees. Use worktrees (Pattern 1) unless you specifically need the inter-agent messaging and shared task list capabilities.
+
+## Effort Scaling Heuristic
+
+Match the number of agents to task complexity (from Anthropic's "Multi-Agent Research System"):
+
+| Task Complexity | Agent Configuration | Example |
+|-----------------|---------------------|---------|
+| Simple fact-finding | 1 agent, 3-10 tool calls | "What's the error in this function?" |
+| Direct comparison | 2-4 subagents, 10-15 calls each | "Compare auth approaches: JWT vs session vs OAuth" |
+| Comprehensive research | 5-10+ subagents, clear division of labor | "Audit the entire codebase for security vulnerabilities" |
+| Multi-phase lifecycle | Orchestrator + state management | Full product development pipeline |
+
+**Subagent triggering**: Append "use subagents" or "use N subagents" to any prompt where you want Claude to throw more compute at the problem. Offload individual tasks to subagents to keep the main agent's context window clean and focused.
+
+## Cross-Session Persistence
+
+Three approaches scaled to project complexity:
+
+### Lightweight: Notes Directory
+
+Maintain a `notes/` directory per project, updated after each PR or session. Point CLAUDE.md at it. Best for single-developer feature work.
+
+```
+notes/
+├── 2026-02-15-auth-implementation.md
+├── 2026-02-16-api-refactor.md
+└── 2026-02-18-test-coverage.md
 ```
 
-```yaml
-# agents/reviewer.md
----
-name: reviewer
-description: Reviews implemented changes for correctness and quality. Use as final step before committing.
-tools: Read, Grep, Glob, Bash
-model: opus
----
+In CLAUDE.md: `@./notes/`
+
+### Medium: Progress File + Feature List
+
+For long-running autonomous tasks. Two files:
+
+- `claude-progress.txt` — Free-form progress notes, updated each session
+- `features.json` — Structured feature tracking with pass/fail status
+
+```json
+{
+  "features": [
+    {"id": "auth-login", "description": "User login with JWT", "passes": true},
+    {"id": "auth-register", "description": "Registration flow", "passes": false},
+    {"id": "auth-reset", "description": "Password reset", "passes": false}
+  ]
+}
 ```
 
-### Orchestration via Main Agent
+### Full: Project State YAML
 
-In CLAUDE.md or prompts:
-
-```markdown
-## Multi-Agent Workflow
-
-For complex changes:
-1. First use **analyzer** to identify issues
-2. Then use **implementer** to make changes
-3. Finally use **reviewer** to verify quality
-
-Each agent has separate context, so explicitly pass relevant 
-findings between steps.
-```
+For multi-phase lifecycle management (see Orchestration Framework for schema).
 
 ## Coordination via Git
 
-Git serves as the coordination layer:
+Git is the universal coordination layer across all patterns:
 
 | Action | Purpose |
 |--------|---------|
-| Commits | Checkpoint agent work |
-| Branches | Isolate parallel work |
-| PRs | Review cross-agent output |
-| Merge | Integrate findings |
-
-## Context Handoff
-
-Since subagents have separate context:
-
-```
-> Use analyzer to find security issues
-
-[Analyzer runs, produces findings]
-
-> Take the analyzer's findings about SQL injection in user.py 
-> and use implementer to fix them
-
-[Explicitly passing context to next agent]
-```
+| Commits | Checkpoint agent work; ensure clean state between sessions |
+| Branches | Isolate parallel work (one per worktree) |
+| PRs | Review cross-agent output; add CLAUDE.md learnings via @.claude |
+| Merge | Integrate findings from parallel sessions |
 
 ## When to Use Each Pattern
 
-| Situation | Pattern |
-|-----------|---------|
-| Sequential dependent tasks | Subagent chain |
-| Independent parallel analysis | Worktree parallel |
-| Single problem, multiple perspectives | Main + specialists |
-| Long-running + interactive | Worktree for long-running |
-
-## Best Practices
-
-1. **Define clear agent boundaries**: Each agent should have focused expertise
-2. **Explicit context passing**: Don't assume agents share context
-3. **Use git for coordination**: Commits, branches, PRs as sync points
-4. **Start simple**: Single subagent before complex chains
-5. **Monitor cost**: Multiple agents = multiple token usage
+| Situation | Pattern | Cost |
+|-----------|---------|------|
+| Independent parallel tasks | Worktrees (Pattern 1) | Separate session budgets |
+| Sequential dependent tasks | Subagent chain (Pattern 2) | Additive in main context |
+| Single problem, multiple perspectives | Main + specialists (Pattern 3) | Main context + isolated agent contexts |
+| Tasks requiring inter-agent communication | Agent Teams (Pattern 4) | ~15x chat tokens |
 
 ## Limitations
 
-- Subagents don't share context (must pass explicitly)
-- Coordination is manual (no built-in orchestration)
-- Complex chains can be token-expensive
-- Debugging multi-agent issues is harder
+- Subagents don't share context (must pass findings explicitly)
+- Agent Teams is experimental and token-intensive
+- Worktree coordination is manual (human merges, resolves conflicts)
+- Debugging multi-agent issues requires tracing agent decision patterns
+- Complex chains compound errors — verify at each step
 
 ## See Also
 
-- [Subagents](../components/subagents.md) — Single-session agents
+- [Orchestration Framework](orchestration-framework.md) — Canonical patterns, execution protocol, cost model
+- [Subagents](../components/subagents.md) — Agent definitions and configuration
 - [Git Worktree](git-worktree.md) — Parallel session setup
-- Appendix D: AI Agents Deep Dive (planned)
+- [Session Management](session-management.md) — Resuming and persisting work

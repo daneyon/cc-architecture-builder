@@ -186,3 +186,4 @@ Worktree 1 (main)           Worktree 2 (feature)
 - [Git Foundation](../prerequisites/git-foundation.md)
 - [Session Management](session-management.md)
 - [Multi-Agent Collaboration](multi-agent-collaboration.md)
+- [Orchestration Framework](orchestration-framework.md) — Cost model comparing worktrees vs subagents vs Agent Teams

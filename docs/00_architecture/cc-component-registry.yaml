@@ -318,6 +318,16 @@ agents:
     model: inherit
     priority: p1
 
+  - name: verifier
+    status: proposed
+    mapped_roles: [qa-lead, code-reviewer]
+    phases: [3, 4]
+    description: "End-to-end verification specialist. Validates implementations against acceptance criteria using domain-appropriate testing (test suites, browser automation, CLI checks, diff inspection)."
+    skills_loaded: []
+    model: inherit
+    priority: p1
+    source: "Boris Cherny verify-app pattern + Anthropic Evaluator-Optimizer pattern"
+
 # ============================================================
 # COMMANDS (User-invoked workflow triggers)
 # Naming: {verb}-{object}.md
@@ -359,6 +369,31 @@ hooks:
     description: "Auto-export session summary to project knowledge base"
     priority: p2
 
+  - name: post-tool-format
+    status: proposed
+    event: "PostToolUse (Write|Edit)"
+    description: "Auto-format code after Claude writes/edits files to catch formatting edge cases and prevent CI failures."
+    priority: p1
+    source: "Boris Cherny Tip #9 — CC team uses this to catch the 10% of cases where formatting is off"
+
+# ============================================================
+# EXPERIMENTAL FEATURES
+# ============================================================
+
+experimental:
+  agent_teams:
+    env_var: "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS"
+    status: research_preview
+    token_multiplier: "~15x vs chat"
+    recommended_team_size: "2-5 teammates"
+    notes: "Use worktrees for most parallel work. Agent Teams only when inter-agent messaging is required."
+
+  sandbox:
+    command: "/sandbox"
+    modes: ["sandbox-auto-allow", "sandbox-with-permissions", "no-sandbox"]
+    platforms: ["macOS", "Linux"]
+    notes: "Windows support pending. Enables file and network isolation."
+
 # ============================================================
 # SUMMARY
 # ============================================================
@@ -366,8 +401,8 @@ hooks:
 summary:
   rules_files: 11
   skills: 16
-  agents: 11
+  agents: 12
   commands: 3
-  hooks: 2
+  hooks: 3
   total_registry_items_skills_commands: 19
   estimated_metadata_budget: "19 personal + plugin items (varies)"

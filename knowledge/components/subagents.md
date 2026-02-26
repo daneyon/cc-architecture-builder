@@ -5,7 +5,7 @@ category: components
 tags: [subagents, delegation, context, specialized, agents]
 summary: Complete guide to subagents - specialized AI assistants that operate in their own context window for task-specific workflows.
 depends_on: [memory-claudemd, agent-skills]
-related: [custom-commands, hooks]
+related: [custom-commands, hooks, orchestration-framework, multi-agent-collaboration]
 complexity: intermediate
 last_updated: 2025-12-23
 estimated_tokens: 900
@@ -244,3 +244,5 @@ Useful for:
 - [Agent Skills](agent-skills.md) — Model-invoked capabilities
 - [Custom Commands](custom-commands.md) — User-invoked shortcuts
 - [Plugins](https://code.claude.com/docs/en/plugins) — Bundle and share agents
+- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Delegation templates, cost model, failure modes
+- [Multi-Agent Collaboration](../operational-patterns/multi-agent-collaboration.md) — Coordination patterns
