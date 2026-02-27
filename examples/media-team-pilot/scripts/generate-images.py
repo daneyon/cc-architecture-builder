@@ -30,6 +30,11 @@ def main():
     args = parser.parse_args()
 
     # Load configs
+    for filepath in [args.prompts, args.config]:
+        if not Path(filepath).exists():
+            print(f"ERROR: File not found: {filepath}", file=sys.stderr)
+            sys.exit(1)
+
     with open(args.prompts) as f:
         prompts_data = json.load(f)
 
@@ -93,11 +98,12 @@ def main():
         print(f"\n{len(errors)} errors logged to {error_log}", file=sys.stderr)
 
     # Summary
-    generated = len(list(output_dir.glob("scene_*.png")))
+    generated_count = len(scenes) - len(errors)
+    target_count = len(scenes)
     total = len(prompts_data.get("scenes", []))
-    print(f"\nGeneration complete: {generated}/{total} images")
+    print(f"\nGeneration complete: {generated_count}/{target_count} targeted scenes ({total} total in script)")
 
-    if generated < total:
+    if errors:
         sys.exit(1)
 
 

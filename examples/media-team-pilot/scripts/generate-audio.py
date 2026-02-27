@@ -54,6 +54,11 @@ def main():
     args = parser.parse_args()
 
     # Load configs
+    for filepath in [args.script, args.config]:
+        if not Path(filepath).exists():
+            print(f"ERROR: File not found: {filepath}", file=sys.stderr)
+            sys.exit(1)
+
     with open(args.script) as f:
         script_data = json.load(f)
 
@@ -125,11 +130,12 @@ def main():
         print(f"\n{len(errors)} errors logged to {error_log}", file=sys.stderr)
 
     # Summary
-    generated = len(list(output_dir.glob("scene_*.mp3")))
+    generated_count = len(scenes) - len(errors)
+    target_count = len(scenes)
     total = len(script_data.get("scenes", []))
-    print(f"\nSynthesis complete: {generated}/{total} audio files")
+    print(f"\nSynthesis complete: {generated_count}/{target_count} targeted scenes ({total} total in script)")
 
-    if generated < total:
+    if errors:
         sys.exit(1)
 
 

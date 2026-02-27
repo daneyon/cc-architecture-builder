@@ -52,11 +52,27 @@ TRANSITION_DURATION=1
 echo "=== Video Assembly ==="
 echo "Title: $TITLE"
 echo "Scenes: $SCENE_COUNT"
+
+# --- Validate asset count ---
+IMAGE_COUNT=$(ls "$IMAGES_DIR"/scene_*.png 2>/dev/null | wc -l)
+AUDIO_COUNT=$(ls "$AUDIO_DIR"/scene_*.mp3 2>/dev/null | wc -l)
+echo "Images found: $IMAGE_COUNT"
+echo "Audio found: $AUDIO_COUNT"
+
+if [[ "$IMAGE_COUNT" -lt "$SCENE_COUNT" ]]; then
+  echo "WARNING: Only $IMAGE_COUNT images for $SCENE_COUNT scenes. Missing scenes will be skipped."
+fi
+if [[ "$IMAGE_COUNT" -eq 0 ]]; then
+  echo "ERROR: No images found in $IMAGES_DIR"
+  exit 1
+fi
 echo ""
 
 # --- Slugify title for filename ---
 SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$//')
-OUTPUT_FILE="$OUTPUT_DIR/${SLUG}.mp4"
+# Remove trailing slash to avoid double-slash in output path
+OUTPUT_DIR="${OUTPUT_DIR%/}"
+OUTPUT_FILE="${OUTPUT_DIR}/${SLUG}.mp4"
 
 mkdir -p "$OUTPUT_DIR"
 
