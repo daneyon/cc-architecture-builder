@@ -34,6 +34,7 @@ estimated_tokens: 400
 | **Progressive Disclosure** | Pattern of loading only needed content to conserve tokens. |
 | **Atomic Content** | Self-contained, single-purpose files optimized for retrieval. |
 | **Two-Schema Architecture** | Separation of global user config from distributable project config. |
+| **CAB** | cc-architecture-builder — standardized framework and plugin for building custom LLM solutions using Claude Code. |
 
 ## Invocation Patterns
 

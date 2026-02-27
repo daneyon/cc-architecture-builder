@@ -1,12 +1,12 @@
 ---
 name: quick-scaffold
-description: Generates Claude Code configuration scaffolding based on the cc-architecture-builder base architecture. Use when user wants to quickly create CLAUDE.md, directory structure, or component templates without extensive discovery. Fast, template-driven, user refines afterward.
+description: Generates Claude Code configuration scaffolding based on the CAB (cc-architecture-builder) base architecture. Use when user wants to quickly create CLAUDE.md, directory structure, or component templates without extensive discovery. Fast, template-driven, user refines afterward.
 allowed-tools: Read, Write, Glob
 ---
 
 # Quick Scaffold
 
-Generate Claude Code configuration scaffolding aligned with the cc-architecture-builder base architecture.
+Generate Claude Code configuration scaffolding aligned with the CAB base architecture.
 
 ## When to Use
 
