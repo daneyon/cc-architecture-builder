@@ -1,6 +1,6 @@
 ---
 description: Create a narrative video from a creative brief — orchestrates the full multi-agent pipeline
-allowed-tools: Read, Write, Edit, Bash, Grep, Glob, WebSearch, WebFetch
+allowed-tools: Read, Write, Bash, Grep, Glob, WebSearch, WebFetch
 thinking: extended
 ---
 
