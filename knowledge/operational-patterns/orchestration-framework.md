@@ -7,8 +7,8 @@ summary: Comprehensive orchestration framework for Claude Code agentic workflows
 depends_on: [subagents, multi-agent-collaboration, memory-claudemd]
 related: [session-management, git-worktree]
 complexity: advanced
-last_updated: 2026-02-25
-estimated_tokens: 3500
+last_updated: 2026-03-03
+estimated_tokens: 3800
 revision_note: "v2.0 — New file consolidating orchestration patterns from Anthropic engineering articles (Dec 2024 – Nov 2025), Boris Cherny CC creator tips (Dec 2025 – Feb 2026), and context engineering principles (Sep 2025)."
 source: https://www.anthropic.com/engineering/building-effective-agents
 ---
@@ -17,7 +17,7 @@ source: https://www.anthropic.com/engineering/building-effective-agents
 
 ## Purpose
 
-This document defines how Claude Code components (skills, agents, commands, hooks) coordinate to accomplish complex, multi-step tasks. It establishes the canonical workflow patterns, execution protocols, failure mitigations, and cost models that govern all agentic work within the CAB (cc-architecture-builder) framework.
+This document defines how Claude Code extensions (skills, agents, commands, hooks) coordinate to accomplish complex, multi-step tasks. It establishes the canonical workflow patterns, execution protocols, failure mitigations, and cost models that govern all agentic work within the CAB (cc-architecture-builder) framework.
 
 ---
 
@@ -59,6 +59,29 @@ CLAUDE.md is not a static configuration file. It is a living feedback loop: ever
 ### Tenet 5: Token Efficiency as Public Good
 
 Context window space is shared across rules, skills, agent instructions, and the actual work. Every token of configuration displaces a token of productive output. Design for progressive disclosure: load only what the current task requires, reference additional resources via @imports, and prefer lean component definitions.
+
+### Tenet 6: Autonomous Multi-Agent Operation
+
+The end-product objective of the CAB framework is a multi-agent system that operates autonomously to the fullest extent possible. Human involvement is limited to oversight, strategic direction, and periodic knowledge base alignment with official CC platform upgrades.
+
+The **global config acts as the orchestrator layer**: it receives tasks, classifies them, routes to domain-specialist agents (project configs), synthesizes results, and manages cross-project state. The `"agent": "orchestrator"` setting in `~/.claude/settings.json` establishes this as the default operating mode.
+
+```
+Global Orchestrator (~/.claude/)
+├── Receives task from user
+├── Classifies: domain, complexity, scope
+├── Routes to specialist agent (project plugin)
+│   ├── Project Agent A (domain specialist)
+│   ├── Project Agent B (domain specialist)
+│   └── Verifier Agent (QA/QC)
+├── Synthesizes results
+├── Updates state (progress, learned corrections)
+└── Reports to user (only if escalation needed)
+```
+
+Human oversight touchpoints are limited to: strategic direction, periodic KB updates for CC platform alignment, and review of verification reports.
+
+**Executable Extension**: The `executing-tasks` skill and `/execute-task` command encode this protocol into operational extensions that agents invoke automatically.
 
 ---
 

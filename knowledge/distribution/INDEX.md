@@ -1,8 +1,8 @@
 ---
 type: index
 scope: distribution
-file_count: 1
-last_updated: 2025-12-12
+file_count: 2
+last_updated: 2026-03-03
 ---
 
 # Distribution Index
@@ -14,6 +14,7 @@ last_updated: 2025-12-12
 | File | Summary |
 |------|---------|
 | [marketplace.md](marketplace.md) | Plugin distribution, team config, security review |
+| [cowork.md](cowork.md) | Desktop automation, enterprise plugin distribution (beta) |
 
 ## Key Topics Covered
 
@@ -22,3 +23,4 @@ last_updated: 2025-12-12
 - GitHub publication
 - Team configuration
 - Security review checklist
+- Cowork desktop automation and enterprise distribution (beta)

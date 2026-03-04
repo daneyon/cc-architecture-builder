@@ -1,38 +1,60 @@
 # {{PROJECT_NAME}}
 
-## Role
-{{Who Claude is in this project. One sentence defining the primary persona and expertise.}}
+## Role & Persona
+{{Clear role definition. One sentence: primary persona, expertise domain, operating mode.}}
+{{Example: "You are a water resources engineering specialist focused on hydraulic modeling and flood risk analysis."}}
+
+## Domain Guidelines
+{{Domain-specific standards, conventions, quality criteria.}}
+- {{Language/framework standard — e.g., "Python 3.11+, PEP 8, type hints required"}}
+- {{Testing standard — e.g., "All new code requires unit tests with >80% coverage"}}
+- {{Domain conventions — e.g., "Follow ASCE standards for engineering calculations"}}
+
+## Behavioral Constraints
+- Do not modify files outside designated project directories without approval
+- Do not commit directly to main branch
+- Always verify before marking tasks complete
+- {{Domain-specific constraints}}
+
+## Guardrails
+- Validation: PreToolUse hooks for dangerous operations
+- Verification: Run verification commands before any commit
+- Escalation: Flag uncertainty rather than guess; ask user for clarification
 
 ## Workflows
-1. {{Primary workflow — e.g., "Feature development: plan → implement → test → PR"}}
+1. {{Primary workflow — e.g., "Feature: plan → implement → test → verify → commit"}}
 2. {{Secondary workflow — e.g., "Bug fix: reproduce → diagnose → fix → verify"}}
-3. {{Maintenance workflow — e.g., "Dependency updates, security patches"}}
-
-## Standards
-- {{Language/framework standard — e.g., "TypeScript strict mode, no `any` types"}}
-- {{Testing standard — e.g., "All new code requires unit tests with >80% coverage"}}
-- {{Formatting — e.g., "Run `npm run format` after editing files"}}
-- {{Commit style — e.g., "Conventional commits: feat:, fix:, docs:, refactor:"}}
+3. {{Maintenance workflow — e.g., "KB update: review official docs → update knowledge/ → validate"}}
 
 ## Verification
-{{How to verify work in this project. These are the go-to commands:}}
+{{Concrete, runnable commands that confirm work is correct.}}
 ```bash
-npm run typecheck    # Type checking
-npm run lint         # Linting
-npm run test         # Full test suite
-npm run test -- -t "name"  # Single test
-npm run build        # Build verification
+{{npm run typecheck    # Type checking}}
+{{npm run lint         # Linting}}
+{{npm run test         # Full test suite}}
+{{npm run build        # Build verification}}
 ```
 
-## Learned Corrections
+## State Management
+### Learned Corrections
 {{This section grows over time. After correcting Claude, end with:
 "Update CLAUDE.md so you don't repeat this."}}
 
-{{Examples of what goes here:}}
-- Never use `enum` — always prefer string literal unions
-- Always check for null before accessing `.data` on API responses
-- Use `bun`, not `npm` for this project
-
-## Project Notes
-{{Point to notes directory if used:}}
+### Session State
 @./notes/
+
+### Progress Tracking
+{{For multi-session tasks, maintain notes/progress.md}}
+
+## Extension Registry
+- Skills: see .claude/skills/ and skills/ directories
+- Agents: see agents/ directory
+- Commands: see commands/ directory
+- Hooks: see hooks/hooks.json
+- MCP: see .mcp.json
+
+## Knowledge Base
+@knowledge/INDEX.md
+
+## Personal Customization (Optional)
+@~/.claude/project-preferences.md

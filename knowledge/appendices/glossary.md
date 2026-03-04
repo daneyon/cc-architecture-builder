@@ -7,8 +7,8 @@ summary: Definitions of key terms used throughout the Claude Code architecture d
 depends_on: []
 related: [references]
 complexity: foundational
-last_updated: 2025-12-12
-estimated_tokens: 400
+last_updated: 2026-03-03
+estimated_tokens: 450
 ---
 
 # Glossary
@@ -35,6 +35,8 @@ estimated_tokens: 400
 | **Atomic Content** | Self-contained, single-purpose files optimized for retrieval. |
 | **Two-Schema Architecture** | Separation of global user config from distributable project config. |
 | **CAB** | cc-architecture-builder — standardized framework and plugin for building custom LLM solutions using Claude Code. |
+| **Orchestrator** | Main agent that routes tasks, delegates to specialists, synthesizes results, and manages state. Set via `"agent": "orchestrator"` in settings.json. |
+| **Cowork** | Anthropic's desktop automation tool for non-developer AI workflows and enterprise plugin distribution (beta). |
 
 ## Invocation Patterns
 

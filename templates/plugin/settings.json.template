@@ -1,4 +1,6 @@
 {
+  "model": "sonnet",
+  "agent": "orchestrator",
   "permissions": {
     "allow": [
       "Bash(npm run test:*)",
@@ -6,10 +8,13 @@
       "Bash(npm run build:*)",
       "Bash(npm run typecheck:*)",
       "Bash(npm run format:*)",
-      "Bash(git status:*)",
-      "Bash(git diff:*)",
-      "Bash(git log:*)"
-    ]
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git log)",
+      "Bash(git add)",
+      "Bash(git commit)"
+    ],
+    "deny": []
   },
   "hooks": {
     "PostToolUse": [

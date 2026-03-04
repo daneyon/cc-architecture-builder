@@ -7,8 +7,8 @@ summary: Complete specification for the global user configuration at ~/.claude/,
 depends_on: [executive-summary, architecture-philosophy]
 related: [distributable-plugin, memory-claudemd]
 complexity: intermediate
-last_updated: 2025-12-12
-estimated_tokens: 700
+last_updated: 2026-03-03
+estimated_tokens: 800
 ---
 
 # Global User Configuration (Schema 1)
@@ -27,19 +27,22 @@ Schema 1 defines your **personal baseline**—configuration that applies across 
 ```
 ~/.claude/
 ├── CLAUDE.md                     # Personal baseline (always loaded)
-├── settings.json                 # User settings (model, permissions)
+├── settings.json                 # User settings (model, permissions, default agent)
+│
+├── rules/                        # Personal modular rules (always loaded)
+│   ├── preferences.md
+│   └── workflows.md
 │
 ├── skills/                       # Personal skills (cross-project)
-│   ├── research-methodology/
-│   │   └── SKILL.md
-│   └── technical-writing/
+│   └── research-methodology/
 │       └── SKILL.md
 │
-├── agents/                       # Personal subagents
+├── agents/                       # Personal agents (orchestrator + specialists)
+│   ├── orchestrator.md           # Default agent for multi-agent operation
 │   └── general-researcher.md
 │
-└── shared-preferences/           # Reusable preference files
-    └── project-preferences.md    # Template for project-specific prefs
+└── shared-knowledge/             # Cross-project reference materials (optional)
+    └── frameworks/
 ```
 
 ## CLAUDE.md Template
@@ -95,27 +98,27 @@ Schema 1 defines your **personal baseline**—configuration that applies across 
 ```json
 {
   "model": "sonnet",
+  "agent": "orchestrator",
   "permissions": {
     "allow": [
-      "Read",
-      "Write",
-      "Edit",
-      "Bash(git *)",
-      "Bash(npm *)",
-      "Bash(python *)"
+      "Read", "Write", "Edit",
+      "Bash(git *)", "Bash(npm *)", "Bash(python *)"
     ],
     "deny": []
   }
 }
 ```
 
-### Common Settings
+### Key Settings
 
 | Setting | Description | Example Values |
 |---------|-------------|----------------|
 | `model` | Default model | `"sonnet"`, `"opus"`, `"haiku"` |
+| `agent` | Default agent for all sessions | `"orchestrator"` — enables multi-agent autonomous operation |
 | `permissions.allow` | Pre-approved tools | `["Read", "Write", "Bash(git *)"]` |
 | `permissions.deny` | Blocked tools | `["Bash(rm -rf *)"]` |
+
+Setting `"agent": "orchestrator"` makes the orchestrator the default for all conversations — the foundation for autonomous multi-agent operation.
 
 ## Personal Skills
 

@@ -1,10 +1,10 @@
 ---
 type: index
 scope: master
-file_count: 25
-last_updated: 2026-02-25
-version: 0.6.0
-changelog: "v0.6.0 — Added orchestration-framework.md (canonical workflow patterns, task execution protocol, failure modes, cost model, delegation templates, state management). Revised multi-agent-collaboration.md to v2.0 (worktrees-first, Agent Teams, effort scaling, cross-session persistence)."
+file_count: 26
+last_updated: 2026-03-03
+version: 0.8.0
+changelog: "v0.8.0 — Added cowork.md (desktop automation, enterprise distribution). Updated global-user-config.md (agent field, orchestrator pattern, rules/). Updated orchestration-framework.md (Tenet 6: autonomous multi-agent operation, global-as-orchestrator). Distribution INDEX updated."
 ---
 
 # Knowledge Base Index
@@ -19,7 +19,7 @@ changelog: "v0.6.0 — Added orchestration-framework.md (canonical workflow patt
 | `prerequisites/` | 2 | Git foundation, security defaults |
 | `schemas/` | 2 | Global user config, distributable plugin |
 | `components/` | 7 | Deep dives on each component type |
-| `distribution/` | 1 | Marketplace and sharing |
+| `distribution/` | 2 | Marketplace, sharing, Cowork |
 | `operational-patterns/` | 4 | Orchestration, worktrees, sessions, multi-agent |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |

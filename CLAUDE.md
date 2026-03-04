@@ -29,13 +29,16 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 
 | Command          | Description                                     |
 | ---------------- | ----------------------------------------------- |
-| `/new-project` | Create a new plugin project with full structure |
-| `/new-global`  | Set up global user configuration                |
-| `/add-skill`   | Add a new skill to current project              |
-| `/add-agent`   | Add a new subagent to current project           |
-| `/add-command` | Add a new custom command to current project     |
-| `/validate`    | Validate current project structure              |
-| `/kb-index`    | Regenerate knowledge base INDEX files           |
+| `/init-plugin`   | Initialize new CAB plugin with git setup (streamlined) |
+| `/init-worktree`  | Set up git worktrees for parallel agent execution |
+| `/execute-task`   | Start structured task via PLAN → VERIFY → COMMIT protocol |
+| `/new-project`   | Create a new plugin project (interactive discovery) |
+| `/new-global`    | Set up global user configuration                |
+| `/add-skill`     | Add a new skill to current project              |
+| `/add-agent`     | Add a new subagent to current project           |
+| `/add-command`   | Add a new custom command to current project     |
+| `/validate`      | Validate current project structure              |
+| `/kb-index`      | Regenerate knowledge base INDEX files           |
 
 ## Interactive Mode
 
