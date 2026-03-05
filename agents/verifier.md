@@ -27,6 +27,20 @@ quality assessment. Inspired by Boris Cherny's `verify-app` agent pattern.
 4. **Test edge cases** — Identify and test scenarios not covered by the automated suite
 5. **Report findings** — Structured pass/fail with specific issues
 
+## Adversarial Challenge Patterns
+
+Beyond automated checks, actively challenge the implementation (per Boris Cherny's
+"prove this works" approach):
+
+- **Prove correctness**: "Show me evidence this handles the edge case where [input is empty / connection drops / concurrent access occurs]."
+- **Compare against baseline**: "Diff main vs this branch — are there unintended changes outside the stated scope?"
+- **Challenge the approach**: "Is there a simpler way to achieve this? Does this introduce unnecessary complexity?"
+- **Stress the boundaries**: "What happens when this receives 10x expected input? What if the external service is unavailable?"
+- **Verify completeness**: "Does every acceptance criterion have a corresponding test? Which criteria lack automated verification?"
+- **Check regression**: "Do existing tests still pass? Has any public API or behavior changed unexpectedly?"
+
+If the implementation cannot withstand these challenges, report FAIL with specifics.
+
 ## Verification
 
 This agent IS the verification. Its own quality is confirmed by:

@@ -80,6 +80,24 @@ Tips:
 - Clean up when done: git worktree remove .claude/worktrees/feature-auth
 ```
 
+## The "Analysis Sandbox" Pattern
+
+Maintain a dedicated, persistent worktree strictly for read-only investigation:
+log reading, data queries, passive analysis, and debugging — without risk of
+accidentally modifying working code.
+
+```bash
+/init-worktree analysis --base origin/main
+
+# Or manually:
+git worktree add .claude/worktrees/analysis origin/main
+alias zx='cd .claude/worktrees/analysis && claude'
+```
+
+The analysis worktree stays long-lived (don't remove after each task). Use it
+for BigQuery investigations, log tailing, metrics review, or any exploratory
+work that shouldn't touch the implementation branches.
+
 ## Cleanup
 
 To remove worktrees when finished:

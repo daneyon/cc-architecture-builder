@@ -83,6 +83,15 @@ Human oversight touchpoints are limited to: strategic direction, periodic KB upd
 
 **Executable Extension**: The `executing-tasks` skill and `/execute-task` command encode this protocol into operational extensions that agents invoke automatically.
 
+### Important: The Probabilistic Nature of Agent Behavior
+
+Context engineering increases the *probability* of desired outcomes — it does not
+guarantee them (per Birgitta Böckeler, Thoughtworks). As long as LLMs are involved,
+we think in probabilities and choose the right level of human oversight for the job.
+This is precisely why verification is an architectural requirement (Tenet 2), not
+an optional nicety — it's the mechanism that catches the inevitable cases where
+probability doesn't go your way.
+
 ---
 
 ## Canonical Agentic Workflow Patterns

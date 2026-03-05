@@ -153,6 +153,19 @@ Practical tips from Boris Cherny, creator of Claude Code, validated against Opus
 
 ---
 
+## Context Engineering References (v0.8.0 Sources)
+
+These sources inform the context health, filesystem-as-context, and session management patterns.
+
+| Source | URL | Key Topics |
+|--------|-----|------------|
+| Koylan — Agent Skills for Context Engineering | https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering | Context fundamentals, degradation patterns, compression, filesystem-context, memory systems, multi-agent patterns, evaluation |
+| Jarrod Watts — Practical Context Engineering | https://x.com/jarrodwatts/status/2008495347115630701 | Value-dense context, continue/compact/fresh decisions, context monitoring (Claude HUD plugin) |
+| Fowler/Böckeler — Context Engineering for Coding Agents | https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html | Instructions vs guidance taxonomy, "who decides to load" framework, illusion of control, CC feature overview |
+| High Agency (George Mack) | https://www.highagency.com/ | Clear thinking + bias to action + disagreeability as foundational human operator philosophy |
+
+---
+
 ## Keeping Links Updated
 
 Claude Code documentation URLs may change over time. To verify current links:

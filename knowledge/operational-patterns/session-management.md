@@ -7,8 +7,8 @@ summary: Managing Claude Code conversation state including resuming sessions, ac
 depends_on: []
 related: [git-worktree, multi-agent-collaboration, orchestration-framework]
 complexity: foundational
-last_updated: 2025-12-12
-estimated_tokens: 350
+last_updated: 2026-03-03
+estimated_tokens: 900
 ---
 
 # Session Management
@@ -122,6 +122,99 @@ Sessions are scoped to working directory:
 | `/history` | View session history |
 | `/resume` | Interactive resume |
 | `/clear` | Clear current session (new start) |
+
+## Advanced Session Patterns
+
+### Cross-Device Fluidity
+
+Move active sessions between CLI and browser for mobile/desktop check-ins:
+
+```bash
+# Transfer current session to claude.ai/code for browser access
+claude --teleport
+```
+
+This enables monitoring long-running tasks from a phone or different machine
+without losing context.
+
+### Background Execution
+
+Offload thinking-heavy or long-running tasks to background:
+
+```bash
+# Run task in background (standard bash)
+claude -p "analyze this codebase and write a report to notes/analysis.md" &
+
+# Check status
+jobs
+
+# Bring back to foreground
+fg
+```
+
+Combine with system notifications to know when background tasks need input.
+
+### Plan Mode Shortcuts
+
+For non-trivial tasks, force plan-first execution:
+
+- **Interactive**: Press `Shift+Tab` twice to enter Plan Mode before executing
+- **CLI flag**: `claude --plan` to start in plan-only mode
+- **In-session**: Type "plan mode" or use Shift+Tab toggle
+
+Plan Mode makes Claude outline architecture and specs before writing any code.
+The CAB `executing-tasks` skill enforces this automatically for delegated work.
+
+### Status Monitoring
+
+```bash
+# Enable statusline to monitor context usage and git branch
+/statusline
+```
+
+Shows real-time context window usage percentage, active git branch, and session
+ID — critical for managing multiple concurrent worktree sessions.
+
+## Context Health: Continue, Compact, or Fresh?
+
+As sessions grow, context quality degrades. Use this decision framework:
+
+| Signal | Action |
+|--------|--------|
+| Task going well, related work ahead | **Continue** — momentum is valuable |
+| Context >70% full, work still on-track | **Compact** — run `/compact` to reclaim space. The ~22.5% buffer exists for auto-compaction. |
+| Stuck in fix→slop→fix loop | **Fresh session** — stop. The current context is poisoned. Start clean with a focused prompt. |
+| Switching to unrelated domain/task | **Fresh session** — stale context from prior task dilutes new task quality |
+| Long session, occasional drift | **Compact + re-anchor** — compact, then re-state the current objective clearly |
+
+**Key insight** (per Jarrod Watts): Every token in context should aim to aid the LLM's
+next request. If it's not doing that, you're accumulating noise that degrades output.
+
+**Context degradation patterns** (per Koylan): As context length increases, models
+exhibit predictable failures — "lost in the middle" (middle content gets less
+attention), U-shaped attention curves, and attention scarcity. Keep high-priority
+information at the start and end of context, not buried in the middle.
+
+**Practical monitoring**:
+- Use `/statusline` to track context fullness in real-time
+- Use `/context` to see what's consuming space and prune if needed
+- Compact proactively at ~70% rather than waiting for auto-compact
+
+## Filesystem as Context Store
+
+The filesystem is a persistent context layer that survives compaction and session
+boundaries. Use it strategically:
+
+| Pattern | Implementation | When |
+|---------|---------------|------|
+| **Plan persistence** | Write plans to `notes/current-task.md` | Before executing multi-step work |
+| **Tool output offloading** | Write large outputs to files instead of keeping in context | When tool results exceed ~500 lines |
+| **Scratch pad** | Use `notes/scratch.md` for intermediate reasoning | During complex analysis |
+| **Progress tracking** | Update `notes/progress.md` after each subtask | Cross-session task continuity |
+| **State snapshots** | Save key decisions/context before compaction | Before `/compact` on complex sessions |
+
+This keeps the conversation context lean (high signal-to-noise) while preserving
+full detail on disk for later retrieval.
 
 ## Limitations
 

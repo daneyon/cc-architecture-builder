@@ -32,6 +32,9 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 | `/init-plugin`   | Initialize new CAB plugin with git setup (streamlined) |
 | `/init-worktree`  | Set up git worktrees for parallel agent execution |
 | `/execute-task`   | Start structured task via PLAN → VERIFY → COMMIT protocol |
+| `/commit-push-pr`  | Stage, commit, push, and create PR in one workflow |
+| `/techdebt`        | Scan codebase for tech debt, duplication, stale markers |
+| `/context-sync`    | Pull recent activity into session context summary |
 | `/new-project`   | Create a new plugin project (interactive discovery) |
 | `/new-global`    | Set up global user configuration                |
 | `/add-skill`     | Add a new skill to current project              |

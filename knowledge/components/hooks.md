@@ -226,6 +226,56 @@ Hooks receive JSON input via stdin:
 4. **Test matchers**: Verify hooks trigger on intended events
 5. **Use JSON output for complex control**: When simple exit codes aren't enough
 
+## Advanced Pattern: Security Routing
+
+Use PreToolUse hooks to intercept sensitive operations and apply additional
+scrutiny — blocking dangerous commands, requiring confirmation, or logging
+for audit:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./hooks/scripts/security-gate.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Example `security-gate.sh` (reads tool_input from stdin):
+
+```bash
+#!/bin/bash
+# Block destructive commands, log sensitive operations
+INPUT=$(cat)
+CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+
+# Block known-dangerous patterns
+if echo "$CMD" | grep -qE 'rm -rf /|DROP TABLE|FORMAT|mkfs'; then
+  echo '{"decision": "block", "reason": "Destructive command blocked by security hook"}'
+  exit 0
+fi
+
+# Log operations on sensitive paths
+if echo "$CMD" | grep -qE '\.env|credentials|secrets|private'; then
+  echo "[SECURITY] $(date): Sensitive path access: $CMD" >> "${CLAUDE_PLUGIN_ROOT}/logs/security.log"
+fi
+
+# Allow by default
+exit 0
+```
+
+This pattern can be extended to route security-sensitive tasks to a stronger
+model or require human approval for specific operations.
+
 ## See Also
 
 - [Custom Commands](custom-commands.md) — User-invoked actions
