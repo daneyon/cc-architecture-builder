@@ -62,6 +62,7 @@ cc-architecture-builder.code-workspace
 
 # Exclude a specific folder
 docs/
+docs/00_architecture/
 # Exclude a specific file
 #docs/Claude_Project/00_architecture/claude_code_architecture_guide_human-facing.md
 # Exclude by pattern
