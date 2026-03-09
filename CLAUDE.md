@@ -29,6 +29,7 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 
 | Command          | Description                                     |
 | ---------------- | ----------------------------------------------- |
+| `/integrate-existing` | Overlay CC architecture onto an existing project (auto-discover + guided) |
 | `/init-plugin`   | Initialize new CAB plugin with git setup (streamlined) |
 | `/init-worktree`  | Set up git worktrees for parallel agent execution |
 | `/execute-task`   | Start structured task via PLAN → VERIFY → COMMIT protocol |
