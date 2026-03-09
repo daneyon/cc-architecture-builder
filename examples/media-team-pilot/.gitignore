@@ -1,0 +1,34 @@
+# Temporary pipeline artifacts
+temp/assets/
+temp/research-brief.md
+temp/script.json
+temp/image-prompts.json
+temp/pipeline-progress.json
+!temp/.gitkeep
+
+# Generated output (large binary files)
+output/*.mp4
+output/*.avi
+output/*.mov
+!output/.gitkeep
+!output/metadata.json
+
+# Provider secrets
+providers/config.local.json
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
