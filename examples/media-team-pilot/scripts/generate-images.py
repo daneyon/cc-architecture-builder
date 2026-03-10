@@ -24,9 +24,15 @@ from providers.base import load_provider, ProviderError
 def main():
     parser = argparse.ArgumentParser(description="Generate images from scene prompts")
     parser.add_argument("--prompts", required=True, help="Path to image-prompts.json")
-    parser.add_argument("--output-dir", required=True, help="Output directory for images")
+    parser.add_argument(
+        "--output-dir", required=True, help="Output directory for images"
+    )
     parser.add_argument("--config", required=True, help="Path to provider config.json")
-    parser.add_argument("--scenes", default=None, help="Comma-separated scene numbers to generate (e.g., 3,5,7)")
+    parser.add_argument(
+        "--scenes",
+        default=None,
+        help="Comma-separated scene numbers to generate (e.g., 3,5,7)",
+    )
     args = parser.parse_args()
 
     # Load configs
@@ -101,7 +107,9 @@ def main():
     generated_count = len(scenes) - len(errors)
     target_count = len(scenes)
     total = len(prompts_data.get("scenes", []))
-    print(f"\nGeneration complete: {generated_count}/{target_count} targeted scenes ({total} total in script)")
+    print(
+        f"\nGeneration complete: {generated_count}/{target_count} targeted scenes ({total} total in script)"
+    )
 
     if errors:
         sys.exit(1)

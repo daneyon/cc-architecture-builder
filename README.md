@@ -7,6 +7,7 @@ A standardized framework and interactive Claude Code plugin for building custom 
 ## Overview
 
 CAB provides:
+
 - **Global user configurations** (`~/.claude/`) with personal preferences
 - **Distributable plugin projects** with marketplace-ready structure
 - **Knowledge bases** optimized for Claude Code's retrieval patterns
@@ -96,12 +97,14 @@ This builder implements a two-schema architecture:
 ## Documentation
 
 Full architecture documentation is available in `knowledge/`:
+
 - `knowledge/INDEX.md` — Master index
 - `knowledge/overview/` — Philosophy and principles
 - `knowledge/components/` — Component deep dives
 - `knowledge/operational-patterns/` — **Orchestration framework**, worktrees, sessions, multi-agent
 
 Key v0.6.0 additions:
+
 - `knowledge/operational-patterns/orchestration-framework.md` — Canonical patterns, cost model, failure modes
 - `agents/verifier.md` — Verification specialist agent
 - `templates/plugin/settings.json.template` — Starter settings with hooks
@@ -109,6 +112,7 @@ Key v0.6.0 additions:
 ## Security
 
 All scaffolded projects follow security best practices:
+
 - Git repositories are **private by default**
 - `.gitignore` excludes sensitive files
 - Pre-publication checklist included
@@ -116,4 +120,4 @@ All scaffolded projects follow security best practices:
 
 ## License
 
-MIT
+see @LICENSE

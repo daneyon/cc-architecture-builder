@@ -9,32 +9,33 @@ import struct
 from pathlib import Path
 
 import sys
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from providers.base import ImageProvider
 
 
 # Scene colors — visually distinct per scene for easy identification
 SCENE_COLORS = [
-    (70, 130, 180),   # Steel blue
-    (34, 139, 34),    # Forest green
-    (178, 34, 34),    # Firebrick
-    (218, 165, 32),   # Goldenrod
-    (75, 0, 130),     # Indigo
-    (255, 127, 80),   # Coral
-    (0, 128, 128),    # Teal
-    (199, 21, 133),   # Medium violet red
-    (85, 107, 47),    # Dark olive green
+    (70, 130, 180),  # Steel blue
+    (34, 139, 34),  # Forest green
+    (178, 34, 34),  # Firebrick
+    (218, 165, 32),  # Goldenrod
+    (75, 0, 130),  # Indigo
+    (255, 127, 80),  # Coral
+    (0, 128, 128),  # Teal
+    (199, 21, 133),  # Medium violet red
+    (85, 107, 47),  # Dark olive green
     (100, 149, 237),  # Cornflower blue
-    (210, 105, 30),   # Chocolate
+    (210, 105, 30),  # Chocolate
     (147, 112, 219),  # Medium purple
-    (60, 179, 113),   # Medium sea green
-    (255, 99, 71),    # Tomato
-    (106, 90, 205),   # Slate blue
-    (244, 164, 96),   # Sandy brown
-    (72, 209, 204),   # Medium turquoise
+    (60, 179, 113),  # Medium sea green
+    (255, 99, 71),  # Tomato
+    (106, 90, 205),  # Slate blue
+    (244, 164, 96),  # Sandy brown
+    (72, 209, 204),  # Medium turquoise
     (219, 112, 147),  # Pale violet red
     (143, 188, 143),  # Dark sea green
-    (205, 133, 63),   # Peru
+    (205, 133, 63),  # Peru
 ]
 
 
@@ -82,7 +83,9 @@ class PlaceholderImageProvider(ImageProvider):
         # Add scene text
         text = prompt[:80] + "..." if len(prompt) > 80 else prompt
         try:
-            font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28)
+            font = ImageFont.truetype(
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28
+            )
         except (OSError, IOError):
             font = ImageFont.load_default()
 
@@ -96,17 +99,29 @@ class PlaceholderImageProvider(ImageProvider):
         # Draw text with background
         padding = 20
         draw.rectangle(
-            [x - padding, y - padding, x + text_width + padding, y + text_height + padding],
+            [
+                x - padding,
+                y - padding,
+                x + text_width + padding,
+                y + text_height + padding,
+            ],
             fill=(0, 0, 0, 128),
         )
         draw.text((x, y), text, fill=(255, 255, 255), font=font)
 
         # Add "PLACEHOLDER" watermark
         try:
-            wm_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 48)
+            wm_font = ImageFont.truetype(
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 48
+            )
         except (OSError, IOError):
             wm_font = ImageFont.load_default()
-        draw.text((width // 2 - 150, height - 80), "PLACEHOLDER", fill=(255, 255, 255, 100), font=wm_font)
+        draw.text(
+            (width // 2 - 150, height - 80),
+            "PLACEHOLDER",
+            fill=(255, 255, 255, 100),
+            font=wm_font,
+        )
 
         img.save(str(output_path), "PNG")
 

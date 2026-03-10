@@ -46,11 +46,17 @@ def resolve_voice(narration_voice_style: str, default: str = "alloy") -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate TTS audio from script narration")
+    parser = argparse.ArgumentParser(
+        description="Generate TTS audio from script narration"
+    )
     parser.add_argument("--script", required=True, help="Path to script.json")
-    parser.add_argument("--output-dir", required=True, help="Output directory for audio files")
+    parser.add_argument(
+        "--output-dir", required=True, help="Output directory for audio files"
+    )
     parser.add_argument("--config", required=True, help="Path to provider config.json")
-    parser.add_argument("--scenes", default=None, help="Comma-separated scene numbers to generate")
+    parser.add_argument(
+        "--scenes", default=None, help="Comma-separated scene numbers to generate"
+    )
     args = parser.parse_args()
 
     # Load configs
@@ -80,7 +86,9 @@ def main():
         sys.exit(1)
 
     # Determine voice from script style
-    narration_style = script_data.get("style", {}).get("narration_voice", "calm, storytelling")
+    narration_style = script_data.get("style", {}).get(
+        "narration_voice", "calm, storytelling"
+    )
     voice = resolve_voice(narration_style, tts_settings.get("default_voice", "alloy"))
     speed = tts_settings.get("default_speed", 1.0)
     audio_format = tts_settings.get("default_format", "mp3")
@@ -133,7 +141,9 @@ def main():
     generated_count = len(scenes) - len(errors)
     target_count = len(scenes)
     total = len(script_data.get("scenes", []))
-    print(f"\nSynthesis complete: {generated_count}/{target_count} targeted scenes ({total} total in script)")
+    print(
+        f"\nSynthesis complete: {generated_count}/{target_count} targeted scenes ({total} total in script)"
+    )
 
     if errors:
         sys.exit(1)

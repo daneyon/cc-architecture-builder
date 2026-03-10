@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 import sys
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from providers.base import ImageProvider, ProviderError
 
@@ -15,7 +16,9 @@ class StabilityAIProvider(ImageProvider):
         self.settings = settings
         self.api_key = os.environ.get("STABILITY_API_KEY")
         if not self.api_key:
-            raise ProviderError("stability_ai", "STABILITY_API_KEY environment variable not set")
+            raise ProviderError(
+                "stability_ai", "STABILITY_API_KEY environment variable not set"
+            )
 
     def generate(
         self,
@@ -46,17 +49,23 @@ class StabilityAIProvider(ImageProvider):
 
         api_url = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image"
 
-        payload = json.dumps({
-            "text_prompts": [
-                {"text": full_prompt, "weight": 1.0},
-                *([{"text": negative_prompt, "weight": -1.0}] if negative_prompt else []),
-            ],
-            "cfg_scale": 7,
-            "width": width,
-            "height": height,
-            "samples": 1,
-            "steps": 30,
-        }).encode()
+        payload = json.dumps(
+            {
+                "text_prompts": [
+                    {"text": full_prompt, "weight": 1.0},
+                    *(
+                        [{"text": negative_prompt, "weight": -1.0}]
+                        if negative_prompt
+                        else []
+                    ),
+                ],
+                "cfg_scale": 7,
+                "width": width,
+                "height": height,
+                "samples": 1,
+                "steps": 30,
+            }
+        ).encode()
 
         req = urllib.request.Request(
             api_url,
@@ -73,6 +82,7 @@ class StabilityAIProvider(ImageProvider):
                 data = json.loads(response.read())
 
             import base64
+
             image_data = base64.b64decode(data["artifacts"][0]["base64"])
 
             output_path = Path(output_path)
@@ -82,4 +92,6 @@ class StabilityAIProvider(ImageProvider):
             return output_path
 
         except Exception as e:
-            raise ProviderError("stability_ai", str(e), retriable="rate" in str(e).lower())
+            raise ProviderError(
+                "stability_ai", str(e), retriable="rate" in str(e).lower()
+            )
