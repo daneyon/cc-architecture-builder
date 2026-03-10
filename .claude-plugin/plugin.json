@@ -1,17 +1,21 @@
 {
   "name": "cc-architecture-builder",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "CAB (cc-architecture-builder): Standardized framework for building custom LLM solutions using Claude Code. Provides autonomous multi-agent orchestration, base architecture patterns, standard task execution protocol, verification-first development, and best practices for CC extensions (skills, agents, commands, hooks, MCP).",
   "author": {
-    "name": "Daneyon"
+    "name": "Daniel Kang",
+    "url": "https://github.com/daneyon"
   },
-  "repository": "",
-  "license": "[INTERNAL USE ONLY]",
+  "repository": "https://github.com/daneyon/cc-architecture-builder",
+  "license": "MIT",
   "keywords": [
     "architecture",
     "scaffolding",
     "project-builder",
     "knowledge-base",
-    "custom-llm"
+    "custom-llm",
+    "orchestration",
+    "context-engineering",
+    "claude-code"
   ]
 }
