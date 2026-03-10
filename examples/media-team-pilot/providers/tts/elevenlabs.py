@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 import sys
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from providers.base import TTSProvider, ProviderError
 
@@ -25,7 +26,9 @@ class ElevenLabsTTSProvider(TTSProvider):
         self.settings = settings
         self.api_key = os.environ.get("ELEVENLABS_API_KEY")
         if not self.api_key:
-            raise ProviderError("elevenlabs", "ELEVENLABS_API_KEY environment variable not set")
+            raise ProviderError(
+                "elevenlabs", "ELEVENLABS_API_KEY environment variable not set"
+            )
 
     def synthesize(
         self,
@@ -43,14 +46,16 @@ class ElevenLabsTTSProvider(TTSProvider):
 
         api_url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
 
-        payload = json.dumps({
-            "text": text,
-            "model_id": "eleven_monolingual_v1",
-            "voice_settings": {
-                "stability": 0.5,
-                "similarity_boost": 0.75,
-            },
-        }).encode()
+        payload = json.dumps(
+            {
+                "text": text,
+                "model_id": "eleven_monolingual_v1",
+                "voice_settings": {
+                    "stability": 0.5,
+                    "similarity_boost": 0.75,
+                },
+            }
+        ).encode()
 
         req = urllib.request.Request(
             api_url,
@@ -72,4 +77,6 @@ class ElevenLabsTTSProvider(TTSProvider):
             return output_path
 
         except Exception as e:
-            raise ProviderError("elevenlabs", str(e), retriable="rate" in str(e).lower())
+            raise ProviderError(
+                "elevenlabs", str(e), retriable="rate" in str(e).lower()
+            )

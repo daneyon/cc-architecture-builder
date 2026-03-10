@@ -8,6 +8,7 @@ import subprocess
 from pathlib import Path
 
 import sys
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from providers.base import TTSProvider
 
@@ -48,12 +49,18 @@ class PlaceholderTTSProvider(TTSProvider):
         """Generate silent audio using ffmpeg."""
         # Generate a sine wave at very low volume (quasi-silent but valid audio)
         cmd = [
-            "ffmpeg", "-y",
-            "-f", "lavfi",
-            "-i", f"sine=frequency=440:duration={duration:.1f}",
-            "-af", "volume=0.01",
-            "-ar", "44100",
-            "-ac", "1",
+            "ffmpeg",
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            f"sine=frequency=440:duration={duration:.1f}",
+            "-af",
+            "volume=0.01",
+            "-ar",
+            "44100",
+            "-ac",
+            "1",
         ]
 
         if format == "mp3":

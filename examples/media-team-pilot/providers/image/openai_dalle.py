@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 import sys
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from providers.base import ImageProvider, ProviderError
 
@@ -15,7 +16,9 @@ class OpenAIDalleProvider(ImageProvider):
         self.settings = settings
         self.api_key = os.environ.get("OPENAI_API_KEY")
         if not self.api_key:
-            raise ProviderError("openai_dalle", "OPENAI_API_KEY environment variable not set")
+            raise ProviderError(
+                "openai_dalle", "OPENAI_API_KEY environment variable not set"
+            )
 
     def generate(
         self,
@@ -58,6 +61,7 @@ class OpenAIDalleProvider(ImageProvider):
 
             # Download the image
             import urllib.request
+
             output_path = Path(output_path)
             output_path.parent.mkdir(parents=True, exist_ok=True)
             urllib.request.urlretrieve(image_url, str(output_path))
@@ -65,4 +69,6 @@ class OpenAIDalleProvider(ImageProvider):
             return output_path
 
         except Exception as e:
-            raise ProviderError("openai_dalle", str(e), retriable="rate" in str(e).lower())
+            raise ProviderError(
+                "openai_dalle", str(e), retriable="rate" in str(e).lower()
+            )

@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 import sys
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from providers.base import TTSProvider, ProviderError
 
@@ -15,7 +16,9 @@ class OpenAITTSProvider(TTSProvider):
         self.settings = settings
         self.api_key = os.environ.get("OPENAI_API_KEY")
         if not self.api_key:
-            raise ProviderError("openai_tts", "OPENAI_API_KEY environment variable not set")
+            raise ProviderError(
+                "openai_tts", "OPENAI_API_KEY environment variable not set"
+            )
 
     def synthesize(
         self,
@@ -57,4 +60,6 @@ class OpenAITTSProvider(TTSProvider):
             return output_path
 
         except Exception as e:
-            raise ProviderError("openai_tts", str(e), retriable="rate" in str(e).lower())
+            raise ProviderError(
+                "openai_tts", str(e), retriable="rate" in str(e).lower()
+            )

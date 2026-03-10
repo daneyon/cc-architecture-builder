@@ -76,7 +76,9 @@ class ProviderError(Exception):
         super().__init__(f"[{provider}] {message}")
 
 
-def load_provider(provider_type: str, provider_name: str, settings: Optional[dict] = None):
+def load_provider(
+    provider_type: str, provider_name: str, settings: Optional[dict] = None
+):
     """Load a provider by type and name.
 
     Args:
@@ -90,25 +92,33 @@ def load_provider(provider_type: str, provider_name: str, settings: Optional[dic
     if provider_type == "image":
         if provider_name == "placeholder":
             from providers.image.placeholder import PlaceholderImageProvider
+
             return PlaceholderImageProvider(settings or {})
         elif provider_name == "openai_dalle":
             from providers.image.openai_dalle import OpenAIDalleProvider
+
             return OpenAIDalleProvider(settings or {})
         elif provider_name == "stability_ai":
             from providers.image.stability_ai import StabilityAIProvider
+
             return StabilityAIProvider(settings or {})
         else:
-            raise ProviderError(provider_name, f"Unknown image provider: {provider_name}")
+            raise ProviderError(
+                provider_name, f"Unknown image provider: {provider_name}"
+            )
 
     elif provider_type == "tts":
         if provider_name == "placeholder":
             from providers.tts.placeholder import PlaceholderTTSProvider
+
             return PlaceholderTTSProvider(settings or {})
         elif provider_name == "openai_tts":
             from providers.tts.openai_tts import OpenAITTSProvider
+
             return OpenAITTSProvider(settings or {})
         elif provider_name == "elevenlabs":
             from providers.tts.elevenlabs import ElevenLabsTTSProvider
+
             return ElevenLabsTTSProvider(settings or {})
         else:
             raise ProviderError(provider_name, f"Unknown TTS provider: {provider_name}")
