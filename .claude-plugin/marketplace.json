@@ -1,12 +1,12 @@
 {
-  "name": "cc-architecture-builder",
+  "name": "cab",
   "owner": {
     "name": "Daniel Kang",
     "url": "https://github.com/daneyon"
   },
   "plugins": [
     {
-      "name": "cc-architecture-builder",
+      "name": "cab",
       "source": "./",
       "description": "CAB: Standardized framework for building custom LLM solutions using Claude Code. Multi-agent orchestration, verification-first development, and best practices for CC extensions.",
       "version": "0.8.1"
