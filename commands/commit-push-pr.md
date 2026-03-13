@@ -1,5 +1,5 @@
 ---
-description: Stage changes, commit with descriptive message, push to remote, and create a pull request in one workflow
+description: Stage changes, commit with concise, descriptive message, push to remote, and create a pull request in one workflow
 allowed-tools: Read, Bash, Grep
 ---
 # Commit Push PR
