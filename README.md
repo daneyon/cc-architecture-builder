@@ -121,6 +121,16 @@ CAB implements a two-schema architecture:
 └─────────────────────────────────────────────┘
 ```
 
+## Media & Presentations
+
+Supplementary media for the v1.0.0 release (hosted as [release assets](https://github.com/daneyon/cc-architecture-builder/releases/tag/v1.0.0)):
+
+| Resource | Format | Description |
+|----------|--------|-------------|
+| [Architecture Walkthrough](https://github.com/daneyon/cc-architecture-builder/releases/download/v1.0.0/Claude_Code_Architecture_2026-03-05.mp4) | MP4 | Video walkthrough of the CAB architecture |
+| [Architecture Blueprint](https://github.com/daneyon/cc-architecture-builder/releases/download/v1.0.0/Claude_Code_Architecture_Blueprint_2026-03-05.pdf) | PDF | Visual blueprint of the two-schema architecture |
+| [Interactive Introduction](https://github.com/daneyon/cc-architecture-builder/releases/download/v1.0.0/ai-intro-2026_ascent_2026-03-03.html) | HTML | Browser-based interactive introduction |
+
 ## Documentation
 
 Full architecture documentation lives in two places:
