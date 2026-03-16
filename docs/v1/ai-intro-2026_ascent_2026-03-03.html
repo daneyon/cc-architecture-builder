@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<!-- saved from url=(0118)file:///C:/Users/daniel.kang/Desktop/Automoto/Flood_Risk_Manager/docs/ai-intro-2026/ai-intro-2026_ascent_20260303.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolving Dynamics of Day-to-Day Workflows with AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link href="file:///C:/Users/daniel.kang/Desktop/Automoto/Flood_Risk_Manager/docs/ai-intro-2026/presentation-v1.5_revised_latest_files/css2" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafafa;
+            --bg-dark: #0a0a0a;
+            --bg-card: #ffffff;
+            --bg-dark-card: #1a1a1a;
+            --text-primary: #0a0a0a;
+            --text-secondary: #444444;
+            --text-tertiary: #777777;
+            --text-light: #fafafa;
+            --accent-red: #e63322;
+            --accent-red-soft: rgba(230,51,34,0.08);
+            --accent-red-medium: rgba(230,51,34,0.15);
+            --grid-line: rgba(0,0,0,0.045);
+            --divider: rgba(0,0,0,0.1);
+
+            --font-display: 'Archivo', sans-serif;
+            --font-body: 'Nunito', sans-serif;
+
+            /* ENLARGED TYPOGRAPHY — approx 35-40% larger than v1.0 */
+            --title-size: clamp(2.4rem, 6vw, 5rem);
+            --h2-size: clamp(1.8rem, 4.5vw, 3.3rem);
+            --h3-size: clamp(1.2rem, 2.4vw, 1.65rem);
+            --body-size: clamp(0.95rem, 1.7vw, 1.3rem);
+            --small-size: clamp(0.85rem, 1.2vw, 1rem);
+            --label-size: clamp(0.72rem, 1.05vw, 0.88rem);
+
+            --slide-padding: clamp(1.5rem, 4.5vw, 4.5rem);
+            --content-gap: clamp(0.7rem, 2vw, 1.8rem);
+            --element-gap: clamp(0.4rem, 1vw, 0.9rem);
+
+            --ease-out-expo: cubic-bezier(0.16,1,0.3,1);
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html, body { height:100%; overflow-x:hidden; }
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+
+        /* === SLIDE === */
+        .slide {
+            width:100vw; height:100vh; height:100dvh;
+            overflow:hidden; scroll-snap-align:start;
+            display:flex; flex-direction:column; justify-content:center;
+            position:relative; padding:var(--slide-padding);
+        }
+        .slide-content { flex:1; display:flex; flex-direction:column; justify-content:center; max-height:100%; overflow:hidden; }
+
+        /* === GRID BG === */
+        .slide::before {
+            content:''; position:absolute; inset:0;
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: clamp(40px,6vw,80px) clamp(40px,6vw,80px); pointer-events:none; z-index:0;
+        }
+        .slide.dark { background:var(--bg-dark); color:var(--text-light); }
+        .slide.dark::before { background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px); }
+        .slide > * { position:relative; z-index:1; }
+
+        /* === TYPE === */
+        .hero-title { font-family:var(--font-display); font-size:var(--title-size); font-weight:900; line-height:1.0; letter-spacing:-0.04em; text-transform:uppercase; }
+        .slide-title { font-family:var(--font-display); font-size:var(--h2-size); font-weight:900; line-height:1.08; letter-spacing:-0.03em; text-transform:uppercase; }
+        .slide-h3 { font-family:var(--font-display); font-size:var(--h3-size); font-weight:800; letter-spacing:-0.01em; }
+        .accent { color:var(--accent-red); }
+        .body-text { font-family:var(--font-body); font-size:var(--body-size); font-weight:500; color:var(--text-secondary); line-height:1.6; max-width:60ch; }
+        .dark .body-text { color:rgba(255,255,255,0.7); }
+        .label-text { font-family:var(--font-display); font-size:var(--small-size); font-weight:700; color:var(--accent-red); letter-spacing:0.18em; text-transform:uppercase; }
+        strong { color:var(--text-primary); font-weight:700; }
+        .dark strong { color:#fff; }
+
+        /* === STRUCTURAL === */
+        .red-rule { position:relative; padding-left:clamp(1.2rem,2.8vw,2.8rem); }
+        .red-rule::before { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--accent-red); }
+        .divider { width:clamp(50px,10vw,100px); height:3px; background:var(--text-primary); margin:clamp(0.4rem,1vw,0.8rem) 0; }
+        .dark .divider { background:rgba(255,255,255,0.3); }
+        .divider-red { width:clamp(40px,6vw,60px); height:4px; background:var(--accent-red); margin:clamp(0.3rem,0.8vw,0.5rem) 0; }
+
+        /* === SLIDE NUMBER + BLOCK LABEL === */
+        .slide-number { position:absolute; top:clamp(0.8rem,2vw,1.5rem); right:clamp(1.2rem,2.5vw,2.5rem); font-family:var(--font-display); font-size:var(--small-size); font-weight:800; color:var(--text-tertiary); letter-spacing:0.15em; z-index:2; }
+        .dark .slide-number { color:rgba(255,255,255,0.25); }
+        .block-label { position:absolute; top:clamp(0.8rem,2vw,1.5rem); left:var(--slide-padding); font-family:var(--font-display); font-size:var(--label-size); font-weight:800; color:var(--accent-red); letter-spacing:0.18em; text-transform:uppercase; z-index:2; }
+
+        /* === GEO ACCENTS === */
+        .geo-circle { position:absolute; border:3px solid var(--accent-red); border-radius:50%; pointer-events:none; opacity:0.15; }
+        .geo-dot { position:absolute; width:clamp(10px,1.4vw,16px); height:clamp(10px,1.4vw,16px); background:var(--accent-red); border-radius:50%; pointer-events:none; opacity:0.6; }
+
+        /* === STAT CARDS === */
+        .stat-card { background:var(--bg-card); border:1px solid var(--divider); border-radius:clamp(8px,1.2vw,14px); padding:clamp(0.8rem,1.8vw,1.5rem); }
+        .stat-card .stat-value { font-family:var(--font-display); font-size:clamp(1.8rem,4vw,3.2rem); font-weight:900; color:var(--accent-red); line-height:1.1; }
+        .stat-card .stat-label { font-family:var(--font-body); font-size:var(--small-size); font-weight:600; color:var(--text-secondary); margin-top:clamp(0.2rem,0.5vw,0.4rem); line-height:1.45; }
+
+        /* === SPECTRUM === */
+        .spectrum-row { display:flex; align-items:stretch; gap:clamp(0.3rem,0.7vw,0.6rem); margin:clamp(0.5rem,1.2vw,1rem) 0; }
+        .spectrum-item { flex:1; background:var(--bg-card); border:2px solid var(--divider); border-radius:clamp(6px,1vw,10px); padding:clamp(0.5rem,1.2vw,1rem); text-align:center; transition:transform 0.3s ease, box-shadow 0.3s ease; }
+        .spectrum-item:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+        .spectrum-item.active { border-color:var(--accent-red); background:var(--accent-red-soft); box-shadow:0 0 0 3px var(--accent-red-medium); }
+        .spectrum-item .item-label { font-family:var(--font-display); font-size:clamp(0.7rem,1.1vw,0.92rem); font-weight:800; text-transform:uppercase; letter-spacing:0.06em; }
+        .spectrum-item .item-desc { font-family:var(--font-body); font-size:clamp(0.6rem,0.95vw,0.8rem); color:var(--text-secondary); margin-top:clamp(0.15rem,0.35vw,0.25rem); line-height:1.4; }
+        .spectrum-arrow { display:flex; align-items:center; color:var(--accent-red); font-size:clamp(0.8rem,1.3vw,1.1rem); flex-shrink:0; font-weight:900; }
+        .orchestrator-banner { background:var(--bg-dark); color:var(--bg-primary); border-radius:clamp(6px,1vw,10px); padding:clamp(0.5rem,1vw,0.8rem) clamp(0.8rem,1.5vw,1.2rem); display:flex; align-items:center; justify-content:center; gap:clamp(0.3rem,0.6vw,0.5rem); margin-bottom:clamp(0.4rem,0.8vw,0.6rem); }
+        .orchestrator-banner .banner-text { font-family:var(--font-display); font-size:clamp(0.7rem,1.1vw,0.9rem); font-weight:800; text-transform:uppercase; letter-spacing:0.12em; }
+
+        /* === DEFINITION BOX === */
+        .definition-box { background:var(--bg-card); border-left:5px solid var(--accent-red); border-radius:0 clamp(6px,1vw,10px) clamp(6px,1vw,10px) 0; padding:clamp(0.8rem,1.8vw,1.5rem); margin:clamp(0.5rem,1.2vw,1rem) 0; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+        .definition-box .def-term { font-family:var(--font-display); font-size:var(--h3-size); font-weight:800; }
+        .definition-box .def-text { font-family:var(--font-body); font-size:var(--body-size); font-weight:500; color:var(--text-secondary); margin-top:clamp(0.25rem,0.6vw,0.4rem); line-height:1.55; max-width:62ch; }
+
+        /* === TWO COL === */
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:clamp(1rem,3vw,2.5rem); align-items:start; }
+        @media (max-width:768px) { .two-col { grid-template-columns:1fr; } }
+
+        /* === BULLET LIST === */
+        .bullet-list { list-style:none; display:flex; flex-direction:column; gap:var(--element-gap); }
+        .bullet-list li { font-family:var(--font-body); font-size:var(--body-size); font-weight:500; color:var(--text-secondary); line-height:1.55; padding-left:clamp(0.8rem,1.4vw,1.2rem); position:relative; }
+        .dark .bullet-list li { color:rgba(255,255,255,0.7); }
+        .bullet-list li::before { content:''; position:absolute; left:0; top:clamp(0.4rem,0.65vw,0.55rem); width:clamp(6px,0.6vw,8px); height:clamp(6px,0.6vw,8px); background:var(--accent-red); border-radius:50%; }
+
+        /* === KEY MESSAGE === */
+        .key-message { font-family:var(--font-display); font-size:var(--h2-size); font-weight:900; line-height:1.15; max-width:32ch; }
+        .key-message .highlight { color:var(--accent-red); }
+
+        /* === SOURCES === */
+        .sources { position:absolute; bottom:clamp(0.6rem,1.5vw,1.2rem); left:var(--slide-padding); right:var(--slide-padding); font-family:var(--font-body); font-size:var(--label-size); color:var(--text-tertiary); line-height:1.5; }
+        .dark .sources { color:rgba(255,255,255,0.2); }
+
+        /* === IMAGE PLACEHOLDER === */
+        .img-placeholder { background:linear-gradient(135deg,rgba(230,51,34,0.04),rgba(230,51,34,0.08)); border:2px dashed rgba(230,51,34,0.2); border-radius:clamp(8px,1.2vw,14px); display:flex; align-items:center; justify-content:center; min-height:clamp(120px,20vh,280px); color:var(--text-tertiary); font-family:var(--font-display); font-size:var(--small-size); font-weight:700; text-transform:uppercase; letter-spacing:0.1em; }
+
+        /* === WRAPPING LAYERS === */
+        .layer-stack { display:flex; flex-direction:column; gap:clamp(0.25rem,0.6vw,0.4rem); }
+        .layer-item { display:flex; align-items:center; gap:clamp(0.6rem,1.4vw,1.1rem); padding:clamp(0.5rem,1.2vw,0.9rem) clamp(0.8rem,1.6vw,1.3rem); border-radius:clamp(6px,0.8vw,10px); transition:transform 0.2s ease; }
+        .layer-item:hover { transform:translateX(4px); }
+        .layer-item .layer-num { font-family:var(--font-display); font-size:clamp(0.85rem,1.4vw,1.1rem); font-weight:900; min-width:2.5ch; }
+        .layer-item .layer-name { font-family:var(--font-display); font-size:clamp(0.8rem,1.3vw,1.05rem); font-weight:800; text-transform:uppercase; letter-spacing:0.04em; }
+        .layer-item .layer-desc { font-family:var(--font-body); font-size:clamp(0.65rem,1vw,0.85rem); color:var(--text-secondary); margin-left:auto; max-width:42ch; text-align:right; line-height:1.35; }
+        .layer-item:nth-child(1) { background:var(--accent-red); color:white; }
+        .layer-item:nth-child(1) .layer-num { color:rgba(255,255,255,0.5); }
+        .layer-item:nth-child(1) .layer-desc { color:rgba(255,255,255,0.8); }
+        .layer-item:nth-child(2) { background:rgba(230,51,34,0.14); }
+        .layer-item:nth-child(3) { background:rgba(230,51,34,0.09); }
+        .layer-item:nth-child(4) { background:rgba(230,51,34,0.05); }
+        .layer-item:nth-child(5) { background:rgba(0,0,0,0.03); border:2px dashed var(--divider); }
+
+        /* === THREE COL === */
+        .three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(0.6rem,1.5vw,1.25rem); }
+        @media (max-width:768px) { .three-col { grid-template-columns:1fr; } }
+        .tier-card { background:var(--bg-card); border:2px solid var(--divider); border-radius:clamp(8px,1.2vw,14px); padding:clamp(0.7rem,1.6vw,1.3rem); display:flex; flex-direction:column; gap:clamp(0.2rem,0.5vw,0.35rem); transition:transform 0.2s ease, box-shadow 0.2s ease; }
+        .tier-card:hover { transform:translateY(-3px); box-shadow:0 6px 16px rgba(0,0,0,0.08); }
+        .tier-card.featured { border-color:var(--accent-red); border-width:3px; box-shadow:0 0 0 4px var(--accent-red-soft); }
+        .tier-card .tier-label { font-family:var(--font-display); font-size:var(--label-size); font-weight:800; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent-red); }
+        .tier-card .tier-title { font-family:var(--font-display); font-size:clamp(0.9rem,1.5vw,1.2rem); font-weight:800; }
+        .tier-card .tier-desc { font-family:var(--font-body); font-size:clamp(0.72rem,1.05vw,0.88rem); color:var(--text-secondary); line-height:1.45; }
+
+        /* === RATIO BAR === */
+        .ratio-bar { display:flex; border-radius:clamp(6px,0.8vw,10px); overflow:hidden; height:clamp(38px,5vw,56px); box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+        .ratio-segment { display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:clamp(0.65rem,1vw,0.85rem); font-weight:800; text-transform:uppercase; letter-spacing:0.06em; }
+        .ratio-segment.human { background:var(--bg-dark); color:var(--text-light); flex:2; }
+        .ratio-segment.ai { background:var(--accent-red); color:white; flex:6; }
+        .ratio-segment.review { background:var(--text-tertiary); color:white; flex:2; }
+
+        /* === ARCHITECTURE === */
+        .arch-visual { display:grid; grid-template-rows:auto auto auto; gap:clamp(0.3rem,0.7vw,0.5rem); }
+        .arch-human-layer { background:var(--bg-dark); color:var(--text-light); border-radius:clamp(8px,1.2vw,12px); padding:clamp(0.6rem,1.4vw,1.1rem); text-align:center; }
+        .arch-human-layer .arch-label { font-family:var(--font-display); font-size:clamp(0.75rem,1.2vw,1rem); font-weight:800; text-transform:uppercase; letter-spacing:0.1em; }
+        .arch-human-layer .arch-roles { font-family:var(--font-body); font-size:clamp(0.6rem,0.95vw,0.8rem); color:rgba(255,255,255,0.55); margin-top:0.2rem; }
+        .arch-connector { text-align:center; color:var(--accent-red); font-family:var(--font-display); font-size:clamp(0.65rem,1vw,0.85rem); font-weight:700; padding:clamp(0.15rem,0.4vw,0.25rem) 0; }
+        .arch-agent-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(0.3rem,0.8vw,0.6rem); }
+        .arch-agent-card { border:2px solid var(--divider); border-radius:clamp(6px,1vw,10px); padding:clamp(0.5rem,1.2vw,0.9rem); background:var(--bg-card); }
+        .arch-agent-card .agent-level { font-family:var(--font-display); font-size:var(--label-size); font-weight:800; letter-spacing:0.1em; text-transform:uppercase; }
+        .agent-level.supervised { color:#16a34a; }
+        .agent-level.semi { color:#d97706; }
+        .agent-level.unsupervised { color:var(--accent-red); }
+        .arch-agent-card .agent-name { font-family:var(--font-display); font-size:clamp(0.72rem,1.1vw,0.95rem); font-weight:800; margin-top:0.15rem; }
+        .arch-agent-card .agent-tasks { font-family:var(--font-body); font-size:clamp(0.6rem,0.9vw,0.78rem); color:var(--text-secondary); line-height:1.4; margin-top:0.1rem; }
+
+        /* === QUADRANT === */
+        .quad-grid { display:grid; grid-template-columns:auto 1fr 1fr; grid-template-rows:auto 1fr 1fr; gap:2px; background:var(--divider); border-radius:clamp(8px,1.2vw,12px); overflow:hidden; }
+        .quad-grid .corner { background:var(--bg-primary); }
+        .quad-grid .col-head, .quad-grid .row-head { background:var(--bg-dark); color:var(--text-light); font-family:var(--font-display); font-size:clamp(0.65rem,1vw,0.85rem); font-weight:800; text-transform:uppercase; letter-spacing:0.08em; padding:clamp(0.5rem,1vw,0.8rem); text-align:center; display:flex; align-items:center; justify-content:center; }
+        .quad-grid .quad-cell { background:var(--bg-card); padding:clamp(0.5rem,1.2vw,0.9rem); display:flex; flex-direction:column; gap:0.2rem; }
+        .quad-cell .cell-title { font-family:var(--font-display); font-size:clamp(0.65rem,1vw,0.85rem); font-weight:800; color:var(--accent-red); }
+        .quad-cell .cell-items { font-family:var(--font-body); font-size:clamp(0.65rem,0.98vw,0.82rem); color:var(--text-secondary); line-height:1.4; }
+
+        /* === RECAP CARDS === */
+        .recap-row { display:flex; gap:clamp(0.6rem,1.5vw,1.25rem); }
+        .recap-card { flex:1; border-top:5px solid var(--accent-red); background:var(--bg-card); border-radius:0 0 clamp(8px,1.2vw,12px) clamp(8px,1.2vw,12px); padding:clamp(0.9rem,2vw,1.8rem); color:var(--text-primary); }
+        .recap-card .recap-block { font-family:var(--font-display); font-size:var(--label-size); font-weight:800; color:var(--accent-red); letter-spacing:0.15em; text-transform:uppercase; }
+        .recap-card .recap-msg { font-family:var(--font-display); font-size:clamp(0.95rem,1.6vw,1.3rem); font-weight:800; margin-top:clamp(0.3rem,0.7vw,0.5rem); line-height:1.3; color:var(--text-primary); }
+        @media (max-width:768px) { .recap-row { flex-direction:column; } }
+
+        /* =============================================
+           ANIMATIONS — Scroll-triggered with creative FX
+           ============================================= */
+        @keyframes slideUp { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes slideLeft { from { opacity:0; transform:translateX(-45px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes slideRight { from { opacity:0; transform:translateX(45px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes scaleIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes drawWidth { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+        @keyframes pulseGlow { 0%,100% { box-shadow:0 0 0 0 rgba(230,51,34,0); } 50% { box-shadow:0 0 0 10px rgba(230,51,34,0.18); } }
+        @keyframes floatY { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+        @keyframes shimmer { from { background-position:-200% center; } to { background-position:200% center; } }
+        @keyframes revealClip { from { clip-path:inset(0 100% 0 0); opacity:0; } to { clip-path:inset(0 0 0 0); opacity:1; } }
+        @keyframes borderDraw { from { border-color:transparent; } to { border-color:var(--accent-red); } }
+        @keyframes countUp { from { opacity:0; transform:translateY(20px) scale(0.8); } to { opacity:1; transform:translateY(0) scale(1); } }
+        @keyframes slideEntrance { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes glowPulse { 0%,100% { opacity:0.12; } 50% { opacity:0.25; } }
+        @keyframes rotateIn { from { opacity:0; transform:rotate(-5deg) scale(0.9); } to { opacity:1; transform:rotate(0) scale(1); } }
+        @keyframes typeReveal { from { max-width:0; opacity:0; } to { max-width:100%; opacity:1; } }
+        @keyframes accentSlide { from { width:0; } to { width:100%; } }
+        @keyframes gradientShift { 0% { background-position:0% 0%; } 50% { background-position:100% 100%; } 100% { background-position:0% 0%; } }
+        @keyframes connectorFlow { 0% { background-position:0 -100%; } 100% { background-position:0 100%; } }
+
+        /* Slide-level entrance — whole slide fades/lifts in */
+        .slide { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s var(--ease-out-expo); }
+        .slide.visible { opacity:1; transform:translateY(0); }
+
+        /* Category-based slide transitions */
+        .slide[data-transition="hero"] { transform:scale(0.92); transition:opacity 0.9s ease, transform 0.9s var(--ease-out-expo); }
+        .slide[data-transition="hero"].visible { transform:scale(1); }
+        .slide[data-transition="opener"] { opacity:0; transform:scale(1.05); transition:opacity 0.8s ease, transform 0.8s var(--ease-out-expo); }
+        .slide[data-transition="opener"].visible { opacity:1; transform:scale(1); }
+        .slide[data-transition="key"] { transform:translateX(60px); transition:opacity 0.7s ease, transform 0.7s var(--ease-out-expo); }
+        .slide[data-transition="key"].visible { transform:translateX(0); }
+
+        /* Element-level: hidden until parent slide is visible */
+        .anim { opacity:0; will-change:transform, opacity; }
+        .slide.visible .anim { animation-fill-mode:both; }
+        .slide:not(.visible) .anim { opacity:0; transition:opacity 0.3s ease; animation:none; }
+
+        /* Entrance types */
+        .slide.visible .anim-up { animation:slideUp 0.75s var(--ease-out-expo) both; }
+        .slide.visible .anim-left { animation:slideLeft 0.75s var(--ease-out-expo) both; }
+        .slide.visible .anim-right { animation:slideRight 0.75s var(--ease-out-expo) both; }
+        .slide.visible .anim-scale { animation:scaleIn 0.75s var(--ease-out-expo) both; }
+        .slide.visible .anim-fade { animation:fadeIn 0.65s ease both; }
+        .slide.visible .anim-draw { animation:drawWidth 0.85s var(--ease-out-expo) both; transform-origin:left; }
+        .slide.visible .anim-clip { animation:revealClip 0.9s var(--ease-out-expo) both; }
+        .slide.visible .anim-rotate { animation:rotateIn 0.8s var(--ease-out-expo) both; }
+        .slide.visible .anim-count { animation:countUp 0.7s var(--ease-out-expo) both; }
+
+        /* Stagger delays */
+        .slide.visible .d1 { animation-delay:0.15s; }
+        .slide.visible .d2 { animation-delay:0.25s; }
+        .slide.visible .d3 { animation-delay:0.35s; }
+        .slide.visible .d4 { animation-delay:0.5s; }
+        .slide.visible .d5 { animation-delay:0.65s; }
+        .slide.visible .d6 { animation-delay:0.8s; }
+        .slide.visible .d7 { animation-delay:0.95s; }
+        .slide.visible .d8 { animation-delay:1.1s; }
+
+        /* Continuous effects */
+        .pulse { animation:pulseGlow 2.5s ease infinite; }
+        .float { animation:floatY 3s ease-in-out infinite; }
+        .shimmer-bg { background:linear-gradient(90deg,transparent 30%,rgba(230,51,34,0.06) 50%,transparent 70%); background-size:200% 100%; animation:shimmer 3s ease-in-out infinite; }
+        .glow-pulse { animation:glowPulse 3s ease-in-out infinite; }
+
+        /* Geometric accent animations */
+        .geo-circle { opacity:0; transition:opacity 0.8s ease 0.5s, transform 1.5s ease; }
+        .geo-dot { opacity:0; transition:opacity 0.6s ease 0.7s, transform 1.2s ease; }
+        .slide.visible .geo-circle { opacity:0.15; transform:scale(1) rotate(0deg); }
+        .slide.visible .geo-dot { opacity:0.6; }
+        .slide:not(.visible) .geo-circle { transform:scale(0.7) rotate(-15deg); }
+
+        /* Red rule entrance */
+        .red-rule::before { transform:scaleY(0); transform-origin:top; transition:transform 0.6s var(--ease-out-expo) 0.1s; }
+        .slide.visible .red-rule::before { transform:scaleY(1); }
+
+        /* Card hover + entrance micro-interactions */
+        .tier-card, .stat-card, .definition-box, .arch-agent-card { transition:transform 0.3s ease, box-shadow 0.3s ease; }
+        .tier-card:hover, .stat-card:hover, .arch-agent-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.08); }
+
+        /* Accent line animation for cards */
+        .tier-card::after { content:''; position:absolute; bottom:0; left:0; width:0; height:3px; background:var(--accent-red); transition:width 0.5s var(--ease-out-expo); }
+        .tier-card:hover::after { width:100%; }
+        .tier-card { position:relative; overflow:hidden; }
+
+        /* A. Dark slide ambient gradient shift */
+        .slide.dark[data-transition="opener"] { background:radial-gradient(ellipse at 30% 40%, #1a1a1a, #0a0a0a 70%); background-size:200% 200%; }
+        .slide.dark[data-transition="opener"].visible { animation:gradientShift 15s ease infinite; }
+
+        /* B. Architecture connector flow */
+        .slide.visible .arch-connector { position:relative; overflow:hidden; }
+        .slide.visible .arch-connector::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 30%, rgba(230,51,34,0.15) 50%, transparent 70%); background-size:100% 200%; animation:connectorFlow 2s linear infinite; }
+
+        /* C. Growing ratio bar segments */
+        .ratio-segment { transform:scaleX(0); transform-origin:left; }
+        .slide.visible .ratio-segment { animation:drawWidth 0.8s var(--ease-out-expo) both; transform-origin:left; }
+        .slide.visible .ratio-segment.human { animation-delay:0.5s; }
+        .slide.visible .ratio-segment.ai { animation-delay:0.7s; }
+        .slide.visible .ratio-segment.review { animation-delay:0.9s; }
+        .slide:not(.visible) .ratio-segment { transform:scaleX(0); }
+
+        /* D. Recap card accent bar draw */
+        .recap-card > div:first-child { width:0; transition:none; }
+        .slide.visible .recap-card > div:first-child { animation:accentSlide 0.8s var(--ease-out-expo) both; }
+        .slide.visible .recap-card:nth-child(1) > div:first-child { animation-delay:0.5s; }
+        .slide.visible .recap-card:nth-child(2) > div:first-child { animation-delay:0.7s; }
+        .slide.visible .recap-card:nth-child(3) > div:first-child { animation-delay:0.9s; }
+
+        /* E. Enhanced hover micro-interactions */
+        .stat-card:hover .stat-value { transform:scale(1.05); transition:transform 0.3s ease; }
+        .spectrum-item:hover { box-shadow:0 0 0 3px rgba(230,51,34,0.25), 0 4px 12px rgba(0,0,0,0.08); }
+        .arch-agent-card { border-color:transparent; transition:transform 0.3s ease, box-shadow 0.3s ease, border-color 0.6s ease; }
+        .slide.visible .arch-agent-card { border-color:var(--divider); }
+        .slide.visible .arch-agent-card:nth-child(1) { transition-delay:0s, 0s, 0.6s; }
+        .slide.visible .arch-agent-card:nth-child(2) { transition-delay:0s, 0s, 0.75s; }
+        .slide.visible .arch-agent-card:nth-child(3) { transition-delay:0s, 0s, 0.9s; }
+
+        /* === PROGRESS BAR === */
+        .progress-bar { position:fixed; top:0; left:0; height:4px; background:var(--accent-red); z-index:1000; transition:width 0.3s var(--ease-out-expo); width:0%; }
+
+        /* === NAV DOTS === */
+        .nav-dots { position:fixed; right:clamp(0.5rem,1.2vw,1rem); top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:clamp(5px,0.7vw,9px); z-index:100; }
+        .nav-dot { width:clamp(7px,0.8vw,10px); height:clamp(7px,0.8vw,10px); border-radius:50%; background:var(--divider); cursor:pointer; transition:all 0.3s ease; border:none; padding:0; }
+        .nav-dot.active { background:var(--accent-red); transform:scale(1.5); }
+        .nav-dot:hover { background:var(--accent-red); opacity:0.6; }
+
+        /* === INLINE EDITING === */
+        .edit-hotzone { position:fixed; top:0; left:0; width:80px; height:80px; z-index:10000; cursor:pointer; }
+        .edit-toggle { position:fixed; top:clamp(0.4rem,1vw,0.75rem); left:clamp(0.4rem,1vw,0.75rem); background:var(--bg-dark); color:var(--bg-primary); border:none; border-radius:6px; padding:5px 10px; font-family:var(--font-display); font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; opacity:0; pointer-events:none; transition:opacity 0.3s ease; z-index:10001; }
+        .edit-toggle.show, .edit-toggle.active { opacity:1; pointer-events:auto; }
+        .edit-toggle.active { background:var(--accent-red); }
+        [contenteditable="true"] { outline:2px dashed var(--accent-red-medium); outline-offset:3px; border-radius:3px; }
+
+        /* === RESPONSIVE === */
+        @media (max-height:700px) { :root { --slide-padding:clamp(0.75rem,3vw,2rem); --h2-size:clamp(1.4rem,3.5vw,2.2rem); --body-size:clamp(0.85rem,1.4vw,1.1rem); --content-gap:clamp(0.4rem,1.2vw,0.8rem); } }
+        @media (max-height:600px) { :root { --slide-padding:clamp(0.5rem,2.5vw,1.5rem); --h2-size:clamp(1.2rem,3vw,1.8rem); --body-size:clamp(0.78rem,1.2vw,1rem); } .nav-dots, .geo-circle { display:none; } }
+        @media (max-width:600px) { .spectrum-row, .recap-row { flex-direction:column; } .spectrum-arrow { transform:rotate(90deg); } .arch-agent-grid, .three-col { grid-template-columns:1fr; } }
+        @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.2s !important; } .slide { opacity:1 !important; transform:none !important; } .anim { opacity:1 !important; } }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar" style="width: 100%;"></div>
+<nav class="nav-dots" id="navDots"><button class="nav-dot" aria-label="Slide 1"></button><button class="nav-dot" aria-label="Slide 2"></button><button class="nav-dot" aria-label="Slide 3"></button><button class="nav-dot" aria-label="Slide 4"></button><button class="nav-dot" aria-label="Slide 5"></button><button class="nav-dot" aria-label="Slide 6"></button><button class="nav-dot" aria-label="Slide 7"></button><button class="nav-dot" aria-label="Slide 8"></button><button class="nav-dot" aria-label="Slide 9"></button><button class="nav-dot" aria-label="Slide 10"></button><button class="nav-dot" aria-label="Slide 11"></button><button class="nav-dot" aria-label="Slide 12"></button><button class="nav-dot" aria-label="Slide 13"></button><button class="nav-dot" aria-label="Slide 14"></button><button class="nav-dot" aria-label="Slide 15"></button><button class="nav-dot" aria-label="Slide 16"></button><button class="nav-dot" aria-label="Slide 17"></button><button class="nav-dot" aria-label="Slide 18"></button><button class="nav-dot" aria-label="Slide 19"></button><button class="nav-dot" aria-label="Slide 20"></button><button class="nav-dot" aria-label="Slide 21"></button><button class="nav-dot" aria-label="Slide 22"></button><button class="nav-dot" aria-label="Slide 23"></button><button class="nav-dot" aria-label="Slide 24"></button><button class="nav-dot" aria-label="Slide 25"></button><button class="nav-dot" aria-label="Slide 26"></button><button class="nav-dot active" aria-label="Slide 27"></button></nav>
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle">Edit</button>
+
+
+<!-- ====================================================================
+     BLOCK 1 — THE SHIFT
+     ==================================================================== -->
+
+<!-- S01: TITLE -->
+<section class="slide" data-slide="title" data-transition="hero">
+    <span class="slide-number">01</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">daniel kang, FRS AI Strategy · March 2026</p>
+            <h1 class="hero-title anim anim-clip d2" contenteditable="false">Evolving Dynamics<br>of Day-to-Day<br>Workflows <span class="accent">with AI</span></h1>
+            <div class="divider anim anim-draw d3"></div>
+            <p class="body-text anim anim-up d4" contenteditable="false">From individual AI fluency to scalable, standardized AI architectures — a strategic framework for context engineering.</p>
+        </div>
+    </div>
+    <div class="geo-circle float" style="right:clamp(2rem,8vw,8rem);top:50%;transform:translateY(-50%);width:clamp(100px,20vw,260px);height:clamp(100px,20vw,260px);"></div>
+    <div class="geo-dot glow-pulse" style="right:clamp(1rem,4vw,4rem);bottom:clamp(1.5rem,4vw,3.5rem);"></div>
+</section>
+
+<!-- S01b: AGENDA -->
+<section class="slide" data-slide="agenda">
+    <span class="slide-number">02</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">Agenda</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Three key <span class="accent">takeaways</span></h2>
+            <div class="divider anim anim-draw d3"></div>
+        </div>
+        <div class="three-col" style="margin-top:var(--content-gap);">
+            <div class="tier-card anim anim-scale d4" style="border-top:4px solid var(--accent-red);">
+                <div class="tier-label" contenteditable="false">Takeaway 1</div>
+                <div class="tier-title" contenteditable="false">You are the context engineer</div>
+                <div class="tier-desc" contenteditable="false">AI capabilities outpace readiness—the gap is the <strong>human design layer</strong> between raw AI and useful workflow integration.</div>
+            </div>
+            <div class="tier-card anim anim-scale d5" style="border-top:4px solid var(--accent-red);">
+                <div class="tier-label" contenteditable="false">Takeaway 2</div>
+                <div class="tier-title" contenteditable="false">Structure what you know</div>
+                <div class="tier-desc" contenteditable="false">Standardized custom LLM architecture turns domain expertise into <strong>reusable, scalable AI capability</strong> anyone can contribute to.</div>
+            </div>
+            <div class="tier-card anim anim-scale d6" style="border-top:4px solid var(--accent-red);">
+                <div class="tier-label" contenteditable="false">Takeaway 3</div>
+                <div class="tier-title" contenteditable="false">Own the accountability</div>
+                <div class="tier-desc" contenteditable="false">AI amplifies expertise—responsible design means <strong>taking initiative</strong>, not waiting to be displaced.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- S03: WHY NOW -->
+<section class="slide" data-slide="why-now">
+    <span class="block-label">Block 1 — The Shift</span>
+    <span class="slide-number">03</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">The Gap</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">AI capabilities are advancing<br>faster than <span class="accent">organizational readiness</span></h2>
+            <div class="divider anim anim-draw d3"></div>
+        </div>
+        <div style="display:flex;gap:clamp(0.6rem,1.5vw,1.25rem);margin-top:var(--content-gap);flex-wrap:wrap;">
+            <div class="stat-card anim anim-scale d4" style="flex:1;min-width:200px;">
+                <div class="stat-value" data-count-to="80" data-count-suffix="%" contenteditable="false">0%</div>
+                <div class="stat-label" contenteditable="false">report mature <strong>basic</strong> automation</div>
+            </div>
+            <div class="stat-card anim anim-scale d5" style="flex:1;min-width:200px;border-color:var(--accent-red);border-width:2px;">
+                <div class="stat-value" data-count-to="28" data-count-suffix="%" contenteditable="false">0%</div>
+                <div class="stat-label" contenteditable="false">report mature <strong>agentic</strong> workflows</div>
+            </div>
+            <div class="stat-card anim anim-scale d6" style="flex:1;min-width:200px;">
+                <div class="stat-value" data-count-to="12" data-count-suffix="%" contenteditable="false">0%</div>
+                <div class="stat-label" contenteditable="false">expect AI agent ROI within 3 years (vs 45% for basic automation)</div>
+            </div>
+        </div>
+        <p class="body-text anim anim-up d7" style="margin-top:var(--content-gap);" contenteditable="false"><strong>Individual fluency is outpacing organizational structure</strong>, and the tools are ready before the design layer is. The missing piece isn't technology—it's <strong>context engineering</strong>.</p>
+    </div>
+    <div class="”sources" anim="" anim-fade="" d8”=""><a href="file:///C:/Users/daniel.kang/Desktop/Automoto/Flood_Risk_Manager/docs/ai-intro-2026/%E2%80%9Dhttps://www.deloitte.com/us/en/insights/industry/technology/technology-media-and-telecom-predictions/2026/ai-agent-orchestration.html%E2%80%9D" target="”_blank”" rel="”noopener”" style="”color:inherit;text-decoration:underline;”">Deloitte, “Unlocking exponential value with AI agent orchestration,” 2025</a></div>
+</section>
+
+<!-- S04: EVOLUTION OF INTERACTION -->
+<section class="slide" data-slide="evolution-ux">
+    <span class="block-label">Block 1 — The Shift</span>
+    <span class="slide-number">04</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">Evolution</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">How human–LLM <span class="accent">interaction</span> evolved</h2>
+            <div class="divider anim anim-draw d3"></div>
+            <p class="body-text anim anim-up d3" contenteditable="false">Each generation of models unlocked a new layer of the custom LLM architecture we can now build deliberately.</p>
+        </div>
+        <div style="margin-top:var(--content-gap);">
+            <div class="orchestrator-banner anim anim-clip d4">
+                <span style="font-size:clamp(0.8rem,1.2vw,1rem);">◆</span>
+                <span class="banner-text" contenteditable="false">Human Orchestrator — Strategic Oversight at Every Level</span>
+                <span style="font-size:clamp(0.8rem,1.2vw,1rem);">◆</span>
+            </div>
+            <div class="spectrum-row anim anim-fade d5">
+                <div class="spectrum-item anim anim-left d3">
+                    <div class="item-label" contenteditable="false">Standalone Prompt</div>
+                    <div class="item-desc" contenteditable="false">Single query → single answer. No memory. <em>(GPT-3.5 era)</em></div>
+                </div>
+                <span class="spectrum-arrow anim anim-fade d4">→</span>
+                <div class="spectrum-item anim anim-left d4">
+                    <div class="item-label" contenteditable="false">Customized LLM</div>
+                    <div class="item-desc" contenteditable="false">Knowledge base + system instructions + persistent context. <em>(GPT-4 / Claude 3)</em></div>
+                </div>
+                <span class="spectrum-arrow anim anim-fade d5">→</span>
+                <div class="spectrum-item anim anim-left d5">
+                    <div class="item-label" contenteditable="false">Agentic Workflow</div>
+                    <div class="item-desc" contenteditable="false">LLM + tools + decision loops + MCP integration. <em>(Claude 3.5 / GPT-4o)</em></div>
+                </div>
+                <span class="spectrum-arrow anim anim-fade d6">→</span>
+                <div class="spectrum-item active pulse shimmer-bg anim anim-left d6">
+                    <div class="item-label" contenteditable="false">Multi-Agent System</div>
+                    <div class="item-desc" contenteditable="false">Specialized subagents coordinated by orchestrator architecture. <em>(Claude 4 / GPT-5)</em></div>
+                </div>
+            </div>
+            <p class="body-text anim anim-fade d7" style="margin-top:var(--element-gap);font-style:italic;font-size:var(--small-size);color:var(--text-tertiary);" contenteditable="false">Key insight: the technology progressively “caught up” with the philosophy—a standardized custom LLM base architecture became seamlessly realizable as capabilities matured.</p>
+        </div>
+    </div>
+</section>
+
+<!-- S05: CONTEXT ENGINEERING -->
+<section class="slide" data-slide="context-eng">
+    <span class="block-label">Block 1 — The Shift</span>
+    <span class="slide-number">05</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Core Concept</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">What is <span class="accent">context engineering?</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="definition-box anim anim-scale d3">
+            <p class="def-term" contenteditable="false">Context Engineering</p>
+            <p class="def-text" contenteditable="false">Curating what the model sees so you get a better result. Not just the prompt—the complete information architecture: system instructions, tool definitions, retrieved knowledge, conversation history, and output constraints.</p>
+        </div>
+        <div class="two-col" style="margin-top:var(--element-gap);">
+            <ul class="bullet-list">
+                <li class="anim anim-up d4" contenteditable="false"><strong>Prompt engineering:</strong> "How do I phrase this better?"</li>
+                <li class="anim anim-up d5" contenteditable="false"><strong>Context engineering:</strong> "What does the AI need to decide correctly, and how do I structure it?"</li>
+                <li class="anim anim-up d6" contenteditable="false">One helps you once. The other helps you <strong>every time.</strong></li>
+            </ul>
+            <ul class="bullet-list">
+                <li class="anim anim-right d4" contenteditable="false">You already do this when you <strong>scope a project</strong> or write a <strong>technical memo</strong></li>
+                <li class="anim anim-right d5" contenteditable="false">A new way of <strong>thinking about work</strong>—not a new tool to learn</li>
+                <li class="anim anim-right d6" contenteditable="false">Being the context engineer is exercising <strong>high agency</strong></li>
+            </ul>
+        </div>
+    </div>
+    <div class="sources anim anim-fade d8"><a href="https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Boeckeler/Fowler, Thoughtworks, 2026</a> &nbsp;|&nbsp; <a href="https://x.com/koylanai/status/2025286163641118915" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Koylan, "The File System Is the New Database," 2025</a></div>
+</section>
+
+<!-- S06: RESEARCH -->
+<section class="slide" data-slide="research">
+    <span class="block-label">Block 1 — The Shift</span>
+    <span class="slide-number">06</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">Research Foundation</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Why the human layer <span class="accent">isn’t optional</span></h2>
+            <div class="divider anim anim-draw d3"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <ul class="bullet-list">
+                <li class="anim anim-left d3" contenteditable="false"><a href="https://arxiv.org/abs/2506.09420" target="_blank" rel="noopener" style="color:inherit;"><strong>Zou et al. (2025)</strong></a>—Collaborative intelligence outperforms premature AI autonomy. Human-agent co-design wins.</li>
+                <li class="anim anim-left d4" contenteditable="false"><strong>Masters et al. (2025)</strong>—GPT-5 Manager Agents failed joint optimization across 20 workflows. Human orchestration is a measured engineering limit.</li>
+                <li class="anim anim-left d5" contenteditable="false"><a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener" style="color:inherit;"><strong>Anthropic (2025)</strong></a>—Without detailed orchestrator instructions, subagents duplicated work or left critical gaps.</li>
+                <li class="anim anim-left d6" contenteditable="false"><a href="https://www.deloitte.com/us/en/insights/industry/technology/technology-media-and-telecom-predictions/2026/ai-agent-orchestration.html" target="_blank" rel="noopener" style="color:inherit;"><strong>Deloitte (2025)</strong></a>—Mature basic automation (80%) vs. mature agentic workflows (28%). The design layer is the bottleneck.</li>
+            </ul>
+            <div style="display:flex;flex-direction:column;gap:clamp(0.4rem,0.8vw,0.6rem);align-items:center;justify-content:center;">
+                <div class="anim anim-rotate d4" style="background:var(--accent-red-soft);border:2px solid var(--accent-red);border-radius:50%;width:clamp(100px,14vw,170px);height:clamp(100px,14vw,170px);display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.7rem,1.1vw,0.9rem);font-weight:800;color:var(--accent-red);line-height:1.2;">4 INDEPENDENT<br>SOURCES<br><span style="font-size:1.6em;">1</span><br>CONCLUSION</span>
+                </div>
+                <div class="anim anim-up d5" style="text-align:center;max-width:24ch;">
+                    <p style="font-family:var(--font-display);font-size:clamp(0.75rem,1.15vw,0.95rem);font-weight:800;line-height:1.3;">Human orchestration is an <span style="color:var(--accent-red);">engineering requirement</span>, not a philosophical preference.</p>
+                </div>
+                <div class="anim anim-fade d7" style="display:flex;gap:clamp(0.3rem,0.6vw,0.5rem);flex-wrap:wrap;justify-content:center;margin-top:var(--element-gap);">
+                    <span style="font-size:var(--label-size);background:var(--bg-dark);color:var(--text-light);padding:0.2em 0.6em;border-radius:4px;font-weight:700;">Academic</span>
+                    <span style="font-size:var(--label-size);background:var(--bg-dark);color:var(--text-light);padding:0.2em 0.6em;border-radius:4px;font-weight:700;">Industry</span>
+                    <span style="font-size:var(--label-size);background:var(--bg-dark);color:var(--text-light);padding:0.2em 0.6em;border-radius:4px;font-weight:700;">Platform</span>
+                    <span style="font-size:var(--label-size);background:var(--bg-dark);color:var(--text-light);padding:0.2em 0.6em;border-radius:4px;font-weight:700;">Consulting</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- S07: B1 KEY MESSAGE -->
+<section class="slide" data-slide="b1-key" data-transition="key">
+    <span class="block-label">Block 1 — The Shift</span>
+    <span class="slide-number">07</span>
+    <div class="slide-content">
+        <div class="two-col" style="align-items:center;">
+            <div class="red-rule">
+                <p class="label-text anim anim-up d1" contenteditable="false">Key Takeaway</p>
+                <p class="”key-message" anim="" anim-clip="" d2”="" style="”margin-top:var(--content-gap);”">”You are the <span class="”highlight”">context engineer.</span> The quality of AI output is directly proportional to the quality of context <span class="highlight">you design.”</span></p>
+                <div class="divider-red anim anim-draw d4" style="margin-top:var(--content-gap);"></div>
+                <p class="body-text anim anim-up d5" style="margin-top:var(--element-gap);" contenteditable="false">AI makes every team member <strong>multi-disciplinary by default</strong>. The shift is from executing tasks within a scope to designing the experience of how AI and humans collaborate.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:clamp(0.5rem,1.2vw,1rem);">
+                <div class="anim anim-right d4" style="background:var(--accent-red-soft);border-left:4px solid var(--accent-red);padding:clamp(0.7rem,1.4vw,1.1rem);border-radius:0 clamp(6px,1vw,10px) clamp(6px,1vw,10px) 0;">
+                    <p class="slide-h3" style="font-size:var(--body-size);color:var(--accent-red);" contenteditable="false">Product Manager Mindset</p>
+                    <p class="body-text" style="font-size:var(--small-size);margin-top:0.2rem;" contenteditable="false">Designs the system · defines what “good” looks like · owns outcomes · proactively architects solutions</p>
+                </div>
+                <div class="anim anim-right d5" style="background:rgba(0,0,0,0.02);border-left:4px solid var(--divider);padding:clamp(0.7rem,1.4vw,1.1rem);border-radius:0 clamp(6px,1vw,10px) clamp(6px,1vw,10px) 0;opacity:0.6;">
+                    <p class="slide-h3" style="font-size:var(--body-size);color:var(--text-tertiary);text-decoration:line-through;" contenteditable="false">Project Manager Mindset</p>
+                    <p class="body-text" style="font-size:var(--small-size);margin-top:0.2rem;color:var(--text-tertiary);" contenteditable="false">Executes scope · manages timeline · delivers within constraints · reactive to requirements</p>
+                </div>
+                <div class="anim anim-fade d6" style="text-align:center;margin-top:var(--element-gap);">
+                    <span class="float" style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:var(--accent-red);display:inline-block;">↑</span>
+                    <p style="font-family:var(--font-display);font-size:var(--small-size);font-weight:800;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.12em;">The Shift</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ====================================================================
+     BLOCK 2 — THE PRACTICE
+     ==================================================================== -->
+
+<!-- S08: B2 OPENER -->
+<section class="slide dark" data-slide="b2-open" data-transition="opener">
+    <span class="slide-number">08</span>
+    <div class="slide-content" style="align-items:center;text-align:center;">
+        <p class="label-text anim anim-fade d1" style="color:rgba(255,255,255,0.4);" contenteditable="false">Block 2</p>
+        <h2 class="slide-title anim anim-scale d2" style="color:var(--text-light);" contenteditable="false">The <span class="accent">Practice</span></h2>
+        <div class="divider anim anim-draw d3" style="margin-left:auto;margin-right:auto;"></div>
+        <p class="body-text anim anim-up d4" style="text-align:center;max-width:48ch;" contenteditable="false">Customizing AI and transforming workflows—from structured knowledge to scalable, distributable systems.</p>
+    </div>
+</section>
+
+<!-- S09: WRAPPING PHILOSOPHY -->
+<section class="slide" data-slide="wrapping">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">09</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Core Mental Model</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">The <span class="accent">wrapping</span> philosophy</h2>
+            <div class="divider anim anim-draw d2"></div>
+            <p class="body-text anim anim-up d3" contenteditable="false">Structure knowledge like the brain organizes memory. Wrap into skills. Compose into agents. Distribute as standardized packages. Following example is the <strong>CAB (claude-code-architecture-builder) plugin architecture</strong>.</p>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <!-- LEFT: Runtime Layer Architecture (CAB Diagram 1) -->
+            <div class="anim anim-scale d4">
+                <p style="font-family:var(--font-display);font-size:var(--label-size);font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:clamp(0.3rem,0.6vw,0.5rem);">Runtime Layer Architecture</p>
+                <div style="display:flex;flex-direction:column;gap:3px;border-radius:clamp(6px,1vw,10px);overflow:hidden;border:2px solid var(--divider);">
+                    <div style="background:#e1f5fe;padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.5rem,1vw,0.8rem);display:flex;align-items:center;gap:0.5rem;">
+                        <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#0277bd;white-space:nowrap;">L1 MEMORY</span>
+                        <span style="font-size:clamp(0.5rem,0.8vw,0.68rem);color:#444;">CLAUDE.md + rules/ — core identity &amp; principles</span>
+                    </div>
+                    <div style="background:#fff3e0;padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.5rem,1vw,0.8rem);display:flex;align-items:center;gap:0.5rem;">
+                        <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#e65100;white-space:nowrap;">L2 REGISTRY</span>
+                        <span style="font-size:clamp(0.5rem,0.8vw,0.68rem);color:#444;">Skills + Agents + Commands + MCP (metadata only)</span>
+                    </div>
+                    <div style="background:#f3e5f5;padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.5rem,1vw,0.8rem);display:flex;align-items:center;gap:0.5rem;">
+                        <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#7b1fa2;white-space:nowrap;">L3 INVOKE</span>
+                        <span style="font-size:clamp(0.5rem,0.8vw,0.68rem);color:#444;">Auto-match or /command triggers loading</span>
+                    </div>
+                    <div style="background:#e8f5e9;padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.5rem,1vw,0.8rem);display:flex;align-items:center;gap:0.5rem;">
+                        <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#2e7d32;white-space:nowrap;">L4 EXECUTE</span>
+                        <span style="font-size:clamp(0.5rem,0.8vw,0.68rem);color:#444;">Main context + isolated agent subprocesses + MCP</span>
+                    </div>
+                </div>
+                <!-- Two-Schema (CAB Diagram 6) -->
+                <div class="anim anim-up d5" style="margin-top:clamp(0.4rem,0.8vw,0.7rem);display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(0.3rem,0.5vw,0.4rem);align-items:center;">
+                    <div style="background:#e8f5e9;border:2px solid #66bb6a;border-radius:clamp(4px,0.6vw,8px);padding:clamp(0.35rem,0.7vw,0.55rem);text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.62rem,0.92vw,0.78rem);font-weight:800;color:#2e7d32;">SCHEMA 1</div>
+                        <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:#444;">Global User Config</div>
+                        <div style="font-size:clamp(0.45rem,0.65vw,0.56rem);color:#777;">Personal baseline<br>travels with you</div>
+                    </div>
+                    <span style="color:var(--accent-red);font-weight:900;font-size:clamp(0.7rem,1.1vw,0.9rem);">→</span>
+                    <div style="background:#e3f2fd;border:2px solid #42a5f5;border-radius:clamp(4px,0.6vw,8px);padding:clamp(0.35rem,0.7vw,0.55rem);text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.62rem,0.92vw,0.78rem);font-weight:800;color:#1565c0;">SCHEMA 2</div>
+                        <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:#444;">Distributable Plugin</div>
+                        <div style="font-size:clamp(0.45rem,0.65vw,0.56rem);color:#777;">Project-specific<br>shareable via Git</div>
+                    </div>
+                </div>
+            </div>
+            <!-- RIGHT: Design Principles -->
+            <div>
+                <p class="slide-h3 anim anim-up d4" style="font-size:clamp(0.8rem,1.2vw,1rem);" contenteditable="false">Key Design Principles</p>
+                <div style="display:flex;flex-direction:column;gap:clamp(0.2rem,0.45vw,0.35rem);margin-top:var(--element-gap);">
+                    <div class="anim anim-left d4" style="display:flex;align-items:baseline;gap:0.4rem;font-size:clamp(0.7rem,1vw,0.88rem);">
+                        <span style="color:var(--accent-red);font-weight:900;font-family:var(--font-display);">01</span>
+                        <span><strong>Separation of concerns</strong> — personal config vs. project knowledge</span>
+                    </div>
+                    <div class="anim anim-left d5" style="display:flex;align-items:baseline;gap:0.4rem;font-size:clamp(0.7rem,1vw,0.88rem);">
+                        <span style="color:var(--accent-red);font-weight:900;font-family:var(--font-display);">02</span>
+                        <span><strong>Progressive disclosure</strong> — load only what’s needed, when triggered</span>
+                    </div>
+                    <div class="anim anim-left d5" style="display:flex;align-items:baseline;gap:0.4rem;font-size:clamp(0.7rem,1vw,0.88rem);">
+                        <span style="color:var(--accent-red);font-weight:900;font-family:var(--font-display);">03</span>
+                        <span><strong>Convention over configuration</strong> — sane defaults, override when needed</span>
+                    </div>
+                    <div class="anim anim-left d6" style="display:flex;align-items:baseline;gap:0.4rem;font-size:clamp(0.7rem,1vw,0.88rem);">
+                        <span style="color:var(--accent-red);font-weight:900;font-family:var(--font-display);">04</span>
+                        <span><strong>Git-native workflow</strong> — version control, branching, collaboration</span>
+                    </div>
+                    <div class="anim anim-left d6" style="display:flex;align-items:baseline;gap:0.4rem;font-size:clamp(0.7rem,1vw,0.88rem);">
+                        <span style="color:var(--accent-red);font-weight:900;font-family:var(--font-display);">05</span>
+                        <span><strong>Token efficiency</strong> — ~6-12k baseline; skills lazy-load, agents isolated</span>
+                    </div>
+                    <div class="anim anim-left d7" style="display:flex;align-items:baseline;gap:0.4rem;font-size:clamp(0.7rem,1vw,0.88rem);">
+                        <span style="color:var(--accent-red);font-weight:900;font-family:var(--font-display);">06</span>
+                        <span><strong>Security by default</strong> — guardrails at every layer, not afterthoughts</span>
+                    </div>
+                </div>
+                <p class="body-text anim anim-fade d8" style="margin-top:var(--element-gap);font-size:var(--small-size);font-style:italic;color:var(--text-tertiary);" contenteditable="false">Regardless of role: start by asking “what do I know that could be structured as a specialized skill for AI?”</p>
+            </div>
+        </div>
+    </div>
+    <div class="”sources" anim="" anim-fade="" d8”="">CAB Architecture Framework &nbsp;|&nbsp; Custom LLM Macro System Architecture &nbsp;|&nbsp; <a href="file:///C:/Users/daniel.kang/Desktop/Automoto/Flood_Risk_Manager/docs/ai-intro-2026/%E2%80%9Dhttps://x.com/koylanai/status/2025286163641118915%E2%80%9D" target="”_blank”" rel="”noopener”" style="”color:inherit;text-decoration:underline;”">Koylan, “Personal Brain OS,” 2025</a></div>
+</section>
+
+<!-- S10: THREE FOUNDATIONS -->
+<section class="slide" data-slide="foundations">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">10</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Levels of Investment</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Three foundations of <span class="accent">LLM customization</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+            <p class="body-text anim anim-up d3" contenteditable="false">Each level builds on the last. Start where you are—even Level 1 alone delivers measurable value. Together, they form the complete custom LLM architecture.</p>
+        </div>
+        <div class="three-col" style="margin-top:var(--content-gap);">
+            <!-- Pillar 1 -->
+            <div class="tier-card anim anim-scale d4" style="border-top:4px solid var(--accent-red);display:flex;flex-direction:column;gap:clamp(0.3rem,0.6vw,0.5rem);">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <span class="tier-label" style="color:var(--accent-red);" contenteditable="false">Level 1 — Foundation</span>
+                    <span style="font-family:var(--font-display);font-size:clamp(1.2rem,2.2vw,1.8rem);font-weight:900;color:var(--accent-red);opacity:0.2;">01</span>
+                </div>
+                <div class="tier-title" contenteditable="false">Context Engineering</div>
+                <div class="tier-desc" contenteditable="false"><strong>What the model sees.</strong> System instructions, knowledge bases, structured data, memory architecture. This is your highest-ROI starting point.</div>
+                <div style="margin-top:auto;padding-top:clamp(0.3rem,0.5vw,0.4rem);border-top:1px solid var(--divider);">
+                    <div style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--text-tertiary);">
+                        <strong style="color:var(--text-secondary);">Architecture:</strong> System Instruction + Knowledge Base + State Management
+                    </div>
+                    <div style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--accent-red);font-weight:700;margin-top:0.15rem;">Anyone can contribute. No coding required.</div>
+                </div>
+            </div>
+            <!-- Pillar 2 -->
+            <div class="tier-card anim anim-scale d5" style="border-top:4px solid var(--bg-dark);display:flex;flex-direction:column;gap:clamp(0.3rem,0.6vw,0.5rem);">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <span class="tier-label" style="color:var(--text-tertiary);" contenteditable="false">Level 2 — Refinement</span>
+                    <span style="font-family:var(--font-display);font-size:clamp(1.2rem,2.2vw,1.8rem);font-weight:900;color:var(--bg-dark);opacity:0.1;">02</span>
+                </div>
+                <div class="tier-title" contenteditable="false">Prompt Engineering</div>
+                <div class="tier-desc" contenteditable="false"><strong>How the model responds.</strong> Output constraints, persona definitions, few-shot patterns, chain-of-thought reasoning. Improves consistency and reliability.</div>
+                <div style="margin-top:auto;padding-top:clamp(0.3rem,0.5vw,0.4rem);border-top:1px solid var(--divider);">
+                    <div style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--text-tertiary);">
+                        <strong style="color:var(--text-secondary);">Architecture:</strong> System Instruction + Guardrails &amp; Safety + Monitoring
+                    </div>
+                    <div style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--text-tertiary);font-weight:700;margin-top:0.15rem;">Builds on Level 1. More technique, same tools.</div>
+                </div>
+            </div>
+            <!-- Pillar 3 -->
+            <div class="tier-card anim anim-scale d6" style="border-top:4px solid var(--bg-dark);display:flex;flex-direction:column;gap:clamp(0.3rem,0.6vw,0.5rem);">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <span class="tier-label" style="color:var(--text-tertiary);" contenteditable="false">Level 3 — Integration</span>
+                    <span style="font-family:var(--font-display);font-size:clamp(1.2rem,2.2vw,1.8rem);font-weight:900;color:var(--bg-dark);opacity:0.1;">03</span>
+                </div>
+                <div class="tier-title" contenteditable="false">Tool &amp; Capability Integration</div>
+                <div class="tier-desc" contenteditable="false"><strong>What the model can do.</strong> MCP servers, agent skills, RAG pipelines, external APIs. Connects AI to real data systems and workflows.</div>
+                <div style="margin-top:auto;padding-top:clamp(0.3rem,0.5vw,0.4rem);border-top:1px solid var(--divider);">
+                    <div style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--text-tertiary);">
+                        <strong style="color:var(--text-secondary);">Architecture:</strong> Automated Actions + Integration Layer + full stack
+                    </div>
+                    <div style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--text-tertiary);font-weight:700;margin-top:0.15rem;">Requires Level 1+2 foundation. Technical investment.</div>
+                </div>
+            </div>
+        </div>
+        <!-- Progression indicator -->
+        <div class="anim anim-fade d7" style="margin-top:var(--element-gap);display:flex;align-items:center;gap:clamp(0.3rem,0.6vw,0.5rem);">
+            <div style="flex:3;height:6px;background:var(--accent-red);border-radius:3px;"></div>
+            <span style="font-size:clamp(0.5rem,0.7vw,0.6rem);font-weight:700;color:var(--accent-red);white-space:nowrap;">START HERE</span>
+            <div style="flex:2;height:6px;background:var(--divider);border-radius:3px;"></div>
+            <span style="font-size:clamp(0.5rem,0.7vw,0.6rem);font-weight:700;color:var(--text-tertiary);white-space:nowrap;">REFINE</span>
+            <div style="flex:2;height:6px;background:var(--divider);border-radius:3px;"></div>
+            <span style="font-size:clamp(0.5rem,0.7vw,0.6rem);font-weight:700;color:var(--text-tertiary);white-space:nowrap;">EXTEND</span>
+        </div>
+    </div>
+    <div class="”sources" anim="" anim-fade="" d8”="">Custom LLM Macro System Architecture &nbsp;|&nbsp; <a href="file:///C:/Users/daniel.kang/Desktop/Automoto/Flood_Risk_Manager/docs/ai-intro-2026/%E2%80%9Dhttps://www.anthropic.com/research/building-effective-agents%E2%80%9D" target="”_blank”" rel="”noopener”" style="”color:inherit;text-decoration:underline;”">Anthropic, “Building Effective Agents,” 2024</a></div>
+</section>
+
+<!-- S11: WORKFLOW MAPPING -->
+<section class="slide" data-slide="workflow">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">11</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Practical Framework</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Mapping workflows to <span class="accent">AI collaboration</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <div>
+                <p class="slide-h3 anim anim-up d3" contenteditable="false">Identify highest-bottleneck tasks</p>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li class="anim anim-up d4" contenteditable="false"><strong>Repetitive</strong> — same steps, different inputs</li>
+                    <li class="anim anim-up d5" contenteditable="false"><strong>Time-intensive</strong> — high effort, moderate complexity</li>
+                    <li class="anim anim-up d6" contenteditable="false"><strong>Error-prone</strong> — human fatigue matters</li>
+                </ul>
+                <p class="body-text anim anim-fade d7" style="margin-top:var(--element-gap);font-size:var(--small-size);color:var(--text-tertiary);" contenteditable="false">Traditional gap analysis methods (process mapping, SIPOC, value stream) still apply—AI skill is <strong>reframing</strong> them into an architecture.</p>
+            </div>
+            <div>
+                <p class="slide-h3 anim anim-up d3" contenteditable="false">The 20-60-20 working heuristic</p>
+                <div class="ratio-bar anim anim-scale d4" style="margin-top:var(--element-gap);">
+                    <div class="ratio-segment human">20% Human</div>
+                    <div class="ratio-segment ai">60% AI-Assisted</div>
+                    <div class="ratio-segment review">20% Human</div>
+                </div>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li class="anim anim-up d5" contenteditable="false"><strong>20%</strong> — Context design, scoping, intent framing</li>
+                    <li class="anim anim-up d6" contenteditable="false"><strong>60%</strong> — AI-assisted drafting and execution</li>
+                    <li class="anim anim-up d7" contenteditable="false"><strong>20%</strong> — Human review, domain validation, QA</li>
+                </ul>
+                <p class="body-text anim anim-fade d8" style="margin-top:var(--element-gap);font-size:var(--small-size);font-style:italic;color:var(--text-tertiary);" contenteditable="false">Not a fixed rule—an adaptive starting point. Ratios shift with task complexity and AI maturity.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- S11b: STANDARDIZED A-TEAM -->
+<section class="slide" data-slide="a-team">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">12</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">Scaling the Pattern</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Standardize the <span class="accent">“A-Team”</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <div>
+                <p class="body-text anim anim-up d3" contenteditable="false">Beyond a standardized custom LLM architecture, standardize the <strong>project-specific agent team</strong> so workflows can be categorized and coupled with a multi-agent framework.</p>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li class="anim anim-up d4" contenteditable="false"><strong>Reusable agent roles</strong> — data QA agent, report drafter, compliance checker, reviewer</li>
+                    <li class="anim anim-up d5" contenteditable="false"><strong>Composable per-project</strong> — same base agents, different knowledge bases and tool configs</li>
+                    <li class="anim anim-up d6" contenteditable="false"><strong>Mirrors product design cycle</strong> — discovery → design → build → validate → iterate</li>
+                </ul>
+            </div>
+            <div class="arch-visual anim anim-scale d4">
+                <div class="arch-human-layer">
+                    <div class="arch-label" contenteditable="false">Standardized Base Architecture</div>
+                    <div class="arch-roles" contenteditable="false">Global config · Memory hierarchy · Shared skills library</div>
+                </div>
+                <div class="arch-connector">↓ Project-specific customization ↓</div>
+                <div class="arch-agent-grid">
+                    <div class="arch-agent-card anim anim-up d5">
+                        <div class="agent-level supervised" style="color:var(--accent-red);" contenteditable="false">Project A</div>
+                        <div class="agent-name" contenteditable="false">FRS H&amp;H Team</div>
+                        <div class="agent-tasks" contenteditable="false">Data agent + model QA agent + report agent</div>
+                    </div>
+                    <div class="arch-agent-card anim anim-up d6">
+                        <div class="agent-level supervised" style="color:#d97706;" contenteditable="false">Project B</div>
+                        <div class="agent-name" contenteditable="false">Proposal Team</div>
+                        <div class="agent-tasks" contenteditable="false">Research agent + drafting agent + compliance agent</div>
+                    </div>
+                    <div class="arch-agent-card anim anim-up d7">
+                        <div class="agent-level supervised" style="color:#16a34a;" contenteditable="false">Project C</div>
+                        <div class="agent-name" contenteditable="false">BD/Strategy</div>
+                        <div class="agent-tasks" contenteditable="false">Analysis agent + competitive intel + pricing agent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- S13: ARCHITECTURE -->
+<section class="slide" data-slide="architecture">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">13</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">System Design Vision</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Human-AI <span class="accent">architecture</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="arch-visual anim anim-clip d3" style="margin-top:var(--content-gap);">
+            <div class="arch-human-layer">
+                <div class="arch-label" contenteditable="false">Human Orchestrator Layer</div>
+                <div class="arch-roles" contenteditable="false">Strategic oversight · Context design · Quality judgment · Domain expertise · Ethical review</div>
+            </div>
+            <div class="arch-connector">↓ Designs context, sets guardrails, validates outputs ↓</div>
+            <div class="arch-agent-grid">
+                <div class="arch-agent-card anim anim-up d5">
+                    <div class="agent-level supervised" contenteditable="false">Human-in-the-Loop</div>
+                    <div class="agent-name" contenteditable="false">Data Management Agent</div>
+                    <div class="agent-tasks" contenteditable="false">Format conversion, QA checks, data cleaning. <strong>Why:</strong> Outputs are objectively verifiable; human approves each batch before downstream use.</div>
+                </div>
+                <div class="arch-agent-card anim anim-up d6">
+                    <div class="agent-level semi" contenteditable="false">Human-on-the-Loop</div>
+                    <div class="agent-name" contenteditable="false">Analysis Agent</div>
+                    <div class="agent-tasks" contenteditable="false">Report drafting, compliance scanning, literature synthesis. <strong>Why:</strong> Requires domain judgment; human reviews outputs, intervenes on exceptions.</div>
+                </div>
+                <div class="arch-agent-card anim anim-up d7">
+                    <div class="agent-level unsupervised" contenteditable="false">Human-Directed</div>
+                    <div class="agent-name" contenteditable="false">Monitoring Agent</div>
+                    <div class="agent-tasks" contenteditable="false">Real-time data feeds, alerting, notifications. <strong>Why:</strong> Operates within human-set thresholds; human defines rules, not each action.</div>
+                </div>
+            </div>
+            <div class="arch-connector anim anim-fade d8">↓ Progressive autonomy as trust, validation, and guardrail maturity increase ↓</div>
+        </div>
+        <p class="body-text anim anim-fade d8" style="margin-top:var(--element-gap);font-size:var(--small-size);color:var(--text-tertiary);" contenteditable="false">Terminology follows EU AI Act / NIST conventions: “in-the-loop” (active co-decision), “on-the-loop” (monitor + intervene), “directed” (set policy, not each action).</p>
+    </div>
+</section>
+
+<!-- S14: TIERS -->
+<section class="slide" data-slide="tiers">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">14</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">Where to Start</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Three tiers of <span class="accent">AI integration</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="three-col" style="margin-top:var(--content-gap);">
+            <div class="tier-card anim anim-scale d3" style="border-top:4px solid #16a34a;">
+                <div class="tier-label" style="color:#16a34a;" contenteditable="false">Tier 1 — Quick wins</div>
+                <div class="tier-title" contenteditable="false">Data Management &amp; QA</div>
+                <div class="tier-desc" contenteditable="false"><strong>Why first:</strong> LLMs battle-tested here. Outputs objectively verifiable. Improvements cascade downstream.</div>
+                <div style="margin-top:clamp(0.3rem,0.6vw,0.5rem);padding-top:clamp(0.3rem,0.6vw,0.5rem);border-top:1px solid var(--divider);">
+                    <span style="font-family:var(--font-display);font-size:var(--label-size);font-weight:800;color:#16a34a;">FRS EXAMPLES</span>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-secondary);margin-top:0.15rem;line-height:1.4;">Data cleaning, format conversion, QC checklists, metadata extraction, standardized report templates</div>
+                </div>
+            </div>
+            <div class="tier-card featured anim anim-scale d4 pulse">
+                <div class="tier-label" contenteditable="false">Tier 2 — Build muscle</div>
+                <div class="tier-title" contenteditable="false">Domain-Specific Analysis</div>
+                <div class="tier-desc" contenteditable="false"><strong>Why second:</strong> Structured KB + RAG unlocks compliance scanning, report synthesis, standards interpretation. Requires trust built in Tier 1.</div>
+                <div style="margin-top:clamp(0.3rem,0.6vw,0.5rem);padding-top:clamp(0.3rem,0.6vw,0.5rem);border-top:1px solid var(--divider);">
+                    <span style="font-family:var(--font-display);font-size:var(--label-size);font-weight:800;color:var(--accent-red);">FRS EXAMPLES</span>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-secondary);margin-top:0.15rem;line-height:1.4;">Floodplain regulation review, insurance rating analysis, FEMA policy interpretation, technical memo drafting</div>
+                </div>
+            </div>
+            <div class="tier-card anim anim-scale d5" style="border-top:4px solid var(--bg-dark);">
+                <div class="tier-label" style="color:var(--text-tertiary);" contenteditable="false">Tier 3 — Long-term vision</div>
+                <div class="tier-title" contenteditable="false">Infrastructure &amp; Resilience</div>
+                <div class="tier-desc" contenteditable="false"><strong>Why last:</strong> Physics-based modeling + professional liability stakes are fundamentally different. Highest impact, highest risk.</div>
+                <div style="margin-top:clamp(0.3rem,0.6vw,0.5rem);padding-top:clamp(0.3rem,0.6vw,0.5rem);border-top:1px solid var(--divider);">
+                    <span style="font-family:var(--font-display);font-size:var(--label-size);font-weight:800;color:var(--text-tertiary);">FRS EXAMPLES</span>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-secondary);margin-top:0.15rem;line-height:1.4;">H&amp;H model setup assistance, terrain feature detection, multi-agent project orchestration</div>
+                </div>
+            </div>
+        </div>
+        <div class="anim anim-clip d6" style="margin-top:var(--element-gap);background:var(--bg-dark);color:var(--text-light);border-radius:clamp(6px,0.8vw,10px);padding:clamp(0.5rem,1vw,0.8rem) clamp(0.8rem,1.5vw,1.2rem);display:flex;align-items:center;gap:0.6rem;">
+            <span style="font-family:var(--font-display);font-size:clamp(0.6rem,0.95vw,0.8rem);font-weight:800;color:var(--accent-red);white-space:nowrap;">STRATEGIC PRINCIPLE</span>
+            <span style="font-size:clamp(0.6rem,0.95vw,0.8rem);">Tier 1 successes fund and de-risk Tier 3 ambitions. Start where AI is strongest, errors are cheapest, and value is most visible.</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- S14b: TIER-3 EXAMPLE — HYDROTWIN AI -->
+<section class="slide" data-slide="tier3-example">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">15</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Tier 3 in Practice</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">"HydroTwin" AI app example — <span class="accent">system architecture</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+            <p class="body-text anim anim-up d3" contenteditable="false">What a Tier-3 AI integration actually looks like: ML surrogate modeling + multi-agent orchestration for real-time flood risk forecasting.</p>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);grid-template-columns:1.1fr 1fr;">
+            <!-- LEFT: ML Pipeline -->
+            <div class="anim anim-scale d4" style="display:flex;flex-direction:column;gap:2px;border-radius:clamp(6px,1vw,10px);overflow:hidden;border:2px solid var(--divider);">
+                <div style="background:var(--bg-dark);color:#fff;padding:clamp(0.3rem,0.6vw,0.45rem) clamp(0.5rem,0.9vw,0.7rem);text-align:center;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;letter-spacing:0.1em;">ML SURROGATE PIPELINE</span>
+                </div>
+                <div style="background:#e3f2fd;padding:clamp(0.25rem,0.5vw,0.35rem) clamp(0.5rem,0.9vw,0.7rem);display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.6rem,0.92vw,0.78rem);font-weight:800;color:#1565c0;">DATA SOURCES</span>
+                    <span style="font-size:clamp(0.55rem,0.85vw,0.72rem);color:#444;">NEXRAD · USGS Gauges · NOAA Tides</span>
+                </div>
+                <div style="text-align:center;color:var(--accent-red);font-weight:900;font-size:0.65rem;padding:1px 0;">↓</div>
+                <div style="background:#e8f5e9;padding:clamp(0.25rem,0.5vw,0.35rem) clamp(0.5rem,0.9vw,0.7rem);display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.6rem,0.92vw,0.78rem);font-weight:800;color:#2e7d32;">PREPROCESSING</span>
+                    <span style="font-size:clamp(0.55rem,0.85vw,0.72rem);color:#444;">Normalization · Tensor reshaping</span>
+                </div>
+                <div style="text-align:center;color:var(--accent-red);font-weight:900;font-size:0.65rem;padding:1px 0;">↓</div>
+                <div style="background:var(--accent-red);color:#fff;padding:clamp(0.3rem,0.6vw,0.45rem) clamp(0.5rem,0.9vw,0.7rem);display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.6rem,0.92vw,0.78rem);font-weight:800;">SURROGATE MODEL</span>
+                    <span style="font-size:clamp(0.55rem,0.85vw,0.72rem);opacity:0.8;">SWE-GNN / PCA-LSTM</span>
+                </div>
+                <div style="text-align:center;color:var(--accent-red);font-weight:900;font-size:0.65rem;padding:1px 0;">↓</div>
+                <div style="background:#fff3e0;padding:clamp(0.25rem,0.5vw,0.35rem) clamp(0.5rem,0.9vw,0.7rem);display:flex;align-items:center;gap:clamp(0.3rem,0.6vw,0.5rem);">
+                    <div style="flex:1;text-align:center;"><span style="font-family:var(--font-display);font-size:clamp(0.55rem,0.85vw,0.72rem);font-weight:800;color:#e65100;">SPATIAL</span><br><span style="font-size:clamp(0.5rem,0.78vw,0.65rem);color:#666;">2D Extent Heatmap</span></div>
+                    <div style="width:1px;height:20px;background:var(--divider);"></div>
+                    <div style="flex:1;text-align:center;"><span style="font-family:var(--font-display);font-size:clamp(0.55rem,0.85vw,0.72rem);font-weight:800;color:#e65100;">TEMPORAL</span><br><span style="font-size:clamp(0.5rem,0.78vw,0.65rem);color:#666;">Stage Hydrographs</span></div>
+                </div>
+                <div style="background:var(--bg-card);padding:clamp(0.2rem,0.4vw,0.25rem) clamp(0.5rem,0.9vw,0.7rem);font-size:clamp(0.55rem,0.85vw,0.72rem);color:var(--text-tertiary);text-align:center;font-style:italic;">Emulates HEC-RAS 2D in seconds, not hours</div>
+            </div>
+            <!-- RIGHT: Multi-Agent Framework -->
+            <div style="display:flex;flex-direction:column;gap:clamp(0.2rem,0.4vw,0.35rem);">
+                <div class="anim anim-right d4" style="background:var(--bg-dark);color:#fff;border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.3rem,0.55vw,0.4rem) clamp(0.5rem,0.9vw,0.7rem);text-align:center;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;letter-spacing:0.1em;">MULTI-AGENT ORCHESTRATION</span>
+                </div>
+                <div class="anim anim-right d5" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(0.15rem,0.35vw,0.25rem);">
+                    <div style="background:#e3f2fd;border-radius:clamp(4px,0.6vw,6px);padding:clamp(0.2rem,0.45vw,0.35rem) clamp(0.4rem,0.7vw,0.6rem);">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.58rem,0.88vw,0.75rem);font-weight:800;color:#1565c0;">DataIngestion</div>
+                        <div style="font-size:clamp(0.5rem,0.78vw,0.65rem);color:#555;line-height:1.3;">Monitors weather APIs, triggers on thresholds</div>
+                    </div>
+                    <div style="background:#e8f5e9;border-radius:clamp(4px,0.6vw,6px);padding:clamp(0.2rem,0.45vw,0.35rem) clamp(0.4rem,0.7vw,0.6rem);">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.58rem,0.88vw,0.75rem);font-weight:800;color:#2e7d32;">H&amp;H Orchestrator</div>
+                        <div style="font-size:clamp(0.5rem,0.78vw,0.65rem);color:#555;line-height:1.3;">Formats tensors for ML surrogate input</div>
+                    </div>
+                    <div style="background:#fff3e0;border-radius:clamp(4px,0.6vw,6px);padding:clamp(0.2rem,0.45vw,0.35rem) clamp(0.4rem,0.7vw,0.6rem);">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.58rem,0.88vw,0.75rem);font-weight:800;color:#e65100;">Inference</div>
+                        <div style="font-size:clamp(0.5rem,0.78vw,0.65rem);color:#555;line-height:1.3;">Executes ML surrogate on cloud GPUs</div>
+                    </div>
+                    <div style="background:#f3e5f5;border-radius:clamp(4px,0.6vw,6px);padding:clamp(0.2rem,0.45vw,0.35rem) clamp(0.4rem,0.7vw,0.6rem);">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.58rem,0.88vw,0.75rem);font-weight:800;color:#7b1fa2;">Decision Support</div>
+                        <div style="font-size:clamp(0.5rem,0.78vw,0.65rem);color:#555;line-height:1.3;">LLM risk summaries + confidence scoring</div>
+                    </div>
+                </div>
+                <div class="anim anim-right d6" style="text-align:center;color:var(--accent-red);font-weight:900;font-size:0.65rem;">↓ HITL APPROVAL GATE ↓</div>
+                <div class="anim anim-right d6 pulse" style="background:var(--accent-red-soft);border:2px solid var(--accent-red);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.25rem,0.5vw,0.4rem) clamp(0.5rem,0.9vw,0.7rem);text-align:center;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.6rem,0.92vw,0.78rem);font-weight:800;color:var(--accent-red);">HUMAN ENGINEER REVIEW</span>
+                    <div style="font-size:clamp(0.52rem,0.82vw,0.7rem);color:var(--text-secondary);margin-top:0.1rem;">Validates heatmap · Reviews LLM summary · Override to HEC-RAS if anomalies</div>
+                </div>
+                <div class="anim anim-right d7" style="text-align:center;color:var(--accent-red);font-weight:900;font-size:0.65rem;">↓</div>
+                <div class="anim anim-right d7" style="background:var(--bg-dark);color:#fff;border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.25rem,0.5vw,0.4rem) clamp(0.5rem,0.9vw,0.7rem);text-align:center;">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.6rem,0.92vw,0.78rem);font-weight:800;">DECISION DASHBOARD</span>
+                    <div style="font-size:clamp(0.52rem,0.82vw,0.7rem);opacity:0.6;">Real-time flood alert heatmap + interactive hydrographs</div>
+                </div>
+            </div>
+        </div>
+        <div class="anim anim-fade d8" style="margin-top:var(--element-gap);display:flex;gap:clamp(0.3rem,0.5vw,0.4rem);flex-wrap:wrap;">
+            <span style="background:var(--bg-card);border:1px solid var(--divider);border-radius:4px;padding:0.15em 0.5em;font-family:var(--font-display);font-size:clamp(0.55rem,0.82vw,0.7rem);font-weight:700;color:var(--text-tertiary);">PyTorch</span>
+            <span style="background:var(--bg-card);border:1px solid var(--divider);border-radius:4px;padding:0.15em 0.5em;font-family:var(--font-display);font-size:clamp(0.55rem,0.82vw,0.7rem);font-weight:700;color:var(--text-tertiary);">FastAPI</span>
+            <span style="background:var(--bg-card);border:1px solid var(--divider);border-radius:4px;padding:0.15em 0.5em;font-family:var(--font-display);font-size:clamp(0.55rem,0.82vw,0.7rem);font-weight:700;color:var(--text-tertiary);">React + Mapbox</span>
+            <span style="background:var(--bg-card);border:1px solid var(--divider);border-radius:4px;padding:0.15em 0.5em;font-family:var(--font-display);font-size:clamp(0.55rem,0.82vw,0.7rem);font-weight:700;color:var(--text-tertiary);">MCP</span>
+            <span style="background:var(--bg-card);border:1px solid var(--divider);border-radius:4px;padding:0.15em 0.5em;font-family:var(--font-display);font-size:clamp(0.55rem,0.82vw,0.7rem);font-weight:700;color:var(--text-tertiary);">HEC-RAS HDF5</span>
+            <span style="background:var(--bg-card);border:1px solid var(--divider);border-radius:4px;padding:0.15em 0.5em;font-family:var(--font-display);font-size:clamp(0.55rem,0.82vw,0.7rem);font-weight:700;color:var(--text-tertiary);">Cloud GPU</span>
+        </div>
+    </div>
+    <div class="sources anim anim-fade d8">HydroTwin AI Implementation Plan v1.0 &nbsp;|&nbsp; Illustrative Tier-3 FRS Architecture</div>
+</section>
+
+<!-- S15: B2 KEY MESSAGE -->
+<section class="slide" data-slide="b2-key" data-transition="key">
+    <span class="block-label">Block 2 — The Practice</span>
+    <span class="slide-number">16</span>
+    <div class="slide-content">
+        <div class="two-col" style="align-items:center;">
+            <div class="red-rule">
+                <p class="label-text anim anim-up d1" contenteditable="false">Key Takeaway</p>
+                <p class="”key-message" anim="" anim-clip="" d2”="" style="”margin-top:var(--content-gap);”">”Context engineering is the <span class="”highlight”">competitive moat.</span> Whoever structures their domain expertise first owns the <span class="highlight">AI advantage.</span>”</p>
+                <div class="divider-red anim anim-draw d4" style="margin-top:var(--content-gap);"></div>
+            </div>
+            <div>
+                <div class="anim anim-right d4" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(8px,1.2vw,12px);padding:clamp(0.8rem,1.6vw,1.3rem);">
+                    <p class="slide-h3" style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--accent-red);" contenteditable="false">The Business Strategy</p>
+                    <p class="body-text anim anim-up d5" style="margin-top:var(--element-gap);" contenteditable="false">Raw AI capability is commoditized—anyone can access the same models. The differentiator is <strong>proprietary context engineering</strong>: structured domain knowledge, validated workflows, and standardized agent architectures.</p>
+                    <p class="body-text anim anim-up d6" style="margin-top:var(--element-gap);" contenteditable="false">Resource-efficient allocation: focus the team’s effort where it compounds—<strong>structured knowledge bases and reusable agent patterns</strong>, not one-off prompt experiments.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="geo-circle" style="right:clamp(3rem,10vw,10rem);top:50%;transform:translateY(-50%);width:clamp(120px,22vw,260px);height:clamp(120px,22vw,260px);"></div>
+</section>
+
+
+<!-- ====================================================================
+     BLOCK 3 — GUARDRAILS & THE HORIZON
+     ==================================================================== -->
+
+<!-- S16: EVALUATION GAP -->
+<section class="slide dark" data-slide="b3-open" data-transition="opener">
+    <span class="slide-number">17</span>
+    <div class="slide-content">
+        <div style="max-width:min(90vw,750px);">
+            <p class="label-text anim anim-fade d1" style="color:rgba(255,255,255,0.4);" contenteditable="false">Block 3 — Guardrails &amp; the Horizon</p>
+            <h2 class="slide-title anim anim-scale d2" style="color:var(--text-light);" contenteditable="false">The more AI creates for you,<br>the less critically <span class="accent">you evaluate it</span></h2>
+            <div class="divider anim anim-draw d3"></div>
+        </div>
+        <div style="display:flex;gap:clamp(0.6rem,1.5vw,1.25rem);margin-top:var(--content-gap);flex-wrap:wrap;">
+            <div class="stat-card anim anim-scale d4" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);flex:1;min-width:140px;">
+                <div class="stat-value" style="font-size:clamp(1.5rem,3.2vw,2.6rem);" contenteditable="false">-5.2pp</div>
+                <div class="stat-label" style="color:rgba(255,255,255,0.45);" contenteditable="false">Drop in identifying missing context when creating artifacts</div>
+            </div>
+            <div class="stat-card anim anim-scale d5" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);flex:1;min-width:140px;">
+                <div class="stat-value" style="font-size:clamp(1.5rem,3.2vw,2.6rem);" contenteditable="false">-3.7pp</div>
+                <div class="stat-label" style="color:rgba(255,255,255,0.45);" contenteditable="false">Drop in fact-checking AI outputs</div>
+            </div>
+            <div class="stat-card anim anim-scale d6" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);flex:1;min-width:140px;">
+                <div class="stat-value" style="font-size:clamp(1.5rem,3.2vw,2.6rem);" contenteditable="false">-3.1pp</div>
+                <div class="stat-label" style="color:rgba(255,255,255,0.45);" contenteditable="false">Drop in questioning AI reasoning</div>
+            </div>
+        </div>
+        <p class="body-text anim anim-up d7" style="margin-top:var(--content-gap);" contenteditable="false">These are percentage-point drops in <strong style="color:#fff;">critical evaluation behaviors</strong> as users gain AI fluency. The paradox: <strong style="color:#fff;">more comfort = less scrutiny</strong>. This is confirmation bias amplified by capability—and exactly where your domain expertise matters most.</p>
+    </div>
+    <div class="”sources" anim="" anim-fade="" d8”=""><a href="file:///C:/Users/daniel.kang/Desktop/Automoto/Flood_Risk_Manager/docs/ai-intro-2026/%E2%80%9Dhttps://www.anthropic.com/research/AI-fluency-index%E2%80%9D" target="”_blank”" rel="”noopener”" style="”color:inherit;text-decoration:underline;”">Anthropic, “The AI Fluency Index,” 2026</a> — study of 9,830 conversations</div>
+</section>
+
+<!-- S17: FAILURE MODES -->
+<section class="slide" data-slide="failures">
+    <span class="block-label">Block 3 — Guardrails</span>
+    <span class="slide-number">18</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Agentic AI Risk Landscape</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Failure modes <span class="accent">taxonomy</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);grid-template-columns:1.2fr 1fr;">
+            <div class="quad-grid anim anim-scale d3">
+                <div class="corner"></div>
+                <div class="col-head">Security</div>
+                <div class="col-head">Safety</div>
+                <div class="row-head">Novel<br>(Agentic)</div>
+                <div class="quad-cell">
+                    <div class="cell-title" contenteditable="false">6 new failure modes</div>
+                    <div class="cell-items" contenteditable="false">Agent injection, impersonation, flow manipulation, memory poisoning, provisioning attacks, multi-agent jailbreaks</div>
+                </div>
+                <div class="quad-cell">
+                    <div class="cell-title" contenteditable="false">4 new failure modes</div>
+                    <div class="cell-items" contenteditable="false">Intra-agent RAI issues, allocation harms, org knowledge loss, safety deprioritization</div>
+                </div>
+                <div class="row-head">Existing<br>(Amplified)</div>
+                <div class="quad-cell">
+                    <div class="cell-title" contenteditable="false">11 amplified</div>
+                    <div class="cell-items" contenteditable="false">XPIA, tool compromise, incorrect permissions, resource exhaustion, HitL bypass</div>
+                </div>
+                <div class="quad-cell">
+                    <div class="cell-title" contenteditable="false">7 amplified</div>
+                    <div class="cell-items" contenteditable="false">Bias amplification, hallucination in decisions, loss of provenance, excessive agency</div>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:clamp(0.4rem,0.8vw,0.7rem);">
+                <div class="anim anim-right d4" style="background:var(--bg-dark);color:var(--text-light);border-radius:clamp(8px,1.2vw,12px);padding:clamp(0.7rem,1.3vw,1rem);display:flex;align-items:center;gap:clamp(0.5rem,1vw,0.8rem);">
+                    <div style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:var(--accent-red);line-height:1;" data-count-to="28">0</div>
+                    <div>
+                        <div style="font-size:clamp(0.65rem,1vw,0.85rem);font-weight:700;">total failure modes</div>
+                        <div style="font-size:clamp(0.62rem,0.92vw,0.78rem);opacity:0.5;">10 novel to agentic · 18 amplified from existing</div>
+                    </div>
+                </div>
+                <div class="anim anim-right d5" style="background:var(--accent-red-soft);border:2px solid var(--accent-red);border-radius:clamp(8px,1.2vw,12px);padding:clamp(0.7rem,1.3vw,1rem);">
+                    <div style="font-family:var(--font-display);font-size:clamp(0.65rem,1vw,0.85rem);font-weight:800;color:var(--accent-red);">Why This Matters for FRS</div>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-secondary);margin-top:0.2rem;line-height:1.4;">Responsible AI is an intentional, technical engineering requirement for high-risk systems like flood risk modeling and mitigation planning.</div>
+                </div>
+                <!-- Evaluation decision flow -->
+                <div class="anim anim-right d6" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(8px,1.2vw,12px);padding:clamp(0.6rem,1.2vw,1rem);">
+                    <div style="font-family:var(--font-display);font-size:clamp(0.6rem,0.9vw,0.78rem);font-weight:800;margin-bottom:0.3rem;">Your Evaluation Framework</div>
+                    <div style="display:flex;align-items:center;gap:clamp(0.2rem,0.4vw,0.3rem);font-size:clamp(0.62rem,0.92vw,0.78rem);">
+                        <span style="background:#e8f5e9;color:#2e7d32;padding:0.2em 0.5em;border-radius:4px;font-weight:800;">TRUST</span>
+                        <span style="color:var(--text-tertiary);">→</span>
+                        <span style="background:#fff3e0;color:#e65100;padding:0.2em 0.5em;border-radius:4px;font-weight:800;">VERIFY</span>
+                        <span style="color:var(--text-tertiary);">→</span>
+                        <span style="background:#ffebee;color:#c62828;padding:0.2em 0.5em;border-radius:4px;font-weight:800;">REJECT</span>
+                    </div>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-tertiary);margin-top:0.25rem;line-height:1.3;">Apply domain judgment at every output. The more comfortable you become with AI, the more disciplined your evaluation must be.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="”sources" anim="" anim-fade="" d8”=""><a href="file:///C:/Users/daniel.kang/Desktop/Automoto/Flood_Risk_Manager/docs/ai-intro-2026/%E2%80%9Dhttps://www.microsoft.com/en-us/security/blog/2025/04/24/new-whitepaper-outlines-the-taxonomy-of-failure-modes-in-ai-agents/%E2%80%9D" target="”_blank”" rel="”noopener”" style="”color:inherit;text-decoration:underline;”">Microsoft AI Red Team, “Taxonomy of Failure Modes in Agentic AI Systems,” 2025</a></div>
+</section>
+
+<!-- S17b: RESPONSIBLE AI FRAMEWORKS -->
+<section class="slide" data-slide="responsible-ai">
+    <span class="block-label">Block 3 — Guardrails</span>
+    <span class="slide-number">19</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">Established Frameworks</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Responsible AI <span class="accent">resources</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <!-- MS 6 Pillars as visual grid -->
+            <div>
+                <p class="slide-h3 anim anim-up d3" style="font-size:clamp(0.8rem,1.2vw,1rem);" contenteditable="false">Microsoft Responsible AI</p>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(0.25rem,0.5vw,0.4rem);margin-top:var(--element-gap);">
+                    <div class="anim anim-scale d3" style="background:var(--accent-red-soft);border:1px solid rgba(230,51,34,0.2);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem);text-align:center;">
+                        <div style="font-size:clamp(1rem,1.8vw,1.4rem);">⚖</div>
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;">Fairness</div>
+                    </div>
+                    <div class="anim anim-scale d3" style="background:var(--accent-red-soft);border:1px solid rgba(230,51,34,0.2);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem);text-align:center;">
+                        <div style="font-size:clamp(1rem,1.8vw,1.4rem);">☍</div>
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;">Reliability</div>
+                    </div>
+                    <div class="anim anim-scale d4" style="background:var(--accent-red-soft);border:1px solid rgba(230,51,34,0.2);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem);text-align:center;">
+                        <div style="font-size:clamp(1rem,1.8vw,1.4rem);">⚿</div>
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;">Privacy</div>
+                    </div>
+                    <div class="anim anim-scale d4" style="background:var(--accent-red-soft);border:1px solid rgba(230,51,34,0.2);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem);text-align:center;">
+                        <div style="font-size:clamp(1rem,1.8vw,1.4rem);">☆</div>
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;">Inclusive</div>
+                    </div>
+                    <div class="anim anim-scale d5" style="background:var(--accent-red-soft);border:1px solid rgba(230,51,34,0.2);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem);text-align:center;">
+                        <div style="font-size:clamp(1rem,1.8vw,1.4rem);">☉</div>
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;">Transparent</div>
+                    </div>
+                    <div class="anim anim-scale d5" style="background:var(--accent-red-soft);border:1px solid rgba(230,51,34,0.2);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem);text-align:center;">
+                        <div style="font-size:clamp(1rem,1.8vw,1.4rem);">✔</div>
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;">Accountable</div>
+                    </div>
+                </div>
+            </div>
+            <!-- NIST as flow + case study stat -->
+            <div>
+                <p class="slide-h3 anim anim-up d3" style="font-size:clamp(0.8rem,1.2vw,1rem);" contenteditable="false">NIST AI Risk Management Framework</p>
+                <div class="anim anim-scale d4" style="display:flex;gap:2px;margin-top:var(--element-gap);border-radius:clamp(6px,0.8vw,8px);overflow:hidden;">
+                    <div style="flex:1;background:#1a237e;color:#fff;padding:clamp(0.5rem,1vw,0.8rem);text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,1vw,0.85rem);font-weight:800;">GOVERN</div>
+                        <div style="font-size:clamp(0.45rem,0.7vw,0.6rem);opacity:0.7;">Culture &amp; policy</div>
+                    </div>
+                    <div style="flex:1;background:#283593;color:#fff;padding:clamp(0.5rem,1vw,0.8rem);text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,1vw,0.85rem);font-weight:800;">MAP</div>
+                        <div style="font-size:clamp(0.45rem,0.7vw,0.6rem);opacity:0.7;">Context &amp; risk</div>
+                    </div>
+                    <div style="flex:1;background:#303f9f;color:#fff;padding:clamp(0.5rem,1vw,0.8rem);text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,1vw,0.85rem);font-weight:800;">MEASURE</div>
+                        <div style="font-size:clamp(0.45rem,0.7vw,0.6rem);opacity:0.7;">Assess &amp; track</div>
+                    </div>
+                    <div style="flex:1;background:#3949ab;color:#fff;padding:clamp(0.5rem,1vw,0.8rem);text-align:center;">
+                        <div style="font-family:var(--font-display);font-size:clamp(0.65rem,1vw,0.85rem);font-weight:800;">MANAGE</div>
+                        <div style="font-size:clamp(0.45rem,0.7vw,0.6rem);opacity:0.7;">Allocate &amp; act</div>
+                    </div>
+                </div>
+                <!-- Case study as visual stat -->
+                <div class="anim anim-up d6" style="margin-top:clamp(0.5rem,1vw,0.8rem);background:var(--bg-dark);color:var(--text-light);border-radius:clamp(6px,0.8vw,10px);padding:clamp(0.6rem,1.2vw,1rem);display:flex;align-items:center;gap:clamp(0.5rem,1vw,0.8rem);">
+                    <div style="text-align:center;flex-shrink:0;">
+                        <div style="font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,2rem);font-weight:900;color:var(--accent-red);">40%→80%</div>
+                        <div style="font-size:clamp(0.5rem,0.72vw,0.62rem);opacity:0.5;text-transform:uppercase;font-weight:700;letter-spacing:0.08em;">attack success rate</div>
+                    </div>
+                    <div style="font-size:clamp(0.6rem,0.9vw,0.78rem);opacity:0.7;line-height:1.4;">Memory poisoning: one disguised email corrupts long-term agent behavior. Guardrails aren’t optional—they’re the architecture.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sources anim anim-fade d7"><a href="https://www.microsoft.com/ai/responsible-ai" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">microsoft.com/ai/responsible-ai</a> &nbsp;|&nbsp; <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">nist.gov/itl/ai-risk-management-framework</a> &nbsp;|&nbsp; <a href="https://www.microsoft.com/en-us/security/blog/2025/04/24/new-whitepaper-outlines-the-taxonomy-of-failure-modes-in-ai-agents/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">MS AI Red Team, 2025</a></div>
+</section>
+
+<!-- S19: ENGINEERING CONSTRAINT -->
+<section class="slide" data-slide="constraint">
+    <span class="block-label">Block 3 — Guardrails</span>
+    <span class="slide-number">20</span>
+    <div class="slide-content">
+        <div class="two-col" style="align-items:start;">
+            <div class="red-rule">
+                <p class="label-text anim anim-up d1" contenteditable="false">Closing the Loop</p>
+                <h2 class="slide-title anim anim-up d2" contenteditable="false">Human orchestration is an<br><span class="accent">engineering constraint</span></h2>
+                <div class="divider anim anim-draw d3"></div>
+                <ul class="bullet-list" style="margin-top:var(--content-gap);">
+                    <li class="anim anim-left d4" contenteditable="false"><strong>Masters et al. (2025):</strong> GPT-5 Manager Agents couldn’t jointly optimize across 20 workflows. A measured engineering limitation, not philosophy.</li>
+                    <li class="anim anim-left d5" contenteditable="false"><strong>The closed loop:</strong> Orchestrator (Block 1) structures knowledge (Block 2); the guardrail IS the quality of that orchestration (Block 3).</li>
+                </ul>
+            </div>
+            <div class="anim anim-right d5" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(8px,1.2vw,12px);padding:clamp(0.8rem,1.6vw,1.3rem);">
+                <p class="slide-h3" style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--accent-red);" contenteditable="false">Knowledge Democratization</p>
+                <p class="body-text anim anim-up d6" style="margin-top:var(--element-gap);" contenteditable="false">Base AI capability is free or near-free. The question for private consultancies: <strong>if everyone can access the same models, what’s your moat?</strong></p>
+                <p class="body-text anim anim-up d7" style="margin-top:var(--element-gap);" contenteditable="false">The answer is <strong>proprietary context engineering</strong>—structured domain knowledge, validated workflows, and quality standards that take years to accumulate and cannot be replicated by a prompt.</p>
+            </div>
+        </div>
+    </div>
+    <div class="geo-dot" style="right:clamp(2rem,5vw,4rem);bottom:clamp(2rem,5vw,4rem);"></div>
+</section>
+
+<!-- S20: SECOND ACT STRATEGY -->
+<section class="slide" data-slide="second-act">
+    <span class="block-label">Block 3 — The Horizon</span>
+    <span class="slide-number">21</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Business Strategy</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">The <span class="accent">Second Act</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <div>
+                <p class="body-text anim anim-up d3" contenteditable="false">Every services business faces a transition: from <strong>project delivery</strong> (sell hours, deliver scope) to <strong>product-enabled delivery</strong> (sell outcomes, scale expertise through systems).</p>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li class="anim anim-up d4" contenteditable="false"><strong>Act 1:</strong> Deliver projects. Expertise lives in people. Revenue scales linearly with headcount.</li>
+                    <li class="anim anim-up d5" contenteditable="false"><strong>The Transition:</strong> Project management → <strong>product management</strong>. Systematize knowledge, standardize workflows, build reusable AI-enhanced tools.</li>
+                    <li class="anim anim-up d6" contenteditable="false"><strong>Act 2:</strong> Deliver products and product-enabled services. Expertise lives in systems. Revenue potential scales non-linearly.</li>
+                </ul>
+                <!-- Jevons Paradox callout -->
+                <div class="anim anim-fade d7" style="margin-top:var(--content-gap);background:var(--accent-red-soft);border-left:4px solid var(--accent-red);border-radius:0 clamp(4px,0.6vw,6px) clamp(4px,0.6vw,6px) 0;padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.6rem,1vw,0.8rem);">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:var(--accent-red);">Jevons Paradox:</span>
+                    <span style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-secondary);"> AI efficiency gains create <em>more</em> demand for human expertise, not less. The pie grows.</span>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:clamp(0.3rem,0.6vw,0.5rem);">
+                <div class="anim anim-up d3" style="font-family:var(--font-display);font-size:clamp(0.8rem,1.2vw,1rem);font-weight:800;">Five Strategies to Catalyze the Transition</div>
+                <div class="anim anim-right d4" style="background:var(--accent-red);color:#fff;border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.6rem,1vw,0.8rem);display:flex;align-items:center;gap:clamp(0.4rem,0.7vw,0.6rem);">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.85rem,1.4vw,1.15rem);font-weight:900;opacity:0.3;">01</span>
+                    <div><div style="font-family:var(--font-display);font-size:clamp(0.68rem,1.02vw,0.85rem);font-weight:800;">Rich Data → Passive Advice → Active Assistance</div>
+                    <div style="font-size:clamp(0.6rem,0.88vw,0.75rem);opacity:0.7;">Progressive automation: start with insights, graduate to action.</div></div>
+                </div>
+                <div class="anim anim-right d5" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.6rem,1vw,0.8rem);display:flex;align-items:center;gap:clamp(0.4rem,0.7vw,0.6rem);">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.85rem,1.4vw,1.15rem);font-weight:900;color:var(--divider);">02</span>
+                    <div><div style="font-family:var(--font-display);font-size:clamp(0.68rem,1.02vw,0.85rem);font-weight:800;">Champion a Unified, Experimental Vision</div>
+                    <div style="font-size:clamp(0.6rem,0.88vw,0.75rem);color:var(--text-tertiary);">Align the team around shared AI strategy and safe-to-fail pilots.</div></div>
+                </div>
+                <div class="anim anim-right d6" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.6rem,1vw,0.8rem);display:flex;align-items:center;gap:clamp(0.4rem,0.7vw,0.6rem);">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.85rem,1.4vw,1.15rem);font-weight:900;color:var(--divider);">03</span>
+                    <div><div style="font-family:var(--font-display);font-size:clamp(0.68rem,1.02vw,0.85rem);font-weight:800;">Integrated Services</div>
+                    <div style="font-size:clamp(0.6rem,0.88vw,0.75rem);color:var(--text-tertiary);">Bundle AI-enhanced tools with existing deliverables for seamless adoption.</div></div>
+                </div>
+                <div class="anim anim-right d7" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.6rem,1vw,0.8rem);display:flex;align-items:center;gap:clamp(0.4rem,0.7vw,0.6rem);">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.85rem,1.4vw,1.15rem);font-weight:900;color:var(--divider);">04</span>
+                    <div><div style="font-family:var(--font-display);font-size:clamp(0.68rem,1.02vw,0.85rem);font-weight:800;">Leapfrog to Adjacent Verticals</div>
+                    <div style="font-size:clamp(0.6rem,0.88vw,0.75rem);color:var(--text-tertiary);">Use AI to scale domain expertise into new markets and service lines.</div></div>
+                </div>
+                <div class="anim anim-right d8" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.4rem,0.8vw,0.6rem) clamp(0.6rem,1vw,0.8rem);display:flex;align-items:center;gap:clamp(0.4rem,0.7vw,0.6rem);">
+                    <span style="font-family:var(--font-display);font-size:clamp(0.85rem,1.4vw,1.15rem);font-weight:900;color:var(--divider);">05</span>
+                    <div><div style="font-family:var(--font-display);font-size:clamp(0.68rem,1.02vw,0.85rem);font-weight:800;">Robust Partner Ecosystem</div>
+                    <div style="font-size:clamp(0.6rem,0.88vw,0.75rem);color:var(--text-tertiary);">Build alliances with tech, data, and platform partners to extend reach.</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sources anim anim-fade d8">Adapted from Bessemer Venture Partners, “The Second Act,” 2025</div>
+</section>
+
+<!-- S21: AI MATURITY CURVE -->
+<section class="slide" data-slide="maturity">
+    <span class="block-label">Block 3 — The Horizon</span>
+    <span class="slide-number">22</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Where We Are</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">AI digital <span class="accent">maturity curve</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <!-- Horizontal timeline -->
+        <div style="margin-top:var(--content-gap);position:relative;">
+            <!-- Track line -->
+            <div class="anim anim-draw d3" style="position:absolute;top:clamp(18px,2.5vw,28px);left:0;right:0;height:4px;background:linear-gradient(to right,#bdbdbd 0%,#bdbdbd 20%,var(--accent-red) 20%,var(--accent-red) 40%,#66bb6a 40%,#66bb6a 60%,#ab47bc 60%,#ab47bc 80%,#b71c1c 80%);border-radius:2px;transform-origin:left;"></div>
+            <!-- FRS position marker -->
+            <div class="anim anim-count d4 pulse" style="position:absolute;top:-clamp(4px,0.8vw,8px);left:30%;transform:translateX(-50%);z-index:2;">
+                <div style="background:var(--accent-red);color:#fff;font-family:var(--font-display);font-size:clamp(0.6rem,0.92vw,0.78rem);font-weight:800;padding:0.2em 0.6em;border-radius:4px;white-space:nowrap;">FRS IS HERE</div>
+                <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid var(--accent-red);margin:0 auto;"></div>
+            </div>
+            <!-- Stage nodes -->
+            <div style="display:flex;gap:clamp(0.2rem,0.4vw,0.3rem);padding-top:clamp(26px,3.5vw,40px);">
+                <div class="anim anim-up d3" style="flex:1;text-align:center;opacity:0.5;">
+                    <div style="width:clamp(10px,1.4vw,16px);height:clamp(10px,1.4vw,16px);border-radius:50%;background:#bdbdbd;margin:-clamp(20px,2.8vw,32px) auto clamp(0.3rem,0.5vw,0.4rem);border:3px solid var(--bg-primary);position:relative;z-index:1;"></div>
+                    <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#999;">Stage 1</div>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:#aaa;">Awareness</div>
+                </div>
+                <div class="anim anim-up d4" style="flex:1;text-align:center;">
+                    <div class="pulse" style="width:clamp(14px,1.8vw,20px);height:clamp(14px,1.8vw,20px);border-radius:50%;background:var(--accent-red);margin:-clamp(22px,3vw,34px) auto clamp(0.3rem,0.5vw,0.4rem);border:3px solid var(--bg-primary);position:relative;z-index:1;"></div>
+                    <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:var(--accent-red);">Stage 2</div>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-secondary);">Active Experimentation</div>
+                </div>
+                <div class="anim anim-up d5" style="flex:1;text-align:center;border:2px dashed rgba(230,51,34,0.3);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.15rem,0.3vw,0.25rem);">
+                    <div style="width:clamp(10px,1.4vw,16px);height:clamp(10px,1.4vw,16px);border-radius:50%;background:#66bb6a;margin:-clamp(22px,3vw,34px) auto clamp(0.3rem,0.5vw,0.4rem);border:3px solid var(--bg-primary);position:relative;z-index:1;"></div>
+                    <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#2e7d32;">Stage 3</div>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:var(--text-secondary);">Operational Integration</div>
+                </div>
+                <div class="anim anim-up d6" style="flex:1;text-align:center;opacity:0.5;">
+                    <div style="width:clamp(10px,1.4vw,16px);height:clamp(10px,1.4vw,16px);border-radius:50%;background:#ab47bc;margin:-clamp(20px,2.8vw,32px) auto clamp(0.3rem,0.5vw,0.4rem);border:3px solid var(--bg-primary);position:relative;z-index:1;"></div>
+                    <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#7b1fa2;">Stage 4</div>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:#aaa;">Systemic Scaling</div>
+                </div>
+                <div class="anim anim-up d7" style="flex:1;text-align:center;opacity:0.4;">
+                    <div style="width:clamp(10px,1.4vw,16px);height:clamp(10px,1.4vw,16px);border-radius:50%;background:#b71c1c;margin:-clamp(20px,2.8vw,32px) auto clamp(0.3rem,0.5vw,0.4rem);border:3px solid var(--bg-primary);position:relative;z-index:1;"></div>
+                    <div style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:#b71c1c;">Stage 5</div>
+                    <div style="font-size:clamp(0.65rem,0.98vw,0.82rem);color:#aaa;">Transformational</div>
+                </div>
+            </div>
+        </div>
+        <!-- Evidence cards -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(0.4rem,0.8vw,0.6rem);margin-top:var(--content-gap);">
+            <div class="anim anim-up d5" style="background:var(--accent-red-soft);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.5rem,1vw,0.8rem);">
+                <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:var(--accent-red);">Where We Are (Stage 2)</span>
+                <p style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--text-secondary);margin-top:0.2rem;line-height:1.4;">FRS AI Strategy group active. Regular demos and cross-team interest building. Individual experimentation growing.</p>
+            </div>
+            <div class="anim anim-up d6 shimmer-bg" style="background:var(--accent-red-soft);border:2px solid var(--accent-red);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.5rem,1vw,0.8rem);">
+                <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:var(--accent-red);">Where We’re Heading (Stage 3)</span>
+                <p style="font-size:clamp(0.6rem,0.92vw,0.78rem);color:var(--text-secondary);margin-top:0.2rem;line-height:1.4;">Shared repos, structured KB formats, standardized agent architecture. AI tools integrated into actual project workflows.</p>
+            </div>
+            <div class="anim anim-up d7" style="background:var(--bg-dark);color:var(--text-light);border-radius:clamp(6px,0.8vw,8px);padding:clamp(0.5rem,1vw,0.8rem);">
+                <span style="font-family:var(--font-display);font-size:clamp(0.65rem,0.98vw,0.82rem);font-weight:800;color:var(--accent-red);">Next Milestone</span>
+                <p style="font-size:clamp(0.6rem,0.92vw,0.78rem);opacity:0.7;margin-top:0.2rem;line-height:1.4;">First production AI-enhanced deliverable in a client project. This session is part of getting there.</p>
+            </div>
+        </div>
+    </div>
+    <div class="sources anim anim-fade d8">Maturity model adapted from Gartner AI Maturity Model &nbsp;|&nbsp; MIT CISR 4-Stage &nbsp;|&nbsp; MITRE AI Maturity Framework</div>
+</section>
+
+<!-- S22: B3 KEY MESSAGE -->
+<section class="slide" data-slide="b3-key" data-transition="key">
+    <span class="block-label">Block 3 — Guardrails &amp; Horizon</span>
+    <span class="slide-number">23</span>
+    <div class="slide-content">
+        <div class="two-col" style="align-items:center;">
+            <div class="red-rule">
+                <p class="label-text anim anim-up d1" contenteditable="false">Key Takeaway</p>
+                <p class="”key-message" anim="" anim-clip="" d2”="" style="”margin-top:var(--content-gap);”">”The ones who <span class="”highlight”">take control</span> of how AI integrates will define the standard. The ones who wait <span class="highlight">will be defined by it.</span>”</p>
+                <div class="divider-red anim anim-draw d4" style="margin-top:var(--content-gap);"></div>
+            </div>
+            <div>
+                <div class="anim anim-right d4" style="background:var(--bg-card);border:2px solid var(--divider);border-radius:clamp(8px,1.2vw,12px);padding:clamp(0.8rem,1.6vw,1.3rem);">
+                    <p class="slide-h3" style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--accent-red);" contenteditable="false">What Accountability Looks Like</p>
+                    <p class="body-text anim anim-up d5" style="margin-top:var(--element-gap);" contenteditable="false">Understanding failure modes. Designing guardrails. Owning evaluation. AI raises the bar for <strong>what competent practice looks like</strong>.</p>
+                    <p class="body-text anim anim-up d6" style="margin-top:var(--element-gap);" contenteditable="false">This is an <strong>initiative problem</strong>, not a permission problem. The tools are here. The frameworks exist. What’s missing is the decision to start.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="geo-circle" style="right:clamp(3rem,10vw,10rem);top:50%;transform:translateY(-50%);width:clamp(120px,22vw,260px);height:clamp(120px,22vw,260px);"></div>
+</section>
+
+
+<!-- ====================================================================
+     BLOCK 4 — SYNTHESIS + ENGAGEMENT
+     ==================================================================== -->
+
+<!-- S23: RECAP -->
+<section class="slide dark" data-slide="recap" data-transition="opener">
+    <span class="slide-number">24</span>
+    <div class="slide-content">
+        <div style="text-align:center;margin-bottom:var(--content-gap);">
+            <p class="label-text anim anim-fade d1" style="color:rgba(255,255,255,0.4);" contenteditable="false">Synthesis</p>
+            <h2 class="slide-title anim anim-up d2" style="color:var(--text-light);" contenteditable="false">Three things to <span class="accent">carry forward</span></h2>
+            <div class="divider anim anim-draw d3" style="margin-left:auto;margin-right:auto;"></div>
+        </div>
+        <div class="recap-row">
+            <div class="recap-card anim anim-up d4" style="position:relative;overflow:hidden;color:var(--text-primary);">
+                <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent-red),transparent);"></div>
+                <div class="recap-block" contenteditable="false">1 — The Shift</div>
+                <div class="recap-msg" style="font-size:clamp(0.85rem,1.3vw,1.1rem);line-height:1.4;color:var(--text-primary);" contenteditable="false">You are the context engineer. The gap between AI capability and organizational readiness is the human design layer—and that layer is your competitive advantage.</div>
+            </div>
+            <div class="recap-card anim anim-up d5" style="position:relative;overflow:hidden;color:var(--text-primary);">
+                <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent-red),transparent);"></div>
+                <div class="recap-block" contenteditable="false">2 — The Practice</div>
+                <div class="recap-msg" style="font-size:clamp(0.85rem,1.3vw,1.1rem);line-height:1.4;color:var(--text-primary);" contenteditable="false">Context engineering is the moat. Structure your domain knowledge into standardized, reusable, scalable architectures. Anyone can contribute—diverse perspectives compound.</div>
+            </div>
+            <div class="recap-card anim anim-up d6" style="position:relative;overflow:hidden;color:var(--text-primary);">
+                <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent-red),transparent);"></div>
+                <div class="recap-block" contenteditable="false">3 — The Guardrails</div>
+                <div class="recap-msg" style="font-size:clamp(0.85rem,1.3vw,1.1rem);line-height:1.4;color:var(--text-primary);" contenteditable="false">Take control or be defined by it. Responsible AI is an engineering requirement. Accountability means owning the evaluation, not just the output.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- S24: ENGAGEMENT -->
+<section class="slide" data-slide="engage">
+    <span class="block-label">Block 4 — Engagement</span>
+    <span class="slide-number">25</span>
+    <div class="slide-content">
+        <div class="red-rule">
+            <p class="label-text anim anim-up d1" contenteditable="false">Your Turn</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Let’s hear <span class="accent">from you</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <div class="stat-card anim anim-scale d3">
+                <div class="stat-label" style="color:var(--accent-red);font-weight:800;text-transform:uppercase;letter-spacing:0.12em;font-family:var(--font-display);" contenteditable="false">Poll 1 — Priority Mapping</div>
+                <div class="slide-h3" style="margin-top:var(--element-gap);" contenteditable="false">Which area matters most to your work?</div>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li contenteditable="false">Data management &amp; QA automation</li>
+                    <li contenteditable="false">Domain-specific analysis &amp; reporting</li>
+                    <li contenteditable="false">Multi-agent orchestration &amp; pipelines</li>
+                    <li contenteditable="false">Knowledge structuring &amp; KB development</li>
+                    <li contenteditable="false">Project mgmt → product mgmt mindset</li>
+                </ul>
+            </div>
+            <div class="stat-card anim anim-scale d4">
+                <div class="stat-label" style="color:var(--accent-red);font-weight:800;text-transform:uppercase;letter-spacing:0.12em;font-family:var(--font-display);" contenteditable="false">Poll 2 — Barrier Identification</div>
+                <div class="slide-h3" style="margin-top:var(--element-gap);" contenteditable="false">What is your BIGGEST barrier to experimenting with AI in your current role?</div>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li contenteditable="false"><div>Not sure where to start or what tools to use</div></li>
+                    <li contenteditable="false">Don't have time to learn alongside project deadlines</li>
+                    <li contenteditable="false"><div>Unclear whether AI use is approved or encouraged for my work</div></li>
+                    <li contenteditable="false">Concerned about accuracy or reliability for engineering deliverables</li>
+                    <li contenteditable="false">Lack of relevant training or learning resources</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- S25: CTA + RESOURCES -->
+<section class="slide" data-slide="cta">
+    <span class="block-label">Block 4 — Next Steps</span>
+    <span class="slide-number">26</span>
+    <div class="slide-content">
+        <div>
+            <p class="label-text anim anim-up d1" contenteditable="false">Get Involved</p>
+            <h2 class="slide-title anim anim-up d2" contenteditable="false">Your expertise is the <span class="accent">missing context</span></h2>
+            <div class="divider anim anim-draw d2"></div>
+        </div>
+        <div class="two-col" style="margin-top:var(--content-gap);">
+            <div>
+                <p class="slide-h3 anim anim-up d3" contenteditable="false">Immediate actions</p>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li class="anim anim-up d4" contenteditable="false"><font color="#0a0a0a"><span style="font-size: 17.6px;"><b>Brainstorm existing skillset and project experiences</b></span></font>&nbsp;— highlight personalized/proprietary vs. standardized/communal knowledge</li>
+                    <li class="anim anim-up d5" contenteditable="false"><font color="#0a0a0a"><span style="font-size: 17.6px;"><b>Map existing workflow &amp; Identify bottleneck(s)</b></span></font>&nbsp;— prioritize R&amp;D areas for potential AI solution</li>
+                    <li class="anim anim-up d6" contenteditable="false"><font color="#0a0a0a"><span style="font-size: 17.6px;"><b>Curate &amp; standardize existing knowledge</b></span></font>&nbsp;— structure one domain artifact in easily parsable format</li>
+                    <li class="anim anim-up d7" contenteditable="false"><font color="#0a0a0a"><span style="font-size: 17.6px;"><b>Join the FRS AI Strategy group</b></span></font>&nbsp;— share ideas, ask questions, contribute as a beta tester</li>
+                </ul>
+            </div>
+            <div>
+                <p class="slide-h3 anim anim-up d3" contenteditable="false"></p><div><span style="font-size: 26.4px;">AECOM AI Resources</span></div><p></p>
+                <ul class="bullet-list" style="margin-top:var(--element-gap);">
+                    <li class="anim anim-right d4" contenteditable="false"><a href="https://aecom.sharepoint.com/sites/VivaEcoAI4Eng/SitePages/Home.aspx" style="font-size: 20.8px;">AI for Engineering - Home</a></li>
+                    <li class="anim anim-right d5" contenteditable="false"><a href="https://aecom.sharepoint.com/sites/VivaEcoAI4Eng/Shared%20Documents/AI4Eng_Information_Pack.pdf?CID=ab432438-4755-475b-957a-f3d5876a77a4">AI4Eng_Information_Pack</a></li>
+                    <li class="anim anim-right d6" contenteditable="false"><a href="https://aecom.sharepoint.com/sites/VivaEcoAI4Eng/SitePages/FAQs.aspx" style="font-size: 20.8px;">AI for Engineering FAQs</a></li>
+                    <li class="anim anim-right d7" contenteditable="false"><a href="https://aecom.sharepoint.com/sites/VivaEcoppfPnps/Policies/Forms/AllItems.aspx?id=%2Fsites%2FVivaEcoppfPnps%2FPolicies%2FArtificial%5FIntelligence%5FUse%5FPolicy%5FL1%5F009%5FPL1%2Epdf&amp;parent=%2Fsites%2FVivaEcoppfPnps%2FPolicies" style="font-size: 20.8px;">Artificial_Intelligence_Use_Policy_L1_009_PL1</a><span style="font-size: 20.8px;">&nbsp;(dated 2025-10-06)</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- S26: CLOSING -->
+<section class="slide visible" data-slide="close" data-transition="hero">
+    <span class="slide-number">27</span>
+    <div class="slide-content" style="align-items:center;text-align:center;">
+        <div>
+            <p class="label-text anim anim-fade d1" contenteditable="false">Thank You</p>
+            <h2 class="hero-title anim anim-scale d2" contenteditable="false">Evolving Dynamics<br>of Day-to-Day<br>Workflows <span class="accent">with AI</span></h2>
+            <div class="divider anim anim-draw d3" style="margin-left:auto;margin-right:auto;"></div>
+            <p class="body-text anim anim-up d4" style="text-align:center;max-width:52ch;margin-left:auto;margin-right:auto;" contenteditable="false">Your domain expertise is the raw material. AI is the accelerant.<br>The architecture between them is yours to design.</p>
+            <p class="label-text anim anim-fade d5" style="margin-top:var(--content-gap);color:var(--text-tertiary);" contenteditable="false">FRS AI Strategy · AECOM<div>FOR Questions, DANIEL.KANG@AECOM.COM</div></p>
+        </div>
+    </div>
+    <div class="geo-circle float" style="left:clamp(2rem,6vw,6rem);top:50%;transform:translateY(-50%);width:clamp(70px,14vw,170px);height:clamp(70px,14vw,170px);"></div>
+    <div class="geo-circle float" style="right:clamp(2rem,6vw,6rem);top:50%;transform:translateY(-50%);width:clamp(70px,14vw,170px);height:clamp(70px,14vw,170px);animation-delay:1.5s;"></div>
+</section>
+
+
+<script>
+    /* Presentation Controller */
+    class SlidePresentation {
+        constructor() {
+            this.slides = document.querySelectorAll('.slide');
+            this.currentSlide = 0;
+            this.totalSlides = this.slides.length;
+            this.initNavDots();
+            this.initObserver();
+            this.initKeyboard();
+            this.initTouch();
+            // Make first slide visible immediately
+            this.slides[0].classList.add('visible');
+            this.updateProgress();
+        }
+        initNavDots() {
+            const nav = document.getElementById('navDots');
+            this.slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.classList.add('nav-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('aria-label', `Slide ${i + 1}`);
+                dot.addEventListener('click', () => this.goToSlide(i));
+                nav.appendChild(dot);
+            });
+            this.dots = nav.querySelectorAll('.nav-dot');
+        }
+        initObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        const idx = Array.from(this.slides).indexOf(entry.target);
+                        if (idx !== -1) { this.currentSlide = idx; this.updateDots(); this.updateProgress(); }
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.3 }); // Lower threshold for easier triggering
+            this.slides.forEach(s => observer.observe(s));
+        }
+        initKeyboard() {
+            document.addEventListener('keydown', (e) => {
+                if (e.target.getAttribute('contenteditable') === 'true') return;
+                if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); }
+                else if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); }
+            });
+        }
+        initTouch() {
+            let startY = 0;
+            document.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+            document.addEventListener('touchend', e => { const d = startY - e.changedTouches[0].clientY; if (Math.abs(d) > 50) { d > 0 ? this.next() : this.prev(); } }, { passive: true });
+        }
+        next() { if (this.currentSlide < this.totalSlides - 1) this.goToSlide(this.currentSlide + 1); }
+        prev() { if (this.currentSlide > 0) this.goToSlide(this.currentSlide - 1); }
+        goToSlide(i) { this.slides[i].scrollIntoView({ behavior: 'smooth' }); this.currentSlide = i; this.updateDots(); this.updateProgress(); }
+        updateDots() { this.dots.forEach((d, i) => d.classList.toggle('active', i === this.currentSlide)); }
+        updateProgress() { document.getElementById('progressBar').style.width = ((this.currentSlide + 1) / this.totalSlides * 100) + '%'; }
+    }
+
+    /* Inline Editor */
+    class InlineEditor {
+        constructor() {
+            this.isActive = false;
+            this.selectors = ['.hero-title','.slide-title','.slide-h3','.body-text','.def-term','.def-text','.key-message','.stat-value','.stat-label','.label-text','.item-label','.item-desc','.banner-text','.layer-name','.layer-desc','.tier-title','.tier-desc','.tier-label','.agent-name','.agent-tasks','.agent-level','.arch-label','.arch-roles','.cell-title','.cell-items','.recap-block','.recap-msg','li'];
+            this.init();
+        }
+        init() {
+            const toggle = document.getElementById('editToggle');
+            const hotzone = document.getElementById('editHotzone');
+            let hideTimeout = null;
+            toggle.addEventListener('click', () => this.toggle());
+            hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); toggle.classList.add('show'); });
+            hotzone.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!this.isActive) toggle.classList.remove('show'); }, 400); });
+            toggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+            toggle.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!this.isActive) toggle.classList.remove('show'); }, 400); });
+            hotzone.addEventListener('click', () => this.toggle());
+            document.addEventListener('keydown', (e) => {
+                if ((e.key === 'e' || e.key === 'E') && !e.target.getAttribute('contenteditable')) this.toggle();
+                if (e.ctrlKey && e.key === 's') { e.preventDefault(); this.save(); }
+            });
+        }
+        toggle() {
+            this.isActive = !this.isActive;
+            const t = document.getElementById('editToggle');
+            t.classList.toggle('active', this.isActive);
+            t.textContent = this.isActive ? 'Editing' : 'Edit';
+            document.querySelectorAll(this.selectors.join(',')).forEach(el => { el.contentEditable = this.isActive ? 'true' : 'false'; });
+        }
+        save() {
+            const clone = document.documentElement.cloneNode(true);
+            clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+            const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = 'presentation-edited.html'; a.click(); URL.revokeObjectURL(a.href);
+        }
+    }
+
+    /* Animated Counters */
+    class AnimatedCounter {
+        constructor() {
+            this.observed = new Set();
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelectorAll('[data-count-to]').forEach(el => {
+                    el.textContent = (el.dataset.countPrefix || '') + el.dataset.countTo + (el.dataset.countSuffix || '');
+                });
+                return;
+            }
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !this.observed.has(entry.target)) {
+                        this.observed.add(entry.target);
+                        this.animate(entry.target);
+                    } else if (!entry.isIntersecting) {
+                        this.observed.delete(entry.target);
+                        entry.target.textContent = (entry.target.dataset.countPrefix || '') + '0' + (entry.target.dataset.countSuffix || '');
+                    }
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('[data-count-to]').forEach(el => {
+                el.textContent = (el.dataset.countPrefix || '') + '0' + (el.dataset.countSuffix || '');
+                obs.observe(el);
+            });
+        }
+        animate(el) {
+            const target = parseFloat(el.dataset.countTo);
+            const suffix = el.dataset.countSuffix || '';
+            const prefix = el.dataset.countPrefix || '';
+            const duration = 1200;
+            const start = performance.now();
+            const step = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(target * eased * 10) / 10;
+                el.textContent = prefix + current + suffix;
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = prefix + target + suffix;
+            };
+            requestAnimationFrame(step);
+        }
+    }
+
+    /* Init */
+    const pres = new SlidePresentation();
+    new InlineEditor();
+    new AnimatedCounter();
+
+    /* Per-slide scroll reveal — only reveals slides as they enter viewport */
+    function scrollReveal() {
+        const slides = document.querySelectorAll('.slide');
+        const viewH = window.innerHeight;
+        slides.forEach(slide => {
+            const rect = slide.getBoundingClientRect();
+            const inView = rect.top < viewH * 0.75 && rect.bottom > viewH * 0.15;
+            if (inView && !slide.classList.contains('visible')) {
+                slide.classList.add('visible');
+            } else if (!inView && slide.classList.contains('visible')) {
+                slide.classList.remove('visible');
+            }
+        });
+    }
+    /* Multiple event sources for maximum compatibility */
+    window.addEventListener('scroll', scrollReveal, { passive: true });
+    document.addEventListener('scroll', scrollReveal, { passive: true });
+    window.addEventListener('resize', scrollReveal, { passive: true });
+    /* Initial check + short delay for iframe rendering */
+    scrollReveal();
+    requestAnimationFrame(scrollReveal);
+    setTimeout(scrollReveal, 100);
+    setTimeout(scrollReveal, 500);
+    /* Final safety: reveal first slide after 800ms (NOT all slides) */
+    setTimeout(() => {
+        const first = document.querySelector('.slide');
+        if (first && !first.classList.contains('visible')) first.classList.add('visible');
+    }, 800);
+</script>
+
+
+
+</body></html>
