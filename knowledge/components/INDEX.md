@@ -2,9 +2,7 @@
 type: index
 scope: components
 file_count: 7
-last_updated: 2025-12-23
-version: 0.5.0
-changelog: Updated memory-claudemd.md (5-tier), agent-skills.md, mcp-integration.md, subagents.md with new URLs and content
+last_updated: 2026-03-16
 ---
 
 # Components Index
@@ -22,36 +20,6 @@ changelog: Updated memory-claudemd.md (5-tier), agent-skills.md, mcp-integration
 | [Hooks](hooks.md) | Event-driven | Automation |
 | [MCP Integration](mcp-integration.md) | Tool calls | External connections |
 | [Knowledge Base](knowledge-base-structure.md) | Reference | Domain content |
-
-## What's New in v0.5.0
-
-All files updated with:
-- New documentation URLs (`code.claude.com/docs/en/*`)
-- `source:` metadata linking to authoritative docs
-
-**memory-claudemd.md** — Major updates:
-- 5-tier memory hierarchy (added Project Rules tier)
-- `.claude/rules/` modular rules system
-- Path-specific rules with `paths:` frontmatter
-- User-level rules (`~/.claude/rules/`)
-
-**agent-skills.md** — Updated:
-- `allowed-tools` frontmatter for tool restrictions
-- Plugin skills documentation
-- Debugging guidance
-
-**mcp-integration.md** — Updated:
-- Transport types (HTTP recommended, SSE deprecated)
-- Scope changes (local/project/user)
-- Plugin MCP servers
-- Resources and prompts
-- Enterprise configuration
-
-**subagents.md** — Updated:
-- Built-in subagents (General-purpose, Plan, Explore)
-- `permissionMode` and `skills` fields
-- Resumable subagents
-- CLI-based configuration
 
 ## Reading Order (Recommended)
 

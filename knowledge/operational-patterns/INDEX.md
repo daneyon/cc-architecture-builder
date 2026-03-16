@@ -2,9 +2,7 @@
 type: index
 scope: operational-patterns
 file_count: 4
-last_updated: 2026-02-25
-version: 0.6.0
-changelog: "v0.6.0 — Added orchestration-framework.md, revised multi-agent-collaboration.md to v2.0"
+last_updated: 2026-03-16
 ---
 
 # Operational Patterns Index
@@ -22,7 +20,7 @@ changelog: "v0.6.0 — Added orchestration-framework.md, revised multi-agent-col
 
 ## Reading Order
 
-1. **orchestration-framework.md** — Core tenets, canonical patterns, execution protocol (start here for v0.6.0+)
+1. **orchestration-framework.md** — Core tenets, canonical patterns, execution protocol (start here)
 2. **git-worktree.md** — Foundational for parallel work
 3. **session-management.md** — Managing conversation state
 4. **multi-agent-collaboration.md** — Coordination patterns in practice
@@ -39,21 +37,13 @@ changelog: "v0.6.0 — Added orchestration-framework.md, revised multi-agent-col
 | Long-running autonomous projects | Orchestration Framework (Initializer/Iterator Harness) |
 | Quality-critical deliverables | Orchestration Framework (Evaluator-Optimizer Pattern) |
 
-## What's New in v0.6.0
+## Key Highlights
 
-**orchestration-framework.md** (NEW):
-- 5 core design tenets (simplicity-first, verification-as-requirement, plan-before-execute, compounding knowledge, token efficiency)
-- 5 canonical agentic workflow patterns mapped to CC primitives
+**orchestration-framework.md**:
+- 5 core design tenets, 5 canonical agentic workflow patterns mapped to CC primitives
 - Standard Task Execution Protocol (PLAN → REVIEW → EXECUTE → VERIFY → COMMIT)
-- Agent failure mode catalog (5 patterns with mitigations)
-- Multi-agent cost model (token economics)
-- Delegation template (5-component structure)
-- Initializer/iterator two-phase harness
-- CC platform constraints table (Feb 2026)
+- Agent failure mode catalog, multi-agent cost model, delegation templates
 
-**multi-agent-collaboration.md** (REVISED to v2.0):
-- Reordered to worktrees-first (CC team daily driver)
-- Added Agent Teams pattern (experimental)
-- Added effort scaling heuristic
-- Added cross-session persistence (3 approaches)
-- Added subagent triggering patterns
+**multi-agent-collaboration.md**:
+- Worktrees-first coordination, Agent Teams (experimental)
+- Effort scaling heuristic, cross-session persistence, subagent triggering patterns

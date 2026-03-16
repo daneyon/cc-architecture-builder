@@ -3,36 +3,36 @@
 ## A Standardized Framework for Custom LLM Development
 
 <!-- DOCUMENT METADATA (Machine-Readable) -->
+
 <!--
-status: DRAFT
-version: 0.8.1
+status: RELEASED
+version: 1.0.0
 author: Daneyon (with Claude)
-last_updated: 2026-03-03
+last_updated: 2026-03-16
 document_type: architecture_guide
 primary_audience: [human]
 sections_complete: [executive_summary, philosophy, prerequisites, schema_1, schema_2, extensions, distribution, agentic_patterns]
 documentation_domain: code.claude.com
-notes: v0.8.0 - Major restructure. Removed Ch1 two-schema duplication; expanded Ch4-5 with full extension registries. Hybrid CLAUDE.md template from custom LLM macro architecture. Multi-agent autonomous framework as core philosophy. "Components" → "Extensions" throughout. Mermaid diagrams integrated. Cowork section added. /init-plugin and /init-worktree commands proposed. Ch9 Implementation Workflow removed. CC-alongside-project schematization in Ch5.
 -->
 
 > **CAB** (cc-architecture-builder): *Your taxi to stay in line to properly integrate CC with best practices — and you as the driver to apply project context engineering.*
 
-**Version**: 0.8.1-draft
+**Version**: 1.0.0
 **Author**: Daneyon (with Claude)
-**Last Updated**: March 3, 2026
+**Last Updated**: March 16, 2026
 
 ---
 
 ## Table of Contents
 
-1. [Executive Summary](#1-executive-summary)
+1. [Executive Summary](#1-executive-summary)k
 2. [Architecture Philosophy](#2-architecture-philosophy)
-3. [Prerequisites & Git Foundation](#3-prerequisites--git-foundation)
+3. [Prerequisites &amp; Git Foundation](#3-prerequisites--git-foundation)
 4. [Schema 1: Global User Configuration](#4-schema-1-global-user-configuration)
 5. [Schema 2: Distributable Plugin Project](#5-schema-2-distributable-plugin-project)
 6. [Extension Deep Dives](#6-extension-deep-dives)
-7. [Distribution, Marketplace & Cowork](#7-distribution-marketplace--cowork)
-8. [Agentic Workflow Patterns & Operations](#8-agentic-workflow-patterns--operations)
+7. [Distribution, Marketplace &amp; Cowork](#7-distribution-marketplace--cowork)
+8. [Agentic Workflow Patterns &amp; Operations](#8-agentic-workflow-patterns--operations)
 9. [Roadmap](#10-roadmap)
 10. [Appendix A: Glossary](#appendix-a-glossary)
 11. [Appendix B: References](#appendix-b-references)
@@ -63,16 +63,16 @@ The ultimate objective of CAB is to establish a **multi-agent framework** where 
 
 ### Key Design Principles
 
-| Principle | Description |
-|-----------|-------------|
-| **Separation of Concerns** | Global config stays personal; project config is distributable |
-| **Progressive Disclosure** | Load only what's needed; reference additional files via `@imports` |
-| **Convention over Configuration** | Follow official directory structures; minimize custom conventions |
-| **Git-Native Workflow** | Version control everything; enable team collaboration |
-| **Token Efficiency** | Context window is a shared, finite resource — every token of config displaces productive output |
-| **Security by Default** | Private repos, credential exclusion, pre-publication review |
-| **Verification as Requirement** | Every agent, task, and phase gate requires a verification method |
-| **Multi-Agent Autonomy** | Design for autonomous operation; minimize human-in-the-loop to oversight and KB maintenance |
+| Principle                               | Description                                                                                      |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Separation of Concerns**        | Global config stays personal; project config is distributable                                    |
+| **Progressive Disclosure**        | Load only what's needed; reference additional files via `@imports`                             |
+| **Convention over Configuration** | Follow official directory structures; minimize custom conventions                                |
+| **Git-Native Workflow**           | Version control everything; enable team collaboration                                            |
+| **Token Efficiency**              | Context window is a shared, finite resource — every token of config displaces productive output |
+| **Security by Default**           | Private repos, credential exclusion, pre-publication review                                      |
+| **Verification as Requirement**   | Every agent, task, and phase gate requires a verification method                                 |
+| **Multi-Agent Autonomy**          | Design for autonomous operation; minimize human-in-the-loop to oversight and KB maintenance      |
 
 ---
 
@@ -132,12 +132,12 @@ flowchart TB
     SKILLS_META --> SKILL_INVOKE
     AGENTS_META --> AGENT_SPAWN
     COMMANDS_META --> CMD_EXEC
-    
+  
     SKILL_INVOKE -->|"Adds to YOUR context"| MAIN
     AGENT_SPAWN -->|"Isolated (zero cost to parent)"| AGENT_A
     AGENT_SPAWN -->|"Isolated (zero cost to parent)"| AGENT_B
     CMD_EXEC --> MAIN
-    
+  
     MAIN --> MCP_SERVER
     AGENT_A --> MCP_SERVER
     AGENT_B --> MCP_SERVER
@@ -150,15 +150,15 @@ flowchart TB
 
 ### The Memory Hierarchy (5 Tiers)
 
-> **Official docs**: [Manage Claude's memory](https://code.claude.com/docs/en/memory)
+> **Official docs**: [Manage Claude&#39;s memory](https://code.claude.com/docs/en/memory)
 
-| Tier | Location | Purpose | Shared With |
-|------|----------|---------|-------------|
-| **1. Enterprise Policy** | System paths* | Organization-wide standards | All org users |
-| **2. Project Memory** | `./CLAUDE.md` | Team-shared instructions | Team via git |
-| **3. Project Rules** | `./.claude/rules/*.md` | Modular topic-specific rules | Team via git |
-| **4. User Memory** | `~/.claude/CLAUDE.md` | Personal preferences (all projects) | Just you |
-| **5. Project Local** | `./CLAUDE.local.md` | Personal project-specific | Just you |
+| Tier                           | Location                 | Purpose                             | Shared With   |
+| ------------------------------ | ------------------------ | ----------------------------------- | ------------- |
+| **1. Enterprise Policy** | System paths*            | Organization-wide standards         | All org users |
+| **2. Project Memory**    | `./CLAUDE.md`          | Team-shared instructions            | Team via git  |
+| **3. Project Rules**     | `./.claude/rules/*.md` | Modular topic-specific rules        | Team via git  |
+| **4. User Memory**       | `~/.claude/CLAUDE.md`  | Personal preferences (all projects) | Just you      |
+| **5. Project Local**     | `./CLAUDE.local.md`    | Personal project-specific           | Just you      |
 
 *Enterprise paths: macOS `/Library/Application Support/ClaudeCode/CLAUDE.md`, Linux `/etc/claude-code/CLAUDE.md`, Windows `C:\Program Files\ClaudeCode\CLAUDE.md`
 
@@ -166,14 +166,14 @@ flowchart TB
 
 ### Invocation Patterns
 
-| Extension | Invocation | Trigger |
-|-----------|------------|---------|
-| **Memory (CLAUDE.md)** | Automatic | Always loaded at session start |
-| **Project Rules** | Automatic | Loaded at session start |
-| **Skills** | Model-invoked | Claude decides based on task context |
-| **Subagents** | Model or user-invoked | Auto-delegated or explicitly called |
-| **Commands** | User-invoked | Explicitly typed (e.g., `/analyze`) |
-| **Hooks** | Event-driven | Triggered by system events |
+| Extension                    | Invocation            | Trigger                              |
+| ---------------------------- | --------------------- | ------------------------------------ |
+| **Memory (CLAUDE.md)** | Automatic             | Always loaded at session start       |
+| **Project Rules**      | Automatic             | Loaded at session start              |
+| **Skills**             | Model-invoked         | Claude decides based on task context |
+| **Subagents**          | Model or user-invoked | Auto-delegated or explicitly called  |
+| **Commands**           | User-invoked          | Explicitly typed (e.g.,`/analyze`) |
+| **Hooks**              | Event-driven          | Triggered by system events           |
 
 ### Content Placement Decision Tree
 
@@ -188,7 +188,7 @@ flowchart TD
     Q3 -->|NO| Q4{"Repeatable workflow<br/>or shortcut?"}
     Q4 -->|YES| COMMAND["COMMAND<br/>User or model invoked"]
     Q4 -->|NO| REF["REFERENCE ONLY<br/>Knowledge base"]
-    
+  
     style MEMORY fill:#e3f2fd
     style SKILL fill:#fff8e1
     style AGENT fill:#fce4ec
@@ -333,23 +333,30 @@ npm run build        # Build verification
 ```
 
 ## State Management
+
 [How context persists across sessions.]
+
 - Learned Corrections: [grows over time — "Update CLAUDE.md so you don't repeat this"]
 - Session State: @./notes/ for cross-session persistence
 - Progress Tracking: progress.md for multi-session tasks
 
 ## Extension Registry
+
 [Pointers to available extensions — NOT the content itself.]
+
 - Skills: see skills/ directory
 - Agents: see agents/ directory
 - Commands: see commands/ directory (if project-level)
 - MCP: see .mcp.json (if configured)
 
 ## Knowledge Base
+
 @knowledge/INDEX.md
 
 ## Personal Customization (Optional — project CLAUDE.md only)
+
 @~/.claude/project-preferences.md
+
 ```
 
 ### settings.json (Global)
@@ -443,7 +450,7 @@ flowchart TB
         G_AGENTS["agents/ — Orchestrator + personal agents"]
         G_SETTINGS["settings.json — Model, permissions"]
     end
-    
+  
     subgraph SCHEMA2["SCHEMA 2: Project Plugin (./project/)"]
         P_PLUGIN[".claude-plugin/ — Marketplace metadata"]
         P_CLAUDE["CLAUDE.md — Project instructions"]
@@ -454,16 +461,16 @@ flowchart TB
         P_COMMANDS["commands/ — Workflows"]
         P_MCP[".mcp.json — Integrations"]
     end
-    
+  
     subgraph CODEBASE["Existing Project Codebase"]
         SRC["src/ tests/ data/ configs"]
     end
-    
+  
     SCHEMA1 -->|"inherits + supplements"| SCHEMA2
     SCHEMA2 -->|"overlays"| CODEBASE
     SCHEMA2 -->|"distributes via"| MARKETPLACE["Marketplace / Git / Cowork"]
     SCHEMA1 -->|"travels with you"| ALL["All Projects"]
-    
+  
     style SCHEMA1 fill:#e8f5e9
     style SCHEMA2 fill:#e3f2fd
     style CODEBASE fill:#fff8e1
@@ -571,12 +578,12 @@ sequenceDiagram
 
 **CAB-Specific Additions**:
 
-| Field | CAB Addition |
-|-------|-------------|
-| **Verification section** | **Required in every agent** — concrete, runnable checks |
-| **Output Format section** | Structured report template for consistent handoff |
-| `permissionMode: plan` | Recommended for advisory agents |
-| `skills: [...]` | Auto-load skills into agent context |
+| Field                           | CAB Addition                                                   |
+| ------------------------------- | -------------------------------------------------------------- |
+| **Verification section**  | **Required in every agent** — concrete, runnable checks |
+| **Output Format section** | Structured report template for consistent handoff              |
+| `permissionMode: plan`        | Recommended for advisory agents                                |
+| `skills: [...]`               | Auto-load skills into agent context                            |
 
 **Skill vs Agent Decision**:
 
@@ -606,14 +613,14 @@ Commands are **user-invoked** shortcuts triggered by `/command-name`. Place in `
 
 **CAB Daily Utility Commands** (inspired by Boris Cherny's workflow compilation tips):
 
-| Command | Purpose |
-|---------|---------|
-| `/init-plugin` | Scaffold full plugin structure with git setup |
-| `/init-worktree` | Create parallel worktrees with shell aliases |
-| `/execute-task` | Enforce PLAN → VERIFY → COMMIT protocol |
-| `/commit-push-pr` | Stage, commit, push, create PR in one step |
-| `/techdebt` | End-of-session code duplication and debt scan |
-| `/context-sync` | Bootstrap session with recent git/GitHub/MCP activity |
+| Command             | Purpose                                               |
+| ------------------- | ----------------------------------------------------- |
+| `/init-plugin`    | Scaffold full plugin structure with git setup         |
+| `/init-worktree`  | Create parallel worktrees with shell aliases          |
+| `/execute-task`   | Enforce PLAN → VERIFY → COMMIT protocol             |
+| `/commit-push-pr` | Stage, commit, push, create PR in one step            |
+| `/techdebt`       | End-of-session code duplication and debt scan         |
+| `/context-sync`   | Bootstrap session with recent git/GitHub/MCP activity |
 
 These commands encode the most common daily workflows into repeatable, agent-invokable shortcuts — the orchestrator agent can chain them autonomously.
 
@@ -635,11 +642,11 @@ Hooks are **event-driven** scripts. Key events: `PreToolUse`, `PostToolUse`, `Us
 
 **MCP Scope** determines visibility:
 
-| Scope | Location | Visibility |
-|-------|----------|------------|
-| **Local** | `~/.claude.json` | Just you, current project |
-| **Project** | `.mcp.json` | Team via git |
-| **User** | `~/.claude.json` | All your projects |
+| Scope             | Location           | Visibility                |
+| ----------------- | ------------------ | ------------------------- |
+| **Local**   | `~/.claude.json` | Just you, current project |
+| **Project** | `.mcp.json`      | Team via git              |
+| **User**    | `~/.claude.json` | All your projects         |
 
 **CAB Convention**: Use `--scope project` for team-shared integrations. Credentials in environment variables, never in config files.
 
@@ -675,6 +682,7 @@ Development → Local Testing → Security Review → Publication
 ```
 
 **Local Testing**:
+
 ```bash
 claude /plugin marketplace add ./dev-marketplace
 claude /plugin install my-plugin@dev-marketplace
@@ -683,6 +691,7 @@ claude /plugin install my-plugin@dev-marketplace
 **Security Review**: No credentials, no PII, no proprietary content, `.gitignore` reviewed, license included, README complete.
 
 **Publication**:
+
 ```bash
 gh repo edit my-custom-llm --visibility public
 # Users install:
@@ -698,14 +707,15 @@ claude /plugin install my-custom-llm@yourusername
 
 **Relevance to CAB**:
 
-| Capability | CAB Impact |
-|------------|------------|
-| **Desktop automation** | Plugin workflows can extend beyond CLI to desktop app orchestration |
-| **Non-developer access** | Coworkers who don't use CLI can consume plugins via Cowork's GUI |
-| **Enterprise plugins** | CAB plugins can be distributed across enterprise via Cowork's plugin infrastructure |
-| **File & task management** | Automated knowledge base maintenance, report generation, cross-app workflows |
+| Capability                       | CAB Impact                                                                          |
+| -------------------------------- | ----------------------------------------------------------------------------------- |
+| **Desktop automation**     | Plugin workflows can extend beyond CLI to desktop app orchestration                 |
+| **Non-developer access**   | Coworkers who don't use CLI can consume plugins via Cowork's GUI                    |
+| **Enterprise plugins**     | CAB plugins can be distributed across enterprise via Cowork's plugin infrastructure |
+| **File & task management** | Automated knowledge base maintenance, report generation, cross-app workflows        |
 
 **Integration Strategy**:
+
 - **Immediate**: Design plugin commands and agents to work in both CC CLI and Cowork contexts. Avoid CLI-only assumptions in instructions.
 - **Near-term**: Explore Cowork enterprise plugin distribution as an alternative (or supplement) to marketplace for internal/private plugins.
 - **Future**: Leverage Cowork's computer use capabilities for automated testing, cross-application workflows, and GUI-based plugin management.
@@ -718,7 +728,7 @@ claude /plugin install my-custom-llm@yourusername
 
 > *Sources: Anthropic "[Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)" (Dec 2024), "[Effective Harnesses](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)" (Nov 2025), "[Multi-Agent Research System](https://www.anthropic.com/engineering/building-a-multi-agent-research-system)" (Jun 2025), Boris Cherny [CC creator tips](https://gist.github.com/AriSafTech/a63ddca53e24e450d5bea1a56a0e2df3) (2025-2026).*
 
-### Core Design Tenets (CAB v0.6.0+)
+### Core Design Tenets
 
 1. **Simplicity-First Complexity Ladder** — Start with the simplest solution. Escalate only when measured improvement justifies complexity.
 2. **Verification as Architectural Requirement** — Every agent must include a verification method. Providing Claude a way to verify its own work improves quality 2-3x.
@@ -729,13 +739,13 @@ claude /plugin install my-custom-llm@yourusername
 
 ### Canonical Patterns → CC Primitives
 
-| Pattern | Description | CC Implementation |
-|---------|-------------|-------------------|
-| **Prompt Chaining** | Sequential LLM calls with gate checks | Skills in sequence; bash gate checks |
-| **Routing** | Classify input → dispatch to specialist | Agent `description` fields |
-| **Parallelization** | Independent subtasks run simultaneously | Git worktrees (daily driver) or subagents |
-| **Orchestrator-Workers** | Central agent decomposes and delegates | Orchestrator + specialist agents via Task tool |
-| **Evaluator-Optimizer** | Generator + evaluator iterate | Implementer → verifier agent loop |
+| Pattern                        | Description                              | CC Implementation                              |
+| ------------------------------ | ---------------------------------------- | ---------------------------------------------- |
+| **Prompt Chaining**      | Sequential LLM calls with gate checks    | Skills in sequence; bash gate checks           |
+| **Routing**              | Classify input → dispatch to specialist | Agent `description` fields                   |
+| **Parallelization**      | Independent subtasks run simultaneously  | Git worktrees (daily driver) or subagents      |
+| **Orchestrator-Workers** | Central agent decomposes and delegates   | Orchestrator + specialist agents via Task tool |
+| **Evaluator-Optimizer**  | Generator + evaluator iterate            | Implementer → verifier agent loop             |
 
 **Selection rule**: Start with Prompt Chaining. Escalate only when needed.
 
@@ -769,11 +779,11 @@ Human oversight touchpoints are limited to: strategic direction, periodic KB upd
 
 ### Parallelism Mechanisms
 
-| Mechanism | Isolation | Cost | Best For |
-|-----------|-----------|------|----------|
-| **Git worktrees** | Full | Separate budgets | Independent feature work (CC team daily driver) |
-| **Subagents** | Context-level | Additive in parent | Scoped subtasks within session |
-| **Agent Teams** | Full | ~15x tokens | Inter-agent coordination (experimental) |
+| Mechanism               | Isolation     | Cost               | Best For                                        |
+| ----------------------- | ------------- | ------------------ | ----------------------------------------------- |
+| **Git worktrees** | Full          | Separate budgets   | Independent feature work (CC team daily driver) |
+| **Subagents**     | Context-level | Additive in parent | Scoped subtasks within session                  |
+| **Agent Teams**   | Full          | ~15x tokens        | Inter-agent coordination (experimental)         |
 
 **Worktree setup**: See `/init-worktree` in [Section 3](#streamlined-worktree-setup-init-worktree-command-cab-proposed).
 
@@ -797,11 +807,11 @@ claude --history           # List recent sessions
 
 ### Token Economics
 
-| Configuration | Relative Cost |
-|---------------|:-------------:|
-| Chat interaction | 1x |
-| Single autonomous agent | ~4x |
-| Multi-agent system | ~15x |
+| Configuration           | Relative Cost |
+| ----------------------- | :-----------: |
+| Chat interaction        |      1x      |
+| Single autonomous agent |      ~4x      |
+| Multi-agent system      |     ~15x     |
 
 Before adding agents, consider whether spending equivalent tokens on a single better-prompted agent would yield comparable results.
 
@@ -822,21 +832,21 @@ Before adding agents, consider whether spending equivalent tokens on a single be
 
 ## Appendix A: Glossary
 
-| Term | Definition |
-|------|------------|
-| **CAB** | cc-architecture-builder — standardized framework for building custom LLM solutions using Claude Code |
-| **Extension** | Umbrella term for CC capabilities: skills, agents, commands, hooks, MCP |
-| **CLAUDE.md** | Memory file containing persistent system instructions |
-| **Skill** | Model-invoked capability packaged as SKILL.md |
-| **Subagent** | Specialized assistant with separate context window |
-| **Command** | User-invoked shortcut (`/command-name`) |
-| **Hook** | Event-driven script for automation |
-| **MCP** | Model Context Protocol for external tool integration |
-| **Plugin** | Distributable package containing extensions |
-| **Cowork** | Anthropic's desktop automation tool for non-developer AI workflows |
-| **Orchestrator** | Main agent that routes, delegates, and synthesizes across specialists |
-| **Progressive Disclosure** | Loading content only when needed to conserve tokens |
-| **@Import** | Syntax for including external files in CLAUDE.md |
+| Term                             | Definition                                                                                            |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **CAB**                    | cc-architecture-builder — standardized framework for building custom LLM solutions using Claude Code |
+| **Extension**              | Umbrella term for CC capabilities: skills, agents, commands, hooks, MCP                               |
+| **CLAUDE.md**              | Memory file containing persistent system instructions                                                 |
+| **Skill**                  | Model-invoked capability packaged as SKILL.md                                                         |
+| **Subagent**               | Specialized assistant with separate context window                                                    |
+| **Command**                | User-invoked shortcut (`/command-name`)                                                             |
+| **Hook**                   | Event-driven script for automation                                                                    |
+| **MCP**                    | Model Context Protocol for external tool integration                                                  |
+| **Plugin**                 | Distributable package containing extensions                                                           |
+| **Cowork**                 | Anthropic's desktop automation tool for non-developer AI workflows                                    |
+| **Orchestrator**           | Main agent that routes, delegates, and synthesizes across specialists                                 |
+| **Progressive Disclosure** | Loading content only when needed to conserve tokens                                                   |
+| **@Import**                | Syntax for including external files in CLAUDE.md                                                      |
 
 ---
 
@@ -846,59 +856,61 @@ Before adding agents, consider whether spending equivalent tokens on a single be
 
 > Full docs: [code.claude.com/docs/en](https://code.claude.com/docs/en/overview)
 
-| Topic | URL |
-|-------|-----|
-| Overview | https://code.claude.com/docs/en/overview |
-| Memory | https://code.claude.com/docs/en/memory |
-| Skills | https://code.claude.com/docs/en/skills |
-| Subagents | https://code.claude.com/docs/en/sub-agents |
-| Plugins | https://code.claude.com/docs/en/plugins |
-| Hooks | https://code.claude.com/docs/en/hooks-guide |
-| MCP | https://code.claude.com/docs/en/mcp |
-| Settings | https://code.claude.com/docs/en/settings |
+| Topic     | URL                                         |
+| --------- | ------------------------------------------- |
+| Overview  | https://code.claude.com/docs/en/overview    |
+| Memory    | https://code.claude.com/docs/en/memory      |
+| Skills    | https://code.claude.com/docs/en/skills      |
+| Subagents | https://code.claude.com/docs/en/sub-agents  |
+| Plugins   | https://code.claude.com/docs/en/plugins     |
+| Hooks     | https://code.claude.com/docs/en/hooks-guide |
+| MCP       | https://code.claude.com/docs/en/mcp         |
+| Settings  | https://code.claude.com/docs/en/settings    |
 
 ### Agent Skills Documentation
 
-| Topic | URL |
-|-------|-----|
-| Overview | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview |
+| Topic          | URL                                                                             |
+| -------------- | ------------------------------------------------------------------------------- |
+| Overview       | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview       |
 | Best Practices | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/best-practices |
 
 ### Anthropic Engineering Articles
 
-| Article | URL |
-|---------|-----|
-| Building Effective Agents | https://www.anthropic.com/engineering/building-effective-agents |
+| Article                       | URL                                                                               |
+| ----------------------------- | --------------------------------------------------------------------------------- |
+| Building Effective Agents     | https://www.anthropic.com/engineering/building-effective-agents                   |
 | Effective Context Engineering | https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents |
-| Effective Harnesses | https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents |
-| Multi-Agent Research System | https://www.anthropic.com/engineering/building-a-multi-agent-research-system |
+| Effective Harnesses           | https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents |
+| Multi-Agent Research System   | https://www.anthropic.com/engineering/building-a-multi-agent-research-system      |
 
 ### CC Creator & Context Engineering
 
-| Source | URL |
-|--------|-----|
-| Boris Cherny CC Tips | https://gist.github.com/AriSafTech/a63ddca53e24e450d5bea1a56a0e2df3 |
-| Koylan — Agent Skills for Context Engineering | https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering |
+| Source                                                    | URL                                                                                       |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Boris Cherny CC Tips                                      | https://gist.github.com/AriSafTech/a63ddca53e24e450d5bea1a56a0e2df3                       |
+| Koylan — Agent Skills for Context Engineering            | https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering                    |
 | Fowler/Böckeler — Context Engineering for Coding Agents | https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html |
-| Cowork Research Preview | https://claude.com/blog/cowork-research-preview |
-| Cowork Enterprise Plugins | https://claude.com/blog/cowork-plugins-across-enterprise |
-| MCP Introduction | https://modelcontextprotocol.io/introduction |
-| High Agency (George Mack) | https://www.highagency.com/ |
+| Cowork Research Preview                                   | https://claude.com/blog/cowork-research-preview                                           |
+| Cowork Enterprise Plugins                                 | https://claude.com/blog/cowork-plugins-across-enterprise                                  |
+| MCP Introduction                                          | https://modelcontextprotocol.io/introduction                                              |
+| High Agency (George Mack)                                 | https://www.highagency.com/                                                               |
 
 ---
 
 ## Document Information
 
 **Version History**:
-- v0.8.1-draft (March 2026): Boris Cherny tips sanity check. Added daily utility commands (/commit-push-pr, /techdebt, /context-sync). Adversarial verification patterns. Security routing hook. Cross-device/background execution docs. Analysis sandbox pattern. HEC-RAS domain integration appendix.
-- v0.8.0-draft (March 2026): Major restructure. Removed Ch1 two-schema duplication; expanded Ch4-5 with full extension registries and CC-alongside-codebase schematization. Hybrid CLAUDE.md template from custom LLM macro architecture. Multi-agent autonomous framework as core philosophy. "Components" → "Extensions" throughout. Mermaid diagrams integrated. Cowork section added. `/init-plugin` and `/init-worktree` commands proposed. Ch9 Implementation Workflow removed.
-- v0.7.0-draft (March 2026): Streamlined for human reader sharing. Reduced official-docs duplication. Normalized schema sections. CAB branding.
-- v0.6.0-draft (February 2026): Agentic Workflow Patterns. Orchestration, verification, cost model.
-- v0.5.0-draft (December 2025): Updated URLs to code.claude.com, 5-tier memory hierarchy, built-in subagents, MCP scopes
-- v0.4.0-draft (December 2025): Updated Agent Skills and MCP sections
-- v0.3.0-draft (December 2025): Privacy/security defaults
-- v0.2.0-draft (December 2025): Git Foundation, Operational Patterns
-- v0.1.0-draft (December 2025): Initial guide
+
+- v1.0.0 (March 2026): Official public release. Centralized versioning in plugin.json. Gitignore hardening for public distribution. README rewrite. State management exclusion pattern.
+- v0.8.1 (March 2026): Boris Cherny tips sanity check. Added daily utility commands (/commit-push-pr, /techdebt, /context-sync). Adversarial verification patterns. Security routing hook. Cross-device/background execution docs. Analysis sandbox pattern. HEC-RAS domain integration appendix.
+- v0.8.0 (March 2026): Major restructure. Expanded Ch4-5 with full extension registries and CC-alongside-codebase schematization. Hybrid CLAUDE.md template. Multi-agent autonomous framework as core philosophy. Mermaid diagrams integrated. Cowork section added.
+- v0.7.0 (March 2026): Streamlined for human reader sharing. Reduced official-docs duplication. Normalized schema sections. CAB branding.
+- v0.6.0 (February 2026): Agentic Workflow Patterns. Orchestration, verification, cost model.
+- v0.5.0 (December 2025): Updated URLs to code.claude.com, 5-tier memory hierarchy, built-in subagents, MCP scopes.
+- v0.4.0 (December 2025): Updated Agent Skills and MCP sections.
+- v0.3.0 (December 2025): Privacy/security defaults.
+- v0.2.0 (December 2025): Git Foundation, Operational Patterns.
+- v0.1.0 (December 2025): Initial guide.
 
 **License**: MIT License — Free to use, modify, and distribute with attribution.
 
@@ -1017,8 +1029,8 @@ Human oversight: PE reviews final report and verification summary.
 
 ### RAG Scaling Strategy
 
-| Phase | KB Size | Approach |
-|-------|---------|----------|
-| Phase 1 | <100 files | Direct file reads via `@import` and filesystem |
+| Phase   | KB Size                                  | Approach                                           |
+| ------- | ---------------------------------------- | -------------------------------------------------- |
+| Phase 1 | <100 files                               | Direct file reads via `@import` and filesystem   |
 | Phase 2 | 100+ files (FEMA manuals, RAS reference) | MCP semantic search server indexing `knowledge/` |
-| Phase 3 | Multi-project | Shared MCP knowledge server across RAS projects |
+| Phase 3 | Multi-project                            | Shared MCP knowledge server across RAS projects    |

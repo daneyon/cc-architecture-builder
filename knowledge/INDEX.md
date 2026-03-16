@@ -2,9 +2,7 @@
 type: index
 scope: master
 file_count: 26
-last_updated: 2026-03-03
-version: 0.8.0
-changelog: "v0.8.0 — Added cowork.md (desktop automation, enterprise distribution). Updated global-user-config.md (agent field, orchestrator pattern, rules/). Updated orchestration-framework.md (Tenet 6: autonomous multi-agent operation, global-as-orchestrator). Distribution INDEX updated."
+last_updated: 2026-03-16
 ---
 
 # Knowledge Base Index
@@ -58,16 +56,16 @@ claude /plugin install mcp-builder@anthropic-agent-skills
 
 See `components/INDEX.md` for reading order and relationships.
 
-**Key files (v0.5.0)**:
+**Key files**:
 - `components/memory-claudemd.md` — 5-tier hierarchy with project rules
 - `components/agent-skills.md` — Model-invoked capabilities
 - `components/mcp-integration.md` — External tool connections
 
 ### Advanced Patterns?
 
-- `operational-patterns/orchestration-framework.md` — Canonical patterns, execution protocol, cost model **(New v0.6.0)**
+- `operational-patterns/orchestration-framework.md` — Canonical patterns, execution protocol, cost model
 - `operational-patterns/git-worktree.md` — Parallel execution
-- `operational-patterns/multi-agent-collaboration.md` — Agent coordination **(Revised v0.6.0)**
+- `operational-patterns/multi-agent-collaboration.md` — Agent coordination
 
 ## Category Summaries
 
@@ -108,10 +106,10 @@ Sharing and marketplace publication.
 ### Operational Patterns (4 files)
 Advanced workflow and orchestration patterns.
 
-- `orchestration-framework.md` — Canonical agentic workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), task execution protocol, agent failure modes, multi-agent cost model, delegation templates, initializer/iterator harness, CC platform constraints **(New v0.6.0)**
+- `orchestration-framework.md` — Canonical agentic workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), task execution protocol, agent failure modes, multi-agent cost model, delegation templates, initializer/iterator harness, CC platform constraints
 - `git-worktree.md` — Parallel Claude Code sessions
 - `session-management.md` — Resuming, history, persistence
-- `multi-agent-collaboration.md` — Worktrees-first coordination, Agent Teams (experimental), effort scaling, cross-session persistence **(Revised v0.6.0)**
+- `multi-agent-collaboration.md` — Worktrees-first coordination, Agent Teams (experimental), effort scaling, cross-session persistence
 
 ### Implementation (1 file)
 Practical execution guide.

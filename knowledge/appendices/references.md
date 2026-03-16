@@ -7,9 +7,8 @@ summary: Comprehensive reference links to official Claude Code documentation, Ag
 depends_on: []
 related: [glossary]
 complexity: foundational
-last_updated: 2026-02-25
+last_updated: 2026-03-16
 estimated_tokens: 600
-revision_note: "v0.6.0 — Added Anthropic engineering articles (agentic workflows, harnesses, multi-agent) and Boris Cherny CC creator tips."
 ---
 
 # References
@@ -129,9 +128,9 @@ claude /plugin install skill-creator@anthropic-agent-skills
 
 ---
 
-## Anthropic Engineering Articles (v0.6.0 Sources)
+## Anthropic Engineering Articles
 
-These articles are the primary sources for the orchestration framework, agentic workflow patterns, and multi-agent collaboration content added in v0.6.0.
+Primary sources for the orchestration framework, agentic workflow patterns, and multi-agent collaboration content.
 
 | Article | Date | URL | Key Topics |
 |---------|------|-----|------------|
@@ -153,7 +152,7 @@ Practical tips from Boris Cherny, creator of Claude Code, validated against Opus
 
 ---
 
-## Context Engineering References (v0.8.0 Sources)
+## Context Engineering References
 
 These sources inform the context health, filesystem-as-context, and session management patterns.
 
