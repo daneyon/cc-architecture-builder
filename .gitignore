@@ -55,9 +55,8 @@ temp/
 .vectors/
 *.db
 
-# Large binary media (host externally)
-*.mp4
-*.pptx
+# Marketing/presentation media (hosted on GitHub Releases)
+docs/v1/
 
 # VS Code workspace files
 *.code-workspace
