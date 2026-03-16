@@ -1,6 +1,6 @@
 {
   "name": "cab",
-  "version": "0.8.1",
+  "version": "1.0.0",
   "description": "CAB (cc-architecture-builder): Standardized framework for building custom LLM solutions using Claude Code. Provides autonomous multi-agent orchestration, base architecture patterns, standard task execution protocol, verification-first development, and best practices for CC extensions (skills, agents, commands, hooks, MCP).",
   "author": {
     "name": "Daniel Kang",

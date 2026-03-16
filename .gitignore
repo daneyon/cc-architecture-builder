@@ -47,7 +47,6 @@ build/
 logs/
 
 # Temporary files
-_archive/
 tmp/
 temp/
 *.tmp
@@ -56,14 +55,18 @@ temp/
 .vectors/
 *.db
 
+# Large binary media (host externally)
+*.mp4
+*.pptx
+
 # VS Code workspace files
 *.code-workspace
 cc-architecture-builder.code-workspace
 
-# Exclude a specific folder
-#docs/
-docs/_internal
-# Exclude a specific file
-#docs/Claude_Project/00_architecture/claude_code_architecture_guide_human-facing.md
-# Exclude by pattern
-#*human-facing.md
+# Personal state management (accessible via explicit CLAUDE.md instructions)
+TODO.md
+notes/
+
+# Internal/archive docs
+docs/_internal/
+docs/_archive/

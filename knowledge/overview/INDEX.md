@@ -3,8 +3,7 @@ type: index
 scope: category
 category: overview
 file_count: 2
-last_updated: 2026-02-25
-version: 0.6.0
+last_updated: 2026-03-16
 ---
 
 # Overview Index

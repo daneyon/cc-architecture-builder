@@ -113,7 +113,7 @@ All scaffolded projects follow security best practices:
 - No credentials in templates
 - Pre-publication checklist included
 
-## Core Principles (v0.6.0)
+## Core Principles
 
 1. **Verification as Architectural Requirement** — Every agent, task, and phase gate requires a verification method
 2. **Simplicity-First Complexity Ladder** — Start simple, escalate only when measured improvement justifies complexity
@@ -122,6 +122,12 @@ All scaffolded projects follow security best practices:
 5. **Token Efficiency as Public Good** — Context window space is shared; load only what each task requires
 
 See `knowledge/operational-patterns/orchestration-framework.md` for full detail.
+
+## State Management
+
+- Read `TODO.md` for current task state and progress tracking
+- Use `notes/` directory for session scratch work and context persistence
+- Internal design docs are in `docs/_internal/` (not tracked in git)
 
 ## Constraints
 
