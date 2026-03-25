@@ -58,12 +58,19 @@ Based on discovery + answers, propose:
 
 1. **CLAUDE.md** — Project identity, role, domain guidelines, verification commands, learned corrections
 2. **Recommended rules** — Based on language/framework (e.g., Python → PEP 8 rules)
-3. **Recommended agents** — Based on domain and pain points
+3. **Recommended agents** — Based on domain, pain points, and team formation reference
 4. **Recommended skills** — Based on workflows identified
 5. **Recommended commands** — Based on repetitive tasks
 6. **Knowledge base structure** — Based on domain and existing docs
 7. **MCP opportunities** — External tools that could be wrapped
 8. **settings.json** — Permissions for project-specific safe commands
+
+**Team Formation Advisory**: Read `knowledge/reference/INDEX.md` to access the
+a-team-database (22 roles with CC extension mapping and scaling tiers). Use it as
+a conceptual menu — NOT a checklist. Filter by the project's team size (solo/small/
+medium/enterprise) and active phases to suggest only the roles that add value for
+this specific project. Map each suggested role to its recommended CC extension type
+(agent vs. skill vs. command) per the database's `cc_mapping` field.
 
 Present as a structured plan with rationale. **Do not create files until user approves.**
 
