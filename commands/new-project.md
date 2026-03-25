@@ -13,8 +13,15 @@ When invoked, initiate the project scaffolding workflow:
 1. **Ask the user**:
    - Project name (will be directory name, use kebab-case)
    - Domain/purpose (what this project is for)
+   - Project type: Is this a full app (multi-phase lifecycle) or a focused tool/script?
    - Expected knowledge base size (small/medium/large)
    - Distribution intent (personal/team/public)
+
+   **Lifecycle Advisory**: For full app projects, reference `knowledge/reference/INDEX.md`
+   to access the product-design-cycle (7-phase universal lifecycle). Use it as a
+   conceptual framework to help the user identify which phases apply to their project
+   and suggest appropriate phase-gate criteria. Not all projects need all 7 phases —
+   adapt to actual complexity.
 
 2. **Based on responses, use the `scaffolding-projects` skill** to:
    - Create directory structure appropriate to complexity

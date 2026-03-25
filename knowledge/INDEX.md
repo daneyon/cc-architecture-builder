@@ -1,8 +1,8 @@
 ---
 type: index
 scope: master
-file_count: 26
-last_updated: 2026-03-16
+file_count: 28
+last_updated: 2026-03-25
 ---
 
 # Knowledge Base Index
@@ -18,6 +18,7 @@ last_updated: 2026-03-16
 | `schemas/` | 2 | Global user config, distributable plugin |
 | `components/` | 7 | Deep dives on each component type |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
+| `reference/` | 2 | Product design lifecycle, team formation (conceptual advisory frameworks) |
 | `operational-patterns/` | 4 | Orchestration, worktrees, sessions, multi-agent |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
