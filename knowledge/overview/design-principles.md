@@ -78,6 +78,12 @@ Knowledge base is the reference library that any extension can read on-demand.
   the same skill: the agent gets an isolated copy in its own context window.
 - Commands are the human's interface to trigger workflows; the orchestrator's
   interface is the agent description field.
+- When a skill involves repeatable logic, extract it into executable scripts
+  (`skills/[name]/scripts/`) that the skill invokes via Bash. This prevents
+  the LLM from regenerating deterministic logic each invocation — a direct
+  token efficiency measure and a reliability mechanism (tested code > generated
+  code). The skill SKILL.md becomes the orchestration wrapper; the script is
+  the pre-programmed execution.
 
 ---
 
