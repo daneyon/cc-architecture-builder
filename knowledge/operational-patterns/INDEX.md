@@ -1,8 +1,8 @@
 ---
 type: index
 scope: operational-patterns
-file_count: 4
-last_updated: 2026-03-16
+file_count: 5
+last_updated: 2026-03-26
 ---
 
 # Operational Patterns Index
@@ -17,6 +17,7 @@ last_updated: 2026-03-16
 | [Git Worktree](git-worktree.md) | Parallel Claude Code sessions | intermediate |
 | [Session Management](session-management.md) | Resuming, history, persistence | intermediate |
 | [Multi-Agent Collaboration](multi-agent-collaboration.md) | Agent coordination, worktrees-first, Agent Teams | advanced |
+| [Extension Discovery](extension-discovery.md) | Why extensions are forgotten mid-session; Three-Point Reinforcement Pattern | intermediate |
 
 ## Reading Order
 
@@ -24,6 +25,7 @@ last_updated: 2026-03-16
 2. **git-worktree.md** — Foundational for parallel work
 3. **session-management.md** — Managing conversation state
 4. **multi-agent-collaboration.md** — Coordination patterns in practice
+5. **extension-discovery.md** — Extension awareness persistence (read after agent-skills.md)
 
 ## When to Use These Patterns
 
@@ -36,6 +38,7 @@ last_updated: 2026-03-16
 | Parallel analysis tasks | Git Worktree + Multi-Agent |
 | Long-running autonomous projects | Orchestration Framework (Initializer/Iterator Harness) |
 | Quality-critical deliverables | Orchestration Framework (Evaluator-Optimizer Pattern) |
+| Skills forgotten mid-session | Extension Discovery (Three-Point Reinforcement) |
 
 ## Key Highlights
 

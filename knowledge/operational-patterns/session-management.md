@@ -216,6 +216,16 @@ boundaries. Use it strategically:
 This keeps the conversation context lean (high signal-to-noise) while preserving
 full detail on disk for later retrieval.
 
+## Post-Compaction: Extension Re-Anchoring
+
+Context compaction (`/compact`) is lossy — it may drop extension awareness even if the skills are still available. After compaction in projects with skills:
+
+1. Re-read the project's Available Extensions table (if present in CLAUDE.md)
+2. Verify skill awareness before delegating or executing domain tasks
+3. If extension table is missing, check `.claude/skills/` to refresh awareness
+
+This is lightweight — a brief check, not a full filesystem scan. See [Extension Discovery](extension-discovery.md) for the full Three-Point Reinforcement Pattern.
+
 ## Limitations
 
 - Sessions scoped to working directory
