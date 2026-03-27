@@ -258,8 +258,29 @@ allowed-tools: Read, Grep, Glob
 | ---------------------------- | ----------------------------- |
 | **Keep focused**       | One skill = one capability    |
 | **Clear descriptions** | Include what AND when         |
+| **Imperative triggers** | Use "INVOKE THIS SKILL when..." format for stronger behavioral anchoring |
+| **Anti-patterns**      | Include "DO NOT [manual alternative]" to prevent skill bypass |
+| **Pipeline position**  | State where the skill fits in execution order if part of a pipeline |
 | **Test with team**     | Verify activation and clarity |
 | **Document versions**  | Track changes in SKILL.md     |
+
+### Imperative Trigger Format
+
+Standard descriptions ("Use when you need to...") rely on passive semantic matching that degrades mid-session due to lost-in-middle attention decay. The imperative format creates stronger anchors:
+
+```yaml
+# Standard (sufficient for simple projects):
+description: >
+  Use when comparing predictions. Triggers: compare, metrics, benchmark.
+
+# Imperative (recommended for projects with 3+ skills):
+description: >
+  INVOKE THIS SKILL when comparing predictions across sources.
+  Pipeline position: THIRD — runs after inference, before reporting.
+  DO NOT compute comparison metrics manually — use this skill's modules.
+```
+
+See [Extension Discovery](../operational-patterns/extension-discovery.md) for the full pattern and rationale.
 
 ---
 
