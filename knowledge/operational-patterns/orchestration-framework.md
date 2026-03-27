@@ -411,6 +411,10 @@ When the orchestrator delegates to a specialist agent, structure the delegation 
 ### Boundaries
 [What is IN scope. What is explicitly OUT of scope. Maximum iterations.]
 
+### Available Extensions
+[Which project skills the agent should use rather than implementing manually.
+ Include skill names and when to invoke them. Omit if project has no skills.]
+
 ### Verification Criteria
 [How the orchestrator will confirm this subtask succeeded.
  Include specific commands, checks, or criteria.]
