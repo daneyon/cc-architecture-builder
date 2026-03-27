@@ -1,6 +1,6 @@
 # Claude Code Architecture — Unified Visual Reference
 
-**Version**: 1.0 (Synthesized from multiple sessions)  
+**Version**: 1.0 (Synthesized from multiple sessions)
 **Last Updated**: January 2026
 
 ---
@@ -446,13 +446,12 @@ When working in a project with a plugin installed:
 
 ---
 
-## Summary: What We Learned From CC CLI Conversation
+## Summary
 
-| Insight | Impact on Our Architecture |
-|---------|---------------------------|
+| Insight                                     | Impact on Our Architecture                                                      |
+| ------------------------------------------- | ------------------------------------------------------------------------------- |
 | **Skill metadata vs content loading** | Confirms lazy-loading; design skill-heavy agents without parent context concern |
-| **Agent subprocess isolation** | Agents with `skills:` are "free" to parent context; use liberally |
-| **Memory unification** | CLAUDE.md + rules/ = unified "Memory Layer"; cleaner mental model |
-| **Token budget quantification** | ~6-12k baseline; keep Memory Layer under ~5k for headroom |
-| **Progressive disclosure confirmed** | Memory → Registry → Invocation → Execution is optimal |
-
+| **Agent subprocess isolation**        | Agents with `skills:` are "free" to parent context; use liberally             |
+| **Memory unification**                | CLAUDE.md + rules/ = unified "Memory Layer"; cleaner mental model               |
+| **Token budget quantification**       | ~6-12k baseline; keep Memory Layer under ~5k for headroom                       |
+| **Progressive disclosure confirmed**  | Memory → Registry → Invocation → Execution is optimal                        |

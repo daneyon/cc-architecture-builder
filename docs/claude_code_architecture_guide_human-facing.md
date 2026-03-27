@@ -903,14 +903,7 @@ Before adding agents, consider whether spending equivalent tokens on a single be
 
 - v1.0.0 (March 2026): Official public release. Centralized versioning in plugin.json. Gitignore hardening for public distribution. README rewrite. State management exclusion pattern.
 - v0.8.1 (March 2026): Boris Cherny tips sanity check. Added daily utility commands (/commit-push-pr, /techdebt, /context-sync). Adversarial verification patterns. Security routing hook. Cross-device/background execution docs. Analysis sandbox pattern. HEC-RAS domain integration appendix.
-- v0.8.0 (March 2026): Major restructure. Expanded Ch4-5 with full extension registries and CC-alongside-codebase schematization. Hybrid CLAUDE.md template. Multi-agent autonomous framework as core philosophy. Mermaid diagrams integrated. Cowork section added.
-- v0.7.0 (March 2026): Streamlined for human reader sharing. Reduced official-docs duplication. Normalized schema sections. CAB branding.
-- v0.6.0 (February 2026): Agentic Workflow Patterns. Orchestration, verification, cost model.
-- v0.5.0 (December 2025): Updated URLs to code.claude.com, 5-tier memory hierarchy, built-in subagents, MCP scopes.
-- v0.4.0 (December 2025): Updated Agent Skills and MCP sections.
-- v0.3.0 (December 2025): Privacy/security defaults.
-- v0.2.0 (December 2025): Git Foundation, Operational Patterns.
-- v0.1.0 (December 2025): Initial guide.
+- v0.8.0 (March 2026): Major restructure. Expanded Ch4-5 with full extension registries and CC-alongside-codebase schematization. Hybrid CLAUDE.md template. Multi-agent autonomous framework as core philosophy. Mermaid diagrams integrated. Cowork section added.k
 
 **License**: MIT License — Free to use, modify, and distribute with attribution.
 

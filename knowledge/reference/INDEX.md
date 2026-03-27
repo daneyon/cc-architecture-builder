@@ -2,7 +2,7 @@
 type: index
 scope: reference
 file_count: 2
-last_updated: 2026-03-25
+last_updated: 2026-03-26
 ---
 
 # Reference Materials Index
@@ -13,10 +13,10 @@ last_updated: 2026-03-25
 
 ## Files
 
-| File | Location | Summary |
-|------|----------|---------|
-| [Product Design Cycle](../../docs/_internal/product-design-a-team/product-design-cycle.md) | docs/_internal/ | Universal 7-phase product lifecycle (Discovery → Operations) with sub-processes, deliverables, discipline mapping, phase gates, and CC extension mapping. Synthesizes Double Diamond, SDLC, Lean Startup, Design Thinking, and Stage-Gate. |
-| [A-Team Database](../../docs/_internal/product-design-a-team/a-team-database.yaml) | docs/_internal/ | Machine-parseable roster of 22 product team roles with CC extension mapping, scaling tiers (solo → enterprise), phase participation, and key deliverables per role. Use for team formation suggestions during project initialization. |
+| File | Summary |
+|------|---------|
+| [product-design-cycle.md](product-design-cycle.md) | Universal 7-phase product lifecycle (Discovery → Operations) with sub-processes, deliverables, discipline mapping, phase gates, and CC extension mapping. Synthesizes Double Diamond, SDLC, Lean Startup, Design Thinking, and Stage-Gate. |
+| [a-team-database.yaml](a-team-database.yaml) | Machine-parseable roster of 22 product team roles with CC extension mapping, scaling tiers (solo → enterprise), phase participation, and key deliverables per role. Use for team formation suggestions during project initialization. |
 
 ## How These Are Used
 
