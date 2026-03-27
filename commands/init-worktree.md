@@ -7,6 +7,9 @@ allowed-tools: Read, Write, Bash
 
 Create git worktrees for parallel Claude Code sessions, with shell aliases for fast switching between them.
 
+**Note:** For single worktrees, `claude --worktree <name>` (built-in) is simpler.
+This command adds value for batch creation (2-5 worktrees) with auto-generated aliases.
+
 ## Behavior
 
 1. **Verify prerequisites**:

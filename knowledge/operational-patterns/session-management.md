@@ -2,13 +2,13 @@
 id: session-management
 title: Session Management
 category: operational-patterns
-tags: [sessions, resume, history, persistence, continue]
-summary: Managing Claude Code conversation state including resuming sessions, accessing history, and session persistence patterns.
+tags: [sessions, resume, history, persistence, continue, state-management]
+summary: Managing Claude Code conversation state including resuming sessions, accessing history, session persistence patterns, and filesystem-based state design.
 depends_on: []
 related: [git-worktree, multi-agent-collaboration, orchestration-framework]
 complexity: foundational
-last_updated: 2026-03-03
-estimated_tokens: 900
+last_updated: 2026-03-27
+estimated_tokens: 1400
 ---
 
 # Session Management
@@ -215,6 +215,49 @@ boundaries. Use it strategically:
 
 This keeps the conversation context lean (high signal-to-noise) while preserving
 full detail on disk for later retrieval.
+
+### State File Design Patterns
+
+The `notes/` files above are most effective when they follow deliberate structural
+patterns. These emerge from a common failure mode: state files that are *written*
+regularly but not *structured* for cold-start re-orientation.
+
+**Cold-Start Anchor** (`notes/current-task.md`):
+Structure this as the single document an agent reads to re-orient after compaction
+or a fresh session. Include at minimum:
+
+- Current task and phase (1 line)
+- Active blockers with owner and status (table)
+- Key file pointers — the 3-5 files most relevant to current work
+- User directives carried forward — strategic constraints the user stated that
+  shape all subsequent work (e.g., "no paid platforms", "design for X but don't
+  block on it"). These are often stated once and lost during compaction.
+
+The anchor should be <100 lines. If it grows beyond that, it's accumulating
+detail that belongs in `progress.md` or domain-specific files.
+
+**Progress with Decision Trail** (`notes/progress.md`):
+Track not just task completion but the *decisions* that shaped the work. Decisions
+are the most compaction-lossy artifact — they're stated once in conversation,
+influence all downstream work, and vanish when context is compressed.
+
+Recommended sections:
+
+- **Priority-tiered task backlog** — group by urgency/dependency, not just a flat list.
+  Include status markers and brief rationale for ordering.
+- **Decision log** — ID, decision, rationale, date. Reference these IDs from task
+  descriptions so the reasoning chain is traceable.
+- **Blockers** — first-class entities with owner + status, not buried in task
+  descriptions. Prevents re-attempting blocked work session after session.
+- **Deferred / hold items** — explicitly separate "open questions requiring
+  discussion" from "executable tasks." This prevents premature execution of
+  under-specified work.
+- **Completion history** — what was done and when, for audit trail and
+  re-orientation after long gaps between sessions.
+
+**Separation principle**: `current-task.md` answers "where am I right now?"
+`progress.md` answers "what's the full picture?" Both survive compaction, but
+only the anchor needs to be read on every cold start.
 
 ## Post-Compaction: Extension Re-Anchoring
 

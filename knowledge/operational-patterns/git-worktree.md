@@ -7,8 +7,8 @@ summary: Using git worktrees to run multiple Claude Code sessions simultaneously
 depends_on: [git-foundation]
 related: [session-management, multi-agent-collaboration]
 complexity: intermediate
-last_updated: 2025-12-12
-estimated_tokens: 550
+last_updated: 2026-03-27
+estimated_tokens: 900
 ---
 
 # Git Worktree Parallel Execution
@@ -28,50 +28,56 @@ Git worktrees allow checking out multiple branches simultaneously in separate di
 
 ## Setup and Usage
 
-### Creating Worktrees
+### Built-in Worktree Flag (Preferred)
+
+Claude Code has native worktree support. This is the simplest path:
 
 ```bash
-# From your main repository
-cd my-project
+# Create worktree and start a session in it (auto-creates branch)
+claude --worktree feature-auth
+claude -w feature-auth          # shorthand
 
-# Create worktree for a feature branch
-git worktree add ../my-project-feature-auth feature/authentication
+# Auto-generate random worktree name
+claude --worktree
+```
 
-# Create worktree for bugfix
-git worktree add ../my-project-hotfix hotfix/critical-bug
+Worktrees created this way live in `.claude/worktrees/<name>/` and auto-cleanup
+if no changes are made when the session exits.
 
-# Create worktree with new branch
-git worktree add -b feature/new-thing ../my-project-new-thing
+### Manual Git Worktrees (For More Control)
 
-# List all worktrees
+Use standard git commands when you need specific branch names or directory locations:
+
+```bash
+git worktree add -b feat/task-name ../project-task-name
 git worktree list
 ```
 
-### Resulting Directory Structure
+### Gitignored File Copying
 
+Create `.worktreeinclude` in project root to auto-copy gitignored files (`.env`,
+secrets, local configs) into new worktrees:
+
+```text
+.env
+.env.local
+config/secrets.json
 ```
-~/projects/
-├── my-project/                 # Main worktree (main branch)
-├── my-project-feature-auth/    # Feature worktree
-└── my-project-hotfix/          # Hotfix worktree
-```
 
-## Running Parallel Sessions
+### Running Parallel Sessions
 
-### Terminal Setup
+Each worktree gets its own independent Claude Code session:
 
 ```bash
-# Terminal 1: Main development
-cd ~/projects/my-project
-claude
+# Terminal / IDE window 1: Main development
+cd ~/projects/my-project && claude
 
-# Terminal 2: Feature work (separate session)
-cd ~/projects/my-project-feature-auth
-claude
+# Terminal / IDE window 2: Feature work
+cd ~/projects/my-project-feature-auth && claude
+# Or: open the worktree folder in a new IDE window
 
-# Terminal 3: Hotfix (separate session)
-cd ~/projects/my-project-hotfix
-claude
+# Terminal / IDE window 3: Hotfix
+cd ~/projects/my-project-hotfix && claude
 ```
 
 ### What Each Session Gets
@@ -158,6 +164,44 @@ Project CLAUDE.md works seamlessly across worktrees since it's version-controlle
 # In project CLAUDE.md
 # Personal preferences via import (works across worktrees)
 @~/.claude/my-project-preferences.md
+```
+
+## Orchestrator-Initiated Worktree Split
+
+When the orchestrator detects a parallelizable task, it proposes a split —
+but the human decides whether to approve. This is a HITL decision, not
+autonomous execution.
+
+**When the orchestrator should propose a split:**
+
+- Task is independent but touches files the main branch is actively modifying
+- Task requires interactive human-LLM collaboration (background agent insufficient)
+- Task has a clear merge-back path and bounded scope
+
+**When NOT to split** (use background agent instead):
+
+- Task is read-only analysis — no file conflicts possible
+- Task doesn't need human interaction — background agent with `isolation: "worktree"` suffices
+- Overhead of context-switching between sessions exceeds the parallelism benefit
+
+**After human approval, the orchestrator should:**
+
+1. Commit current state (so the new session inherits context via `/context-sync`)
+2. Create the worktree: `claude --worktree task-name` (built-in) or
+   `git worktree add -b feat/task-name ../project-task-name` (manual)
+3. Inform the user to open the worktree in a new terminal or IDE window —
+   CC cannot open new sessions programmatically
+
+The new session reconstructs context from committed state files (`notes/`,
+CLAUDE.md, git log). No custom init files needed if state management is
+working correctly.
+
+**Cleanup** (from either session):
+
+```bash
+git merge feat/task-name
+git worktree remove ../project-task-name  # or auto-cleaned if using claude -w
+git branch -d feat/task-name
 ```
 
 ## Integration with Multi-Agent

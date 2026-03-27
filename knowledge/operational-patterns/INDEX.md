@@ -2,7 +2,7 @@
 type: index
 scope: operational-patterns
 file_count: 5
-last_updated: 2026-03-26
+last_updated: 2026-03-27
 ---
 
 # Operational Patterns Index
@@ -15,7 +15,7 @@ last_updated: 2026-03-26
 |---------|---------|------------|
 | [Orchestration Framework](orchestration-framework.md) | Canonical workflow patterns, execution protocol, cost model | advanced |
 | [Git Worktree](git-worktree.md) | Parallel Claude Code sessions | intermediate |
-| [Session Management](session-management.md) | Resuming, history, persistence | intermediate |
+| [Session Management](session-management.md) | Resuming, history, persistence, state file design | intermediate |
 | [Multi-Agent Collaboration](multi-agent-collaboration.md) | Agent coordination, worktrees-first, Agent Teams | advanced |
 | [Extension Discovery](extension-discovery.md) | Why extensions are forgotten mid-session; Three-Point Reinforcement Pattern | intermediate |
 
