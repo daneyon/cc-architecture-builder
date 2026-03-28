@@ -23,7 +23,7 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 - `knowledge/schemas/` — Global and plugin structures
 - `knowledge/components/` — Deep dives on each component
 - `knowledge/distribution/` — Marketplace, sharing
-- `knowledge/operational-patterns/` — **Orchestration framework**, worktrees, sessions, multi-agent
+- `knowledge/operational-patterns/` — **Orchestration framework**, worktrees, sessions, multi-agent, **team collaboration**
 
 ## Available Commands
 

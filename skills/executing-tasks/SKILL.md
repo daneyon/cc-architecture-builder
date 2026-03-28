@@ -164,3 +164,5 @@ re-planning is always less than the cost of compounding errors.
 - `knowledge/operational-patterns/orchestration-framework.md` — Full theory and failure mode catalog
 - `knowledge/operational-patterns/multi-agent-collaboration.md` — Coordination patterns
 - `knowledge/operational-patterns/session-management.md` — Cross-session persistence
+- `knowledge/operational-patterns/team-collaboration.md` — Handoff, delegation, conflict zones
+- `knowledge/operational-patterns/git-worktree.md` — Parallel task execution
