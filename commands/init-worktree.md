@@ -115,3 +115,4 @@ git worktree list | grep .claude/worktrees | awk '{print $1}' | xargs -I{} git w
 
 - `knowledge/operational-patterns/git-worktree.md` — Worktree deep dive
 - `knowledge/operational-patterns/multi-agent-collaboration.md` — Parallel patterns
+- `knowledge/operational-patterns/team-collaboration.md` — Close-out checklist, conflict zones

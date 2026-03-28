@@ -1,8 +1,8 @@
 ---
 type: index
 scope: operational-patterns
-file_count: 5
-last_updated: 2026-03-27
+file_count: 6
+last_updated: 2026-03-28
 ---
 
 # Operational Patterns Index
@@ -17,6 +17,7 @@ last_updated: 2026-03-27
 | [Git Worktree](git-worktree.md) | Parallel Claude Code sessions | intermediate |
 | [Session Management](session-management.md) | Resuming, history, persistence, state file design | intermediate |
 | [Multi-Agent Collaboration](multi-agent-collaboration.md) | Agent coordination, worktrees-first, Agent Teams | advanced |
+| [Team Collaboration](team-collaboration.md) | Conflict zones, handoff protocols, worktree close-out, cross-worktree sync | advanced |
 | [Extension Discovery](extension-discovery.md) | Why extensions are forgotten mid-session; Three-Point Reinforcement Pattern | intermediate |
 
 ## Reading Order
@@ -25,7 +26,8 @@ last_updated: 2026-03-27
 2. **git-worktree.md** — Foundational for parallel work
 3. **session-management.md** — Managing conversation state
 4. **multi-agent-collaboration.md** — Coordination patterns in practice
-5. **extension-discovery.md** — Extension awareness persistence (read after agent-skills.md)
+5. **team-collaboration.md** — Multi-human/agent collaboration, conflict zones, handoff, close-out
+6. **extension-discovery.md** — Extension awareness persistence (read after agent-skills.md)
 
 ## When to Use These Patterns
 
@@ -38,6 +40,9 @@ last_updated: 2026-03-27
 | Parallel analysis tasks | Git Worktree + Multi-Agent |
 | Long-running autonomous projects | Orchestration Framework (Initializer/Iterator Harness) |
 | Quality-critical deliverables | Orchestration Framework (Evaluator-Optimizer Pattern) |
+| Multiple people/agents on same repo | Team Collaboration |
+| Merging completed worktree back to main | Team Collaboration (Close-Out Procedure) |
+| Delegating tasks to coworkers or agents | Team Collaboration (Delegation Patterns) |
 | Skills forgotten mid-session | Extension Discovery (Three-Point Reinforcement) |
 
 ## Key Highlights
@@ -46,6 +51,12 @@ last_updated: 2026-03-27
 - 5 core design tenets, 5 canonical agentic workflow patterns mapped to CC primitives
 - Standard Task Execution Protocol (PLAN → REVIEW → EXECUTE → VERIFY → COMMIT)
 - Agent failure mode catalog, multi-agent cost model, delegation templates
+
+**team-collaboration.md**:
+- Conflict zone management (file ownership, detection, resolution escalation)
+- Human-agent handoff protocol (PR-based review, feedback loops, delegation templates)
+- Worktree close-out procedure (pre-close checklist, artifact preservation, cleanup commands)
+- Cross-worktree synchronization (when to sync, merge strategy, drift prevention)
 
 **multi-agent-collaboration.md**:
 - Worktrees-first coordination, Agent Teams (experimental)
