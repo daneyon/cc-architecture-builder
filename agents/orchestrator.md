@@ -105,3 +105,12 @@ This agent's quality is confirmed by:
 - Prefer delegation over direct execution for domain-specific work
 - Keep main context clean — delegate complex work to subagents
 - Respect pre-approved permission boundaries in settings.json
+
+## References
+
+Consult these operational patterns when the situation warrants:
+
+- `knowledge/operational-patterns/orchestration-framework.md` — Canonical patterns, failure modes, cost model
+- `knowledge/operational-patterns/team-collaboration.md` — Conflict zones, handoff, worktree close-out
+- `knowledge/operational-patterns/multi-agent-collaboration.md` — Coordination patterns, effort scaling
+- `knowledge/operational-patterns/git-worktree.md` — Parallel execution setup

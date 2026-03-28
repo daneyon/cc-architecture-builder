@@ -160,6 +160,34 @@ Output format:
 | "Components inside .claude-plugin/" | Wrong location | Move to project root |
 | "INDEX.md missing" | Knowledge without index | Create knowledge/INDEX.md |
 
+### KB Consumption Audit (--full mode)
+
+When running full or pre-publish validation, also verify knowledge base integration:
+
+1. **Orphan check**: Scan all `.md` files in `knowledge/*/` directories (excluding INDEX.md). For each KB file, search `agents/`, `skills/`, `commands/`, and `CLAUDE.md` for references to that filename. Report any KB files not referenced by any extension.
+
+2. **Dead reference check**: Scan all `## References` and `## See Also` sections in extensions (`agents/`, `skills/`, `commands/`). Verify each referenced `knowledge/` path exists on disk.
+
+3. **INDEX integrity**: For each `knowledge/*/INDEX.md`, verify `file_count` in frontmatter matches actual `.md` file count (excluding INDEX.md itself).
+
+Report section:
+
+```text
+## KB Consumption
+[✓/✗] Orphan check — N/N KB docs referenced by extensions
+[✓/✗] Dead references — N/N extension references resolve
+[✓/✗] INDEX integrity — N/N file_counts match
+```
+
+If issues found:
+
+```text
+  ✗ ORPHANED: knowledge/operational-patterns/extension-discovery.md
+    → Not referenced by any extension
+  ✗ DEAD REF: agents/orchestrator.md → knowledge/foo.md (not found)
+  ✗ INDEX: knowledge/components/INDEX.md says 8 files, found 9
+```
+
 ## See Also
 
 - `knowledge/schemas/distributable-plugin.md` — Expected structure
