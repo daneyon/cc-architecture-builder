@@ -1,7 +1,7 @@
 ---
 type: index
 scope: master
-file_count: 30
+file_count: 27
 last_updated: 2026-04-03
 ---
 
@@ -13,19 +13,19 @@ last_updated: 2026-04-03
 
 | Category | Files | Purpose |
 |----------|-------|---------|
-| `overview/` | 2 | Executive summary, architecture philosophy |
+| `overview/` | 3 | Executive summary, architecture philosophy, design principles |
 | `prerequisites/` | 2 | Git foundation, security defaults |
-| `schemas/` | 2 | Global user config, distributable plugin |
+| `schemas/` | 3 | Global user config, distributable plugin, architecture diagrams |
 | `components/` | 7 | Deep dives on each component type |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
-| `reference/` | 2 | Product design lifecycle, team formation (conceptual advisory frameworks) |
+| `reference/` | 1 | Product design lifecycle (conceptual advisory framework) |
 | `operational-patterns/` | 6 | Orchestration, worktrees, sessions, multi-agent, team collaboration, extension discovery |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
 
 ## Documentation Sources
 
-All KB files include `source:` metadata linking to official documentation:
+KB files should include `source:` metadata linking to official documentation. Primary sources:
 - **Primary**: https://code.claude.com/docs/en/
 - **Agent Skills**: https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/
 - **MCP Protocol**: https://modelcontextprotocol.io/
@@ -70,11 +70,13 @@ See `components/INDEX.md` for reading order and relationships.
 
 ## Category Summaries
 
-### Overview (2 files)
+### Overview (3 files)
+
 Foundational understanding of the architecture and its principles.
 
 - `executive-summary.md` — Two-schema architecture, 5-tier memory, visual overview
 - `architecture-philosophy.md` — Memory hierarchy, invocation patterns, distribution strategy
+- `design-principles.md` — Core design tenets and guiding principles
 
 ### Prerequisites (2 files)
 Required setup and security considerations.
@@ -82,11 +84,13 @@ Required setup and security considerations.
 - `git-foundation.md` — Git as requirement, setup checklist, GitHub integration
 - `security-defaults.md` — Private repos, pre-publication checklist, credential handling
 
-### Schemas (2 files)
+### Schemas (3 files)
+
 Complete structure specifications for both configuration layers.
 
 - `global-user-config.md` — `~/.claude/` structure, personal baseline, settings
 - `distributable-plugin.md` — Plugin structure, plugin.json schema, knowledge organization
+- `cc-architecture-diagrams.md` — Mermaid architecture diagrams and visual references
 
 ### Components (7 files)
 Detailed documentation for each plugin component type.
