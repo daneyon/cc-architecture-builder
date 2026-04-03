@@ -1,8 +1,8 @@
 ---
 type: index
 scope: master
-file_count: 28
-last_updated: 2026-03-25
+file_count: 30
+last_updated: 2026-04-03
 ---
 
 # Knowledge Base Index
@@ -19,7 +19,7 @@ last_updated: 2026-03-25
 | `components/` | 7 | Deep dives on each component type |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
 | `reference/` | 2 | Product design lifecycle, team formation (conceptual advisory frameworks) |
-| `operational-patterns/` | 4 | Orchestration, worktrees, sessions, multi-agent |
+| `operational-patterns/` | 6 | Orchestration, worktrees, sessions, multi-agent, team collaboration, extension discovery |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
 
@@ -99,18 +99,23 @@ Detailed documentation for each plugin component type.
 - `mcp-integration.md` — External tool connections, server development patterns
 - `knowledge-base-structure.md` — KB organization, indexing, retrieval
 
-### Distribution (1 file)
+### Distribution (2 files)
+
 Sharing and marketplace publication.
 
 - `marketplace.md` — Plugin distribution, team configuration, security review
+- `cowork.md` — Cowork sessions, enterprise distribution, team sharing
 
-### Operational Patterns (4 files)
+### Operational Patterns (6 files)
+
 Advanced workflow and orchestration patterns.
 
 - `orchestration-framework.md` — Canonical agentic workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), task execution protocol, agent failure modes, multi-agent cost model, delegation templates, initializer/iterator harness, CC platform constraints
 - `git-worktree.md` — Parallel Claude Code sessions
 - `session-management.md` — Resuming, history, persistence
 - `multi-agent-collaboration.md` — Worktrees-first coordination, Agent Teams (experimental), effort scaling, cross-session persistence
+- `team-collaboration.md` — Shared-repo conventions, role-based CLAUDE.md, conflict resolution, PR review workflows
+- `extension-discovery.md` — Extension discovery patterns, runtime loading, priority resolution
 
 ### Implementation (1 file)
 Practical execution guide.
