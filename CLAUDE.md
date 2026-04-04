@@ -125,8 +125,9 @@ See `knowledge/operational-patterns/orchestration-framework.md` for full detail.
 
 ## State Management
 
-- Read `TODO.md` for current task state and progress tracking
-- Use `notes/` directory for session scratch work and context persistence
+- Read `notes/TODO.md` for current task state and progress tracking
+- Read `notes/progress.md` for live session state and bootstrap protocol
+- Read `notes/lessons-learned.md` for operational constraints and insights
 - Internal design docs are in `docs/_internal/` (not tracked in git)
 
 ## Constraints
