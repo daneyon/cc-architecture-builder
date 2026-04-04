@@ -17,7 +17,7 @@
 
 1. Read this file (`notes/progress.md`)
 2. Read `notes/TODO.md` for task priorities and pending items
-3. Read `notes/lessons-learned.md` for operational constraints (LL-01 through LL-09)
+3. Read `notes/lessons-learned.md` for operational constraints (LL-01 through LL-08)
 4. Read `notes/global-extensions-map.md` for available extensions
 5. Await user review comments on the four audit artifacts below
 
@@ -48,7 +48,7 @@
 | Implementation plan | Big picture, phased strategy | `~/.claude/plans/jazzy-skipping-petal.md` |
 | TODO.md | Incrementalized tasks, prioritized | `notes/TODO.md` |
 | progress.md | Live session state, bootstrap | `notes/progress.md` (this file) |
-| Lessons learned | Operational constraints + insights (LL-01 to LL-09) | `notes/lessons-learned.md` |
+| Lessons learned | Operational constraints + insights (LL-01 to LL-08) | `notes/lessons-learned.md` |
 | Global extensions map | Available CC extensions snapshot | `notes/global-extensions-map.md` |
 | User's original comments | Full context on audit strategy | `notes/my-response-to-techdebt-2026-04-03.md` |
 | Techdebt v1 (baseline) | Original 15-item scan | `notes/techdebt-2026-04-03.md` |

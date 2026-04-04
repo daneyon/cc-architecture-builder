@@ -69,14 +69,7 @@
 - **Lesson**: Three-tier state hierarchy must be maintained: (1) Implementation plan (detailed strategy, archived when superseded) → (2) TODO.md (incrementalized tasks, never delete, reorder pending to top) → (3) progress.md (live session state, can compact/reset). TODO never deletes content — completed items move to Completed Archive section. Only progress.md warrants deletions/compactions.
 - **Status**: active
 
-### LL-08: notes/ is gitignored by design
-- **Date**: 2026-04-04
-- **Category**: architectural
-- **Source**: CAB Phase 0 execution
-- **Lesson**: `notes/` is in .gitignore as "Personal state management". These are local context store files (session scratch, progress, audit artifacts) that persist across compaction and session boundaries without polluting the repo. CLAUDE.md points to them; git doesn't track them.
-- **Status**: active
-
-### LL-09: Background agent outputs must persist as artifacts
+### LL-08: Background agent outputs must persist as artifacts
 - **Date**: 2026-04-04
 - **Category**: operational
 - **Source**: CAB techdebt v3 strategic assessment
