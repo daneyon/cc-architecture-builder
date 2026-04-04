@@ -62,10 +62,6 @@ docs/v1/
 *.code-workspace
 cc-architecture-builder.code-workspace
 
-# Personal state management (accessible via explicit CLAUDE.md instructions)
-TODO.md
-notes/
-
 # Internal/archive docs
 docs/_internal/
 docs/_archive/
