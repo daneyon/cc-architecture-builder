@@ -15,11 +15,12 @@
 - [ ] User review: `notes/techdebt-v2-2026-04-04.md` (56 items, 5-tier plan)
 - [ ] User approval to begin T1 implementation
 
-### HITL-02: External Reference Investigation (pending user input)
+### HITL-02: External Reference Investigation (delivered, awaiting review)
 
-- [ ] User provides external reference document
-- [ ] Deep investigation research + comparison report → "techdebt v3"
-- [ ] Merge findings into implementation plan
+- [x] User provides external reference document (3 sources: X posts + TheNewStack article)
+- [x] Deep investigation research + comparison report → `notes/techdebt-v3-2026-04-04.md`
+- [ ] User review + approval of techdebt v3
+- [ ] Merge v2 + v3 findings into unified implementation plan
 
 ### T1: Architectural Alignment (blocking — first after HITL approval)
 
@@ -121,6 +122,14 @@
 - [ ] Cowork enterprise distribution testing
 - [ ] Agent evaluation framework (systematic quality measurement)
 - [ ] Multi-vendor adapter (Gemini CLI / Codex compatibility — future)
+
+### P5: CC Trajectory Anticipation (deferred — revisit post-audit)
+
+- [ ] Deep review of unreleased/gated CC capabilities and architectural implications
+- [ ] Enhance CAB orchestration patterns to anticipate autonomous background agents
+- [ ] Shift CLAUDE.md guidance toward seed instructions that survive autonomous memory consolidation
+- [ ] Design backend-agnostic orchestration patterns resilient to IPC mechanism changes
+- [ ] Anticipate increasingly granular permission models in plugin manifest design
 
 ---
 

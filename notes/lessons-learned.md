@@ -76,6 +76,13 @@
 - **Lesson**: `notes/` is in .gitignore as "Personal state management". These are local context store files (session scratch, progress, audit artifacts) that persist across compaction and session boundaries without polluting the repo. CLAUDE.md points to them; git doesn't track them.
 - **Status**: active
 
+### LL-09: Background agent outputs must persist as artifacts
+- **Date**: 2026-04-04
+- **Category**: operational
+- **Source**: CAB techdebt v3 strategic assessment
+- **Lesson**: Background agents return results via task notification channel, but the output file on disk may be empty (likely a CC platform limitation). Any agent performing substantive analysis or planning must produce a persistent markdown artifact in the project's state management path (`notes/`). Do not rely on task notification output files for persistence or user accessibility.
+- **Status**: active
+
 ---
 
 ## Pending (user has more to add)
