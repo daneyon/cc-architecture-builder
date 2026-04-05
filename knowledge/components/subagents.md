@@ -212,7 +212,7 @@ model: opus
 skills: executing-tasks, validating-structure
 ```
 
-See `agents/orchestrator.md` for the full definition.
+See `.claude/agents/orchestrator.md` for the full definition.
 
 ### Verifier Pattern
 
@@ -225,7 +225,7 @@ description: >
 model: inherit
 ```
 
-See `agents/verifier.md` for the full definition.
+See `.claude/agents/verifier.md` for the full definition.
 
 ### CAB Agent Template Requirements
 

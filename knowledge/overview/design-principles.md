@@ -68,7 +68,7 @@ LAYER 4: EXECUTION (runtime)
 - Skills are the orchestrator's "how-to" library — agents are its "delegation roster."
 - An agent loading a skill gets an isolated copy in its own context window.
 - **Commands are now skills**: CC merged commands into skills (2026). Skills are preferred; commands still work but skills win when both exist. CAB maintains concise abbreviated names (e.g., `cab:execute-task`) for quick-trigger usability.
-- When a skill involves repeatable logic, extract it into executable scripts (`skills/[name]/scripts/`) that the skill invokes via Bash. Tested code > generated code.
+- When a skill involves repeatable logic, extract it into executable scripts (`.claude/skills/[name]/scripts/`) that the skill invokes via Bash. Tested code > generated code.
 
 ---
 

@@ -28,7 +28,7 @@ As of 2026, CC has **merged commands into skills**. Skills are the preferred pat
 
 | Aspect | Commands (legacy) | Skills (preferred) |
 |--------|-------------------|-------------------|
-| **Location** | `commands/name.md` | `skills/name/SKILL.md` |
+| **Location** | `.claude/commands/name.md` | `.claude/skills/name/SKILL.md` |
 | **Invocation** | User-only (`/name`) | User or model-invoked |
 | **Frontmatter** | description, allowed-tools | 11+ fields including model, effort, context, hooks |
 | **Resources** | Single file only | Directory with scripts/, assets/, references/ |
@@ -44,10 +44,10 @@ To migrate a command to a skill:
 
 ```
 # Before (command)
-commands/deploy.md
+.claude/commands/deploy.md
 
 # After (skill)
-skills/deploy/
+.claude/skills/deploy/
 ├── SKILL.md          # Same content, enhanced frontmatter
 ├── scripts/          # Optional: extracted bash logic
 └── references/       # Optional: supporting docs
@@ -82,7 +82,7 @@ Commands remain appropriate when:
 
 - **Backward compatibility** — existing workflows depend on command paths
 - **Simplicity** — single-file command with no resources needed
-- **Plugin commands** — CAB maintains `commands/` for CLI-style triggers with concise abbreviated names
+- **Plugin commands** — CAB maintains `.claude/commands/` for CLI-style triggers with concise abbreviated names
 
 CAB convention: Plugin commands use concise abbreviations (e.g., `/cab:execute-task` not `/cc-architecture-builder:execute-task`). This naming convention applies regardless of whether the implementation is a command or skill.
 
@@ -90,7 +90,7 @@ CAB convention: Plugin commands use concise abbreviations (e.g., `/cab:execute-t
 
 ## CAB Command Inventory
 
-CAB currently maintains 14 commands in `commands/`. These function as quick-trigger wrappers that often load a corresponding skill:
+CAB currently maintains 14 commands in `.claude/commands/`. These function as quick-trigger wrappers that often load a corresponding skill:
 
 | Pattern | Example |
 |---------|---------|

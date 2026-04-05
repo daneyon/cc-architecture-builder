@@ -35,7 +35,7 @@ This skill helps create properly structured Claude Code components (skills, agen
 
 2. **Create structure**:
    ```bash
-   mkdir -p skills/{{skill-name}}
+   mkdir -p .claude/skills/{{skill-name}}
    ```
 
 3. **Generate SKILL.md** from template:
@@ -150,7 +150,7 @@ After creating any component:
 |-----------|------------|
 | Skill | Name ≤64 chars, lowercase+hyphens, description ≤1024 chars |
 | Agent | Name unique, tools valid if specified |
-| Command | File in commands/, description present |
+| Command | File in .claude/commands/, description present |
 | Hook | Valid event name, script exists and executable |
 
 ## Templates Reference

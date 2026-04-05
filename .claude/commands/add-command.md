@@ -19,7 +19,7 @@ Use the `creating-components` skill to:
 
 2. **Create file**:
    ```
-   commands/{{command-name}}.md
+   .claude/commands/{{command-name}}.md
    ```
 
 3. **Generate command file** with frontmatter and instructions

@@ -19,7 +19,7 @@ Use the `creating-components` skill to:
 
 2. **Create file**:
    ```
-   agents/{{agent-name}}.md
+   .claude/agents/{{agent-name}}.md
    ```
 
 3. **Generate agent definition** with frontmatter and body

@@ -23,7 +23,7 @@ Use the `creating-components` skill to:
 
 3. **Create structure**:
    ```
-   skills/{{skill-name}}/
+   .claude/skills/{{skill-name}}/
    └── SKILL.md
    ```
 

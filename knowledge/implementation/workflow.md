@@ -134,16 +134,16 @@ This guide walks through implementing the Claude Code architecture in four phase
 
 ```
 □ Skills (if needed)
-  mkdir -p skills/skill-name
+  mkdir -p .claude/skills/skill-name
   # Create SKILL.md with proper frontmatter
   # Keep under 500 lines
   
 □ Agents (if needed)
-  # Create agents/agent-name.md
+  # Create .claude/agents/agent-name.md
   # Define description, tools, model
   
 □ Commands (if needed)
-  # Create commands/command-name.md
+  # Create .claude/commands/command-name.md
   # Include description frontmatter
   
 □ Hooks (if needed)
@@ -151,8 +151,8 @@ This guide walks through implementing the Claude Code architecture in four phase
   # Add scripts to scripts/
 
 □ Commit each component type
-  git add skills/ && git commit -m "Add skills"
-  git add agents/ && git commit -m "Add agents"
+  git add .claude/skills/ && git commit -m "Add skills"
+  git add .claude/agents/ && git commit -m "Add agents"
   # etc.
 ```
 

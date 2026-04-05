@@ -28,9 +28,9 @@ behavior divergence and stale patterns.
 ```
 CAB Plugin (upstream/authoritative)
     │
-    ├── agents/           ──→  ~/.claude/agents/
-    ├── skills/           ──→  ~/.claude/skills/
-    ├── commands/         ──→  ~/.claude/commands/
+    ├── .claude/agents/    ──→  ~/.claude/agents/
+    ├── .claude/skills/    ──→  ~/.claude/skills/
+    ├── .claude/commands/  ──→  ~/.claude/commands/
     ├── templates/        ──→  (scaffolding reference only, not deployed)
     └── knowledge/        ──→  (reference only, not deployed)
     
@@ -45,7 +45,7 @@ Exceptions: `settings.local.json` and `CLAUDE.local.md` are global-only (persona
 
 | Trigger | Action | Verification |
 |---------|--------|--------------|
-| After T-tier completion (audit) | Deploy changed agents/skills/commands | Diff CAB vs global, confirm no regressions |
+| After T-tier completion (audit) | Deploy changed .claude/agents/skills/commands | Diff CAB vs global, confirm no regressions |
 | Version bump | Full sync of all component directories | `/validate` on deployed global config |
 | New agent/skill added | Deploy single component | Test invocation in a fresh session |
 | Settings change | Merge into global settings.json | Verify precedence didn't break overrides |
@@ -58,13 +58,13 @@ Compare CAB authoritative files against deployed global copies:
 
 ```bash
 # Agent diff
-diff -rq agents/ ~/.claude/agents/
+diff -rq .claude/agents/ ~/.claude/agents/
 
 # Skill diff (skill directories)
-diff -rq skills/ ~/.claude/skills/
+diff -rq .claude/skills/ ~/.claude/skills/
 
 # Command diff
-diff -rq commands/ ~/.claude/commands/
+diff -rq .claude/commands/ ~/.claude/commands/
 
 # Settings diff (manual review — merge, don't overwrite)
 diff .claude/settings.json ~/.claude/settings.json
@@ -76,9 +76,9 @@ Copy changed files. Never blindly overwrite — merge where needed:
 
 ```bash
 # Component directories (safe to overwrite — CAB is authoritative)
-cp -r agents/*.md ~/.claude/agents/
-cp -r skills/*/SKILL.md ~/.claude/skills/
-cp -r commands/*.md ~/.claude/commands/
+cp -r .claude/agents/*.md ~/.claude/agents/
+cp -r .claude/skills/*/SKILL.md ~/.claude/skills/
+cp -r .claude/commands/*.md ~/.claude/commands/
 
 # Settings (MERGE — global may have personal additions)
 # Manual review required — use diff output to guide selective updates
@@ -110,7 +110,7 @@ After deployment:
 A `/sync-check` command could automate drift detection:
 
 ```
-1. Hash all CAB agents/ skills/ commands/ files
+1. Hash all CAB .claude/agents/ .claude/skills/ .claude/commands/ files
 2. Hash corresponding ~/.claude/ files
 3. Report mismatches with file-level diff summary
 4. Optionally auto-deploy with confirmation

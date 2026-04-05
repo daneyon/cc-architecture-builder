@@ -97,5 +97,5 @@ context dump. Ideal for starting a new session or resuming after time away.
 ## See Also
 
 - `knowledge/operational-patterns/state-management/session-lifecycle.md` — Session resumption patterns
-- `agents/orchestrator.md` — Uses context sync to inform task routing
+- `.claude/agents/orchestrator.md` — Uses context sync to inform task routing
 - `/execute-task` — Start working on recommended next actions

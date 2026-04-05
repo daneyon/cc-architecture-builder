@@ -62,13 +62,13 @@ Context window space is shared across rules, skills, agent instructions, and act
 
 The global config acts as the orchestrator layer: it receives tasks, classifies them, routes to domain-specialist agents, synthesizes results, and manages cross-project state.
 
-**CC primitive**: The `agent` setting in `settings.json` runs the main thread as a named subagent definition from `agents/*.md`. This is a generic CC mechanism — it accepts any agent name, not a built-in role keyword.
+**CC primitive**: The `agent` setting in `settings.json` runs the main thread as a named subagent definition from `.claude/agents/*.md`. This is a generic CC mechanism — it accepts any agent name, not a built-in role keyword.
 
 **CAB convention**: Create an `orchestrator.md` agent definition (in `~/.claude/agents/` or project `.claude/agents/`) and set `"agent": "orchestrator"` in `settings.json` to establish the orchestrator pattern below. The "orchestrator" name is a CAB convention, not a CC built-in.
 
 ```jsonc
 // ~/.claude/settings.json — CAB orchestrator convention
-{ "agent": "orchestrator" }  // References agents/orchestrator.md
+{ "agent": "orchestrator" }  // References .claude/agents/orchestrator.md
 ```
 
 ```

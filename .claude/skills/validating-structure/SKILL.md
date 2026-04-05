@@ -54,10 +54,10 @@ Determine if validating:
 
 **Directory Structure Check**:
 ```
-□ Component directories at root (not inside .claude-plugin/)
-  - commands/ (if used)
-  - agents/ (if used)
-  - skills/ (if used)
+□ Component directories under .claude/ (per CC project schema)
+  - .claude/commands/ (if used)
+  - .claude/agents/ (if used)
+  - .claude/skills/ (if used)
   - hooks/ (if used)
 □ knowledge/ has INDEX.md (if knowledge exists)
 ```
@@ -190,7 +190,7 @@ If issues found:
 ```text
   ✗ ORPHANED: knowledge/operational-patterns/extension-discovery.md
     → Not referenced by any extension
-  ✗ DEAD REF: agents/orchestrator.md → knowledge/foo.md (not found)
+  ✗ DEAD REF: .claude/agents/orchestrator.md → knowledge/foo.md (not found)
   ✗ INDEX: knowledge/components/INDEX.md says 8 files, found 9
 ```
 

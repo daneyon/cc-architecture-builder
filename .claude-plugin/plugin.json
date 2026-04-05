@@ -17,5 +17,8 @@
     "orchestration",
     "context-engineering",
     "claude-code"
-  ]
+  ],
+  "agents": ".claude/agents/",
+  "skills": ".claude/skills/",
+  "commands": ".claude/commands/"
 }

@@ -68,7 +68,7 @@ Agent Teams enables multiple Claude sessions to coordinate on a shared task list
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 ```
 
-Requires CC v2.1.32+. Teammates can be defined in `agents/*.md` with team-specific configurations.
+Requires CC v2.1.32+. Teammates can be defined in `.claude/agents/*.md` with team-specific configurations.
 
 **Display modes**:
 - **In-process** (Shift+Down): Teammates run within the same terminal
