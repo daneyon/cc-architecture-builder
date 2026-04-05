@@ -1,7 +1,7 @@
 ---
 type: index
 scope: master
-file_count: 33
+file_count: 36
 last_updated: 2026-04-05
 ---
 
@@ -16,7 +16,7 @@ last_updated: 2026-04-05
 | `overview/` | 3 | Executive summary, architecture philosophy, design principles |
 | `prerequisites/` | 2 | Git foundation, security defaults |
 | `schemas/` | 3 | Global user config, distributable plugin, architecture diagrams |
-| `components/` | 7 | Deep dives on each component type |
+| `components/` | 10 | Deep dives on each component type |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
 | `reference/` | 1 | Product design lifecycle (conceptual advisory framework) |
 | `operational-patterns/` | 11 | Orchestration (3), multi-agent (3), state management (3), team collaboration, extension discovery |
@@ -61,6 +61,8 @@ See `components/INDEX.md` for reading order and relationships.
 - `components/memory-claudemd.md` — 4-scope hierarchy, auto memory, context engineering
 - `components/agent-skills.md` — Model-invoked capabilities
 - `components/mcp-integration.md` — External tool connections
+- `components/output-styles.md` — System prompt customization
+- `components/lsp-integration.md` — Real-time code intelligence
 
 ### Advanced Patterns?
 
@@ -92,7 +94,8 @@ Complete structure specifications for both configuration layers.
 - `distributable-plugin.md` — Plugin structure, plugin.json schema, knowledge organization
 - `cc-architecture-diagrams.md` — Mermaid architecture diagrams and visual references
 
-### Components (7 files)
+### Components (10 files)
+
 Detailed documentation for each plugin component type.
 
 - `memory-claudemd.md` — 5-tier memory system, imports, project rules
@@ -101,6 +104,9 @@ Detailed documentation for each plugin component type.
 - `custom-commands.md` — User-invoked shortcuts, slash commands
 - `hooks.md` — Event-driven automation
 - `mcp-integration.md` — External tool connections, server development patterns
+- `output-styles.md` — System prompt modification, custom style definitions
+- `lsp-integration.md` — Real-time code intelligence, .lsp.json configuration
+- `plugin-persistent-data.md` — CLAUDE_PLUGIN_DATA lifecycle, dependency patterns
 - `knowledge-base-structure.md` — KB organization, indexing, retrieval
 
 ### Distribution (2 files)
