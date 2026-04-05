@@ -91,7 +91,7 @@ Beyond the 4-scope configuration, CC's runtime operates a multi-layer escalation
 | Full Compact | Complete conversation compression (9-section narrative) | Expensive |
 | Session Reset | Clears everything except system prompt | Destructive |
 
-**Practical implication**: Proactive management (compacting at ~70%, or starting fresh sessions) avoids forced compaction cascades. See [Session Management](../operational-patterns/session-management.md) for decision framework.
+**Practical implication**: Proactive management (compacting at ~70%, or starting fresh sessions) avoids forced compaction cascades. See [Session Management](../operational-patterns/state-management/session-lifecycle.md) for decision framework.
 
 ## Invocation & Extension Patterns
 
@@ -153,5 +153,5 @@ The 200-line discipline naturally enforces progressive disclosure:
 
 - [Design Principles](design-principles.md) — Core tenets governing the CAB framework
 - [Memory System](../components/memory-claudemd.md) — Detailed memory patterns + auto memory
-- [Session Management](../operational-patterns/session-management.md) — Context health, compaction, persistence
-- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Canonical workflow patterns
+- [Session Management](../operational-patterns/state-management/session-lifecycle.md) — Context health, compaction, persistence
+- [Orchestration Framework](../operational-patterns/orchestration/framework.md) — Canonical workflow patterns

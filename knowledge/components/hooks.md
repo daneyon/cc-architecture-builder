@@ -275,5 +275,5 @@ Ensure deliverables meet standards before session ends:
 - [Custom Commands](custom-commands.md) — User-invoked slash commands
 - [MCP Integration](mcp-integration.md) — External tool connections
 - [Agent Skills](agent-skills.md) — `once: true` hooks in skill context
-- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Hooks in task execution protocol
+- [Orchestration Framework](../operational-patterns/orchestration/framework.md) — Hooks in task execution protocol
 - [Official Hooks Documentation](https://code.claude.com/docs/en/hooks) — Canonical reference for all events, payloads, and configuration

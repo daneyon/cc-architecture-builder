@@ -22,12 +22,12 @@ last_updated: 2026-03-16
 1. **executive-summary.md** — Start here for high-level understanding
 2. **architecture-philosophy.md** — Deeper principles and patterns
 
-For orchestration and workflow patterns, proceed to `operational-patterns/orchestration-framework.md` after these foundational files.
+For orchestration and workflow patterns, proceed to `operational-patterns/orchestration/framework.md` after these foundational files.
 
 ## Key Concepts Introduced
 
 - Two-schema separation (global vs project)
-- 5-tier memory hierarchy (Enterprise Policy → Project Memory → Project Rules → User Memory → Project Local)
+- 4-scope memory hierarchy (Managed → Project → User → Local)
 - Invocation patterns (automatic, model-invoked, user-invoked, event-driven)
 - Progressive disclosure
 - Distribution via @imports

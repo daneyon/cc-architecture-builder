@@ -110,7 +110,7 @@ The orchestrator pattern is the primary operating model: one main agent classifi
 - **Hook-driven QA/QC**: Use hooks for recurring validations (e.g., auto-validate on extension updates, lint on file writes, freshness checks on version bumps).
 - Auto memory complements `notes/` — CC manages short-term memory; CAB manages structured operational state.
 
-See [Orchestration Framework](../operational-patterns/orchestration-framework.md) for full detail.
+See [Orchestration Framework](../operational-patterns/orchestration/framework.md) for full detail.
 
 ---
 
@@ -207,5 +207,5 @@ High Agency (P9)
 ## See Also
 
 - [Architecture Philosophy](architecture-philosophy.md) — CC runtime mechanics, memory, invocation
-- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Tenets, canonical patterns, execution protocol
-- [Session Management](../operational-patterns/session-management.md) — Context health, filesystem-as-context
+- [Orchestration Framework](../operational-patterns/orchestration/framework.md) — Tenets, canonical patterns, execution protocol
+- [Session Management](../operational-patterns/state-management/session-lifecycle.md) — Context health, filesystem-as-context

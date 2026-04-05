@@ -121,7 +121,7 @@ isolation: worktree
 - Agent operates in a dedicated git worktree (separate working directory)
 - Auto-cleanup: worktree is removed when the agent finishes
 - Prevents file conflicts when multiple agents modify the same codebase
-- See [Git Worktrees](../operational-patterns/git-worktree.md) for setup details
+- See [Worktree Workflows](../operational-patterns/multi-agent/worktree-workflows.md) for setup details
 
 ---
 
@@ -245,6 +245,6 @@ Every CAB agent file **must** include a `## Verification (REQUIRED)` section wit
 - [Agent Skills](agent-skills.md) -- Model-invoked capabilities
 - [Custom Commands](custom-commands.md) -- User-invoked shortcuts
 - [Hooks](hooks.md) -- Event-driven automation
-- [Orchestration Framework](../operational-patterns/orchestration-framework.md) -- Delegation patterns, cost model, failure modes
-- [Multi-Agent Collaboration](../operational-patterns/multi-agent-collaboration.md) -- Coordination patterns
-- [Git Worktrees](../operational-patterns/git-worktree.md) -- Parallel execution with isolation
+- [Orchestration Framework](../operational-patterns/orchestration/framework.md) -- Delegation patterns, cost model, failure modes
+- [Collaboration Patterns](../operational-patterns/multi-agent/collaboration-patterns.md) -- Multi-agent coordination
+- [Worktree Workflows](../operational-patterns/multi-agent/worktree-workflows.md) -- Parallel execution with isolation

@@ -247,4 +247,4 @@ Projects can import personal preferences via `@` imports in CLAUDE.md (e.g., `@~
 - [Distributable Plugin](distributable-plugin.md) — Schema 2 (project-level config)
 - [Memory System](../components/memory-claudemd.md) — CLAUDE.md hierarchy and @imports
 - [Hooks](../components/hooks.md) — Event-driven automation details
-- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Multi-agent patterns
+- [Orchestration Framework](../operational-patterns/orchestration/framework.md) — Multi-agent patterns

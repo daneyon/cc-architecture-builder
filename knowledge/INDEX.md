@@ -58,15 +58,15 @@ claude /plugin install mcp-builder@anthropic-agent-skills
 See `components/INDEX.md` for reading order and relationships.
 
 **Key files**:
-- `components/memory-claudemd.md` — 5-tier hierarchy with project rules
+- `components/memory-claudemd.md` — 4-scope hierarchy, auto memory, context engineering
 - `components/agent-skills.md` — Model-invoked capabilities
 - `components/mcp-integration.md` — External tool connections
 
 ### Advanced Patterns?
 
-- `operational-patterns/orchestration-framework.md` — Canonical patterns, execution protocol, cost model
-- `operational-patterns/git-worktree.md` — Parallel execution
-- `operational-patterns/multi-agent-collaboration.md` — Agent coordination
+- `operational-patterns/orchestration/framework.md` — Canonical patterns, execution protocol
+- `operational-patterns/multi-agent/worktree-workflows.md` — Parallel execution
+- `operational-patterns/multi-agent/collaboration-patterns.md` — Agent coordination
 
 ## Category Summaries
 
@@ -74,7 +74,7 @@ See `components/INDEX.md` for reading order and relationships.
 
 Foundational understanding of the architecture and its principles.
 
-- `executive-summary.md` — Two-schema architecture, 5-tier memory, visual overview
+- `executive-summary.md` — Two-schema architecture, 4-scope memory, visual overview
 - `architecture-philosophy.md` — Memory hierarchy, invocation patterns, distribution strategy
 - `design-principles.md` — Core design tenets and guiding principles
 
@@ -110,16 +110,15 @@ Sharing and marketplace publication.
 - `marketplace.md` — Plugin distribution, team configuration, security review
 - `cowork.md` — Cowork sessions, enterprise distribution, team sharing
 
-### Operational Patterns (6 files)
+### Operational Patterns (12 files in 3 subdirectories + 2 root)
 
-Advanced workflow and orchestration patterns.
+Advanced workflow and orchestration patterns. See `operational-patterns/INDEX.md` for full directory structure.
 
-- `orchestration-framework.md` — Canonical agentic workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer), task execution protocol, agent failure modes, multi-agent cost model, delegation templates, initializer/iterator harness, CC platform constraints
-- `git-worktree.md` — Parallel Claude Code sessions
-- `session-management.md` — Resuming, history, persistence
-- `multi-agent-collaboration.md` — Worktrees-first coordination, Agent Teams (experimental), effort scaling, cross-session persistence
-- `team-collaboration.md` — Shared-repo conventions, role-based CLAUDE.md, conflict resolution, PR review workflows
-- `extension-discovery.md` — Extension discovery patterns, runtime loading, priority resolution
+- `orchestration/` — Framework tenets, canonical patterns, delegation templates, cost model
+- `multi-agent/` — Collaboration patterns, Agent Teams, worktree workflows
+- `state-management/` — Session lifecycle, context engineering, filesystem state patterns
+- `team-collaboration.md` — Shared-repo conventions, conflict resolution, PR review workflows
+- `extension-discovery.md` — Extension discovery patterns, Three-Point Reinforcement
 
 ### Implementation (1 file)
 Practical execution guide.
