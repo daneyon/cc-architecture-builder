@@ -4,8 +4,8 @@ title: Extension Discovery & Persistence
 category: operational-patterns
 tags: [skills, context-degradation, reinforcement, compaction, extension-awareness]
 summary: Why Claude loses awareness of available extensions mid-session, and the Three-Point Reinforcement Pattern to mitigate it. Applies to any project with 3+ skills.
-depends_on: [agent-skills, session-management, orchestration-framework]
-related: [memory-claudemd, multi-agent-collaboration]
+depends_on: [agent-skills, session-lifecycle, orchestration-framework]
+related: [memory-claudemd, collaboration-patterns]
 complexity: intermediate
 last_updated: 2026-03-26
 estimated_tokens: 900

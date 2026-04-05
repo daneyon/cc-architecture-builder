@@ -1,7 +1,7 @@
 ---
 type: index
 scope: operational-patterns
-file_count: 12
+file_count: 13
 last_updated: 2026-04-05
 revision_note: "v3.0 — Modularized into subdirectories. 3 monolith files split into 9 focused files across 3 subdirectories."
 ---
@@ -27,7 +27,8 @@ operational-patterns/
 │   ├── context-engineering.md  # 200-line discipline, optimization
 │   └── filesystem-patterns.md  # notes/, cold-start anchors, persistence
 ├── team-collaboration.md   # Multi-human + multi-agent protocols
-└── extension-discovery.md  # Extension awareness, Three-Point Reinforcement
+├── extension-discovery.md  # Extension awareness, Three-Point Reinforcement
+└── sync-protocol.md        # CAB ↔ global ~/.claude/ deployment protocol
 ```
 
 ## Reading Order
@@ -59,6 +60,7 @@ operational-patterns/
 | Designing cross-session state | `state-management/filesystem-patterns.md` |
 | Multiple people/agents on same repo | `team-collaboration.md` |
 | Skills forgotten mid-session | `extension-discovery.md` |
+| Deploying CAB changes to global | `sync-protocol.md` |
 
 ## Migration Notes (v1.01)
 

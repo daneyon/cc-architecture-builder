@@ -3,11 +3,11 @@ id: cowork
 title: Cowork — Desktop Automation & Enterprise Plugin Distribution
 category: distribution
 tags: [cowork, desktop, enterprise, distribution, automation, beta]
-summary: Overview of Anthropic's Cowork tool for desktop automation and enterprise plugin distribution. Research preview — verify current capabilities before implementation.
+summary: Forward-looking stub for Cowork desktop automation and enterprise plugin distribution. Thin content — expand when Cowork graduates from research preview.
 depends_on: [marketplace]
 related: [marketplace]
 complexity: intermediate
-last_updated: 2026-03-03
+last_updated: 2026-04-05
 estimated_tokens: 400
 source: https://code.claude.com/docs/en/cowork
 confidence: A

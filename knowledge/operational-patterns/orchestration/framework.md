@@ -4,7 +4,7 @@ title: Orchestration Framework
 category: operational-patterns/orchestration
 tags: [orchestration, workflows, agents, patterns, verification, tenets]
 summary: Core orchestration tenets, canonical agentic workflow patterns, and the standard task execution protocol.
-depends_on: [subagents, multi-agent-collaboration, memory-claudemd]
+depends_on: [subagents, collaboration-patterns, memory-claudemd]
 related: [delegation-templates, cost-model, session-lifecycle]
 complexity: advanced
 last_updated: 2026-04-05

@@ -4,8 +4,8 @@ title: Team Collaboration Patterns
 category: operational-patterns
 tags: [collaboration, worktree, handoff, conflict, merge, review, delegation, teams]
 summary: Protocols for multi-human and multi-agent team collaboration — conflict management, handoff procedures, worktree lifecycle, PR review workflows, and cross-worktree synchronization.
-depends_on: [git-worktree, multi-agent-collaboration, orchestration-framework]
-related: [session-management, extension-discovery]
+depends_on: [worktree-workflows, collaboration-patterns, orchestration-framework]
+related: [session-lifecycle, extension-discovery]
 complexity: advanced
 last_updated: 2026-03-28
 estimated_tokens: 2200

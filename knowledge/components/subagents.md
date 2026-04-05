@@ -5,7 +5,7 @@ category: components
 tags: [subagents, delegation, context, specialized, agents, orchestration]
 summary: Complete guide to subagents - specialized AI assistants operating in isolated context windows, with full frontmatter reference and CAB-specific patterns.
 depends_on: [memory-claudemd, agent-skills]
-related: [custom-commands, hooks, orchestration-framework, multi-agent-collaboration]
+related: [custom-commands, hooks, orchestration-framework, collaboration-patterns]
 complexity: intermediate
 last_updated: 2026-04-05
 estimated_tokens: 1800
