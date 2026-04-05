@@ -217,9 +217,21 @@ As CC's memory becomes increasingly autonomous (auto memory + autoDream), CLAUDE
 
 **Pattern**: State *what* and *why*, not detailed *how*. "All API endpoints must validate input and return standard error responses" survives consolidation better than "In every controller, call validateInput() on line 1, then wrap in try/catch, then format errors with formatApiError()..."
 
+### Subagent Memory vs. Session Auto Memory
+
+CC has **two distinct** auto memory systems:
+
+| System | Location | Scope | Loaded When |
+|--------|----------|-------|-------------|
+| **Session auto memory** | `~/.claude/projects/<path>/memory/` | Main session | Every session start |
+| **Subagent memory** | `~/.claude/agent-memory/` (user), `.claude/agent-memory/` (project), `.claude/agent-memory-local/` (local) | Per-agent | When subagent starts |
+
+Session auto memory is for the main conversation. Subagent memory is per-agent, controlled by the `memory:` frontmatter field in agent definitions. See [Subagents](subagents.md) for the 3-scope detail.
+
 ## See Also
 
 - [Architecture Philosophy](../overview/architecture-philosophy.md) — 4-scope hierarchy, intermediary wrapper
 - [Context Engineering](../operational-patterns/state-management/context-engineering.md) — 200-line discipline, compaction
 - [Filesystem Patterns](../operational-patterns/state-management/filesystem-patterns.md) — notes/ state management
 - [Agent Skills](agent-skills.md) — How skills interact with memory
+- [Subagents](subagents.md) — Subagent memory scopes (user, project, local)

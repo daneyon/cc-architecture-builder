@@ -29,38 +29,49 @@ Claude Code is not merely a coding assistant—it is a configurable AI platform 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  SCHEMA 1: GLOBAL USER CONFIGURATION                                        │
-│  Location: ~/.claude/                                                        │
+│  Location: ~/                                                                │
 │  Purpose: Personal baseline, cross-project preferences                       │
 │  Scope: Private to you, applies to ALL projects                             │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│  ~/.claude/                                                                  │
-│  ├── CLAUDE.md              # Your personal system instructions              │
-│  ├── settings.json          # User settings (model, permissions)             │
-│  ├── rules/                 # Personal modular rules                         │
-│  ├── skills/                # Personal skills (available everywhere)         │
-│  └── agents/                # Personal agents                                │
+│  ~/                                                                          │
+│  ├── .claude.json               # App state, UI prefs, personal MCP servers  │
+│  └── .claude/                                                                │
+│      ├── CLAUDE.md              # Your personal system instructions           │
+│      ├── settings.json          # User settings (model, permissions)          │
+│      ├── keybindings.json       # Custom keyboard shortcuts                  │
+│      ├── rules/                 # Personal modular rules                     │
+│      ├── skills/                # Personal skills (available everywhere)      │
+│      ├── commands/              # Personal commands (available everywhere)    │
+│      ├── output-styles/         # Custom output style definitions            │
+│      ├── agents/                # Personal agents                            │
+│      ├── agent-memory/          # Subagent memory (memory: user scope)       │
+│      └── projects/              # Auto memory per project                    │
 └─────────────────────────────────────────────────────────────────────────────┘
                                      │
                                      │ inherits / supplements
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  SCHEMA 2: DISTRIBUTABLE PLUGIN PROJECT                                      │
+│  SCHEMA 2: PROJECT STRUCTURE                                                 │
 │  Location: ./your-project/                                                   │
-│  Purpose: Domain-specific custom LLM, shareable via marketplace              │
-│  Scope: Team/community distribution                                          │
+│  Purpose: Team-shared project config + distributable plugin                  │
+│  Scope: Team via git (+ marketplace if plugin)                              │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│  your-plugin/                                                                │
-│  ├── .claude-plugin/plugin.json   # Marketplace metadata                     │
+│  your-project/                                                               │
 │  ├── CLAUDE.md                    # Project system instructions              │
-│  ├── CLAUDE.local.md              # Personal project overrides (gitignored)  │
-│  ├── .claude/rules/               # Modular project rules                    │
-│  ├── .mcp.json                    # MCP server configurations                │
-│  ├── commands/                    # Custom slash commands                    │
-│  ├── agents/                      # Project-specific subagents               │
-│  ├── skills/                      # Project-specific skills                  │
-│  ├── hooks/                       # Event handlers                           │
-│  ├── knowledge/                   # Domain knowledge base                    │
-│  └── docs/                        # Documentation                            │
+│  ├── .mcp.json                    # Team MCP server configurations           │
+│  ├── .worktreeinclude             # Gitignored files to copy into worktrees  │
+│  └── .claude/                                                                │
+│      ├── settings.json            # Project settings (committed)             │
+│      ├── settings.local.json      # Personal overrides (gitignored)          │
+│      ├── rules/                   # Path-scoped project rules                │
+│      ├── skills/                  # Project skills                           │
+│      ├── commands/                # Project commands                         │
+│      ├── output-styles/           # Team-shared output styles                │
+│      ├── agents/                  # Project subagents                        │
+│      └── agent-memory/            # Subagent memory (memory: project scope)  │
+│  ├── .claude-plugin/plugin.json   # (Plugin only) Marketplace metadata       │
+│  ├── hooks/hooks.json             # (Plugin only) Event handlers             │
+│  └── knowledge/                   # (Plugin only) Domain knowledge base      │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 

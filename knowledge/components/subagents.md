@@ -87,15 +87,17 @@ The setting key is `agent` (not `defaultSubagent`).
 
 ## Agent Auto Memory (3 Scopes)
 
-When `memory` is set, the agent persists knowledge across sessions. Three scopes:
+When the `memory:` frontmatter field is set, the subagent gets dedicated persistent memory separate from the main session's auto memory:
 
-| Scope | Location | Persists across |
-|-------|----------|-----------------|
-| **User** | `~/.claude/memory/<agent>/` | All projects, all sessions |
-| **Project** | `.claude/memory/<agent>/` | This project, all sessions |
-| **Local** | `.claude/local/memory/<agent>/` | This machine only (gitignored) |
+| `memory:` value | Storage Location | Shared | Git-tracked |
+|-----------------|-----------------|--------|-------------|
+| `user` | `~/.claude/agent-memory/<agent>/MEMORY.md` | Cross-project, personal | No (local) |
+| `project` | `.claude/agent-memory/<agent>/MEMORY.md` | This project, team | Yes (committed) |
+| `local` | `.claude/agent-memory-local/<agent>/MEMORY.md` | This machine only | No (gitignored) |
 
-Memory files are loaded into agent context at start and can be updated by the agent during execution.
+- First 200 lines (≤25KB) of each agent's `MEMORY.md` are loaded into the subagent system prompt at start
+- Only created for subagents that set the `memory:` field — directories are auto-generated on first write
+- Distinct from main session auto memory at `~/.claude/projects/<path>/memory/`
 
 ---
 

@@ -23,38 +23,66 @@ review_by: 2026-07-05
 
 ## Directory Structure
 
+```text
+~/
+├── .claude.json                      # App state, UI prefs, OAuth, trust decisions, personal MCP servers
+│                                     #   (managed via /config — not inside .claude/)
+└── .claude/
+    ├── CLAUDE.md                     # Personal baseline (always loaded)
+    ├── settings.json                 # User-level settings (precedence level 5)
+    ├── keybindings.json              # Custom keyboard shortcuts (hot-reloaded on edit)
+    ├── rules/                        # Personal modular rules (always loaded)
+    │   ├── preferences.md
+    │   └── workflows.md
+    ├── skills/                       # Personal skills (cross-project)
+    │   └── research-methodology/
+    │       └── SKILL.md
+    ├── commands/                     # Personal commands (cross-project)
+    │   └── my-command.md
+    ├── output-styles/                # Custom output style definitions
+    │   └── teaching.md
+    ├── agents/                       # Personal agents (orchestrator + specialists)
+    │   ├── orchestrator.md
+    │   └── general-researcher.md
+    ├── agent-memory/                 # Subagent persistent memory (memory: user scope)
+    │   └── <agent-name>/
+    │       └── MEMORY.md
+    ├── projects/                     # Auto-managed per-project state
+    │   └── <project-path>/
+    │       └── memory/               # Session auto memory (MEMORY.md + topic files)
+    │           ├── MEMORY.md
+    │           └── <topic>.md
+    ├── plugins/                      # Plugin runtime data
+    │   ├── cache/                    # Installed plugin copies (replaced on update)
+    │   └── data/                     # Persistent plugin data (survives updates)
+    │       └── <plugin-id>/
+    ├── plans/                        # Saved plans from plan mode
+    └── work/                         # Working state (IPC, worktrees)
+        └── ipc/                      # Agent Teams mailbox files
 ```
-~/.claude/
-├── CLAUDE.md                     # Personal baseline (always loaded)
-├── CLAUDE.local.md               # Machine-specific personal overrides (gitignored equivalent)
-├── settings.json                 # User-level settings (precedence level 5)
-├── keybindings.json              # Custom keyboard shortcuts
-├── rules/                        # Personal modular rules (always loaded)
-│   ├── preferences.md
-│   └── workflows.md
-├── skills/                       # Personal skills (cross-project)
-│   └── research-methodology/
-│       └── SKILL.md
-├── agents/                       # Personal agents (orchestrator + specialists)
-│   ├── orchestrator.md
-│   └── general-researcher.md
-├── output-styles/                # Custom output style definitions
-│   └── my-style.md
-├── projects/                     # Auto-managed per-project state
-│   └── <project-path>/
-│       └── memory/               # Auto memory (MEMORY.md + topic files)
-│           ├── MEMORY.md
-│           └── <topic>.md
-├── plugins/                      # Plugin runtime data
-│   ├── cache/                    # Installed plugin copies (replaced on update)
-│   └── data/                     # Persistent plugin data (survives updates)
-│       └── <plugin-id>/
-├── plans/                        # Saved plans from plan mode
-├── work/                         # Working state (IPC, worktrees)
-│   └── ipc/                      # Agent Teams mailbox files
-└── shared-knowledge/             # Cross-project reference materials (optional)
-    └── frameworks/
-```
+
+### Key Files Outside `.claude/`
+
+**`~/.claude.json`** — App state and UI preferences. Lives at `~/`, **not** inside `.claude/`. Managed via `/config` rather than direct editing. Contains:
+- UI toggles (`showTurnDuration`, `terminalProgressBarEnabled`)
+- OAuth session state
+- Per-project trust decisions
+- Personal MCP servers (user scope applies cross-project; `local` scope is per-project but not committed)
+- Theme preference
+
+**Note**: Permission rules approved in-session go to `.claude/settings.local.json`, not here.
+
+### Subagent Memory (`agent-memory/`)
+
+Subagents with `memory:` frontmatter get dedicated persistent memory, separate from session auto memory in `projects/`:
+
+| `memory:` value | Storage Location | Scope |
+|-----------------|-----------------|-------|
+| `user` | `~/.claude/agent-memory/<agent>/MEMORY.md` | Cross-project, personal |
+| `project` | `.claude/agent-memory/<agent>/MEMORY.md` | Committed, shared with team |
+| `local` | `.claude/agent-memory-local/<agent>/MEMORY.md` | Gitignored, per-machine |
+
+First 200 lines (≤25KB) of each agent's `MEMORY.md` are loaded into the subagent system prompt when it runs. Only created for subagents that set the `memory:` field.
 
 ---
 

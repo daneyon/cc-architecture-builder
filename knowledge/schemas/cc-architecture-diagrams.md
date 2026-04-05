@@ -388,35 +388,31 @@ your-plugin/
 │                                   • Project-specific instructions
 │                                   • @imports to knowledge/
 │
-├── CLAUDE.local.md ──────────────► Personal overrides (gitignored)
-│                                   • Your local preferences
-│                                   • Not distributed
+├── .mcp.json ────────────────────► Project MCP servers (committed)
+├── .worktreeinclude ─────────────► Gitignored files to copy into worktrees
 │
 ├── .claude/
+│   ├── settings.json ────────────► Project settings (committed)
+│   ├── settings.local.json ──────► Personal overrides (gitignored)
 │   ├── rules/ ───────────────────► Project rules (modular)
 │   │   └── [topic].md              • Path-specific rules supported
-│   │                               • Loaded at session start
-│   │
-│   └── settings.json ────────────► Project settings
-│                                   • Model, permissions overrides
-│
-├── .mcp.json ────────────────────► Project MCP servers
-│                                   • Scoped to this project
-│
-├── skills/ ──────────────────────► Project skills
-│   └── [skill-name]/
-│       └── SKILL.md
-│
-├── agents/ ──────────────────────► Project agents
-│   └── [agent-name].md
-│
-├── commands/ ────────────────────► Project commands
-│   └── [command-name].md
+│   ├── skills/ ──────────────────► Project skills
+│   │   └── [skill-name]/
+│   │       └── SKILL.md
+│   ├── commands/ ────────────────► Project commands
+│   │   └── [command-name].md
+│   ├── output-styles/ ──────────► Team-shared output styles
+│   ├── agents/ ──────────────────► Project agents
+│   │   └── [agent-name].md
+│   ├── agent-memory/ ───────────► Subagent memory (memory: project)
+│   │   └── [agent-name]/
+│   │       └── MEMORY.md
+│   └── agent-memory-local/ ─────► Subagent memory (memory: local, gitignored)
 │
 ├── hooks/
-│   └── hooks.json ───────────────► Event handlers
+│   └── hooks.json ───────────────► Event handlers (plugin only)
 │
-├── knowledge/ ───────────────────► Domain knowledge base
+├── knowledge/ ───────────────────► Domain knowledge base (plugin only)
 │   ├── INDEX.md                    • Entry point
 │   └── [topics]/                   • Organized by topic
 │

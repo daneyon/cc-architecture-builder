@@ -22,7 +22,7 @@ tools: Read, Write, Edit, Bash, Grep, Glob  # comma-separated allowlist; omit to
 # disallowedTools: WebFetch        # comma-separated denylist; excluded even if tools allows them
 # mcpServers: {}                   # inline MCP server definitions (not available in distributed plugins)
 # hooks: {}                        # event-driven lifecycle hooks (not available in distributed plugins)
-# memory: .claude/memory/{{AGENT_NAME}}  # persistent directory surviving across sessions
+# memory: project                        # user (cross-project) | project (committed) | local (gitignored)
 # background: false                # true to run in background
 # isolation: worktree              # worktree for git-worktree isolation with auto-cleanup
 # color: "#4A90D9"                 # statusline color for visual identification

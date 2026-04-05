@@ -49,6 +49,29 @@ my-plugin/
 
 **Critical**: All component directories go at plugin root, never inside `.claude-plugin/`.
 
+### Project `.claude/` Directory (Non-Plugin)
+
+For regular projects (not distributed as plugins), CC component directories live inside `.claude/`:
+
+```text
+your-project/
+├── CLAUDE.md                      # Project instructions (committed)
+├── .mcp.json                      # Team MCP servers (committed)
+├── .worktreeinclude               # Gitignored files for worktrees (committed)
+└── .claude/
+    ├── settings.json              # Project settings (committed)
+    ├── settings.local.json        # Personal overrides (gitignored)
+    ├── rules/                     # Path-scoped project rules
+    ├── skills/                    # Project skills
+    ├── commands/                  # Project commands
+    ├── output-styles/             # Team-shared output styles
+    ├── agents/                    # Project subagents
+    ├── agent-memory/              # Subagent memory (memory: project, committed)
+    └── agent-memory-local/        # Subagent memory (memory: local, gitignored)
+```
+
+**Key difference**: In a plugin, components go at plugin root (`skills/`, `agents/`). In a regular project, they go inside `.claude/` (`.claude/skills/`, `.claude/agents/`). Plugin installation copies root-level components into the CC runtime; project `.claude/` components are discovered in-place.
+
 ## plugin.json Schema
 
 ### Required
