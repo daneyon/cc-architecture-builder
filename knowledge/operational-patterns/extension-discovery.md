@@ -9,6 +9,9 @@ related: [memory-claudemd, multi-agent-collaboration]
 complexity: intermediate
 last_updated: 2026-03-26
 estimated_tokens: 900
+source: CAB-original
+confidence: A
+review_by: 2026-06-26
 revision_note: "v1.0 — Pattern extracted from HydroCast P1-06 research. Generalized for cross-project use."
 ---
 

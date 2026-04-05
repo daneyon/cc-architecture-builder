@@ -1,6 +1,21 @@
+---
+id: product-design-cycle
+title: Product Design Cycle — Universal Reference
+category: reference
+tags: [lifecycle, phases, deliverables, methodology, design-thinking, sdlc, lean]
+summary: Generalized product/app engineering lifecycle (7 phases) with sub-processes, deliverables, and discipline mapping. Framework-agnostic synthesis of Double Diamond, SDLC, Lean Startup, Design Thinking, and Stage-Gate.
+depends_on: []
+related: [planning-implementation, executing-tasks]
+complexity: foundational
+last_updated: 2026-03-15
+estimated_tokens: 1500
+source: CAB-original
+confidence: A
+review_by: 2026-06-15
+---
+
 # Product Design Cycle: Universal Reference
 
-**Version**: 0.1.0-draft
 **Purpose**: Generalized product/app engineering lifecycle phases with sub-processes, deliverables, and discipline mapping. Framework-agnostic synthesis of Double Diamond, SDLC, Lean Startup, Design Thinking, and Stage-Gate methodologies.
 
 ---

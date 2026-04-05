@@ -9,6 +9,9 @@ related: [architecture-philosophy, global-user-config, distributable-plugin]
 complexity: foundational
 last_updated: 2025-12-23
 estimated_tokens: 700
+source: CAB-original
+confidence: A
+review_by: 2026-03-23
 ---
 
 # Executive Summary

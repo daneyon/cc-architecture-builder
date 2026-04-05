@@ -9,6 +9,9 @@ related: [marketplace, security-defaults]
 complexity: foundational
 last_updated: 2025-12-12
 estimated_tokens: 600
+source: CAB-original
+confidence: A
+review_by: 2026-03-12
 ---
 
 # Implementation Workflow

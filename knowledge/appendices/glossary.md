@@ -9,6 +9,9 @@ related: [references]
 complexity: foundational
 last_updated: 2026-03-03
 estimated_tokens: 450
+source: CAB-original
+confidence: A
+review_by: 2026-06-03
 ---
 
 # Glossary

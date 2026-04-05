@@ -9,6 +9,9 @@ related: [session-management, extension-discovery]
 complexity: advanced
 last_updated: 2026-03-28
 estimated_tokens: 2200
+source: CAB-original
+confidence: A
+review_by: 2026-06-28
 revision_note: "v1.0 — Fills critical gaps: conflict zone management, human-agent handoff, worktree close-out, cross-worktree sync. Derived from real-world HydroCast parallel worktree session."
 ---
 

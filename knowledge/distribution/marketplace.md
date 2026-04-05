@@ -9,6 +9,9 @@ related: [security-defaults]
 complexity: intermediate
 last_updated: 2025-12-12
 estimated_tokens: 650
+source: https://code.claude.com/docs/en/plugins
+confidence: A
+review_by: 2026-03-12
 ---
 
 # Distribution & Marketplace

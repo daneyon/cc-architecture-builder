@@ -9,6 +9,7 @@ related: [filesystem-patterns, cost-model, memory-claudemd]
 complexity: intermediate
 last_updated: 2026-04-05
 estimated_tokens: 900
+source: https://code.claude.com/docs/en/context-window
 confidence: B
 review_by: 2026-07-05
 revision_note: "v1.0 — NEW KB card. Consolidates context engineering guidance from design-principles, session-management, and v3 observable findings."

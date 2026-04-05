@@ -9,6 +9,7 @@ related: [delegation-templates, context-engineering, collaboration-patterns]
 complexity: advanced
 last_updated: 2026-04-05
 estimated_tokens: 800
+source: CAB-original (with observable data)
 confidence: B
 review_by: 2026-07-05
 revision_note: "v3.0 — Added forked agent cost pattern, prompt cache optimization (observable behavior), updated economics."

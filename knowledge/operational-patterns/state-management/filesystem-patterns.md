@@ -9,6 +9,7 @@ related: [context-engineering, collaboration-patterns]
 complexity: intermediate
 last_updated: 2026-04-05
 estimated_tokens: 800
+source: CAB-original
 confidence: A
 review_by: 2026-07-05
 revision_note: "v3.0 — Extracted from session-management.md. Enhanced with three-tier state hierarchy and CAB-specific patterns."

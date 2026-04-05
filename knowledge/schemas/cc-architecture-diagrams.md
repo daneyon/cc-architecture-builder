@@ -1,7 +1,20 @@
-# Claude Code Architecture — Unified Visual Reference
+---
+id: cc-architecture-diagrams
+title: Claude Code Architecture — Unified Visual Reference
+category: schemas
+tags: [diagrams, mermaid, architecture, visual, runtime, memory, distribution]
+summary: Visual architecture diagrams for CC runtime layers, memory hierarchy, distribution model, and plugin structure. Mermaid + ASCII references for documentation and presentations.
+depends_on: [executive-summary, architecture-philosophy]
+related: [global-user-config, distributable-plugin, memory-claudemd]
+complexity: foundational
+last_updated: 2026-01-15
+estimated_tokens: 1800
+source: CAB-original
+confidence: A
+review_by: 2026-04-15
+---
 
-**Version**: 1.0 (Synthesized from multiple sessions)
-**Last Updated**: January 2026
+# Claude Code Architecture — Unified Visual Reference
 
 ---
 

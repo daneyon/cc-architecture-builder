@@ -9,6 +9,7 @@ related: [cost-model, collaboration-patterns]
 complexity: advanced
 last_updated: 2026-04-05
 estimated_tokens: 800
+source: CAB-original
 confidence: A
 review_by: 2026-07-05
 ---

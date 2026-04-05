@@ -9,6 +9,7 @@ related: [orchestration-framework, memory-claudemd, agent-skills, subagents]
 complexity: foundational
 last_updated: 2026-04-05
 estimated_tokens: 1400
+source: CAB-original
 confidence: A
 review_by: 2026-07-05
 ---

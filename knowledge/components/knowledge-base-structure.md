@@ -9,6 +9,9 @@ related: [mcp-integration, agent-skills]
 complexity: intermediate
 last_updated: 2025-12-12
 estimated_tokens: 800
+source: synthesized
+confidence: A
+review_by: 2026-03-12
 revision_note: Content may be revised as Appendix C (Knowledge Base Deep Dive) finalizes.
 ---
 

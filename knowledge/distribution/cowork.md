@@ -9,6 +9,9 @@ related: [marketplace]
 complexity: intermediate
 last_updated: 2026-03-03
 estimated_tokens: 400
+source: https://code.claude.com/docs/en/cowork
+confidence: A
+review_by: 2026-06-03
 ---
 
 # Cowork
