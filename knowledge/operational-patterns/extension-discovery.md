@@ -32,7 +32,7 @@ Five compounding factors:
 | Subagent context isolation | Delegated agents inherit CLAUDE.md but not the parent's runtime skill awareness | Subagents bypass available skills entirely |
 | Compaction is lossy | No automatic refresh of extension awareness after `/compact` | Each compaction may drop skill metadata from working memory |
 
-**Key insight**: The ~50-60 skill practical limit (documented in orchestration-framework.md) is a metadata budget constraint. The discovery problem is an *attention* constraint — even 5 skills can be forgotten if their descriptions don't create strong enough anchors.
+**Key insight**: The ~50-60 skill practical limit (documented in orchestration/framework.md) is a metadata budget constraint. The discovery problem is an *attention* constraint — even 5 skills can be forgotten if their descriptions don't create strong enough anchors.
 
 ## Solution: Three-Point Reinforcement Pattern
 
@@ -129,5 +129,5 @@ The Three-Point Reinforcement Pattern is generalizable to any project with skill
 ## See Also
 
 - [Agent Skills](../components/agent-skills.md) — Skill structure, progressive disclosure, debugging
-- [Session Management](session-management.md) — Context health, compaction guidance
-- [Orchestration Framework](orchestration-framework.md) — Delegation templates, context engineering
+- [Session Lifecycle](state-management/session-lifecycle.md) — Context health, compaction guidance
+- [Orchestration Framework](orchestration/framework.md) — Delegation templates, context engineering

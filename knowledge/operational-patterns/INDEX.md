@@ -66,7 +66,7 @@ Original monolith files split during modularization (2026-04-05):
 
 | Original | Split Into | Status |
 |----------|-----------|--------|
-| `orchestration-framework.md` | `orchestration/` (3 files) | Original pending removal |
-| `multi-agent-collaboration.md` | `multi-agent/collaboration-patterns.md` + `agent-teams.md` | Original pending removal |
-| `git-worktree.md` | `multi-agent/worktree-workflows.md` | Original pending removal |
-| `session-management.md` | `state-management/` (3 files) | Original pending removal |
+| `orchestration-framework.md` | `orchestration/` (3 files) | ✅ Removed |
+| `multi-agent-collaboration.md` | `multi-agent/collaboration-patterns.md` + `agent-teams.md` | ✅ Removed |
+| `git-worktree.md` | `multi-agent/worktree-workflows.md` | ✅ Removed |
+| `session-management.md` | `state-management/` (3 files) | ✅ Removed |

@@ -16,9 +16,9 @@ revision_note: "v1.0 — Fills critical gaps: conflict zone management, human-ag
 
 ## Overview
 
-This document covers the **collaboration layer** — what happens when multiple humans and/or CC agents work on the same project simultaneously. It extends the foundational patterns in `git-worktree.md` and `multi-agent-collaboration.md` with protocols for conflict management, handoff, review, and lifecycle cleanup.
+This document covers the **collaboration layer** — what happens when multiple humans and/or CC agents work on the same project simultaneously. It extends the foundational patterns in `multi-agent/worktree-workflows.md` and `multi-agent/collaboration-patterns.md` with protocols for conflict management, handoff, review, and lifecycle cleanup.
 
-**Prerequisite reading**: `orchestration-framework.md` (task execution protocol), `git-worktree.md` (worktree basics), `multi-agent-collaboration.md` (coordination patterns).
+**Prerequisite reading**: `orchestration/framework.md` (task execution protocol), `multi-agent/worktree-workflows.md` (worktree basics), `multi-agent/collaboration-patterns.md` (coordination patterns).
 
 ## Core Principle: One Worktree Per Task, Then Delete
 

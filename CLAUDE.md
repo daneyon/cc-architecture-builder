@@ -121,7 +121,7 @@ All scaffolded projects follow security best practices:
 4. **Compounding Knowledge via CLAUDE.md** — Every correctable error becomes a permanent learning
 5. **Token Efficiency as Public Good** — Context window space is shared; load only what each task requires
 
-See `knowledge/operational-patterns/orchestration-framework.md` for full detail.
+See `knowledge/operational-patterns/orchestration/framework.md` for full detail.
 
 ## State Management
 

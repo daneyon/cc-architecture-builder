@@ -151,4 +151,4 @@ Types:
 
 - [Security Defaults](security-defaults.md) — Pre-publication checklist
 - [Marketplace](../distribution/marketplace.md) — Distribution via git
-- [Git Worktree](../operational-patterns/git-worktree.md) — Parallel execution
+- [Worktree Workflows](../operational-patterns/multi-agent/worktree-workflows.md) — Parallel execution

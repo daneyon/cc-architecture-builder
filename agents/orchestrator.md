@@ -110,7 +110,9 @@ This agent's quality is confirmed by:
 
 Consult these operational patterns when the situation warrants:
 
-- `knowledge/operational-patterns/orchestration-framework.md` — Canonical patterns, failure modes, cost model
+- `knowledge/operational-patterns/orchestration/framework.md` — Canonical patterns, failure modes
+- `knowledge/operational-patterns/orchestration/delegation-templates.md` — Delegation, phase-agent routing
+- `knowledge/operational-patterns/orchestration/cost-model.md` — Token economics, optimization levers
 - `knowledge/operational-patterns/team-collaboration.md` — Conflict zones, handoff, worktree close-out
-- `knowledge/operational-patterns/multi-agent-collaboration.md` — Coordination patterns, effort scaling
-- `knowledge/operational-patterns/git-worktree.md` — Parallel execution setup
+- `knowledge/operational-patterns/multi-agent/collaboration-patterns.md` — Coordination patterns, effort scaling
+- `knowledge/operational-patterns/multi-agent/worktree-workflows.md` — Parallel execution setup
