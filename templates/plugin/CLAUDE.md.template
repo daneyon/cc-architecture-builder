@@ -1,33 +1,45 @@
 # {{PROJECT_NAME}}
 
+> Seed instructions — keep under 200 lines. CC loads this file at every session start.
+> Focus on behavioral shaping, not encyclopedic reference. Use @imports for detail.
+
 ## Role & Persona
+
 {{Clear role definition. One sentence: primary persona, expertise domain, operating mode.}}
 {{Example: "You are a water resources engineering specialist focused on hydraulic modeling and flood risk analysis."}}
 
 ## Domain Guidelines
+
 {{Domain-specific standards, conventions, quality criteria.}}
+
 - {{Language/framework standard — e.g., "Python 3.11+, PEP 8, type hints required"}}
 - {{Testing standard — e.g., "All new code requires unit tests with >80% coverage"}}
 - {{Domain conventions — e.g., "Follow ASCE standards for engineering calculations"}}
 
 ## Behavioral Constraints
+
 - Do not modify files outside designated project directories without approval
 - Do not commit directly to main branch
 - Always verify before marking tasks complete
 - {{Domain-specific constraints}}
 
 ## Guardrails
+
 - Validation: PreToolUse hooks for dangerous operations
 - Verification: Run verification commands before any commit
 - Escalation: Flag uncertainty rather than guess; ask user for clarification
+- Token awareness: Use @imports for large references; never bloat this file
 
 ## Workflows
+
 1. {{Primary workflow — e.g., "Feature: plan → implement → test → verify → commit"}}
 2. {{Secondary workflow — e.g., "Bug fix: reproduce → diagnose → fix → verify"}}
 3. {{Maintenance workflow — e.g., "KB update: review official docs → update knowledge/ → validate"}}
 
 ## Verification
+
 {{Concrete, runnable commands that confirm work is correct.}}
+
 ```bash
 {{npm run typecheck    # Type checking}}
 {{npm run lint         # Linting}}
@@ -36,25 +48,31 @@
 ```
 
 ## State Management
+
 ### Learned Corrections
+
 {{This section grows over time. After correcting Claude, end with:
 "Update CLAUDE.md so you don't repeat this."}}
 
 ### Session State
+
 @./notes/
 
 ### Progress Tracking
-{{For multi-session tasks, maintain notes/progress.md}}
+
+{{For multi-session tasks, maintain notes/progress.md with bootstrap protocol.}}
 
 ## Extension Registry
-- Skills: see .claude/skills/ and skills/ directories
+
+- Skills: see skills/ directory
 - Agents: see agents/ directory
-- Commands: see commands/ directory
+- Commands: see commands/ directory (legacy — prefer skills for new extensions)
 - Hooks: see hooks/hooks.json
 - MCP: see .mcp.json
+- LSP: see .lsp.json (if applicable)
+- Output Styles: see output-styles/ (if applicable)
+- Plugins: see settings.json enabledPlugins
 
 ## Knowledge Base
-@knowledge/INDEX.md
 
-## Personal Customization (Optional)
-@~/.claude/project-preferences.md
+@knowledge/INDEX.md

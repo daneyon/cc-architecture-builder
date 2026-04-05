@@ -6,11 +6,31 @@
     "name": "{{AUTHOR_NAME}}",
     "email": "{{AUTHOR_EMAIL}}"
   },
-  "repository": "",
+  "repository": "{{REPOSITORY_URL}}",
+  "homepage": "{{HOMEPAGE_URL}}",
   "license": "MIT",
   "keywords": [
     "{{KEYWORD_1}}",
     "{{KEYWORD_2}}",
     "{{KEYWORD_3}}"
-  ]
+  ],
+
+  "_comment_component_paths": "Override default discovery locations. Custom paths REPLACE defaults. All paths relative to plugin root, prefixed with ./",
+  "commands": "./commands",
+  "agents": "./agents",
+  "skills": "./skills",
+  "hooks": "./hooks/hooks.json",
+  "outputStyles": "./output-styles",
+
+  "_comment_server_configs": "MCP and LSP server configurations (string, array, or object)",
+  "mcpServers": "./.mcp.json",
+  "lspServers": "./.lsp.json",
+
+  "_comment_user_config": "Values prompted at plugin enable time. Available as ${user_config.KEY} in MCP/LSP/hooks. Sensitive values stored in system keychain.",
+  "userConfig": {
+    "{{CONFIG_KEY}}": {
+      "description": "{{CONFIG_DESCRIPTION}}",
+      "sensitive": false
+    }
+  }
 }

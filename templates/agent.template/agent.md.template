@@ -1,19 +1,32 @@
 ---
-# REQUIRED FIELDS
+# ── Tier 1: REQUIRED ─────────────────────────────────────────────────
 name: {{AGENT_NAME}}
 description: >
   {{When to invoke this agent. Be specific and action-oriented.
   Good descriptions enable automatic routing from the main session.
   Include "Use PROACTIVELY" if the agent should be auto-suggested.}}
+tools: Read, Write, Edit, Bash, Grep, Glob  # comma-separated allowlist; omit to inherit all parent tools
 
-# OPTIONAL FIELDS (omit to inherit defaults)
-tools: Read, Write, Edit, Bash, Grep, Glob, Search, Task  # comma-separated; omit to inherit all
-model: opus  # opus | sonnet | haiku | inherit
-permissionMode: default  # default | acceptEdits | bypassPermissions | plan | ignore
-skills:
-  - skill-name-1  # auto-loaded into agent context
-  - skill-name-2
-# memory: .claude/memory/{{AGENT_NAME}}  # persistent knowledge directory (survives across sessions)
+# ── Tier 2: COMMON (uncomment as needed) ──────────────────────────────
+# model: sonnet                    # sonnet | opus | haiku | inherit
+# effort: medium                   # low | medium | high — reasoning effort level
+# skills:
+#   - skill-name-1                 # auto-loaded into agent context; subagents do NOT inherit parent skills
+#   - skill-name-2
+# context:
+#   - path/to/file-or-dir          # array of paths auto-loaded at start
+# permissionMode: default          # default | acceptEdits | bypassPermissions | plan | ignore
+#                                  # NOTE: not available in distributed plugins
+
+# ── Tier 3: ADVANCED (uncomment when needed) ──────────────────────────
+# disallowedTools: WebFetch        # comma-separated denylist; excluded even if tools allows them
+# mcpServers: {}                   # inline MCP server definitions (not available in distributed plugins)
+# hooks: {}                        # event-driven lifecycle hooks (not available in distributed plugins)
+# memory: .claude/memory/{{AGENT_NAME}}  # persistent directory surviving across sessions
+# background: false                # true to run in background
+# isolation: worktree              # worktree for git-worktree isolation with auto-cleanup
+# color: "#4A90D9"                 # statusline color for visual identification
+# initialPrompt: ""               # prompt injected before user's first message
 ---
 
 # {{AGENT_DISPLAY_NAME}}

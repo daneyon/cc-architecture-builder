@@ -1,0 +1,55 @@
+{
+  "_comment": "CAB Hooks Template — Event-driven automation for Claude Code",
+  "_reference": "Full event catalog (26 events) and field reference: knowledge/components/hooks.md",
+  "_types": "4 hook types: command (shell), http (webhook), prompt (context injection), agent (subagent dispatch)",
+  "_location": "Place at hooks/hooks.json (plugin), .claude/hooks.json (project), or ~/.claude/hooks.json (global)",
+
+  "PreToolUse": [
+    {
+      "matcher": "{{TOOL_PATTERN}}",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "{{VALIDATION_SCRIPT}}",
+          "if": "{{CONDITION}}"
+        }
+      ]
+    }
+  ],
+
+  "PostToolUse": [
+    {
+      "matcher": "Write|Edit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "{{FORMAT_COMMAND}} $CLAUDE_FILE_PATH 2>/dev/null || true",
+          "async": true
+        }
+      ]
+    }
+  ],
+
+  "SessionStart": [
+    {
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "{{SESSION_INITIALIZATION_CONTEXT}}"
+        }
+      ]
+    }
+  ],
+
+  "Stop": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "{{CLEANUP_SCRIPT}}",
+          "async": false
+        }
+      ]
+    }
+  ]
+}

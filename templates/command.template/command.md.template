@@ -3,6 +3,12 @@ description: {{COMMAND_DESCRIPTION}}
 allowed-tools: {{TOOL_LIST}}
 ---
 
+> **Migration notice**: Skills are now the preferred extension type.
+> Commands still work but skills subsume their functionality with additional
+> capabilities (model invocation, argument hints, execution models, hooks).
+> For new extensions, use `templates/skill.template/` instead.
+> See `knowledge/components/agent-skills.md` for the full skill spec.
+
 # {{COMMAND_NAME}} Command
 
 {{COMMAND_PURPOSE}}

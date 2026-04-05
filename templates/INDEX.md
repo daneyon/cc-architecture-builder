@@ -1,12 +1,14 @@
 ---
 type: index
 scope: templates
-last_updated: 2025-12-12
+last_updated: 2026-04-05
 ---
 
 # Templates Index
 
 > Starter templates for scaffolding Claude Code projects and components.
+> All templates use B+ Tiered Progressive Disclosure: required fields active,
+> common fields commented, advanced fields in compact reference blocks.
 
 ## Overview
 
@@ -29,17 +31,19 @@ Location: `plugin/`
 
 | Template | Purpose |
 |----------|---------|
-| `plugin.json.template` | Marketplace metadata |
-| `CLAUDE.md.template` | Project system instructions |
+| `plugin.json.template` | Plugin manifest — metadata, component paths, userConfig |
+| `CLAUDE.md.template` | Project seed instructions (target: <200 lines) |
+| `settings.json.template` | Project settings — model, agent, permissions, hooks |
 | `README.md.template` | User documentation |
 
 ### Components
 
 | Template | Location | Purpose |
 |----------|----------|---------|
-| `SKILL.md.template` | `skill.template/` | Agent skill definition |
-| `agent.md.template` | `agent.template/` | Subagent definition |
-| `command.md.template` | `command.template/` | Custom slash command |
+| `SKILL.md.template` | `skill.template/` | Agent skill definition (13 fields, B+ tiered) |
+| `agent.md.template` | `agent.template/` | Subagent definition (16 fields, B+ tiered) |
+| `command.md.template` | `command.template/` | Custom slash command (legacy — prefer skills) |
+| `hooks.json.template` | `templates/` root | Event-driven hooks (4 types, 26 events) |
 
 ## Placeholder Convention
 
@@ -56,15 +60,17 @@ Location: `plugin/`
 ## Usage
 
 Templates are used by:
+
 - `/new-project` — Uses `plugin/` templates
 - `/new-global` — Uses `global/` templates
 - `/add-skill` — Uses `skill.template/`
 - `/add-agent` — Uses `agent.template/`
-- `/add-command` — Uses `command.template/`
+- `/add-command` — Uses `command.template/` (legacy — recommend `/add-skill` instead)
 
 ## Customization
 
 To modify default templates:
+
 1. Edit template files directly
 2. Adjust placeholders as needed
 3. Add/remove sections

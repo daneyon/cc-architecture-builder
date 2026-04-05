@@ -1,21 +1,40 @@
 {
+  // ── CAB Settings Template ────────────────────────────────────────────
+  // Location: .claude/settings.json (project) or ~/.claude/settings.json (global)
+  // Hierarchy: Managed > CLI args > Local > Project > User (see global-user-config.md)
+  // Full reference: https://code.claude.com/docs/en/settings (60+ fields)
+
+  // ── Core ──────────────────────────────────────────────────────────────
   "model": "sonnet",
   "agent": "orchestrator",
+  // "reasoningEffort": "high",        // low | medium | high
+  // "verbose": false,                 // extra status output during tool execution
+  // "theme": "dark",                  // dark | light | light-daltonized | dark-daltonized
+
+  // ── Permissions ───────────────────────────────────────────────────────
+  // Modes: default | acceptEdits | bypassPermissions | plan | ignore
   "permissions": {
     "allow": [
-      "Bash(npm run test:*)",
-      "Bash(npm run lint:*)",
-      "Bash(npm run build:*)",
-      "Bash(npm run typecheck:*)",
-      "Bash(npm run format:*)",
+      "Read",
+      "Glob",
+      "Grep",
       "Bash(git status)",
-      "Bash(git diff)",
-      "Bash(git log)",
-      "Bash(git add)",
-      "Bash(git commit)"
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+      // "Bash({{TOOL_PATTERN}})"      // add project-specific patterns
     ],
-    "deny": []
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)"
+      // "Bash({{DENY_PATTERN}})"      // add project-specific deny rules
+    ]
   },
+
+  // ── Hooks ─────────────────────────────────────────────────────────────
+  // 4 types: command | http | prompt | agent
+  // 26 events — see knowledge/components/hooks.md
   "hooks": {
     "PostToolUse": [
       {
@@ -23,10 +42,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npm run format -- --write $CLAUDE_FILE_PATH 2>/dev/null || true"
+            "command": "{{FORMAT_COMMAND}} $CLAUDE_FILE_PATH 2>/dev/null || true",
+            "async": true
           }
         ]
       }
     ]
+    // "PreToolUse": [],               // approval gates, input validation
+    // "SessionStart": [],             // initialization, env validation
+    // "Stop": []                      // final validation, cleanup
   }
+
+  // ── Advanced (uncomment as needed) ────────────────────────────────────
+  // "sandbox": { "enabled": true },   // sandbox mode for autonomous agents
+  // "enabledPlugins": [],             // list of enabled plugin IDs
+  // "pluginConfigs": {}               // per-plugin option overrides
 }

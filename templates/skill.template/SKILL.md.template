@@ -1,9 +1,35 @@
 ---
+# ── Tier 1: REQUIRED ─────────────────────────────────────────────────
 name: {{SKILL_NAME}}
 description: {{SKILL_DESCRIPTION}}. Use when {{TRIGGER_CONDITIONS}}.
+
+# ── Tier 2: COMMON (uncomment as needed) ─────────────────────────────
+# argument-hint: {{ARGUMENT_HINT}}
+# allowed-tools: {{ALLOWED_TOOLS}}
+# effort: {{EFFORT_LEVEL}}
+# model: {{MODEL_OVERRIDE}}
+
+# ── Tier 3: ADVANCED (uncomment as needed) ───────────────────────────
+# disable-model-invocation: false
+# user-invocable: true
+# context: inline
+# agent: false
+# hooks: {}
+# paths: []
+# shell: {{SHELL_OVERRIDE}}
+#
+# Invocation Control Matrix:
+#   disable-model-invocation | user-invocable | Who can invoke
+#   false                    | true           | Model + User (default)
+#   true                     | true           | User only
+#   false                    | false          | Model only
+#   true                     | false           | Nobody (disabled)
 ---
 
 # {{SKILL_TITLE}}
+
+> Skills are the preferred extension type, replacing legacy custom commands.
+> See the full field spec in `knowledge/components/agent-skills.md`.
 
 ## Overview
 
