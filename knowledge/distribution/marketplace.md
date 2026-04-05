@@ -123,28 +123,39 @@ gh repo edit my-plugin --visibility public
 
 ## Source Types
 
-### Relative Path
+CC supports 8 source types for marketplace plugin entries. The `source` field can be a string (shorthand) or an object (explicit type).
+
+| Type | Format | Use Case |
+|------|--------|----------|
+| `github` | `{ "source": "github", "repo": "owner/repo" }` | Public/private GitHub repos |
+| `git` | `{ "source": "git", "url": "https://..." }` | Any git URL (GitLab, Bitbucket, self-hosted) |
+| `url` | `{ "source": "url", "url": "https://..." }` | Direct URL to tarball/zip |
+| `npm` | `{ "source": "npm", "package": "@scope/pkg" }` | npm registry packages |
+| `file` | `{ "source": "file", "path": "/abs/path" }` | Local absolute path |
+| `directory` | `{ "source": "directory", "path": "./rel" }` | Relative to marketplace root |
+| `hostPattern` | `{ "source": "hostPattern", "pattern": "*.corp.com" }` | Enterprise host matching |
+| `settings` | `{ "source": "settings" }` | Resolved from user/project settings |
+
+### String Shorthand
+
 ```json
 { "source": "./plugins/my-plugin" }
+{ "source": "owner/plugin-repo" }
 ```
 
-### GitHub Repository
+String sources are auto-detected: paths starting with `./` or `/` resolve as directory/file; `owner/repo` format resolves as GitHub.
+
+### Explicit Examples
+
 ```json
 {
-  "source": {
-    "source": "github",
-    "repo": "owner/plugin-repo"
-  }
+  "source": { "source": "github", "repo": "owner/plugin-repo" }
 }
 ```
 
-### Git URL
 ```json
 {
-  "source": {
-    "source": "url",
-    "url": "https://gitlab.com/team/plugin.git"
-  }
+  "source": { "source": "npm", "package": "@anthropic/skill-pack" }
 }
 ```
 
@@ -229,6 +240,32 @@ credentials.json
 # Remove plugin
 /plugin remove plugin-name
 ```
+
+## Managed Controls (Enterprise)
+
+Organizations can enforce marketplace policies via managed settings (precedence level 1 — cannot be overridden by users):
+
+| Setting | Type | Description |
+|---------|------|-------------|
+| `strictKnownMarketplaces` | boolean | When `true`, only marketplaces in `extraKnownMarketplaces` can be added |
+| `blockedMarketplaces` | string[] | Marketplace names or patterns that are blocked |
+| `enabledPlugins` | string[] | Plugins auto-installed for all users |
+| `disabledPlugins` | string[] | Plugins blocked from installation |
+
+```json
+{
+  "strictKnownMarketplaces": true,
+  "extraKnownMarketplaces": {
+    "corp-tools": {
+      "source": { "source": "github", "repo": "corp/claude-plugins" }
+    }
+  },
+  "blockedMarketplaces": ["untrusted-source"],
+  "enabledPlugins": ["security-scanner@corp-tools"]
+}
+```
+
+Deploy via managed settings (MDM/plist on macOS, registry on Windows, `/etc/claude/` on Linux). See [Global User Config](../schemas/global-user-config.md) for delivery mechanisms.
 
 ## Best Practices
 

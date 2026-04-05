@@ -1,8 +1,8 @@
 ---
 type: index
 scope: master
-file_count: 27
-last_updated: 2026-04-03
+file_count: 32
+last_updated: 2026-04-05
 ---
 
 # Knowledge Base Index
@@ -19,7 +19,7 @@ last_updated: 2026-04-03
 | `components/` | 7 | Deep dives on each component type |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
 | `reference/` | 1 | Product design lifecycle (conceptual advisory framework) |
-| `operational-patterns/` | 6 | Orchestration, worktrees, sessions, multi-agent, team collaboration, extension discovery |
+| `operational-patterns/` | 11 | Orchestration (3), multi-agent (3), state management (3), team collaboration, extension discovery |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
 

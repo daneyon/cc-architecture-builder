@@ -1,0 +1,37 @@
+{
+  "model": "opus",
+  "agent": "orchestrator",
+  "reasoningEffort": "high",
+
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash(git *)",
+      "Bash(ls *)",
+      "Bash(wc *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo *)",
+      "Bash(npm publish *)"
+    ]
+  },
+
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "echo 'Tool used: $TOOL_NAME'",
+        "if": "$TOOL_NAME == 'Write' || $TOOL_NAME == 'Edit'",
+        "async": true
+      }
+    ]
+  }
+}
