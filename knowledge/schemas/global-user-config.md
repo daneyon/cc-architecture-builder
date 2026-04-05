@@ -26,7 +26,9 @@ review_by: 2026-07-05
 ```
 ~/.claude/
 ├── CLAUDE.md                     # Personal baseline (always loaded)
+├── CLAUDE.local.md               # Machine-specific personal overrides (gitignored equivalent)
 ├── settings.json                 # User-level settings (precedence level 5)
+├── keybindings.json              # Custom keyboard shortcuts
 ├── rules/                        # Personal modular rules (always loaded)
 │   ├── preferences.md
 │   └── workflows.md
@@ -36,6 +38,20 @@ review_by: 2026-07-05
 ├── agents/                       # Personal agents (orchestrator + specialists)
 │   ├── orchestrator.md
 │   └── general-researcher.md
+├── output-styles/                # Custom output style definitions
+│   └── my-style.md
+├── projects/                     # Auto-managed per-project state
+│   └── <project-path>/
+│       └── memory/               # Auto memory (MEMORY.md + topic files)
+│           ├── MEMORY.md
+│           └── <topic>.md
+├── plugins/                      # Plugin runtime data
+│   ├── cache/                    # Installed plugin copies (replaced on update)
+│   └── data/                     # Persistent plugin data (survives updates)
+│       └── <plugin-id>/
+├── plans/                        # Saved plans from plan mode
+├── work/                         # Working state (IPC, worktrees)
+│   └── ipc/                      # Agent Teams mailbox files
 └── shared-knowledge/             # Cross-project reference materials (optional)
     └── frameworks/
 ```
