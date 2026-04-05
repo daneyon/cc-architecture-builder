@@ -1,6 +1,11 @@
 ---
 name: scaffolding-projects
-description: Create new Claude Code project structures with proper architecture. Use when user wants to create a new project, start a new plugin, initialize a custom LLM, or scaffold a project from scratch.
+description: >
+  INVOKE THIS SKILL when creating new Claude Code project structures from scratch.
+  Triggers: new project, start plugin, initialize project, scaffold from scratch,
+  set up CC architecture. Runs interactive discovery (questionnaire), recommends
+  structure level, scaffolds directories, creates core files, initializes git.
+argument-hint: "Project name and domain (e.g., 'water-resources-toolkit for hydrology analysis')"
 ---
 
 # Project Scaffolding

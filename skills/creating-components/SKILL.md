@@ -1,6 +1,11 @@
 ---
 name: creating-components
-description: Create individual Claude Code components like skills, agents, commands, or hooks. Use when user wants to add a skill, add an agent, create a command, add a hook, or extend an existing project with new components.
+description: >
+  INVOKE THIS SKILL when adding individual Claude Code components to an existing
+  project. Triggers: add skill, add agent, create command, add hook, extend project
+  with new component. Handles SKILL.md, agent markdown, command files, and hooks.json
+  creation with proper frontmatter, naming validation, and template compliance.
+argument-hint: "Component type and name (e.g., 'skill analyzing-data' or 'agent code-reviewer')"
 ---
 
 # Component Creation

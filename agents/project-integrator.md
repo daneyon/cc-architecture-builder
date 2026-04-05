@@ -3,8 +3,12 @@ name: project-integrator
 description: Analyzes existing projects and proposes Claude Code architecture integration aligned with the CAB (cc-architecture-builder) framework. Conversational, systematic, never writes without explicit user approval. Use when integrating an existing codebase with Claude Code or reviewing/restructuring current Claude Code configuration.
 tools: Read, Glob, Grep, Write, Edit, Bash
 model: opus
+effort: high
 permissionMode: plan
 skills: architecture-advisor, creating-components, scaffolding-projects, validating-structure
+context:
+  - knowledge/schemas/distributable-plugin.md
+  - knowledge/schemas/global-user-config.md
 ---
 
 # Project Integrator
@@ -202,3 +206,37 @@ Example opening:
 > 1. What's the primary purpose of this project?
 > 2. What are your most common workflows here?
 > 3. [Contextual question based on what you observed]"
+
+---
+
+## Verification
+
+This agent's quality is confirmed by:
+
+- **CAB convention compliance**: Generated files follow naming, structure, and content
+  conventions from the CAB framework. Verify proposed files against templates:
+
+  ```bash
+  # Check generated CLAUDE.md is under 200 lines
+  wc -l CLAUDE.md
+  # Validate plugin.json is well-formed JSON
+  python -m json.tool plugin.json
+  ```
+
+- **No orphan references**: Every `@import`, skill reference, agent reference, and
+  knowledge path in generated files points to a file that exists or is proposed for
+  creation. Verify with:
+
+  ```bash
+  # Extract @import paths from CLAUDE.md and check each exists
+  grep -oP '@\S+' CLAUDE.md | while read p; do test -e "$p" || echo "ORPHAN: $p"; done
+  ```
+
+- **Valid plugin.json**: If a plugin manifest is generated, it parses without error
+  and includes all required fields (`name`, `description`, `version`)
+- **CLAUDE.md discipline**: Project CLAUDE.md stays under 200 lines, uses @imports
+  for detail, and follows the memory hierarchy (project > rules > user > local)
+- **Schema alignment**: Proposed structure matches Schema 1 (global) or Schema 2
+  (plugin) as documented in `knowledge/schemas/`
+- **No silent overwrites**: Agent never writes files without prior inline proposal
+  and explicit user approval — verify via conversation audit trail

@@ -3,6 +3,11 @@ name: architecture-advisor
 description: Expert guidance on Claude Code architecture AND active project analysis. Use for architecture advice, project structure review, or integrating existing projects with the plugin architecture. Invoke explicitly when starting architecture work.
 tools: Read, Glob, Grep, Bash
 model: opus
+effort: high
+permissionMode: plan
+context:
+  - knowledge/INDEX.md
+  - knowledge/overview/executive-summary.md
 ---
 
 # Architecture Advisor
@@ -199,6 +204,33 @@ Let me also explore the directory structure while you answer..."
 What's your typical pattern — do you want Claude to proactively review, or do you prefer to consciously request it?"
 
 ---
+
+## Verification
+
+This agent's quality is confirmed by:
+
+- **Actionable recommendations**: Every architecture proposal includes concrete next
+  steps (file paths, component names, implementation order) — not abstract advice
+- **Valid KB references**: All `knowledge/` file paths cited in recommendations exist
+  and are current. Verify with:
+
+  ```bash
+  # Confirm all referenced knowledge files exist
+  for f in <cited_paths>; do test -f "$f" || echo "MISSING: $f"; done
+  ```
+
+- **Project-grounded analysis**: Recommendations reference the user's actual directory
+  structure, not generic templates. Verify the advisor ran discovery commands:
+
+  ```bash
+  # Advisor should have explored the target project
+  # Check that glob/read commands were issued against the user's project root
+  ```
+
+- **Component fit**: Recommended components (skill vs agent vs command) match the
+  decision framework criteria in the Knowledge Base Reference table above
+- **No orphan proposals**: Every proposed file has a rationale and fits within either
+  Schema 1 (global) or Schema 2 (plugin) structure
 
 ## Constraints
 

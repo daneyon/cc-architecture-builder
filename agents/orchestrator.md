@@ -8,8 +8,12 @@ description: >
   plugin operation. Use when coordinating multi-step workflows across specialists.
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: opus
+effort: high
 permissionMode: default
 skills: executing-tasks, validating-structure
+context:
+  - CLAUDE.md
+  - notes/progress.md
 ---
 
 # Orchestrator

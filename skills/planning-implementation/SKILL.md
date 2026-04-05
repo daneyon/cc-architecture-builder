@@ -1,11 +1,14 @@
 ---
 name: planning-implementation
 description: >
-  Plan and scope projects from inception through production. Decomposes requirements
-  into phased deliverables, generates SOW (scope) and implementation plans (execution),
-  defines acceptance criteria, and structures sprint/phase backlogs. Use when starting
-  new projects, scoping features, writing requirements, planning sprints, or when the
-  orchestrator needs to decompose a complex task into executable subtasks.
+  INVOKE THIS SKILL for project planning, scoping, and requirements decomposition.
+  Generates SOW (scope) and implementation plans (execution), defines acceptance
+  criteria, structures sprint/phase backlogs, and decomposes requirements into
+  phased deliverables. Triggers: plan project, scope feature, write requirements,
+  plan sprint, create SOW, decompose complex task, define acceptance criteria.
+  Bridges "we have an idea" to "the team knows exactly what to build."
+argument-hint: "Project or feature to plan (e.g., 'plan migration from REST to GraphQL API')"
+effort: high
 ---
 
 # Planning & Implementation

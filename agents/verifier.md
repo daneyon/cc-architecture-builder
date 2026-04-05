@@ -6,7 +6,9 @@ description: >
   implementation work is complete to confirm correctness before committing.
   Use PROACTIVELY after any implementation agent finishes its work.
 tools: Read, Bash, Grep, Glob, Search
+disallowedTools: Write, Edit
 model: inherit
+effort: high
 permissionMode: default
 ---
 

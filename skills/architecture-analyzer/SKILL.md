@@ -1,12 +1,16 @@
 ---
 name: architecture-analyzer
 description: >-
-  Analyze existing codebases and design new system architectures. Covers code structure
-  review, full-stack application design, component decomposition, data modeling, API
-  design, technology selection, and architecture decision records (ADRs). Use when
-  reviewing architecture, designing systems from scratch, evaluating tech stack choices,
-  assessing scalability/security, or decomposing monoliths. Applies systems thinking
-  across frontend, backend, data, and infrastructure layers.
+  INVOKE THIS SKILL for deep codebase analysis or new system architecture design.
+  Covers code structure review, full-stack application design, component decomposition,
+  data modeling, API design, technology selection, and architecture decision records
+  (ADRs). Triggers: review architecture, analyze code structure, evaluate design,
+  assess scalability/security, decompose monolith, design system from scratch,
+  tech stack evaluation. Applies multi-phase systems thinking across frontend,
+  backend, data, and infrastructure layers.
+argument-hint: "Target for analysis (e.g., 'src/auth/' or 'design a microservices architecture for order processing')"
+effort: high
+agent: true
 ---
 # Architecture Analyzer & Designer Skill
 

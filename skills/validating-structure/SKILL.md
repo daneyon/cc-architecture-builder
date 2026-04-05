@@ -1,6 +1,12 @@
 ---
 name: validating-structure
-description: Validate Claude Code project structure for compliance with architecture standards. Use when user wants to validate, check, audit, or verify their project structure, or before publishing/distributing a plugin.
+description: >
+  INVOKE THIS SKILL to validate Claude Code project structure against CAB
+  architecture standards. Triggers: validate project, check structure, audit
+  plugin, verify compliance, pre-publish check. Runs required-file checks,
+  plugin.json validation, CLAUDE.md validation, component validation (skills,
+  agents, commands, hooks), security audit, and KB consumption audit.
+argument-hint: "Validation mode and target (e.g., '--full', '--security', '--prepublish', or path to project)"
 ---
 
 # Structure Validation
