@@ -239,4 +239,4 @@ credentials.json
 
 - [Security Defaults](../prerequisites/security-defaults.md)
 - [Distributable Plugin Schema](../schemas/distributable-plugin.md)
-- [Official Documentation](https://docs.anthropic.com/en/docs/claude-code/plugins)
+- [Official Documentation](https://code.claude.com/docs/en/plugins)

@@ -2,13 +2,15 @@
 id: subagents
 title: Subagents
 category: components
-tags: [subagents, delegation, context, specialized, agents]
-summary: Complete guide to subagents - specialized AI assistants that operate in their own context window for task-specific workflows.
+tags: [subagents, delegation, context, specialized, agents, orchestration]
+summary: Complete guide to subagents - specialized AI assistants operating in isolated context windows, with full frontmatter reference and CAB-specific patterns.
 depends_on: [memory-claudemd, agent-skills]
 related: [custom-commands, hooks, orchestration-framework, multi-agent-collaboration]
 complexity: intermediate
-last_updated: 2025-12-23
-estimated_tokens: 900
+last_updated: 2026-04-05
+estimated_tokens: 1800
+confidence: A
+review_by: 2026-07-05
 source: https://code.claude.com/docs/en/sub-agents
 ---
 
@@ -16,20 +18,15 @@ source: https://code.claude.com/docs/en/sub-agents
 
 ## Overview
 
-Subagents are specialized AI assistants that operate in their **own context window**, preventing pollution of the main conversation. Claude can delegate tasks automatically or users can invoke them explicitly.
+Subagents are specialized AI assistants that operate in their **own context window**, preventing pollution of the main conversation. Claude delegates tasks automatically based on the agent's `description` field, or users invoke them explicitly.
 
-**Source**: [Subagents](https://code.claude.com/docs/en/sub-agents)
+**Source**: [Subagents - Official Docs](https://code.claude.com/docs/en/sub-agents) -- authoritative reference for native behavior. This file documents CAB-specific extensions and provides a consolidated field reference.
 
 ---
 
-## Key Benefits
+## Key Constraint
 
-| Benefit | Description |
-|---------|-------------|
-| **Context preservation** | Each subagent has its own context |
-| **Specialized expertise** | Fine-tuned instructions for specific domains |
-| **Reusability** | Share across projects and teams |
-| **Flexible permissions** | Different tool access per subagent |
+Subagents **cannot spawn other subagents** (nesting depth = 1). Design delegation hierarchies accordingly -- the parent session is the only orchestration point.
 
 ---
 
@@ -45,123 +42,190 @@ When names conflict, project-level takes precedence.
 
 ---
 
-## File Format
+## Frontmatter Field Reference (All 16 Fields)
+
+Every `.md` agent file begins with a YAML frontmatter block. Below is the complete field set.
+
+| Field | Required | Type | Description |
+|-------|----------|------|-------------|
+| `name` | Yes | string | Lowercase letters and hyphens. Used for invocation. |
+| `description` | Yes | string | Natural-language description of when to invoke. Include "Use PROACTIVELY" for auto-delegation. |
+| `tools` | No | comma-sep | Tool allowlist. Omit to inherit all parent tools. |
+| `disallowedTools` | No | comma-sep | Tool denylist. Excluded even if `tools` would allow them. |
+| `model` | No | enum | `sonnet`, `opus`, `haiku`, or `inherit`. Omit to use the configured default. |
+| `permissionMode` | No | enum | `default`, `acceptEdits`, `bypassPermissions`, `plan`, `ignore`. |
+| `skills` | No | list | Skills to preload. **Full content** is injected at start; subagents do NOT inherit parent skills. |
+| `mcpServers` | No | object | Inline MCP server definitions. Connected at agent start, disconnected at finish. Scoped to that agent. |
+| `hooks` | No | object | Event-driven automation hooks for this agent's lifecycle. |
+| `memory` | No | path | Persistent memory directory. Supports 3 scopes (see Memory section). |
+| `background` | No | boolean | `true` to run agent in background. See Background Execution. |
+| `effort` | No | enum | Reasoning effort level for this agent. |
+| `isolation` | No | enum | `worktree` for git-worktree isolation with auto-cleanup on finish. |
+| `color` | No | string | Statusline color for visual identification in multi-agent workflows. |
+| `initialPrompt` | No | string | Prompt injected before user's first message to the agent. |
+| (body) | Yes | markdown | System prompt following the `---` closer. Agent instructions, constraints, verification. |
+
+### Plugin Restrictions
+
+Plugins that bundle agents **cannot** use these fields: `hooks`, `mcpServers`, `permissionMode`. These are reserved for user/project-level agents for security reasons.
+
+---
+
+## Default Subagent Setting
+
+Configure the default subagent model/behavior globally in `settings.json`:
+
+```json
+{
+  "agent": "sonnet"
+}
+```
+
+The setting key is `agent` (not `defaultSubagent`).
+
+---
+
+## Agent Auto Memory (3 Scopes)
+
+When `memory` is set, the agent persists knowledge across sessions. Three scopes:
+
+| Scope | Location | Persists across |
+|-------|----------|-----------------|
+| **User** | `~/.claude/memory/<agent>/` | All projects, all sessions |
+| **Project** | `.claude/memory/<agent>/` | This project, all sessions |
+| **Local** | `.claude/local/memory/<agent>/` | This machine only (gitignored) |
+
+Memory files are loaded into agent context at start and can be updated by the agent during execution.
+
+---
+
+## Background Execution
 
 ```yaml
----
-name: my-agent-name
-description: Description of when this subagent should be invoked
-tools: Read, Grep, Glob, Bash    # Optional
-model: sonnet                     # Optional
-permissionMode: default           # Optional
-skills: skill1, skill2            # Optional
----
-
-You are a specialized agent focused on [specific purpose].
-
-## Approach
-1. [Step 1]
-2. [Step 2]
-
-## Constraints
-- [Constraint 1]
-- [Constraint 2]
+background: true
 ```
 
----
-
-## Configuration Fields
-
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Lowercase letters and hyphens |
-| `description` | Yes | When to invoke (natural language) |
-| `tools` | No | Comma-separated list; inherits all if omitted |
-| `model` | No | `sonnet`, `opus`, `haiku`, or `inherit` |
-| `permissionMode` | No | `default`, `acceptEdits`, `bypassPermissions`, `plan`, `ignore` |
-| `skills` | No | Skills to auto-load when agent starts |
+- Agent runs asynchronously; parent session continues working
+- Grant permissions upfront since the agent runs without interactive approval
+- Users can press **Ctrl+B** to background a running agent mid-execution
+- Background agents report results when finished; parent is notified
 
 ---
 
-## Model Selection
+## Worktree Isolation
 
-| Value | Behavior |
-|-------|----------|
-| `sonnet` | Use Sonnet model |
-| `opus` | Use Opus model |
-| `haiku` | Use Haiku model |
-| `inherit` | Use same model as main conversation |
-| (omitted) | Use configured subagent default |
-
----
-
-## Managing Subagents
-
-### Using /agents Command (Recommended)
-
-```
-/agents
+```yaml
+isolation: worktree
 ```
 
-Interactive menu to:
-- View all available subagents
-- Create new subagents (generate with Claude first)
-- Edit existing subagents
-- Delete subagents
-- Manage tool permissions
+- Agent operates in a dedicated git worktree (separate working directory)
+- Auto-cleanup: worktree is removed when the agent finishes
+- Prevents file conflicts when multiple agents modify the same codebase
+- See [Git Worktrees](../operational-patterns/git-worktree.md) for setup details
 
-### CLI-Based Configuration
+---
+
+## Auto-Compaction
+
+Subagents auto-compact at ~95% context usage. Override with:
 
 ```bash
-claude --agents '{
-  "code-reviewer": {
-    "description": "Expert code reviewer.",
-    "prompt": "You are a senior code reviewer...",
-    "tools": ["Read", "Grep", "Glob", "Bash"],
-    "model": "sonnet"
-  }
-}'
+CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=80  # compact earlier
 ```
 
 ---
 
-## Using Subagents
+## Skills Preloading
 
-### Automatic Delegation
-
-Claude proactively delegates based on:
-- Task description in request
-- `description` field in subagent config
-- Current context
-
-**Tip**: Include "use PROACTIVELY" in description for more automatic use.
-
-### Explicit Invocation
-
+```yaml
+skills:
+  - executing-tasks
+  - validating-structure
 ```
-> Use the code-reviewer subagent to check my changes
-> Have the debugger subagent investigate this error
+
+- Listed skills have their **full content** injected into the agent's context at start
+- Subagents do **not** inherit the parent session's skills -- only explicitly listed ones
+- This is the primary mechanism for giving agents domain knowledge without bloating the parent context
+
+---
+
+## MCP Server Scoping
+
+```yaml
+mcpServers:
+  my-server:
+    command: npx
+    args: ["-y", "my-mcp-server"]
 ```
+
+- Inline MCP definitions are **connected** when the agent starts and **disconnected** when it finishes
+- Scoped entirely to that agent -- no leakage to the parent session or other agents
+- Use for agents that need specialized tool access (databases, APIs, etc.)
 
 ---
 
 ## Built-in Subagents
 
-### General-Purpose Subagent
-- **Model**: Sonnet
-- **Tools**: All tools
-- **Purpose**: Complex multi-step tasks requiring exploration and action
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| **Explore** | Haiku | Glob, Grep, Read, limited Bash | Fast read-only codebase search and analysis |
+| **Plan** | Sonnet | Read, Glob, Grep, Bash | Research codebase during plan mode |
+| **General-purpose** | Sonnet | All tools | Complex multi-step tasks requiring exploration and action |
+| **statusline-setup** | -- | -- | Configures terminal status line display |
+| **Claude Code Guide** | -- | -- | Interactive onboarding and help |
 
-### Plan Subagent
-- **Model**: Sonnet
-- **Tools**: Read, Glob, Grep, Bash
-- **Purpose**: Research codebase during plan mode
+---
 
-### Explore Subagent
-- **Model**: Haiku (fast)
-- **Mode**: Read-only
-- **Tools**: Glob, Grep, Read, limited Bash
-- **Purpose**: Fast codebase searching and analysis
+## Managing Subagents
+
+### /agents Command
+
+```text
+/agents
+```
+
+Interactive management: view, create, edit, delete agents and manage tool permissions.
+
+### CLI Configuration
+
+```bash
+claude --agents '{ "code-reviewer": { "description": "...", "prompt": "...", "tools": ["Read","Grep"], "model": "sonnet" } }'
+```
+
+---
+
+## CAB-Specific Patterns
+
+CAB extends the native subagent model with three architectural patterns. Agent templates are in `templates/agent.template/`.
+
+### Orchestrator Pattern
+
+The `orchestrator` agent acts as a central router: receives tasks, classifies them, delegates to specialist agents, and synthesizes results. Set as the default agent for fully autonomous plugin operation.
+
+```yaml
+name: orchestrator
+model: opus
+skills: executing-tasks, validating-structure
+```
+
+See `agents/orchestrator.md` for the full definition.
+
+### Verifier Pattern
+
+The `verifier` agent provides independent validation. It runs after implementation agents complete, confirming correctness before commit. Inspired by Boris Cherny's `verify-app` pattern.
+
+```yaml
+name: verifier
+description: >
+  ... Use PROACTIVELY after any implementation agent finishes its work.
+model: inherit
+```
+
+See `agents/verifier.md` for the full definition.
+
+### CAB Agent Template Requirements
+
+Every CAB agent file **must** include a `## Verification (REQUIRED)` section with concrete, runnable checks. This is enforced by the agent template (`templates/agent.template/agent.md.template`) and aligns with Tenet 2 of the orchestration framework: verification is an architectural requirement, not optional.
 
 ---
 
@@ -169,80 +233,18 @@ Claude proactively delegates based on:
 
 | Aspect | Skills | Subagents |
 |--------|--------|-----------|
-| **Invocation** | Model-invoked | Model or user-invoked |
+| **Invocation** | Model-invoked (automatic) | Model or user-invoked |
 | **Context** | Loads into main context | Separate context window |
 | **Purpose** | Procedural knowledge | Specialized assistant |
-| **State** | Stateless | Can be resumed |
-| **Token Impact** | Adds to main context | Preserves main context |
-
----
-
-## Example: Code Reviewer
-
-```yaml
----
-name: code-reviewer
-description: Expert code review specialist. Use immediately after writing or modifying code.
-tools: Read, Grep, Glob, Bash
-model: inherit
----
-
-You are a senior code reviewer ensuring high standards.
-
-When invoked:
-1. Run git diff to see recent changes
-2. Focus on modified files
-3. Begin review immediately
-
-Review checklist:
-- Code clarity and readability
-- Proper error handling
-- No exposed secrets
-- Good test coverage
-
-Provide feedback by priority:
-- Critical (must fix)
-- Warnings (should fix)
-- Suggestions (consider)
-```
-
----
-
-## Resumable Subagents
-
-Subagents can be resumed to continue previous work:
-
-```
-> Use the code-analyzer agent to review auth module
-[Agent completes, returns agentId: "abc123"]
-
-> Resume agent abc123 and analyze authorization logic
-[Agent continues with full previous context]
-```
-
-Useful for:
-- Long-running research
-- Iterative refinement
-- Multi-step workflows
-
----
-
-## Best Practices
-
-| Practice | Description |
-|----------|-------------|
-| **Generate with Claude first** | Start by having Claude generate, then customize |
-| **Design focused agents** | Single, clear responsibility |
-| **Write detailed prompts** | Specific instructions, examples, constraints |
-| **Limit tool access** | Only necessary tools |
-| **Version control** | Check project agents into git |
-
----
+| **State** | Stateless | Resumable, memory-capable |
+| **Token impact** | Adds to main context | Preserves main context |
+| **Nesting** | N/A | Cannot nest (depth = 1) |
 
 ## See Also
 
-- [Agent Skills](agent-skills.md) — Model-invoked capabilities
-- [Custom Commands](custom-commands.md) — User-invoked shortcuts
-- [Plugins](https://code.claude.com/docs/en/plugins) — Bundle and share agents
-- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Delegation templates, cost model, failure modes
-- [Multi-Agent Collaboration](../operational-patterns/multi-agent-collaboration.md) — Coordination patterns
+- [Agent Skills](agent-skills.md) -- Model-invoked capabilities
+- [Custom Commands](custom-commands.md) -- User-invoked shortcuts
+- [Hooks](hooks.md) -- Event-driven automation
+- [Orchestration Framework](../operational-patterns/orchestration-framework.md) -- Delegation patterns, cost model, failure modes
+- [Multi-Agent Collaboration](../operational-patterns/multi-agent-collaboration.md) -- Coordination patterns
+- [Git Worktrees](../operational-patterns/git-worktree.md) -- Parallel execution with isolation

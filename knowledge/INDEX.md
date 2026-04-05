@@ -27,7 +27,7 @@ last_updated: 2026-04-03
 
 KB files should include `source:` metadata linking to official documentation. Primary sources:
 - **Primary**: https://code.claude.com/docs/en/
-- **Agent Skills**: https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/
+- **Agent Skills**: https://code.claude.com/docs/en/skills
 - **MCP Protocol**: https://modelcontextprotocol.io/
 
 ## External Skills Reference

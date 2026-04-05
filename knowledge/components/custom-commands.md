@@ -1,206 +1,106 @@
 ---
 id: custom-commands
-title: Custom Commands
+title: Custom Commands (Legacy → Skills Migration)
 category: components
-tags: [commands, slash-commands, user-invoked, shortcuts]
-summary: User-invoked shortcuts triggered by typing /command-name. Can execute instructions, reference files, run bash commands, or combine multiple actions.
-depends_on: [memory-claudemd]
+tags: [commands, slash-commands, skills, migration, legacy]
+summary: Custom commands are now merged into skills. Commands still work but skills are preferred. This doc covers the migration path and when commands still apply.
+depends_on: [agent-skills]
 related: [agent-skills, subagents]
 complexity: foundational
-last_updated: 2025-12-12
-estimated_tokens: 600
+last_updated: 2026-04-05
+estimated_tokens: 400
+source: https://code.claude.com/docs/en/skills
+confidence: A
+review_by: 2026-07-05
 ---
 
-# Custom Commands
+# Custom Commands → Skills Migration
 
-## Overview
+## Status: Commands Merged Into Skills
 
-Commands are **user-invoked** shortcuts triggered by typing `/command-name`. Unlike skills (model-invoked), commands require explicit user action.
+As of 2026, CC has **merged commands into skills**. Skills are the preferred path for all new development. Commands still work for backward compatibility, but when both exist for the same name, the skill wins.
 
-## Key Distinction
+> **Official docs**: [code.claude.com/docs/en/skills](https://code.claude.com/docs/en/skills) — covers both skills and the commands subsystem.
 
-| Aspect | Commands | Skills |
-|--------|----------|--------|
-| **Invocation** | User types `/command` | Model decides automatically |
-| **Discovery** | Listed in `/help` | Metadata in system prompt |
-| **Trigger** | Explicit request | Task context matching |
-| **Complexity** | Simple shortcuts | Complex capabilities |
-
-## File Structure
-
-**Location**: `commands/` directory
-
-```
-commands/
-├── analyze.md
-├── summarize.md
-└── deploy.md
-```
-
-## Command File Format
-
-```markdown
----
-description: Brief description shown in /help
-allowed-tools: Read, Write, Bash    # Optional: restrict tools
-thinking: extended                   # Optional: enable extended thinking
 ---
 
-# Command Instructions
+## Key Differences
 
-Clear instructions for what Claude should do when this command is invoked.
+| Aspect | Commands (legacy) | Skills (preferred) |
+|--------|-------------------|-------------------|
+| **Location** | `commands/name.md` | `skills/name/SKILL.md` |
+| **Invocation** | User-only (`/name`) | User or model-invoked |
+| **Frontmatter** | description, allowed-tools | 11+ fields including model, effort, context, hooks |
+| **Resources** | Single file only | Directory with scripts/, assets/, references/ |
+| **Substitutions** | $ARGUMENTS, $1-$N | Same + ${CLAUDE_SESSION_ID}, ${CLAUDE_SKILL_DIR} |
+| **Dynamic context** | `` !`command` `` | Same |
+| **Conflict resolution** | — | Skill wins if both exist for same name |
 
-## Steps
-1. [Step 1]
-2. [Step 2]
+---
 
-## Arguments
-This command accepts: $ARGUMENTS
+## Migration Path
+
+To migrate a command to a skill:
+
+```
+# Before (command)
+commands/deploy.md
+
+# After (skill)
+skills/deploy/
+├── SKILL.md          # Same content, enhanced frontmatter
+├── scripts/          # Optional: extracted bash logic
+└── references/       # Optional: supporting docs
 ```
 
-## Command Types by Location
-
-| Type | Location | Scope |
-|------|----------|-------|
-| **Project** | `.claude/commands/` | Current project only |
-| **Personal** | `~/.claude/commands/` | All your projects |
-| **Plugin** | `plugin/commands/` | When plugin installed |
-
-## Features
-
-### Arguments
-
-Commands can accept arguments:
-
-```markdown
-# analyze.md
-
-Analyze the following: $ARGUMENTS
-
-Individual arguments:
-- First: $1
-- Second: $2
-- Third: $3
-```
-
-**Usage**: `/analyze security authentication flow`
-
-### File References
-
-Reference files directly in command:
-
-```markdown
-Analyze the code in @src/main.py
-Compare with @tests/test_main.py
-```
-
-### Bash Execution
-
-Execute bash and include output:
-
-```markdown
-Current branch: !git branch --show-current!
-Recent commits: !git log --oneline -5!
-```
-
-### Extended Thinking
-
-Enable for complex commands:
+**Frontmatter upgrade**:
 
 ```yaml
+# Command frontmatter (minimal)
 ---
-thinking: extended
----
-```
-
-## Namespacing
-
-Commands from different sources use namespacing:
-
-| Source | Pattern | Example |
-|--------|---------|---------|
-| Plugin | `/plugin-name:command` | `/deploy-tools:staging` |
-| Project | `/project:command` | `/project:build` |
-| Personal | `/user:command` | `/user:my-shortcut` |
-
-## Example: Code Analysis Command
-
-```markdown
----
-description: Analyze code for quality, security, and performance issues
-allowed-tools: Read, Grep, Glob
----
-
-# Code Analysis
-
-Perform comprehensive code analysis on: $ARGUMENTS
-
-## Analysis Steps
-
-1. **Read the target files**
-   - If directory provided, identify key files
-   - If file provided, read contents
-
-2. **Quality Analysis**
-   - Check naming conventions
-   - Evaluate code structure
-   - Assess documentation
-
-3. **Security Scan**
-   - Look for hardcoded credentials
-   - Check input validation
-   - Identify injection vulnerabilities
-
-4. **Performance Review**
-   - Identify potential bottlenecks
-   - Check for N+1 queries
-   - Evaluate algorithmic complexity
-
-## Output Format
-
-Provide analysis as:
-- **Summary**: Overall assessment
-- **Issues Found**: Prioritized list
-- **Recommendations**: Actionable improvements
-```
-
-## Example: Quick Deploy Command
-
-```markdown
----
-description: Deploy current branch to staging environment
+description: Deploy to staging
 allowed-tools: Bash
 ---
 
-# Quick Deploy
-
-## Pre-flight Checks
-Current branch: !git branch --show-current!
-Uncommitted changes: !git status --porcelain!
-
-## Deploy Steps
-
-1. Verify we're on a feature branch (not main/master)
-2. Run tests: `npm test`
-3. Build: `npm run build`
-4. Deploy: `npm run deploy:staging`
-
-## Post-Deploy
-
-- Provide deployment URL
-- List any warnings from build
+# Skill frontmatter (enhanced)
+---
+description: Deploy to staging
+allowed-tools: Bash
+user-invocable: true           # Preserves /deploy trigger
+disable-model-invocation: true # Optional: keep user-only behavior
+effort: medium
+---
 ```
 
-## Best Practices
+Set `user-invocable: true` to preserve the `/name` trigger. Add `disable-model-invocation: true` if you want to prevent Claude from auto-invoking it.
 
-1. **Clear descriptions**: Shown in `/help`, make them scannable
-2. **Appropriate tool restrictions**: Limit to necessary tools
-3. **Handle missing arguments**: Provide guidance if args expected but missing
-4. **Document usage**: Include example invocations in description
-5. **Keep focused**: One command = one action
+---
+
+## When Commands Still Apply
+
+Commands remain appropriate when:
+
+- **Backward compatibility** — existing workflows depend on command paths
+- **Simplicity** — single-file command with no resources needed
+- **Plugin commands** — CAB maintains `commands/` for CLI-style triggers with concise abbreviated names
+
+CAB convention: Plugin commands use concise abbreviations (e.g., `/cab:execute-task` not `/cc-architecture-builder:execute-task`). This naming convention applies regardless of whether the implementation is a command or skill.
+
+---
+
+## CAB Command Inventory
+
+CAB currently maintains 14 commands in `commands/`. These function as quick-trigger wrappers that often load a corresponding skill:
+
+| Pattern | Example |
+|---------|---------|
+| Command triggers skill | `/execute-task` loads `executing-tasks` skill |
+| Command triggers workflow | `/commit-push-pr` runs multi-step git workflow |
+| Command is self-contained | `/validate` runs structural checks directly |
+
+Future CAB versions may migrate high-value commands to skills for enhanced frontmatter support while maintaining the abbreviated command names as aliases.
 
 ## See Also
 
-- [Agent Skills](agent-skills.md) — Model-invoked alternative
-- [Subagents](subagents.md) — Delegated specialized tasks
-- [Official Documentation](https://code.claude.com/docs/en/slash-commands)
+- [Agent Skills](agent-skills.md) — Full skill documentation (11+ frontmatter fields)
+- [Architecture Philosophy](../overview/architecture-philosophy.md) — Invocation patterns

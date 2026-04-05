@@ -45,9 +45,9 @@ As of late 2025, Claude Code documentation moved to a new domain:
 
 | Document | URL |
 |----------|-----|
-| Skills Overview | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview |
-| Best Practices | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/best-practices |
-| Quickstart | https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/quickstart |
+| Skills (unified) | https://code.claude.com/docs/en/skills |
+| Agent Teams | https://code.claude.com/docs/en/agent-teams |
+| Context Window | https://code.claude.com/docs/en/context-window |
 
 ---
 
@@ -84,9 +84,9 @@ claude /plugin install skill-creator@anthropic-agent-skills
 
 | Resource | URL |
 |----------|-----|
-| Overview | https://docs.anthropic.com/en/docs/agent-sdk/overview |
-| TypeScript SDK | https://docs.anthropic.com/en/docs/agent-sdk/typescript |
-| Python SDK | https://docs.anthropic.com/en/docs/agent-sdk/python |
+| Overview | https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/agent-sdk |
+| TypeScript SDK | https://www.npmjs.com/package/@anthropic-ai/claude-code-sdk-node |
+| Python SDK | https://pypi.org/project/claude-code-sdk/ |
 
 ---
 
