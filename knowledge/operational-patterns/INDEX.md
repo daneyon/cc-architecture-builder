@@ -1,63 +1,72 @@
 ---
 type: index
 scope: operational-patterns
-file_count: 6
-last_updated: 2026-03-28
+file_count: 12
+last_updated: 2026-04-05
+revision_note: "v3.0 — Modularized into subdirectories. 3 monolith files split into 9 focused files across 3 subdirectories."
 ---
 
 # Operational Patterns Index
 
 > Advanced workflow patterns for maximizing Claude Code efficiency.
 
-## Quick Reference
+## Directory Structure
 
-| Pattern | Purpose | Complexity |
-|---------|---------|------------|
-| [Orchestration Framework](orchestration-framework.md) | Canonical workflow patterns, execution protocol, cost model | advanced |
-| [Git Worktree](git-worktree.md) | Parallel Claude Code sessions | intermediate |
-| [Session Management](session-management.md) | Resuming, history, persistence, state file design | intermediate |
-| [Multi-Agent Collaboration](multi-agent-collaboration.md) | Agent coordination, worktrees-first, Agent Teams | advanced |
-| [Team Collaboration](team-collaboration.md) | Conflict zones, handoff protocols, worktree close-out, cross-worktree sync | advanced |
-| [Extension Discovery](extension-discovery.md) | Why extensions are forgotten mid-session; Three-Point Reinforcement Pattern | intermediate |
+```
+operational-patterns/
+├── orchestration/          # Workflow patterns, execution protocol, costs
+│   ├── framework.md        # Tenets, 5 canonical patterns, task exec protocol
+│   ├── delegation-templates.md  # Delegation structure, phase-agent routing
+│   └── cost-model.md       # Token economics, prompt cache, optimization
+├── multi-agent/            # Agent coordination, teams, worktrees
+│   ├── collaboration-patterns.md  # 4 patterns overview, effort scaling
+│   ├── agent-teams.md      # Agent Teams deep-dive, A-team alignment
+│   └── worktree-workflows.md  # Git worktree setup and patterns
+├── state-management/       # Sessions, context, filesystem state
+│   ├── session-lifecycle.md # Session resume, context health, compaction
+│   ├── context-engineering.md  # 200-line discipline, optimization
+│   └── filesystem-patterns.md  # notes/, cold-start anchors, persistence
+├── team-collaboration.md   # Multi-human + multi-agent protocols
+└── extension-discovery.md  # Extension awareness, Three-Point Reinforcement
+```
 
 ## Reading Order
 
-1. **orchestration-framework.md** — Core tenets, canonical patterns, execution protocol (start here)
-2. **git-worktree.md** — Foundational for parallel work
-3. **session-management.md** — Managing conversation state
-4. **multi-agent-collaboration.md** — Coordination patterns in practice
-5. **team-collaboration.md** — Multi-human/agent collaboration, conflict zones, handoff, close-out
-6. **extension-discovery.md** — Extension awareness persistence (read after agent-skills.md)
+1. **orchestration/framework.md** — Core tenets, canonical patterns (start here)
+2. **state-management/context-engineering.md** — 200-line discipline, compaction
+3. **multi-agent/collaboration-patterns.md** — 4 coordination patterns
+4. **state-management/session-lifecycle.md** — Session management
+5. **state-management/filesystem-patterns.md** — Persistent state design
+6. **orchestration/delegation-templates.md** — Delegation structure
+7. **orchestration/cost-model.md** — Token economics
+8. **multi-agent/agent-teams.md** — Agent Teams deep-dive
+9. **multi-agent/worktree-workflows.md** — Parallel execution
+10. **team-collaboration.md** — Human-agent collaboration
+11. **extension-discovery.md** — Extension awareness persistence
 
-## When to Use These Patterns
+## When to Use
 
-| Situation | Pattern |
-|-----------|---------|
-| Planning any non-trivial task | Orchestration Framework (Task Execution Protocol) |
-| Working on multiple features | Git Worktree |
-| Continuing previous work | Session Management |
-| Complex multi-step workflows | Multi-Agent Collaboration |
-| Parallel analysis tasks | Git Worktree + Multi-Agent |
-| Long-running autonomous projects | Orchestration Framework (Initializer/Iterator Harness) |
-| Quality-critical deliverables | Orchestration Framework (Evaluator-Optimizer Pattern) |
-| Multiple people/agents on same repo | Team Collaboration |
-| Merging completed worktree back to main | Team Collaboration (Close-Out Procedure) |
-| Delegating tasks to coworkers or agents | Team Collaboration (Delegation Patterns) |
-| Skills forgotten mid-session | Extension Discovery (Three-Point Reinforcement) |
+| Situation | Go To |
+|-----------|-------|
+| Planning any non-trivial task | `orchestration/framework.md` (Task Execution Protocol) |
+| Delegating to specialist agents | `orchestration/delegation-templates.md` |
+| Evaluating agent cost/benefit | `orchestration/cost-model.md` |
+| Working on multiple features in parallel | `multi-agent/worktree-workflows.md` |
+| Need inter-agent communication | `multi-agent/agent-teams.md` |
+| Choosing between collaboration patterns | `multi-agent/collaboration-patterns.md` |
+| Continuing previous work / session health | `state-management/session-lifecycle.md` |
+| Optimizing context usage | `state-management/context-engineering.md` |
+| Designing cross-session state | `state-management/filesystem-patterns.md` |
+| Multiple people/agents on same repo | `team-collaboration.md` |
+| Skills forgotten mid-session | `extension-discovery.md` |
 
-## Key Highlights
+## Migration Notes (v1.01)
 
-**orchestration-framework.md**:
-- 5 core design tenets, 5 canonical agentic workflow patterns mapped to CC primitives
-- Standard Task Execution Protocol (PLAN → REVIEW → EXECUTE → VERIFY → COMMIT)
-- Agent failure mode catalog, multi-agent cost model, delegation templates
+Original monolith files split during modularization (2026-04-05):
 
-**team-collaboration.md**:
-- Conflict zone management (file ownership, detection, resolution escalation)
-- Human-agent handoff protocol (PR-based review, feedback loops, delegation templates)
-- Worktree close-out procedure (pre-close checklist, artifact preservation, cleanup commands)
-- Cross-worktree synchronization (when to sync, merge strategy, drift prevention)
-
-**multi-agent-collaboration.md**:
-- Worktrees-first coordination, Agent Teams (experimental)
-- Effort scaling heuristic, cross-session persistence, subagent triggering patterns
+| Original | Split Into | Status |
+|----------|-----------|--------|
+| `orchestration-framework.md` | `orchestration/` (3 files) | Original pending removal |
+| `multi-agent-collaboration.md` | `multi-agent/collaboration-patterns.md` + `agent-teams.md` | Original pending removal |
+| `git-worktree.md` | `multi-agent/worktree-workflows.md` | Original pending removal |
+| `session-management.md` | `state-management/` (3 files) | Original pending removal |

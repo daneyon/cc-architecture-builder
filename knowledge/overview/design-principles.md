@@ -3,61 +3,56 @@ id: design-principles
 title: CAB Design Principles
 category: overview
 tags: [philosophy, context-engineering, wrapping, orchestration, knowledge-base, principles]
-summary: Core design principles governing the CAB framework — context engineering, the wrapping/composition architecture, standardized knowledge bases for domain specialization, orchestration + state management, and the human-AI collaboration model.
+summary: Core design principles governing CAB — context engineering, wrapping/composition architecture, standardized knowledge bases, orchestration + state management, and the human-AI collaboration model.
 depends_on: [executive-summary, architecture-philosophy]
 related: [orchestration-framework, memory-claudemd, agent-skills, subagents]
 complexity: foundational
-last_updated: 2026-03-26
-estimated_tokens: 1200
+last_updated: 2026-04-05
+estimated_tokens: 1400
+confidence: A
+review_by: 2026-07-05
 ---
+
+# CAB Design Principles
 
 ## Principle 1: Context Engineering Is the Foundation
 
-The quality of AI output is determined entirely by the quality of context provided.
-Context engineering is the discipline of curating what the model sees — not just
-what you ask it, but the entire information environment it operates in.
+The quality of AI output is determined by the quality of context provided. Context engineering is the discipline of curating what the model sees — the entire information environment, not just the prompt.
 
-**Core insight**: Context windows are constrained not by raw token capacity but by
-attention mechanics. As context grows, models exhibit predictable degradation —
-"lost-in-the-middle" phenomenon, U-shaped attention curves, attention scarcity.
+**Core constraints**:
 
-**Implications for design**:
+- Context windows are limited not by raw token capacity but by attention mechanics. As context grows, models exhibit predictable degradation — lost-in-the-middle phenomenon, U-shaped attention curves.
+- Every token of configuration displaces productive output. Context is a shared, finite resource.
+- **200-line discipline**: CLAUDE.md targets ≤200 lines. This is CC's official recommendation and the auto memory load limit. Exceeding it risks truncation and context waste.
 
-- Every token of configuration displaces productive output. Context is a shared,
-  finite resource — treat it as a public good.
-- Progressive disclosure: load only what the current task requires. Use @imports,
-  skill lazy-loading, and filesystem-based references for everything else.
-- Keep high-priority information at the start and end of context, not buried in
-  the middle.
-- The filesystem is a persistent context layer — offload plans, progress, and
-  large outputs to files. They survive compaction and session boundaries.
-- Proactively manage context health: continue, compact, or start fresh based on
-  signal quality, not just fullness percentage.
+**Design implications**:
 
-**Sources**: Koylan (context fundamentals, degradation patterns), Watts (value-dense
-context), Fowler/Böckeler (context engineering taxonomy), Anthropic (effective
-context engineering for AI agents).
+- Progressive disclosure: load only what the current task requires. Use @imports, skill lazy-loading, and filesystem references for everything else.
+- High-priority information at the start and end of context, not buried in the middle.
+- The filesystem is a persistent context layer — `notes/`, progress files, and KB docs survive compaction and session boundaries.
+- Auto memory (`MEMORY.md` + topic files) is CC's native persistent context. CAB's `notes/` patterns complement it with structured operational state.
+- Prompt cache awareness: stable content at context start enables cache hits (~$0.003 vs ~$0.60 at 200K tokens). Avoid cache-breaking changes to system prompt structure.
+- Proactively manage context health: compact at ~70%, start fresh when context is poisoned, not just when auto-compact forces it.
 
 ---
 
 ## Principle 2: The Wrapping/Composition Architecture
 
-Extensions compose upward through four runtime layers. Each layer wraps the layer
-below it, creating a progressively richer execution environment:
+Extensions compose upward through four runtime layers:
 
 ```
 LAYER 1: PERSISTENT MEMORY (always loaded)
-    CLAUDE.md + rules/*.md
+    CLAUDE.md + rules/*.md + Auto Memory (MEMORY.md)
     = WHO you are, HOW you always behave
 
 LAYER 2: EXTENSION REGISTRY (metadata only, ~100 tokens each)
-    Skills, Agents, Commands, MCP tool signatures
+    Skills, Agents, MCP tool signatures
     = WHAT capabilities exist (catalog, not content)
 
 LAYER 3: INVOCATION (on-demand)
-    Skill → loads INTO main context
+    Skill → loads INTO main context (inline or fork)
     Agent → SPAWNS separate context
-    Command → executes in main context
+    Hook → executes EXTERNALLY on events
     = ACTIVATING capabilities when needed
 
 LAYER 4: EXECUTION (runtime)
@@ -65,103 +60,77 @@ LAYER 4: EXECUTION (runtime)
     = WHERE work happens
 ```
 
-**The wrapping principle**: Extensions interconnect through deliberate composition.
-Rules inform skills. Skills get loaded into agents. Agents get orchestrated by the
-orchestrator or commands. MCP provides external data/tools accessible from any layer.
-Knowledge base is the reference library that any extension can read on-demand.
+**The wrapping principle**: Extensions interconnect through deliberate composition. Rules inform skills. Skills get loaded into agents. Agents get orchestrated by the orchestrator. MCP provides external data/tools accessible from any layer. Knowledge base is the reference library any extension reads on-demand.
 
-**Implications**:
+**Key implications**:
 
-- Design each extension to work independently, but compose well with others.
 - Skills are the orchestrator's "how-to" library — agents are its "delegation roster."
-- An agent loading a skill is fundamentally different from the orchestrator loading
-  the same skill: the agent gets an isolated copy in its own context window.
-- Commands are the human's interface to trigger workflows; the orchestrator's
-  interface is the agent description field.
-- When a skill involves repeatable logic, extract it into executable scripts
-  (`skills/[name]/scripts/`) that the skill invokes via Bash. This prevents
-  the LLM from regenerating deterministic logic each invocation — a direct
-  token efficiency measure and a reliability mechanism (tested code > generated
-  code). The skill SKILL.md becomes the orchestration wrapper; the script is
-  the pre-programmed execution.
+- An agent loading a skill gets an isolated copy in its own context window.
+- **Commands are now skills**: CC merged commands into skills (2026). Skills are preferred; commands still work but skills win when both exist. CAB maintains concise abbreviated names (e.g., `cab:execute-task`) for quick-trigger usability.
+- When a skill involves repeatable logic, extract it into executable scripts (`skills/[name]/scripts/`) that the skill invokes via Bash. Tested code > generated code.
 
 ---
 
 ## Principle 3: Standardized Knowledge Base for Domain Specialization
 
-The knowledge base is the foundational layer for domain specialization. A well-
-structured KB enables the framework to be holistically generalized at its core
-while becoming deeply specialized through the knowledge it references.
+The knowledge base is the foundational layer for domain specialization. A well-structured KB enables the framework to be generalized at its core while becoming deeply specialized through the knowledge it references.
 
-**KB standardization principles**:
+**KB standardization**:
 
 - Every file is atomic: single topic, self-contained, independently retrievable
 - Every file has YAML frontmatter: id, title, tags, summary, depends_on, related
+- **Confidence tier** (`confidence:` field): `A` (official CC docs), `B` (observable behavior), `C` (inferred/volatile)
+- **Freshness tracking** (`review_by:` field): Tier A = 90 days, Tier B = 90 days, Tier C = 60 days
 - Every directory has an INDEX.md catalog
 - Naming: kebab-case.md throughout
-- Scaling strategy: <20 files flat, 20-100 category dirs, 100+ MCP semantic search
+- Scaling: <20 files flat, 20-100 category dirs, 100+ consider MCP semantic search
 
-**Domain specialization pattern**: The base architecture (memory + extensions +
-knowledge) stays identical across all projects. What changes is the knowledge
-content, agent personas, and skill procedures. The architecture is the operating
-system; the domain is the application.
+**Link-not-duplicate principle**: KB files covering CC-native features include a `source:` URL pointing to official docs and provide only CAB-specific operational extensions. If official docs cover a topic adequately, CAB provides a brief pointer — not a restatement. This keeps KB content concise, reduces maintenance burden, and avoids epistemic contamination from mixing verified and unverified content.
 
-**Efficient RAG**: Prioritize giving agents sufficient context to understand and
-operate effectively over aggressive token minimization. A lean but insufficient
-context produces worse outcomes than a slightly heavier but adequate one. Balance,
-not minimalism, is the goal.
+**Domain specialization pattern**: The base architecture (memory + extensions + knowledge) stays identical across all projects. What changes is the knowledge content, agent personas, and skill procedures. CAB is the operating system; the domain is the application.
 
 ---
 
 ## Principle 4: Orchestration + State Management as Core Competency
 
-The orchestrator pattern is the primary operating model: one main agent classifies,
-routes, and synthesizes; specialist agents execute scoped tasks.
+The orchestrator pattern is the primary operating model: one main agent classifies, routes, and synthesizes; specialist agents execute scoped tasks.
 
-**Standard task execution protocol**: PLAN → REVIEW → EXECUTE → VERIFY → COMMIT.
-This is not bureaucracy — it's the mechanism that prevents the most common agent
-failure modes (one-shotting, premature completion, broken state handoff, skipped
-tests, scope drift).
+**Standard task execution protocol**: PLAN → REVIEW → EXECUTE → VERIFY → COMMIT. This prevents the most common agent failure modes (one-shotting, premature completion, broken state handoff, skipped tests, scope drift).
 
-**State management**: Context is ephemeral; the filesystem is persistent. Cross-
-session state lives in:
+**State management hierarchy**:
 
-- `CLAUDE.md` Learned Corrections (compounding knowledge)
-- `notes/progress.md` (multi-session task tracking)
-- `notes/current-task.md` (active task plan)
-- Git commits (permanent checkpoints)
+1. `CLAUDE.md` Learned Corrections — compounding knowledge that improves over time
+2. `notes/progress.md` — multi-session task tracking and bootstrap context
+3. `notes/current-task.md` — active task plan (cold-start anchor)
+4. Git commits — permanent, verifiable checkpoints
 
-**Compounding knowledge**: Every correctable error becomes a permanent learning in
-CLAUDE.md. Over time, the error rate measurably drops. This is the primary mechanism
-by which the system improves without retraining.
+**Enhanced patterns**:
+
+- **Agent Teams** (experimental): Multi-session coordination with shared task list and mailbox-based IPC. Higher cost (~7x tokens) but enables inter-agent communication.
+- **Hook-driven QA/QC**: Use hooks for recurring validations (e.g., auto-validate on extension updates, lint on file writes, freshness checks on version bumps).
+- Auto memory complements `notes/` — CC manages short-term memory; CAB manages structured operational state.
+
+See [Orchestration Framework](../operational-patterns/orchestration-framework.md) for full detail.
 
 ---
 
-## Principle 5: Holistically Generalized, Flexibly Adaptive
+## Principle 5: Holistically Generalized, Readily Actionable
 
-Extensions should be as general as possible — designed to adapt to any specific
-context rather than hard-coding domain assumptions.
+Extensions should be as general as possible while remaining **programmatically actionable** — designed to produce concrete, executable outcomes rather than abstract guidance.
 
 **What this means in practice**:
 
-- Global config extensions work across ALL projects (universal strategies, coding
-  practices, communication patterns)
-- Project plugin extensions specialize for a specific domain (engineering standards,
-  domain knowledge, domain-specific agents)
-- Reference frameworks (product-design-cycle, a-team-database) are conceptual menus,
-  not mandatory checklists — the orchestrator adapts them to actual project scale
-  and context
-- Avoid overbuilding: if the model handles something well natively, don't build
-  an extension for it. The three-question test: (1) Does a real user need demand
-  this? (2) Can the model handle it natively? (3) Would hard-coding create rigidity?
+- Global config extensions work across ALL projects (universal strategies, practices, communication patterns)
+- Project plugin extensions specialize for a specific domain (engineering standards, domain knowledge, domain-specific agents)
+- Reference frameworks (product-design-cycle, a-team-database) are conceptual menus — the orchestrator adapts them to project scale and context
+- CAB extensions are not documentation — they are operational tools. Each skill, agent, and command should be directly invocable with measurable outcomes.
+- The three-question test: (1) Does a real user need demand this? (2) Can the model handle it natively? (3) Would hard-coding create rigidity?
 
 ---
 
 ## Principle 6: Multi-Agent Autonomy with Human Oversight
 
-The end-product objective is a multi-agent system that operates autonomously to the
-fullest extent possible — with human involvement limited to strategic direction,
-periodic KB alignment with platform upgrades, and review of verification reports.
+The end-product objective is a multi-agent system that operates autonomously to the fullest extent possible — with human involvement limited to strategic direction, periodic KB alignment with platform upgrades, and review of verification reports.
 
 **Human oversight touchpoints**:
 
@@ -170,60 +139,37 @@ periodic KB alignment with platform upgrades, and review of verification reports
 - Verification report review (final quality gate)
 - Escalation handling (when agents flag uncertainty)
 
-**Agent autonomy boundaries**: Agents can read, analyze, plan, implement, test,
-and commit within pre-approved permission boundaries. They cannot make irreversible
-changes without verification passing, deploy to production without human approval,
-or modify security-sensitive configurations autonomously.
+**Agent autonomy boundaries**: Agents can read, analyze, plan, implement, test, and commit within pre-approved permission boundaries. They cannot make irreversible changes without verification, deploy to production without human approval, or modify security-sensitive configurations autonomously.
 
-**Probabilistic acknowledgment**: Context engineering increases the *probability* of
-desired outcomes — it does not guarantee them. This is precisely why verification is
-an architectural requirement, not an optional nicety.
+**Probabilistic acknowledgment**: Context engineering increases the *probability* of desired outcomes — it does not guarantee them. This is precisely why verification is an architectural requirement, not an optional nicety.
 
 ---
 
 ## Principle 7: Verification as Architectural Requirement
 
-Every agent, every task, every phase gate requires a verification method. Providing
-the model a way to verify its own work improves output quality by 2-3x.
+Every agent, every task, every phase gate requires a verification method. Providing the model a way to verify its own work improves output quality significantly.
 
-Verification is not QA bolted on at the end — it is a structural element of every
-agent definition, every task plan, and every phase transition. An agent without a
-verification section is architecturally incomplete.
+Verification is not QA bolted on at the end — it is a structural element of every agent definition, every task plan, and every phase transition. An agent without a verification section is architecturally incomplete.
 
 ---
 
-## Principle 8: Don't Reinvent the Wheel
+## Principle 8: Don't Reinvent — Wrap and Extend
 
-Before building any extension, check whether an existing package, plugin, MCP server,
-or built-in capability already handles it. Design hybrids from proven references
-rather than building from scratch. Wrap existing tools via MCP rather than rebuilding
-their logic.
+Before building any extension, check whether an existing package, plugin, MCP server, or built-in capability handles it. Design hybrids from proven references rather than building from scratch. Wrap existing tools via MCP rather than rebuilding their logic.
 
-**Practical application**: Install and evaluate marketplace plugins before writing
-custom equivalents. Reference official documentation via skills (e.g., claude-docs-
-helper) rather than duplicating it in knowledge packs. Use established frameworks
-(Mermaid for diagrams, pytest for testing, ruff for linting) rather than custom
-solutions.
+**The CAB-specific application**: CAB itself follows this principle by wrapping CC's official capabilities rather than duplicating them. KB files link to official docs. Skills wrap CC primitives into standardized workflows. Agents compose CC's native subagent system with domain expertise. The entire framework is an extension layer, not a replacement.
 
 ---
 
 ## Principle 9: High Agency Problem Solving
 
-The human operator and the AI system share a high agency mindset: clear thinking,
-bias to action, and willingness to challenge assumptions.
+The human operator and the AI system share a high agency mindset: clear thinking, bias to action, willingness to challenge assumptions.
 
-**For the AI**: Challenge flawed premises directly. Surface contradictions immediately.
-Provide honest assessments even when critical. Don't wait for permission to identify
-problems.
+**For the AI**: Challenge flawed premises directly. Surface contradictions immediately. Provide honest assessments even when critical.
 
-**For the human**: Define the problem clearly. Provide sufficient context. Review and
-iterate — don't expect perfection on first pass. Invest in the KB as compounding
-infrastructure, not throwaway prompts.
+**For the human**: Define the problem clearly. Provide sufficient context. Review and iterate. Invest in the KB as compounding infrastructure, not throwaway prompts.
 
-**For the system**: If it doesn't defy the laws of physics, it's a solvable problem.
-Start with the simplest solution. Escalate complexity only when measured improvement
-justifies it. Stop and re-plan when execution goes sideways — never push forward on
-a broken implementation.
+**For the system**: Start with the simplest solution. Escalate complexity only when measured improvement justifies it. Stop and re-plan when execution goes sideways.
 
 ---
 
@@ -236,13 +182,13 @@ Context Engineering (P1)
 Wrapping Architecture (P2)
     └── governs HOW extensions compose at runtime
 
-Knowledge Base Standardization (P3)
+Knowledge Base (P3)
     └── governs HOW domain specialization is structured
 
 Orchestration + State (P4)
-    └── governs HOW tasks are executed and state persists
+    └── governs HOW tasks execute and state persists
 
-Generalized + Adaptive (P5)
+Generalized + Actionable (P5)
     └── governs WHAT SCOPE extensions are designed for
 
 Multi-Agent Autonomy (P6)
@@ -251,15 +197,15 @@ Multi-Agent Autonomy (P6)
 Verification (P7)
     └── governs HOW QUALITY is confirmed
 
-Don't Reinvent (P8)
+Wrap & Extend (P8)
     └── governs WHEN to build vs. reuse
 
 High Agency (P9)
-    └── governs the MINDSET of both human and AI operators
+    └── governs the MINDSET of both operators
 ```
 
 ## See Also
 
-- [Architecture Philosophy](architecture-philosophy.md) — CC runtime mechanics (memory, invocation, distribution)
+- [Architecture Philosophy](architecture-philosophy.md) — CC runtime mechanics, memory, invocation
 - [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Tenets, canonical patterns, execution protocol
 - [Session Management](../operational-patterns/session-management.md) — Context health, filesystem-as-context

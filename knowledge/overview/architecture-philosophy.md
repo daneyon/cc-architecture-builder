@@ -2,136 +2,156 @@
 id: architecture-philosophy
 title: Architecture Philosophy
 category: overview
-tags: [philosophy, memory-hierarchy, invocation, distribution, principles]
-summary: Core architectural principles including the 5-tier memory hierarchy, component invocation patterns, and distribution strategy.
+tags: [philosophy, memory-hierarchy, invocation, distribution, wrapper, progressive-disclosure]
+summary: Core architectural philosophy — CAB as intermediary wrapper layer, 4-scope memory hierarchy, extension invocation patterns, and progressive disclosure design.
 depends_on: [executive-summary]
-related: [memory-claudemd, agent-skills, subagents]
+related: [design-principles, memory-claudemd, agent-skills, subagents]
 complexity: foundational
-last_updated: 2025-12-23
-estimated_tokens: 800
+last_updated: 2026-04-05
+estimated_tokens: 900
+source: https://code.claude.com/docs/en/memory
+confidence: A
+review_by: 2026-07-05
 ---
 
 # Architecture Philosophy
 
-## The Memory Hierarchy
+## The Intermediary Wrapper Architecture
 
-Claude Code implements a 5-tier memory hierarchy with clear precedence:
+CAB operates as an **intermediary wrapper layer** between two surfaces:
 
-| Tier | Location | Purpose | Shared With |
-|------|----------|---------|-------------|
-| **1. Enterprise Policy** | System paths* | Organization-wide standards | All org users |
-| **2. Project Memory** | `./CLAUDE.md` or `./.claude/CLAUDE.md` | Team-shared instructions | Team via git |
-| **3. Project Rules** | `./.claude/rules/*.md` | Modular topic-specific rules | Team via git |
-| **4. User Memory** | `~/.claude/CLAUDE.md` | Personal preferences (all projects) | Just you |
-| **5. Project Local** | `./CLAUDE.local.md` | Personal project-specific | Just you |
-
-*Enterprise paths:
-- macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`
-- Linux: `/etc/claude-code/CLAUDE.md`
-- Windows: `C:\Program Files\ClaudeCode\CLAUDE.md`
-
-**Precedence Rule**: Files higher in hierarchy load first and take precedence.
-
-### Project Rules (.claude/rules/)
-
-New in 2025: Modular rules for larger projects:
+1. **Upstream**: Claude Code's official platform (docs, runtime, APIs)
+2. **Downstream**: Project codebases that integrate CC
 
 ```
-.claude/rules/
-├── code-style.md     # Code formatting
-├── testing.md        # Test conventions
-└── security.md       # Security requirements
+┌──────────────────────────────────────────────────┐
+│  Official CC Platform                             │
+│  code.claude.com/docs/en/                         │
+│  (memory, skills, agents, hooks, plugins, MCP)    │
+└──────────────────┬───────────────────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────────────────┐
+│  CAB: Intermediary Wrapper Layer                  │
+│  ┌──────────────────────────────────────────────┐│
+│  │ Operational patterns (orchestration, state)   ││
+│  │ Standardized workflows (execute, verify)      ││
+│  │ Domain specialization (KB, agents, skills)    ││
+│  │ Programmatic extensions (hooks, automation)   ││
+│  └──────────────────────────────────────────────┘│
+│  Links to CC docs for native details              │
+│  Adds value BEYOND what CC docs cover             │
+└──────────────────┬───────────────────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────────────────┐
+│  Project Codebases                                │
+│  Integrated via /integrate-existing               │
+└──────────────────────────────────────────────────┘
 ```
 
-Rules support path-specific scoping via frontmatter:
-```yaml
----
-paths: src/api/**/*.ts
----
-# API-specific rules here
-```
+**Core rule**: CAB KB files never duplicate native CC documentation. They:
 
-## Invocation Patterns
+- **Link** to official docs (`source:` frontmatter) for CC-native feature details
+- **Extend** with operational patterns, standardized workflows, and domain frameworks
+- **Wrap** CC primitives into readily actionable, programmatic extensions
+- **Bridge** multiple CC features into coherent end-to-end guidance
 
-| Component | Invocation Type | Trigger | Context Impact |
-|-----------|-----------------|---------|----------------|
-| **Memory (CLAUDE.md)** | Automatic | Session start | Main context |
-| **Project Rules** | Automatic | Session start | Main context |
-| **Skills** | Model-invoked | Claude decides | Main context when triggered |
-| **Subagents** | Model or user-invoked | Delegated/explicit | Separate context |
-| **Commands** | User-invoked | `/command-name` | Main context |
-| **Hooks** | Event-driven | System events | External execution |
+If CC docs cover a topic adequately, CAB provides a pointer with hyperlink — not a restatement.
+
+## Memory Architecture
+
+CC implements a **4-scope configuration hierarchy** with clear precedence:
+
+| Scope | Location | Shared With |
+|-------|----------|-------------|
+| **1. Managed** | System paths / MDM / registry | Org-wide (enterprise) |
+| **2. Project** | `./CLAUDE.md`, `.claude/rules/*.md` | Team via git |
+| **3. User** | `~/.claude/CLAUDE.md` | Personal (all projects) |
+| **4. Local** | `./CLAUDE.local.md` | Personal (this project) |
+
+> **Official docs**: [code.claude.com/docs/en/memory](https://code.claude.com/docs/en/memory) — full details on scopes, @imports, HTML stripping, `claudeMdExcludes`, auto memory.
+
+**CAB-specific guidance**:
+
+- **200-line discipline**: Each CLAUDE.md targets ≤200 lines. This aligns with CC's official recommendation and auto memory's 200-line/25KB load limit. Every token of instruction displaces productive output.
+- **Seed instruction design**: CC's memory is increasingly autonomous (auto memory, background consolidation via autoDream). Write CLAUDE.md as *seed instructions* that survive consolidation — not exhaustive procedural checklists that get pruned.
+- **Auto memory complement**: CC maintains agent-generated memory (`MEMORY.md` + topic files) separate from CLAUDE.md. CAB's `notes/` state management patterns complement this with structured persistent state. See [Memory System](../components/memory-claudemd.md) for detail.
+
+### Runtime Memory Pipeline (Observable Behavior)
+
+Beyond the 4-scope configuration, CC's runtime operates a multi-layer escalation pipeline where each layer prevents the next from firing:
+
+| Layer | What Happens | Cost |
+|-------|-------------|------|
+| CLAUDE.md + Auto Memory | Loaded at session start | Free |
+| Session Memory | Summaries every ~5K tokens | Low |
+| MicroCompact | Local editing of cached tool results (zero API calls) | Free |
+| AutoCompact | Structured summary at `effectiveContextWindow - 13,000` tokens | Moderate |
+| Full Compact | Complete conversation compression (9-section narrative) | Expensive |
+| Session Reset | Clears everything except system prompt | Destructive |
+
+**Practical implication**: Proactive management (compacting at ~70%, or starting fresh sessions) avoids forced compaction cascades. See [Session Management](../operational-patterns/session-management.md) for decision framework.
+
+## Invocation & Extension Patterns
+
+CC extensions compose through distinct invocation and context patterns:
+
+| Component | Trigger | Context | Notes |
+|-----------|---------|---------|-------|
+| **CLAUDE.md + Rules** | Automatic (session start) | Main | Always loaded |
+| **Skills** | Model-invoked or `/name` | Main (inline) or forked | Preferred over commands; 11 frontmatter fields |
+| **Agents** | Model/user-invoked | Separate context | Isolated; don't inherit parent skills |
+| **Hooks** | Event-driven (26 events) | External | 4 types: command, http, prompt, agent |
+| **MCP Servers** | Tool calls | Deferred schemas | Connected on start, disconnected on finish |
+
+> **Official docs**: [Skills](https://code.claude.com/docs/en/skills), [Sub-agents](https://code.claude.com/docs/en/sub-agents), [Hooks](https://code.claude.com/docs/en/hooks), [MCP](https://code.claude.com/docs/en/mcp)
+
+**Key evolution (2026)**: Custom commands (`.claude/commands/`) merged into skills. Skills are the preferred path — commands still work but skills win when both exist. CAB maintains concise abbreviated names for plugin-level commands to preserve quick-trigger usability (e.g., `/cab:execute-task` not `/cc-architecture-builder:execute-task`).
 
 ### Invocation Flow
 
 ```
 Session Start
+    ├─ CLAUDE.md (all scopes merged)     ── automatic
+    ├─ Auto Memory (MEMORY.md ≤200 ln)   ── automatic
+    ├─ Skill metadata (name/desc only)    ── automatic (~100 tokens each)
+    ├─ MCP tool schemas                   ── deferred by default
     │
-    ▼
-┌─────────────────────────────────────────┐
-│ Memory loaded (all tiers merged)        │ ← Automatic
-│ + Project rules from .claude/rules/     │
-└────────────────┬────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────┐
-│ Skill metadata loaded (name/description)│ ← Automatic
-└────────────────┬────────────────────────┘
-                 │
     User sends message
-                 │
-                 ▼
-┌─────────────────────────────────────────┐
-│ Claude evaluates:                       │
-│ - Does a skill match? → Load SKILL.md   │ ← Model-invoked
-│ - Should delegate? → Invoke subagent    │ ← Model-invoked
-│ - Tool needed? → Check hooks first      │ ← Event-driven
-└─────────────────────────────────────────┘
+    │
+    ├─ Skill match? → Load full SKILL.md (inline or context:fork)
+    ├─ Delegation? → Spawn subagent (separate context window)
+    ├─ Tool call? → Hooks fire pre/post; MCP tools available
+    └─ Background? → Forked agent, shared prompt cache (~76% savings)
 ```
 
-## Distribution Philosophy
+## Progressive Disclosure & 200-Line Discipline
 
-**Problem**: How do you share a complete working system while keeping global and project layers separate?
+The 200-line discipline naturally enforces progressive disclosure:
 
-**Solution**: CLAUDE.md `@imports` enable optional personalization:
+| Level | Content | When | Token Cost |
+|-------|---------|------|------------|
+| **L0** | CLAUDE.md seed instructions | Session start | ≤200 lines |
+| **L1** | Skill/agent metadata | Session start | ~100 tokens each |
+| **L2** | Full skill content | When triggered | Variable |
+| **L3** | KB files, bundled resources | On-demand (grep/read) | Variable |
+| **L4** | External docs via MCP/web | When needed | External |
 
-```markdown
-# Project CLAUDE.md
-
-## Core Instructions
-[Self-contained project instructions]
-
-## Personal Customization (Optional)
-@~/.claude/project-preferences.md
-```
-
-**How it works**:
-- If user creates the referenced file, preferences load
-- If file doesn't exist, Claude proceeds without error
-- Plugin remains self-contained and functional
-
-## Progressive Disclosure
-
-Load only what's needed to conserve tokens:
-
-| Level | Content | When Loaded | Token Cost |
-|-------|---------|-------------|------------|
-| **1** | Skill metadata | Session start | ~100 tokens/skill |
-| **2** | SKILL.md body | When skill triggered | < 5k words |
-| **3** | Bundled resources | As needed | Unlimited |
-
-This pattern enables large knowledge bases without overwhelming context.
+**Design implication**: Keep L0 lean. Reference L2-L4 via @imports and skill invocations rather than embedding content. A CLAUDE.md that tries to load everything upfront wastes the context budget on content that may never be relevant to the current task.
 
 ## Key Implications
 
-1. **Design for Discovery**: Claude must know what exists before retrieval
-2. **Explicit Relationships**: No semantic search—link files explicitly
-3. **Right-Size Content**: Atomic files enable selective loading
-4. **Modular Organization**: Use `.claude/rules/` for larger projects
-5. **Test Invocation**: Verify skills/agents trigger on expected inputs
+1. **Link, don't duplicate** — Official CC docs are the source of truth for CC-native features
+2. **Design for discovery** — Claude must know what exists (L1 metadata) before retrieving detail (L2-L3)
+3. **Atomic files** — Single topic, self-contained, independently retrievable by agents
+4. **Test invocation** — Verify skills/agents trigger on expected inputs after any schema change
+5. **Modular rules** — Use `.claude/rules/` with `paths:` frontmatter for project-specific scoping
+6. **Seed over procedure** — CLAUDE.md instructions should be durable guidance, not brittle step-by-step recipes
 
 ## See Also
 
-- [Memory System](../components/memory-claudemd.md) — CLAUDE.md and rules details
-- [Agent Skills](../components/agent-skills.md) — Model-invoked capabilities
-- [Subagents](../components/subagents.md) — Separate context assistants
+- [Design Principles](design-principles.md) — Core tenets governing the CAB framework
+- [Memory System](../components/memory-claudemd.md) — Detailed memory patterns + auto memory
+- [Session Management](../operational-patterns/session-management.md) — Context health, compaction, persistence
+- [Orchestration Framework](../operational-patterns/orchestration-framework.md) — Canonical workflow patterns
