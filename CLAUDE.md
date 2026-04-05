@@ -43,6 +43,7 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 | `/add-command`   | Add a new custom command to current project     |
 | `/validate`      | Validate current project structure              |
 | `/kb-index`      | Regenerate knowledge base INDEX files           |
+| `/sync-check`      | Detect drift between CAB plugin and global extensions   |
 
 ## Interactive Mode
 
