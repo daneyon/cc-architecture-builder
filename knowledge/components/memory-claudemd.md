@@ -2,8 +2,8 @@
 id: memory-claudemd
 title: Memory System & CLAUDE.md
 category: components
-tags: [memory, claude-md, instructions, imports, hierarchy, rules, auto-memory, autoDream]
-summary: CC's memory system — 4-scope CLAUDE.md hierarchy, auto memory (MEMORY.md + topic files), background consolidation, and CAB-specific patterns for context engineering.
+tags: [memory, claude-md, instructions, imports, hierarchy, rules, auto-memory]
+summary: CC's memory system — 4-scope CLAUDE.md hierarchy, auto memory (MEMORY.md + topic files), and CAB-specific patterns for context engineering.
 depends_on: [architecture-philosophy]
 related: [agent-skills, subagents, knowledge-base-structure, context-engineering]
 complexity: foundational
@@ -28,21 +28,25 @@ CC's memory system provides persistent instructions across sessions. CLAUDE.md f
 
 | Scope | Location | Shared With | Precedence |
 |-------|----------|-------------|-----------|
-| **1. Managed** | System paths, MDM/plist, registry | Org-wide (enterprise) | Highest |
-| **2. Project** | `./CLAUDE.md`, `.claude/CLAUDE.md`, `.claude/rules/*.md` | Team via git | |
-| **3. User** | `~/.claude/CLAUDE.md`, `~/.claude/rules/*.md` | Personal (all projects) | |
-| **4. Local** | `./CLAUDE.local.md` | Personal (this project only) | Lowest |
+| **1. Managed** | System paths, MDM/registry | Org-wide (enterprise) | Highest (cannot be overridden) |
+| **2. Local** | `./CLAUDE.local.md` | Personal (this project only) | High — overrides Project & User |
+| **3. Project** | `./CLAUDE.md`, `.claude/CLAUDE.md`, `.claude/rules/*.md` | Team via git | Medium — overrides User |
+| **4. User** | `~/.claude/CLAUDE.md`, `~/.claude/rules/*.md` | Personal (all projects) | Lowest |
 
-Files higher in hierarchy load first. Project rules (`.claude/rules/`) are part of the Project scope — not a separate tier. `CLAUDE.local.md` is auto-added to `.gitignore`.
+More specific locations take precedence over broader ones. CLAUDE.local.md is appended after CLAUDE.md at each level — when instructions conflict, the last-read content wins. Project rules (`.claude/rules/`) are part of the Project scope — not a separate tier. `CLAUDE.local.md` is auto-added to `.gitignore`.
+
+**Directory walk-up loading**: CC reads CLAUDE.md files by walking up the directory tree from the current working directory, checking each directory along the way. Subdirectory CLAUDE.md files are lazy-loaded — they are only included when Claude reads files in those subdirectories.
 
 ### Managed Settings Delivery (Enterprise)
 
 | Platform | Mechanism |
 |----------|----------|
-| macOS | `/Library/Application Support/ClaudeCode/CLAUDE.md`, MDM plist |
+| macOS | `/Library/Application Support/ClaudeCode/CLAUDE.md`, MDM via `com.anthropic.claudecode` managed preferences domain |
 | Linux | `/etc/claude-code/CLAUDE.md` |
-| Windows | `C:\Program Files\ClaudeCode\CLAUDE.md`, HKLM/HKCU registry |
+| Windows | `C:\Program Files\ClaudeCode\CLAUDE.md`, Registry: `HKLM\SOFTWARE\Policies\ClaudeCode` (admin), `HKCU\SOFTWARE\Policies\ClaudeCode` (user, lowest policy priority) — `Settings` value (REG_SZ) containing JSON |
 | Any | `managed-settings.d/` drop-in directory |
+
+> **Note**: The legacy path `C:\ProgramData\ClaudeCode\` is deprecated as of v2.1.75 and no longer supported.
 
 ---
 
@@ -126,6 +130,8 @@ CC maintains agent-generated per-project memory that complements CLAUDE.md.
 
 ### Memory Categories
 
+> **CAB organizational pattern** — not official CC categories. Official docs describe auto memory as storing build commands, debugging insights, architecture notes, code style preferences, and workflow habits without named categories.
+
 | Category | Content |
 |----------|---------|
 | `user` | Role, preferences, workflow habits |
@@ -138,8 +144,8 @@ CC maintains agent-generated per-project memory that complements CLAUDE.md.
 | Trigger | When | Behavior |
 |---------|------|----------|
 | **Manual** | User says "remember this" | Writes to topic file, updates MEMORY.md index |
-| **extractMemories** | Automatic during sessions | Captures corrections, patterns, decisions, preferences |
-| **autoDream** | Background between sessions | Merges, deduplicates, prunes across sessions |
+| **Automatic** | During sessions | Claude automatically saves notes when it determines information would be useful in future conversations — captures corrections, patterns, decisions, preferences |
+| **Background consolidation** | Between sessions | Merges, deduplicates, prunes across sessions (see below) |
 
 ### Read Paths
 
@@ -147,7 +153,7 @@ CC maintains agent-generated per-project memory that complements CLAUDE.md.
 |--------|------|------|
 | **System prompt injection** | Every session start | MEMORY.md first 200 lines |
 | **FileReadTool** | On-demand during session | Full topic file content |
-| **Targeted grep** | autoDream consolidation | Narrow pattern search on transcripts |
+| **Targeted grep** | Background consolidation | Narrow pattern search on transcripts |
 
 Retrieval is grep-based pattern matching — no semantic search, no vector DB.
 
@@ -155,9 +161,11 @@ Retrieval is grep-based pattern matching — no semantic search, no vector DB.
 
 ## Background Consolidation (autoDream) — Observable Behavior
 
+> **CAB-inferred / observed behavior** — not in official documentation. The trigger conditions, four phases, lock file mechanism, and benchmark below are based on observed CC behavior, not official docs. Implementation details may change without notice. **Confidence: B.**
+
 A forked sub-agent that runs between sessions, performing memory consolidation.
 
-### Trigger Conditions (both required)
+### Trigger Conditions (both required for automatic trigger)
 
 1. **24+ hours** since last consolidation
 2. **5+ sessions** since last consolidation
@@ -181,6 +189,8 @@ A forked sub-agent that runs between sessions, performing memory consolidation.
 ---
 
 ## Runtime Memory Pipeline (Observable Behavior)
+
+> **CAB-inferred from observed behavior** — not in official documentation. Specific thresholds (5K, 13K, 50K tokens, 60-min expiry) are based on observation and may change without notice. Official docs confirm: `/compact` replaces the conversation with a structured summary, and CLAUDE.md fully survives compaction by re-reading from disk. **Confidence: B.**
 
 Beyond the 4-scope configuration, CC's runtime operates a multi-layer escalation pipeline. Each layer prevents the next from firing when possible:
 
@@ -221,10 +231,18 @@ As CC's memory becomes increasingly autonomous (auto memory + autoDream), CLAUDE
 
 CC has **two distinct** auto memory systems:
 
-| System | Location | Scope | Loaded When |
-|--------|----------|-------|-------------|
-| **Session auto memory** | `~/.claude/projects/<path>/memory/` | Main session | Every session start |
-| **Subagent memory** | `~/.claude/agent-memory/` (user), `.claude/agent-memory/` (project), `.claude/agent-memory-local/` (local) | Per-agent | When subagent starts |
+| System                  | Scope        | Loaded When          |
+|-------------------------|--------------|----------------------|
+| **Session auto memory** | Main session | Every session start  |
+| **Subagent memory**     | Per-agent    | When subagent starts |
+
+**Session auto memory location**: `~/.claude/projects/<path>/memory/`
+
+**Subagent memory locations** (each scoped per agent name):
+
+- User: `~/.claude/agent-memory/<name-of-agent>/`
+- Project: `.claude/agent-memory/<name-of-agent>/`
+- Local: `.claude/agent-memory-local/<name-of-agent>/`
 
 Session auto memory is for the main conversation. Subagent memory is per-agent, controlled by the `memory:` frontmatter field in agent definitions. See [Subagents](subagents.md) for the 3-scope detail.
 

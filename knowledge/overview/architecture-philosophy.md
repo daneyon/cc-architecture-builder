@@ -100,7 +100,7 @@ CC extensions compose through distinct invocation and context patterns:
 | Component | Trigger | Context | Notes |
 |-----------|---------|---------|-------|
 | **CLAUDE.md + Rules** | Automatic (session start) | Main | Always loaded |
-| **Skills** | Model-invoked or `/name` | Main (inline) or forked | Preferred over commands; 11 frontmatter fields |
+| **Skills** | Model-invoked or `/name` | Main (inline) or forked | Preferred over commands; 13 frontmatter fields |
 | **Agents** | Model/user-invoked | Separate context | Isolated; don't inherit parent skills |
 | **Hooks** | Event-driven (26 events) | External | 4 types: command, http, prompt, agent |
 | **MCP Servers** | Tool calls | Deferred schemas | Connected on start, disconnected on finish |

@@ -25,12 +25,11 @@ my-plugin/
 ├── .claude-plugin/
 │   └── plugin.json            # Required: manifest (only file in this dir)
 │
-├── CLAUDE.md                  # Project system instructions
 ├── settings.json              # Default settings (only `agent` key supported)
 ├── .mcp.json                  # MCP server configurations
 ├── .lsp.json                  # LSP server configurations
 │
-├── commands/                  # Slash commands (markdown files)
+├── commands/                  # Slash commands (markdown files; legacy -- prefer skills/ for new skills)
 ├── skills/                    # Agent Skills (name/SKILL.md structure)
 ├── agents/                    # Subagent definitions (markdown)
 ├── hooks/                     # hooks.json event handlers
@@ -48,6 +47,8 @@ my-plugin/
 ```
 
 **Critical**: All component directories go at plugin root, never inside `.claude-plugin/`.
+
+> **Note**: `CLAUDE.md` is a project-level file, not a plugin component. It is not part of the official standard plugin layout and is not copied to consumers when a plugin is installed. If your plugin repo uses `CLAUDE.md`, it serves as project instructions for plugin developers — not as distributed content.
 
 ### Project `.claude/` Directory (Non-Plugin)
 
@@ -242,7 +243,7 @@ cc-architecture-builder/
 4. `CHANGELOG.md` — version history
 5. `.gitignore` — exclude `node_modules/`, `.env`, credentials
 6. Test locally: `claude --plugin-dir ./my-plugin`
-7. Validate: `claude plugin validate .`
+7. Validate: `/plugin validate .` (interactive) or `claude plugin validate` (CLI)
 
 ### Scaffolding
 

@@ -7,11 +7,11 @@ summary: Git as an architectural requirement for Claude Code projects. Covers se
 depends_on: []
 related: [security-defaults, marketplace]
 complexity: foundational
-last_updated: 2025-12-12
+last_updated: 2026-04-05
 estimated_tokens: 650
 source: synthesized
 confidence: A
-review_by: 2026-03-12
+review_by: 2026-07-05
 ---
 
 # Git Foundation

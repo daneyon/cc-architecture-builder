@@ -1,18 +1,17 @@
 {
   // ── CAB Settings Template ────────────────────────────────────────────
+  // "$schema": "https://json.schemastore.org/claude-code-settings.json"
   // Location: .claude/settings.json (project) or ~/.claude/settings.json (global)
   // Hierarchy: Managed > CLI args > Local > Project > User (see global-user-config.md)
-  // Full reference: https://code.claude.com/docs/en/settings (60+ fields)
+  // Full reference: https://code.claude.com/docs/en/settings (see full reference)
 
   // ── Core ──────────────────────────────────────────────────────────────
   "model": "sonnet",
   "agent": "orchestrator",
-  // "reasoningEffort": "high",        // low | medium | high
-  // "verbose": false,                 // extra status output during tool execution
-  // "theme": "dark",                  // dark | light | light-daltonized | dark-daltonized
+  // "effortLevel": "high",            // low | medium | high
 
   // ── Permissions ───────────────────────────────────────────────────────
-  // Modes: default | acceptEdits | bypassPermissions | plan | ignore
+  // Modes: default | acceptEdits | plan | auto | dontAsk | bypassPermissions
   "permissions": {
     "allow": [
       "Read",
@@ -25,6 +24,7 @@
       "Bash(git commit *)"
       // "Bash({{TOOL_PATTERN}})"      // add project-specific patterns
     ],
+    // "ask": [],                       // tools requiring confirmation each time
     "deny": [
       "Bash(rm -rf *)",
       "Bash(sudo *)"

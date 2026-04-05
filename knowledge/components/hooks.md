@@ -50,8 +50,8 @@ Hooks are **event-driven** automation points that execute automatically in respo
 | -------------------- | ------------------------- | ----------------------------------- |
 | `UserPromptSubmit`   | User submits a prompt     | Input validation, context injection |
 | `Notification`       | Claude sends notification | Custom alerts, external routing     |
-| `Elicitation`        | Claude asks user question | Logging, auto-response in CI        |
-| `ElicitationResult`  | User answers elicitation  | Response auditing                   |
+| `Elicitation`        | When an MCP server requests user input during a tool call | Logging, auto-response in CI        |
+| `ElicitationResult`  | After a user responds to an MCP elicitation, before the response is sent back to the server | Response auditing                   |
 
 ### Tool Use
 
@@ -93,16 +93,18 @@ Hooks are **event-driven** automation points that execute automatically in respo
 
 ## Configuration Locations (6 Sources)
 
-CC merges all hook sources at startup and **freezes the config snapshot** — runtime changes are not picked up until the next session (security pattern: prevents runtime injection).
+CC merges hook definitions from all sources per event and re-evaluates on file changes. Hooks are deduplicated by command string or URL.
 
-| Location                         | Scope                | Precedence |
-| -------------------------------- | -------------------- | ---------- |
-| `~/.claude/hooks.json`           | Global user          | Lowest     |
-| `~/.claude/settings.json`        | Global user settings |            |
-| `.claude/hooks.json`             | Project-level        |            |
-| `.claude/settings.json`          | Project settings     |            |
-| Plugin `hooks/hooks.json`        | Plugin-scoped        |            |
-| Plugin `plugin.json` hooks field | Plugin-scoped        | Highest    |
+| Precedence   | Location                          | Scope                        |
+|--------------|-----------------------------------|------------------------------|
+| 1 (highest)  | Managed policy settings           | Enterprise/organization-wide |
+| 2            | `.claude/settings.local.json`     | Project local (gitignored)   |
+| 3            | `.claude/settings.json`           | Project (committed)          |
+| 4            | Plugin `hooks/hooks.json`         | Plugin-scoped                |
+| 5            | Skill/Agent frontmatter `hooks:`  | Skill or agent-scoped        |
+| 6 (lowest)   | `~/.claude/settings.json`         | User global                  |
+
+Use `disableAllHooks: true` at any level to disable all hooks from that level and below. Managed hooks **cannot** be disabled by lower levels. Enterprise admins can set `allowManagedHooksOnly: true` to restrict hooks to managed policy only.
 
 **CAB default**: Plugin-level `hooks/hooks.json` for distributable patterns.
 
@@ -134,17 +136,22 @@ CC merges all hook sources at startup and **freezes the config snapshot** — ru
 
 ### Field Reference
 
-| Field     | Type           | Description                                                              |
-| --------- | -------------- | ------------------------------------------------------------------------ |
-| `matcher` | string (regex) | Regex filter for tools/events. Supports `\|` alternation. Omit = all.    |
-| `type`    | enum           | `command`, `http`, `prompt`, or `agent`                                  |
-| `command` | string         | Shell command to execute (type: command)                                 |
-| `url`     | string         | HTTP endpoint for POST (type: http)                                      |
-| `prompt`  | string         | Text injected into context (type: prompt)                                |
-| `if`      | string         | Permission-rule-syntax conditional filter for fine-grained control       |
-| `async`   | bool           | `true` = non-blocking execution. Does not gate the action.               |
-| `once`    | bool           | `true` = fires only once per session. Primarily for skill hooks.         |
-| `shell`   | string         | Override shell for this hook (e.g., `powershell` on Windows)             |
+| Field             | Type           | Description                                                              |
+| ----------------- | -------------- | ------------------------------------------------------------------------ |
+| `matcher`         | string (regex) | Regex filter for tools/events. Supports `\|` alternation. Omit = all.    |
+| `type`            | enum           | `command`, `http`, `prompt`, or `agent`                                  |
+| `command`         | string         | Shell command to execute (type: command)                                 |
+| `url`             | string         | HTTP endpoint for POST (type: http)                                      |
+| `prompt`          | string         | Text injected into context (type: prompt)                                |
+| `if`              | string         | Permission-rule-syntax conditional filter for fine-grained control       |
+| `async`           | bool           | `true` = non-blocking execution. Does not gate the action.               |
+| `once`            | bool           | `true` = fires only once per session. Primarily for skill hooks.         |
+| `shell`           | string         | Override shell for this hook (e.g., `powershell` on Windows)             |
+| `statusMessage`   | string         | Custom spinner message displayed while the hook runs.                    |
+| `timeout`         | integer        | Seconds before canceling. Defaults: command=600s, http=30s, prompt=30s, agent=60s. |
+| `model`           | string         | Model to use for `prompt` or `agent` hook types.                         |
+| `headers`         | object         | Custom HTTP headers for `http` hooks.                                    |
+| `allowedEnvVars`  | list           | Environment variables allowed to be sent with `http` hooks.              |
 
 **MCP tool matching**: Use `mcp__<server>__<tool>` naming — e.g., `mcp__github__.*` matches all tools from the `github` server.
 
@@ -162,18 +169,39 @@ CC merges all hook sources at startup and **freezes the config snapshot** — ru
 
 Hooks communicate back to CC via **exit codes** or **structured JSON on stdout**.
 
-**Exit codes**: `0` = success/continue, `1` = failure/show error, `2` = block action (`Pre*` hooks only).
+**Exit codes**: `0` = success/continue, `2` = block action (`Pre*` hooks only), other non-zero = non-blocking error (shown in verbose mode).
 
-**JSON output** — CC reads the first valid JSON object from stdout (max **10,000 characters**):
+**JSON output** — CC reads the first valid JSON object from stdout (max **10,000 characters**). The structure uses a nested `hookSpecificOutput` pattern keyed by the event name:
 
-| Field                | Events                             | Description                                          |
-| -------------------- | ---------------------------------- | ---------------------------------------------------- |
-| `continue`           | All                                | Boolean — whether to proceed                         |
-| `message`            | All                                | Feedback string displayed to user                    |
-| `addToPrompt`        | All                                | String injected into conversation context            |
-| `updatedInput`       | `PreToolUse`, `UserPromptSubmit`   | Rewritten tool input or prompt (replaces original)   |
-| `permissionDecision` | `PermissionRequest`                | `"allow"` or `"deny"` — programmatic permission      |
-| `decision`           | `Pre*` hooks                       | `"block"`, `"allow"`, or `"modify"`                  |
+**Top-level fields** (all events):
+
+| Field                | Description                                                       |
+| -------------------- | ----------------------------------------------------------------- |
+| `continue`           | Boolean — whether to proceed                                      |
+| `message`            | Feedback string displayed to user                                 |
+| `addToPrompt`        | String injected into conversation context                         |
+| `stopReason`         | Custom stop reason string (used with `continue: false`)           |
+| `suppressOutput`     | Boolean — suppress the hook's output from being shown to the user |
+| `systemMessage`      | String injected as a system message into the conversation         |
+
+**`hookSpecificOutput` fields** (nested under event name):
+
+```jsonc
+{
+  "hookSpecificOutput": {
+    "<hookEventName>": {
+      // Event-specific fields below
+    }
+  }
+}
+```
+
+| Field                | Events                           | Description                                        |
+| -------------------- | -------------------------------- | -------------------------------------------------- |
+| `updatedInput`       | `PreToolUse`, `UserPromptSubmit` | Rewritten tool input or prompt (replaces original)  |
+| `permissionDecision` | `PermissionRequest`              | `"allow"` or `"deny"` — programmatic permission     |
+| `decision`           | `Pre*` hooks                     | `"block"`, `"allow"`, or `"modify"`                  |
+| `additionalContext`  | Various                          | Extra context string passed to the model             |
 
 ## Hook Execution Model
 
@@ -182,6 +210,23 @@ Hooks communicate back to CC via **exit codes** or **structured JSON on stdout**
 - **Frozen at startup**: Hook config is snapshot at session start — not hot-reloaded
 - **Two-phase skill loading**: Skill frontmatter parsed at startup; full content loaded on invocation
 - **Interactive inspection**: Use `/hooks` browser within a CC session to view all registered hooks, sources, and matchers
+
+## Hook Decision Precedence
+
+When multiple hooks on the same event return conflicting decisions, CC resolves them using a priority hierarchy:
+
+**PreToolUse decision priority** (highest wins):
+
+`deny` > `defer` > `ask` > `allow`
+
+- If any hook returns `deny`, the tool use is blocked regardless of other hooks
+- `defer` defers the decision -- in non-interactive mode (`-p` flag), this produces `stop_reason: "tool_deferred"` and halts execution
+- `ask` prompts the user for confirmation
+- `allow` only takes effect if no higher-priority decision was returned
+
+For other events, hooks run in parallel and results are merged. When fields conflict, the last writer wins.
+
+---
 
 ## CAB-Specific Hook Patterns
 

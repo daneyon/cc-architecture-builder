@@ -65,6 +65,8 @@ review_by: 2026-07-05
 
 **`~/.claude.json`** — App state and UI preferences. Lives at `~/`, **not** inside `.claude/`. Managed via `/config` rather than direct editing. Contains:
 - UI toggles (`showTurnDuration`, `terminalProgressBarEnabled`)
+- IDE integration (`autoConnectIde`, `autoInstallIdeExtension`, `editorMode`)
+- Mode preferences (`teammateMode`)
 - OAuth session state
 - Per-project trust decisions
 - Personal MCP servers (user scope applies cross-project; `local` scope is per-project but not committed)
@@ -92,7 +94,7 @@ Settings resolve top-down; higher precedence wins on conflict.
 
 | Level | Source | Location / Mechanism | Precedence |
 | ----- | ------ | -------------------- | ---------- |
-| 1 (highest) | **Managed** | MDM/plist (macOS), registry (Windows), `/etc/claude/` drop-in dir | Enterprise override; users cannot change |
+| 1 (highest) | **Managed** | MDM (macOS), registry (Windows), `/etc/claude-code/` (Linux) | Enterprise override; users cannot change |
 | 2 | **CLI args** | `--model`, `--permission-mode`, etc. | Per-invocation override |
 | 3 | **Local** | `.claude/settings.local.json` in project root | Machine-specific, gitignored |
 | 4 | **Project** | `.claude/settings.json` in project root | Shared via git; team baseline |
@@ -110,9 +112,9 @@ CC exposes 60+ settings fields. Below is the CAB-relevant grouping; see official
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| `model` | string | Default model alias: `"sonnet"`, `"opus"`, `"haiku"` |
+| `model` | string | Default model: full ID (`"claude-sonnet-4-6"`) or alias (`"sonnet"`, `"opus"`, `"haiku"`) |
 | `agent` | string | Default agent for all sessions (e.g., `"orchestrator"`) |
-| `reasoningEffort` | string | Thinking budget: `"low"`, `"medium"`, `"high"` |
+| `effortLevel` | string | Thinking budget: `"low"`, `"medium"`, `"high"` |
 | `verbose` | boolean | Extra status output during tool execution |
 | `theme` | string | Terminal theme: `"dark"`, `"light"`, `"light-daltonized"`, `"dark-daltonized"` |
 
@@ -128,7 +130,7 @@ Set via `--permission-mode` CLI flag or `permissions.defaultMode`:
 | `acceptEdits` | Auto-accept file edits; prompt for everything else |
 | `plan` | Read-only — cannot execute tools that modify state |
 | `auto` | AI classifier decides; applies autoMode rules (see below) |
-| `dontAsk` | Accept all except deny-listed |
+| `dontAsk` | Auto-denies tools unless pre-approved via `/permissions` or `permissions.allow` rules |
 | `bypassPermissions` | Skip all permission checks (requires explicit flag) |
 
 ### Fine-Grained Permissions
@@ -198,8 +200,13 @@ Sandbox restricts filesystem and network access. 15+ settings control filesystem
 ```json
 {
   "sandbox": {
-    "filesystem": { "allow": ["/home/user/projects", "/tmp"], "deny": ["/etc", "/var"] },
-    "network": { "allowedDomains": ["github.com", "api.anthropic.com"], "deniedDomains": ["*"] }
+    "filesystem": {
+      "allowWrite": ["/home/user/projects", "/tmp"],
+      "denyWrite": ["/etc", "/var"],
+      "denyRead": ["/home/user/.ssh"],
+      "allowRead": ["/home/user/projects"]
+    },
+    "network": { "allowedDomains": ["github.com", "api.anthropic.com"] }
   }
 }
 ```
@@ -208,7 +215,7 @@ CAB recommendation: always configure sandbox for autonomous agents.
 
 ### Hooks
 
-Event-driven automation configured in settings.json. See [Hooks](../components/hooks.md) for the full event catalog (26 events, 4 hook types) and configuration syntax.
+Event-driven automation configured in settings.json. See [Hooks](../components/hooks.md) for the full event catalog (29 events, 4 hook types) and configuration syntax.
 
 ### Worktree Settings
 
@@ -223,9 +230,11 @@ Enterprise/team deployment mechanisms (precedence level 1 — overrides everythi
 
 | Platform | Mechanism | Location |
 | -------- | --------- | -------- |
-| macOS | MDM / plist | `/Library/Managed Preferences/com.anthropic.claude-code.plist` |
-| Windows | Registry | `HKLM\SOFTWARE\Policies\Anthropic\ClaudeCode` |
-| Linux/all | Drop-in directory | `/etc/claude/*.json` (merged alphabetically) |
+| macOS | MDM / plist | MDM domain: `com.anthropic.claudecode`; file: `/Library/Application Support/ClaudeCode/managed-settings.json` |
+| Windows | Registry | `HKLM\SOFTWARE\Policies\ClaudeCode` (fallback: `HKCU\SOFTWARE\Policies\ClaudeCode`, lowest policy priority) |
+| Linux/all | File / drop-in directory | `/etc/claude-code/managed-settings.json`; also supports `managed-settings.d/` drop-in directory (merged alphabetically) |
+
+**Managed-tier internal precedence**: server-managed (Anthropic admin console) > MDM/OS-level > file-based > HKCU registry. Only one managed source is used per setting — sources do not merge across managed tiers.
 
 Use managed settings for organization-wide policy enforcement: model restrictions, permission baselines, sandbox requirements.
 
@@ -239,7 +248,7 @@ Use managed settings for organization-wide policy enforcement: model restriction
 {
   "model": "sonnet",
   "agent": "orchestrator",
-  "reasoningEffort": "high",
+  "effortLevel": "high",
   "permissions": {
     "allow": [
       "Read", "Write", "Edit",
@@ -260,7 +269,7 @@ Setting `"agent": "orchestrator"` makes the orchestrator default for all session
 | Standard development, code review | `medium` | Balanced speed and depth |
 | Architecture decisions, complex debugging | `high` | Full thinking budget for multi-step reasoning |
 
-Override per-session with `--reasoning-effort` CLI flag when the default doesn't fit.
+Override per-session with the `/effort` command when the default doesn't fit.
 
 ### Project-Level Override Pattern
 
@@ -269,7 +278,7 @@ Use `.claude/settings.json` (level 4) to tighten permissions for specific projec
 ```json
 {
   "permissions": { "deny": ["Bash(npm publish *)", "Bash(docker push *)"] },
-  "sandbox": { "filesystem": { "deny": ["/home/user/.ssh", "/home/user/.aws"] } }
+  "sandbox": { "filesystem": { "denyRead": ["/home/user/.ssh", "/home/user/.aws"] } }
 }
 ```
 

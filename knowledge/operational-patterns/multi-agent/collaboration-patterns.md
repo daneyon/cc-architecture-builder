@@ -84,7 +84,7 @@ Multi-session coordination with shared task lists and inter-agent messaging.
 
 **Use when**: Tasks genuinely require inter-agent communication — competing hypotheses, cross-layer coordination, shared intermediate findings.
 
-**Cost**: ~7x token cost per teammate. Use worktrees (Pattern 1) unless you specifically need the shared task list and mailbox capabilities.
+**Cost**: Significantly higher token cost per teammate (token usage scales linearly with active teammates; ~7x is a CAB estimate, not an official figure). Use worktrees (Pattern 1) unless you specifically need the shared task list and mailbox capabilities.
 
 See [Agent Teams](agent-teams.md) for full deep-dive.
 
@@ -97,7 +97,7 @@ See [Agent Teams](agent-teams.md) for full deep-dive.
 | Independent parallel tasks | Worktrees (1) | Separate session budgets |
 | Sequential dependent tasks | Subagent chain (2) | Additive in main context |
 | Single problem, multiple perspectives | Main + specialists (3) | Main + isolated agent contexts |
-| Inter-agent communication needed | Agent Teams (4) | ~7x per teammate |
+| Inter-agent communication needed | Agent Teams (4) | Significantly higher (linear scaling; ~7x is CAB estimate) |
 
 ---
 

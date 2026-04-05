@@ -20,7 +20,7 @@ source: https://code.claude.com/docs/en/sub-agents
 
 Subagents are specialized AI assistants that operate in their **own context window**, preventing pollution of the main conversation. Claude delegates tasks automatically based on the agent's `description` field, or users invoke them explicitly.
 
-**Source**: [Subagents - Official Docs](https://code.claude.com/docs/en/sub-agents) -- authoritative reference for native behavior. This file documents CAB-specific extensions and provides a consolidated field reference.
+**Source**: [Create custom subagents — Official Docs](https://code.claude.com/docs/en/sub-agents) -- authoritative reference for native behavior. This file documents CAB-specific extensions and provides a consolidated field reference.
 
 ---
 
@@ -30,21 +30,23 @@ Subagents **cannot spawn other subagents** (nesting depth = 1). Design delegatio
 
 ---
 
-## Subagent Locations
+## Subagent Locations & Precedence
 
-| Type | Location | Scope | Priority |
-|------|----------|-------|----------|
-| **Project** | `.claude/agents/` | Current project | Highest |
-| **User** | `~/.claude/agents/` | All projects | Lower |
-| **Plugin** | Bundled with plugins | When installed | Varies |
+Agents can be defined at 5 levels. When names conflict, the highest-priority source wins.
 
-When names conflict, project-level takes precedence.
+| Priority     | Source       | Location                   | Scope                      |
+|--------------|--------------|----------------------------|----------------------------|
+| 1 (highest)  | **Managed**  | Enterprise managed settings | Organization-wide policy   |
+| 2            | **CLI flag** | `--agents` flag (JSON)     | Session-level override     |
+| 3            | **Project**  | `.claude/agents/`          | Current project            |
+| 4            | **User**     | `~/.claude/agents/`        | All projects for this user |
+| 5 (lowest)   | **Plugin**   | Bundled with plugins       | When plugin is installed   |
 
 ---
 
-## Frontmatter Field Reference (All 16 Fields)
+## Frontmatter Field Reference (16 Fields)
 
-Every `.md` agent file begins with a YAML frontmatter block. Below is the complete field set.
+Every `.md` agent file begins with a YAML frontmatter block (`---` delimiters). Below is the complete field set. The markdown body after the closing `---` serves as the agent's system prompt (instructions, constraints, verification criteria).
 
 | Field | Required | Type | Description |
 |-------|----------|------|-------------|
@@ -52,18 +54,18 @@ Every `.md` agent file begins with a YAML frontmatter block. Below is the comple
 | `description` | Yes | string | Natural-language description of when to invoke. Include "Use PROACTIVELY" for auto-delegation. |
 | `tools` | No | comma-sep | Tool allowlist. Omit to inherit all parent tools. |
 | `disallowedTools` | No | comma-sep | Tool denylist. Excluded even if `tools` would allow them. |
-| `model` | No | enum | `sonnet`, `opus`, `haiku`, or `inherit`. Omit to use the configured default. |
-| `permissionMode` | No | enum | `default`, `acceptEdits`, `bypassPermissions`, `plan`, `ignore`. |
+| `model` | No | enum | `sonnet`, `opus`, `haiku`, a full model ID (e.g., `claude-opus-4-6`, `claude-sonnet-4-6`), or `inherit`. Defaults to `inherit`. |
+| `permissionMode` | No | enum | `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`. |
+| `maxTurns` | No | integer | Maximum number of agentic turns before the subagent stops. |
 | `skills` | No | list | Skills to preload. **Full content** is injected at start; subagents do NOT inherit parent skills. |
-| `mcpServers` | No | object | Inline MCP server definitions. Connected at agent start, disconnected at finish. Scoped to that agent. |
+| `mcpServers` | No | object | Inline MCP server definitions. Connected at agent start, disconnected at finish. Scoped to that agent. Also supports string references to existing servers. |
 | `hooks` | No | object | Event-driven automation hooks for this agent's lifecycle. |
 | `memory` | No | path | Persistent memory directory. Supports 3 scopes (see Memory section). |
 | `background` | No | boolean | `true` to run agent in background. See Background Execution. |
-| `effort` | No | enum | Reasoning effort level for this agent. |
+| `effort` | No | enum | Reasoning effort level: `low`, `medium`, `high`, `max`. |
 | `isolation` | No | enum | `worktree` for git-worktree isolation with auto-cleanup on finish. |
-| `color` | No | string | Statusline color for visual identification in multi-agent workflows. |
+| `color` | No | string | Statusline color: `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, `cyan`. |
 | `initialPrompt` | No | string | Prompt injected before user's first message to the agent. |
-| (body) | Yes | markdown | System prompt following the `---` closer. Agent instructions, constraints, verification. |
 
 ### Plugin Restrictions
 
@@ -171,8 +173,8 @@ mcpServers:
 | Agent | Model | Tools | Purpose |
 |-------|-------|-------|---------|
 | **Explore** | Haiku | Glob, Grep, Read, limited Bash | Fast read-only codebase search and analysis |
-| **Plan** | Sonnet | Read, Glob, Grep, Bash | Research codebase during plan mode |
-| **General-purpose** | Sonnet | All tools | Complex multi-step tasks requiring exploration and action |
+| **Plan** | inherit | Read-only tools (Write and Edit denied) | Research codebase during plan mode |
+| **General-purpose** | inherit | All tools | Complex multi-step tasks requiring exploration and action |
 | **statusline-setup** | -- | -- | Configures terminal status line display |
 | **Claude Code Guide** | -- | -- | Interactive onboarding and help |
 

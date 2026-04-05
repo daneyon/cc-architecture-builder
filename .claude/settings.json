@@ -1,7 +1,7 @@
 {
   "model": "opus",
   "agent": "orchestrator",
-  "reasoningEffort": "high",
+  "effortLevel": "high",
 
   "permissions": {
     "allow": [

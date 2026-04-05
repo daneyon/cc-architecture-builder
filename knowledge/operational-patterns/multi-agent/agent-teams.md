@@ -51,30 +51,42 @@ Agent Teams enables multiple Claude sessions to coordinate on a shared task list
 
 ## Setup
 
-```bash
-# Enable (experimental)
-export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+**Primary method** — via `settings.json` (recommended by official docs):
 
-# Requires CC v2.1.32+
-
-# Spawn teammates using subagent definitions
-# Teammates can be defined in agents/*.md with team-specific configurations
+```jsonc
+// ~/.claude/settings.json (or project .claude/settings.json)
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  }
+}
 ```
+
+**Alternative** — via shell environment variable:
+
+```bash
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+```
+
+Requires CC v2.1.32+. Teammates can be defined in `agents/*.md` with team-specific configurations.
 
 **Display modes**:
 - **In-process** (Shift+Down): Teammates run within the same terminal
 - **Split panes** (tmux/iTerm2): Each teammate gets a visible terminal pane
 
-## IPC Mechanism (Observable Behavior)
+## IPC Mechanism
 
-Agent Teams uses file-based mailbox communication:
+Agent Teams uses file-based communication with the following officially documented structure:
 
-- **Location**: `~/.claude/work/ipc/`
-- **Polling interval**: 500ms
-- **Claim mechanism**: Atomic file operations prevent duplicate handling
+- **Team config**: `~/.claude/teams/{team-name}/config.json`
+- **Task storage**: `~/.claude/tasks/{team-name}/`
+- **Task claiming**: File locking prevents duplicate handling
+- **Messaging**: Mailbox-based with automatic message delivery (official terminology)
 - **Execution backends**: tmux (Linux/macOS), iTerm2 (macOS native split), in-process fallback
 
-**Mailbox pattern for dangerous operations**: Worker agents send high-risk tool call requests to the coordinator for approval rather than executing autonomously. This is CC's built-in safety mechanism for team-level permission escalation.
+> **Observed, not officially documented**: The specific IPC path `~/.claude/work/ipc/` and 500ms polling interval have been observed in practice but are not referenced in official documentation. Treat these as implementation details subject to change.
+
+**Mailbox pattern for dangerous operations**: Worker agents send high-risk tool call requests to the team lead for approval rather than executing autonomously. This is CC's built-in safety mechanism for team-level permission escalation.
 
 ### Known Constraints (Observable)
 
@@ -83,7 +95,7 @@ Agent Teams uses file-based mailbox communication:
 | No session resumption | Team sessions are single-use; cannot `--continue` |
 | No nested teams | A team cannot spawn sub-teams |
 | Lead is fixed | Cannot reassign team lead mid-session |
-| ~7x token cost | Per teammate; shared coordination overhead |
+| Significantly higher token cost | Per teammate; scales linearly (~7x is a CAB estimate, not official) |
 | Race conditions possible | File-based IPC has known edge cases under heavy concurrent writes |
 | Recommended 3-5 teammates | Beyond 5, coordination overhead exceeds parallelism benefit |
 | 5-6 tasks per teammate | Sweet spot for task granularity |
@@ -116,13 +128,13 @@ For a CAB-integrated project:
 
 ---
 
-## Coordinator Mode (Feature-Gated)
+## Coordinator Mode (CAB Forward-Looking)
 
-**Status**: Feature-gated, not yet generally available. Of CC's unreleased capabilities, coordinator mode is the most immediately relevant to CAB's orchestration patterns.
+> **Confidence: C** — This section is CAB forward-looking speculation based on early signals. Coordinator mode is **not in current official CC documentation** as of 2026-04-05. Do not rely on this for production architectures.
 
-Coordinator mode enhances the team lead with formal coordination capabilities. CAB's orchestration patterns (PLAN → VERIFY → COMMIT, delegation templates, phase-agent routing) are designed to be compatible with coordinator mode when it becomes available.
+Coordinator mode would enhance the team lead with formal coordination capabilities. CAB's orchestration patterns (PLAN → VERIFY → COMMIT, delegation templates, phase-agent routing) are designed to be compatible with such a mode if it becomes available.
 
-**Architectural preparation**: CAB's orchestrator agent definition, delegation templates, and phase-agent routing map are structured to work both with current Agent Teams (manual task assignment) and future coordinator mode (programmatic task orchestration). No CAB-side changes expected when coordinator mode ships.
+**Architectural preparation**: CAB's orchestrator agent definition, delegation templates, and phase-agent routing map are structured to work both with current Agent Teams (manual task assignment) and a potential future coordinator mode (programmatic task orchestration).
 
 ---
 

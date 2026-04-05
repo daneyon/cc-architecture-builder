@@ -7,11 +7,11 @@ summary: High-level overview of the two-schema Claude Code architecture, core de
 depends_on: []
 related: [architecture-philosophy, global-user-config, distributable-plugin]
 complexity: foundational
-last_updated: 2025-12-23
+last_updated: 2026-04-05
 estimated_tokens: 700
 source: CAB-original
 confidence: A
-review_by: 2026-03-23
+review_by: 2026-07-05
 ---
 
 # Executive Summary

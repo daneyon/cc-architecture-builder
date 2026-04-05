@@ -35,7 +35,11 @@ claude -w feature-auth            # Shorthand
 claude --worktree                 # Auto-generate name
 ```
 
-Worktrees live in `.claude/worktrees/<name>/` and auto-cleanup if no changes on exit.
+Worktrees live in `.claude/worktrees/<name>/`.
+
+**Branch behavior**: The built-in command creates a branch named `worktree-<name>` (e.g., `worktree-feature-auth`), branching from `origin/HEAD` (the default remote branch, configurable via `git remote set-head`).
+
+**Cleanup behavior**: On exit, if the worktree has no uncommitted changes, it is automatically removed. If changes exist, the user is prompted before removal.
 
 ### Manual (More Control)
 

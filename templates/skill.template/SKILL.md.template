@@ -12,8 +12,8 @@ description: {{SKILL_DESCRIPTION}}. Use when {{TRIGGER_CONDITIONS}}.
 # ── Tier 3: ADVANCED (uncomment as needed) ───────────────────────────
 # disable-model-invocation: false
 # user-invocable: true
-# context: inline
-# agent: false
+# context: fork                     # omit for default inline behavior
+# agent: Explore                    # subagent type when context: fork
 # hooks: {}
 # paths: []
 # shell: {{SHELL_OVERRIDE}}
@@ -24,6 +24,11 @@ description: {{SKILL_DESCRIPTION}}. Use when {{TRIGGER_CONDITIONS}}.
 #   true                     | true           | User only
 #   false                    | false          | Model only
 #   true                     | false           | Nobody (disabled)
+#
+# Substitution Variables:
+#   $ARGUMENTS — full argument string; $ARGUMENTS[0], $ARGUMENTS[1] — 0-indexed
+#   $0, $1, $2 — shorthand for $ARGUMENTS[N]
+#   ${CLAUDE_SKILL_DIR} — absolute path to this skill's directory
 ---
 
 # {{SKILL_TITLE}}

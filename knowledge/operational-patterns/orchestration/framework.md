@@ -60,7 +60,16 @@ Context window space is shared across rules, skills, agent instructions, and act
 
 ### Tenet 6: Autonomous Multi-Agent Operation
 
-The global config acts as the orchestrator layer: it receives tasks, classifies them, routes to domain-specialist agents, synthesizes results, and manages cross-project state. `"agent": "orchestrator"` in `~/.claude/settings.json` establishes this as default.
+The global config acts as the orchestrator layer: it receives tasks, classifies them, routes to domain-specialist agents, synthesizes results, and manages cross-project state.
+
+**CC primitive**: The `agent` setting in `settings.json` runs the main thread as a named subagent definition from `agents/*.md`. This is a generic CC mechanism — it accepts any agent name, not a built-in role keyword.
+
+**CAB convention**: Create an `orchestrator.md` agent definition (in `~/.claude/agents/` or project `.claude/agents/`) and set `"agent": "orchestrator"` in `settings.json` to establish the orchestrator pattern below. The "orchestrator" name is a CAB convention, not a CC built-in.
+
+```jsonc
+// ~/.claude/settings.json — CAB orchestrator convention
+{ "agent": "orchestrator" }  // References agents/orchestrator.md
+```
 
 ```
 Global Orchestrator (~/.claude/)
@@ -158,7 +167,7 @@ Every non-trivial task follows this cycle:
 ```
 
 ### Step 1: PLAN
-Enter plan mode (Shift+Tab twice). Describe objective and constraints. Iterate until solid. Advanced: have a second session or subagent review the plan "as a staff engineer."
+Enter plan mode (cycle with Shift+Tab until plan mode indicator appears — the number of presses depends on your current mode and which modes are enabled). Describe objective and constraints. Iterate until solid. Advanced: have a second session or subagent review the plan "as a staff engineer."
 
 ### Step 2: REVIEW
 Human reviews the plan. Check for scope creep, missing edge cases, incorrect assumptions. For automated workflows, a gate-check agent can perform this role.
@@ -207,12 +216,12 @@ Git commit with descriptive message. Update state: `notes/progress.md`, `notes/c
 
 | Constraint | Workaround |
 |-----------|------------|
-| Single subagent nesting depth | Main session routes; Agent Teams for multi-session |
+| Single subagent nesting depth | Chain subagents from main conversation; use Skills instead of nested subagents; use `Agent(agent_type)` syntax in `tools` field to control which subagents an `--agent` main thread can spawn; Agent Teams for multi-session |
 | No native database | YAML/JSON state files; MCP for external DBs |
 | No native vector search | Structured INDEX.md catalogs; MCP at scale |
 | No self-scheduling | Human triggers via commands; hooks for event-driven automation |
 | Context window finite | Subagents for isolation; `/compact` or fresh sessions |
-| Agent Teams experimental | Higher cost (~7x); use worktrees for most parallel work |
+| Agent Teams experimental | Significantly higher cost (scales linearly with teammates); use worktrees for most parallel work |
 
 ## See Also
 

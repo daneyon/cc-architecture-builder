@@ -8,7 +8,7 @@ depends_on: [memory-claudemd]
 related: [agent-skills, hooks]
 complexity: intermediate
 last_updated: 2026-04-05
-estimated_tokens: 1100
+estimated_tokens: 1400
 source: https://code.claude.com/docs/en/mcp
 confidence: A
 review_by: 2026-07-05
@@ -62,11 +62,13 @@ Recommended for cloud services and remote APIs. Uses `type: "http"` with a URL e
     "dynamic-auth": {
       "type": "http",
       "url": "https://api.example.com/mcp",
-      "headersHelper": ["node", "scripts/get-auth-headers.js"]
+      "headersHelper": "/opt/bin/get-mcp-auth-headers.sh"
     }
   }
 }
 ```
+
+`headersHelper` runs in a shell with a **10-second timeout**. Env vars `CLAUDE_CODE_MCP_SERVER_NAME` and `CLAUDE_CODE_MCP_SERVER_URL` are set during execution. Dynamic headers override static `headers` with the same name.
 
 ### SSE (Legacy)
 
@@ -80,11 +82,12 @@ claude mcp add --transport sse legacy-server https://old.example.com/sse
 
 ## Configuration Scopes
 
-| Scope       | Location                        | Visibility                | Flag                      |
-| ----------- | ------------------------------- | ------------------------- | ------------------------- |
-| **Local**   | `~/.claude.json` (project path) | You only, current project | `--scope local` (default) |
-| **Project** | `.mcp.json`                     | Team via git              | `--scope project`         |
-| **User**    | `~/.claude.json` mcpServers     | You only, all projects    | `--scope user`            |
+| Scope       | Location                        | Visibility                | Flag                      | Notes                      |
+| ----------- | ------------------------------- | ------------------------- | ------------------------- | -------------------------- |
+| **Local**   | `~/.claude.json` (project path) | You only, current project | `--scope local` (default) | Formerly called "project"  |
+| **Project** | `.mcp.json`                     | Team via git              | `--scope project`         |                            |
+| **User**    | `~/.claude.json` mcpServers     | You only, all projects    | `--scope user`            | Formerly called "global"   |
+| **Managed** | `managed-mcp.json`              | Enterprise-deployed       | N/A                       | See Enterprise section     |
 
 Environment variable expansion: `${VAR}` and `${VAR:-default}` supported in all config files.
 
@@ -105,13 +108,13 @@ In `.claude/settings.json` or `settings.local.json`:
 }
 ```
 
-Pattern: `mcp__{serverName}__{toolName}`. Wildcard not supported — list each tool explicitly.
+Pattern: `mcp__{serverName}__{toolName}`. Wildcard supported — `mcp__puppeteer__*` matches all tools from the puppeteer server.
 
 ---
 
 ## Timeout & Authentication
 
-**Timeout**: No per-server timeout in config. Use `MCP_TIMEOUT=30000 claude` env var for startup timeout.
+**Timeout**: No per-server timeout in config. Use `MCP_TIMEOUT=10000 claude` env var for startup timeout.
 
 **OAuth 2.0**: Add server, run `/mcp`, follow browser prompts. Tokens stored securely and refreshed automatically.
 
@@ -140,7 +143,25 @@ MCP servers can request structured user input during tool execution — the runt
 
 ### MCP Registry API
 
-Discover published servers: `GET https://api.anthropic.com/mcp-registry/v0/servers`
+The registry at `https://api.anthropic.com/mcp-registry/v0/servers` is an **internal component** used by the Claude Code UI, not a documented public endpoint. It supports cursor-based pagination (`cursor`, `limit`) and filtering (`version`, `visibility`). AI agents should fetch `https://api.anthropic.com/mcp-registry/docs` for registry information.
+
+### MCP Tool Search
+
+Tool search defers MCP tool definitions until needed, keeping context usage low. Server instructions are truncated at 2 KB. Controlled by `ENABLE_TOOL_SEARCH` env var:
+
+| Value      | Behavior                                                   |
+| ---------- | ---------------------------------------------------------- |
+| *(unset)*  | Default — tools deferred automatically                     |
+| `true`     | Force tool search on                                       |
+| `auto`     | Auto-enable when tool count exceeds internal threshold     |
+| `auto:<N>` | Auto-enable when tool count exceeds `N`                    |
+| `false`    | Disable — all tool definitions loaded into context upfront |
+
+Requires Sonnet 4+ or Opus 4+.
+
+### MCP Prompts as Commands
+
+MCP servers can expose prompts available as slash commands: `/mcp__servername__promptname`. Arguments are passed space-separated.
 
 ### Claude Code as MCP Server
 

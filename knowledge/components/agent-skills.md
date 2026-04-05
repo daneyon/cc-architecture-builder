@@ -61,34 +61,38 @@ All fields are optional unless noted. See [official docs](https://code.claude.co
 | `name` | string | Directory name | Lowercase, hyphens, max 64 chars. No reserved words ("anthropic", "claude"). |
 | `description` | string | First paragraph of body | What + when. Budget: ~1% of context window (`SLASH_COMMAND_TOOL_CHAR_BUDGET`). |
 | `argument-hint` | string | — | Placeholder shown in autocomplete (e.g., `<file-path>`). |
-| `allowed-tools` | string (CSV) | All tools | Restrict which tools the skill can use. |
+| `allowed-tools` | string (space-separated) or YAML list | All tools | Restrict which tools the skill can use (e.g., `allowed-tools: Read Grep Glob`). |
 | `disable-model-invocation` | boolean | `false` | If `true`, only user `/slash` invocation works — model cannot auto-select. |
 | `user-invocable` | boolean | `true` | If `false`, only the model can invoke (hidden from `/` menu). |
 | `model` | string | Session default | Override model for this skill (e.g., `claude-sonnet-4-20250514`). |
-| `effort` | string | Session default | Thinking effort: `"low"`, `"medium"`, `"high"`, or `"ultrathink"` (extended thinking trigger). |
-| `context` | string | `"inline"` | Execution model: `"fork"` runs in isolated context; `"inline"` shares session context. |
+| `effort` | string | Session default | Thinking effort: `"low"`, `"medium"`, `"high"`, or `"max"` (Opus 4.6 only). |
+| `context` | string | — (omit) | Omit for shared session context (default); set to `"fork"` for isolated subagent context. |
 | `agent` | boolean | `false` | Run as a subagent with its own tool-use loop. |
 | `hooks` | object | — | Skill-scoped hooks (same schema as global hooks). |
-| `paths` | string[] | — | File paths to auto-load into context when skill activates. |
+| `paths` | string (CSV) or YAML list | — | Glob patterns that limit when this skill is activated. When set, Claude loads the skill automatically only when working with files matching the patterns. This is an activation filter, not a context loader. |
 | `shell` | string | System default | Shell override for Bash tool within this skill. |
+
+**Extended thinking**: To enable extended thinking in a skill, include the word "ultrathink" anywhere in the SKILL.md body content. This is separate from the `effort` frontmatter field — `effort` controls thinking budget, while "ultrathink" in the body triggers extended thinking mode.
 
 ### Invocation Control Matrix (B7)
 
 The interaction of `disable-model-invocation` and `user-invocable` creates four modes:
 
-| `disable-model-invocation` | `user-invocable` | Who can invoke | Use case |
-| :---: | :---: | --- | --- |
-| `false` | `true` | Model + User | Default — full availability |
-| `true` | `true` | User only | Dangerous/costly operations |
-| `false` | `false` | Model only | Internal plumbing, pipelines |
-| `true` | `false` | Nobody | Effectively disabled |
+| `disable-model-invocation` | `user-invocable` | Who can invoke | When loaded into context | Use case |
+| :---: | :---: | --- | --- | --- |
+| `false` | `true` | Model + User | Description in context | Default — full availability |
+| `true` | `true` | User only | Description **not** in context | Dangerous/costly operations |
+| `false` | `false` | Model only | Description in context | Internal plumbing, pipelines |
+| `true` | `false` | Nobody | Description **not** in context | Effectively disabled |
 
-### Execution Models: fork vs inline (B4)
+> **Note**: When `disable-model-invocation: true`, the skill's description is removed from Claude's context entirely — the model has no awareness of it.
 
-| Mode | Context | State sharing | Use when |
-| ---- | ------- | ------------- | -------- |
-| `inline` | Shared session | Full access to conversation | Default — most skills |
-| `fork` | Isolated copy | No bleed-back to parent | Heavy/exploratory work, subagent-like isolation |
+### Execution Models: Shared vs Fork (B4)
+
+| Mode | `context` field | Context | State sharing | Use when |
+| ---- | --------------- | ------- | ------------- | -------- |
+| **Shared** (default) | Omitted | Shared session | Full access to conversation | Default — most skills |
+| **Fork** | `fork` | Isolated copy | No bleed-back to parent | Heavy/exploratory work, subagent-like isolation |
 
 ---
 
@@ -100,7 +104,7 @@ Available in SKILL.md body and referenced files:
 | -------- | ---------- |
 | `$ARGUMENTS` | Full argument string from invocation |
 | `$ARGUMENTS[N]` | Nth argument (0-indexed) |
-| `$N` / `$1`, `$2`, ... | Positional arguments (1-indexed) |
+| `$N` (`$0`, `$1`, ...) | Shorthand for `$ARGUMENTS[N]` (0-indexed). `$0` = first argument, `$1` = second. |
 | `${CLAUDE_SESSION_ID}` | Current session identifier |
 | `${CLAUDE_SKILL_DIR}` | Absolute path to the skill's directory |
 
@@ -125,11 +129,11 @@ CC ships 5 built-in skills available in every session:
 
 | Skill | Purpose |
 | ----- | ------- |
-| `/batch` | Process multiple items with a repeated prompt |
-| `/claude-api` | Build apps using Anthropic SDK |
-| `/debug` | Systematic debugging workflow |
-| `/loop` | Run a prompt on a recurring interval |
-| `/simplify` | Review changed code for reuse and quality |
+| `/batch` | Worktree-based parallel execution: processes 5-30 units, spawning one agent per unit, each opening a PR when complete. |
+| `/claude-api` | Build apps using the Anthropic SDK. Covers Python, TypeScript, Java, Go, Ruby, C#, PHP, and cURL. |
+| `/debug` | Systematic debugging workflow. Enables debug logging mid-session for deeper diagnostics. |
+| `/loop` | Run a prompt or slash command on a recurring interval. |
+| `/simplify` | Review changed code for reuse, quality, and efficiency, then fix issues found. |
 
 ---
 
@@ -165,7 +169,7 @@ Organizations can distribute managed skills via enterprise settings. These are i
 | **L2: Instructions** | Skill triggered | < 5k tokens | SKILL.md body |
 | **L3: Resources** | As needed | Unlimited | Bundled files, scripts |
 
-**Description budget (B12)**: Descriptions consume ~1% of the context window. The `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var controls the ceiling. Keep descriptions concise — keyword-rich, 1-2 sentences.
+**Description budget (B12)**: Descriptions consume ~1% of the context window, with a fallback of 8,000 characters. The `SLASH_COMMAND_TOOL_CHAR_BUDGET` env var controls the ceiling. Each entry is capped at 250 characters regardless of budget. Keep descriptions concise — keyword-rich, 1-2 sentences.
 
 ---
 

@@ -7,11 +7,11 @@ summary: Plugin distribution patterns including local testing, GitHub publicatio
 depends_on: [distributable-plugin]
 related: [security-defaults]
 complexity: intermediate
-last_updated: 2025-12-12
-estimated_tokens: 650
-source: https://code.claude.com/docs/en/plugins
+last_updated: 2026-04-05
+estimated_tokens: 850
+source: https://code.claude.com/docs/en/plugins, https://code.claude.com/docs/en/plugin-marketplaces
 confidence: A
-review_by: 2026-03-12
+review_by: 2026-07-05
 ---
 
 # Distribution & Marketplace
@@ -26,8 +26,8 @@ Claude Code plugins can be distributed through marketplaces—catalogs of availa
 ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
 │  Development     │ ──▶ │  Local Testing   │ ──▶ │  Publication     │
 │                  │     │                  │     │                  │
-│  Create plugin   │     │  Local market    │     │  GitHub repo     │
-│  Add components  │     │  /plugin test    │     │  Marketplace     │
+│  Create plugin   │     │  --plugin-dir    │     │  GitHub repo     │
+│  Add components  │     │  plugin validate │     │  Marketplace     │
 │  Write docs      │     │  Iterate         │     │  Team sharing    │
 └──────────────────┘     └──────────────────┘     └──────────────────┘
 ```
@@ -101,6 +101,16 @@ gh repo edit my-plugin --visibility public
 }
 ```
 
+## Marketplace Metadata
+
+The marketplace manifest supports a top-level `metadata` object:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `metadata.description` | string | Marketplace description |
+| `metadata.version` | string | Marketplace schema version |
+| `metadata.pluginRoot` | string | Default root path for relative plugin sources |
+
 ## Plugin Entry Schema
 
 ### Required Fields
@@ -120,21 +130,23 @@ gh repo edit my-plugin --visibility public
 | `homepage` | string | Documentation URL |
 | `license` | string | SPDX identifier |
 | `keywords` | array | Discovery tags |
+| `strict` | boolean | Controls whether `plugin.json` (false) or marketplace entry (true) is authority for component definitions. Default: `true` |
+| `category` | string | Plugin category for marketplace browsing |
+| `tags` | array | Additional discovery tags for marketplace search |
 
 ## Source Types
 
-CC supports 8 source types for marketplace plugin entries. The `source` field can be a string (shorthand) or an object (explicit type).
+CC supports 5 plugin source types. The `source` field can be a string (shorthand) or an object (explicit type).
 
-| Type | Format | Use Case |
+| Type | Fields | Use Case |
 |------|--------|----------|
-| `github` | `{ "source": "github", "repo": "owner/repo" }` | Public/private GitHub repos |
-| `git` | `{ "source": "git", "url": "https://..." }` | Any git URL (GitLab, Bitbucket, self-hosted) |
-| `url` | `{ "source": "url", "url": "https://..." }` | Direct URL to tarball/zip |
-| `npm` | `{ "source": "npm", "package": "@scope/pkg" }` | npm registry packages |
-| `file` | `{ "source": "file", "path": "/abs/path" }` | Local absolute path |
-| `directory` | `{ "source": "directory", "path": "./rel" }` | Relative to marketplace root |
-| `hostPattern` | `{ "source": "hostPattern", "pattern": "*.corp.com" }` | Enterprise host matching |
-| `settings` | `{ "source": "settings" }` | Resolved from user/project settings |
+| Relative path | `"./plugins/my-plugin"` | Plugin within marketplace repo |
+| `github` | `repo`, `ref?`, `sha?` | Public/private GitHub repos |
+| `url` | `url`, `ref?`, `sha?` | Any git URL (GitLab, Bitbucket, self-hosted) |
+| `git-subdir` | `url`, `path`, `ref?`, `sha?` | Sparse clone of a subdirectory within a git repo (monorepo pattern) |
+| `npm` | `package`, `version?`, `registry?` | npm registry packages |
+
+> **Note**: `hostPattern` and `pathPattern` exist only in `strictKnownMarketplaces` (managed settings restriction patterns for enterprise allowlisting). They are NOT plugin source types.
 
 ### String Shorthand
 
@@ -143,19 +155,25 @@ CC supports 8 source types for marketplace plugin entries. The `source` field ca
 { "source": "owner/plugin-repo" }
 ```
 
-String sources are auto-detected: paths starting with `./` or `/` resolve as directory/file; `owner/repo` format resolves as GitHub.
+String sources are auto-detected: paths starting with `./` resolve as relative paths; `owner/repo` format resolves as GitHub.
 
 ### Explicit Examples
 
 ```json
 {
-  "source": { "source": "github", "repo": "owner/plugin-repo" }
+  "source": { "source": "github", "repo": "owner/plugin-repo", "ref": "v1.0.0" }
 }
 ```
 
 ```json
 {
-  "source": { "source": "npm", "package": "@anthropic/skill-pack" }
+  "source": { "source": "git-subdir", "url": "https://github.com/org/monorepo", "path": "plugins/my-plugin" }
+}
+```
+
+```json
+{
+  "source": { "source": "npm", "package": "@anthropic/skill-pack", "version": "^1.0.0" }
 }
 ```
 
@@ -224,33 +242,53 @@ credentials.json
 
 ## CLI Commands
 
+### Interactive (inside Claude Code session)
+
 ```bash
-# Add marketplace
 /plugin marketplace add owner/repo
-
-# Browse available plugins
-/plugin
-
-# Install plugin
 /plugin install plugin-name@marketplace
-
-# List installed
 /plugin list
-
-# Remove plugin
 /plugin remove plugin-name
+```
+
+### Non-Interactive (from terminal)
+
+```bash
+claude plugin marketplace add <source>     # Register a marketplace
+claude plugin marketplace list             # List registered marketplaces
+claude plugin marketplace remove <name>    # Remove a marketplace
+claude plugin marketplace update [name]    # Update marketplace plugin cache
+
+claude plugin install <plugin> [-s scope]  # Install plugin
+claude plugin uninstall <plugin> [-s scope] [--keep-data]
+claude plugin enable <plugin> [-s scope]
+claude plugin disable <plugin> [-s scope]
+claude plugin update <plugin> [-s scope]
+claude plugin validate                     # Validate plugin structure
+```
+
+### Local Development Testing
+
+```bash
+# Test plugin locally without installing (bypasses cache)
+claude --plugin-dir ./my-plugin
+
+# Validate plugin structure
+claude plugin validate
 ```
 
 ## Managed Controls (Enterprise)
 
 Organizations can enforce marketplace policies via managed settings (precedence level 1 — cannot be overridden by users):
 
-| Setting | Type | Description |
-|---------|------|-------------|
-| `strictKnownMarketplaces` | boolean | When `true`, only marketplaces in `extraKnownMarketplaces` can be added |
-| `blockedMarketplaces` | string[] | Marketplace names or patterns that are blocked |
-| `enabledPlugins` | string[] | Plugins auto-installed for all users |
-| `disabledPlugins` | string[] | Plugins blocked from installation |
+| Setting | Scope | Description |
+|---------|-------|-------------|
+| `strictKnownMarketplaces` | Managed only | Allowlist with `hostPattern`/`pathPattern` entries restricting which marketplace sources users can add |
+| `blockedMarketplaces` | Managed only | Blocklist checked before download; blocked sources never touch filesystem |
+| `pluginTrustMessage` | Managed only | Custom message appended to plugin trust warning before installation |
+| `extraKnownMarketplaces` | Any | Pre-register marketplaces; prompts team on folder trust |
+| `enabledPlugins` | Any | Plugins auto-installed for all users |
+| `disabledPlugins` | Any | Plugins blocked from installation |
 
 ```json
 {

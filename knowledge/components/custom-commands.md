@@ -32,7 +32,7 @@ As of 2026, CC has **merged commands into skills**. Skills are the preferred pat
 | **Invocation** | User-only (`/name`) | User or model-invoked |
 | **Frontmatter** | description, allowed-tools | 11+ fields including model, effort, context, hooks |
 | **Resources** | Single file only | Directory with scripts/, assets/, references/ |
-| **Substitutions** | $ARGUMENTS, $1-$N | Same + ${CLAUDE_SESSION_ID}, ${CLAUDE_SKILL_DIR} |
+| **Substitutions** | $ARGUMENTS, $0-$N (0-indexed) | Same + ${CLAUDE_SESSION_ID}, ${CLAUDE_SKILL_DIR} |
 | **Dynamic context** | `` !`command` `` | Same |
 | **Conflict resolution** | — | Skill wins if both exist for same name |
 

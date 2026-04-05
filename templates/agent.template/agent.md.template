@@ -9,13 +9,14 @@ tools: Read, Write, Edit, Bash, Grep, Glob  # comma-separated allowlist; omit to
 
 # ── Tier 2: COMMON (uncomment as needed) ──────────────────────────────
 # model: sonnet                    # sonnet | opus | haiku | inherit
-# effort: medium                   # low | medium | high — reasoning effort level
+# effort: medium                   # low | medium | high | max (Opus 4.6 only) — reasoning effort level
 # skills:
 #   - skill-name-1                 # auto-loaded into agent context; subagents do NOT inherit parent skills
 #   - skill-name-2
 # context:
 #   - path/to/file-or-dir          # array of paths auto-loaded at start
-# permissionMode: default          # default | acceptEdits | bypassPermissions | plan | ignore
+# maxTurns: 20                     # maximum agentic turns before stopping
+# permissionMode: default          # default | acceptEdits | auto | dontAsk | bypassPermissions | plan
 #                                  # NOTE: not available in distributed plugins
 
 # ── Tier 3: ADVANCED (uncomment when needed) ──────────────────────────
@@ -25,7 +26,7 @@ tools: Read, Write, Edit, Bash, Grep, Glob  # comma-separated allowlist; omit to
 # memory: project                        # user (cross-project) | project (committed) | local (gitignored)
 # background: false                # true to run in background
 # isolation: worktree              # worktree for git-worktree isolation with auto-cleanup
-# color: "#4A90D9"                 # statusline color for visual identification
+# color: blue                       # named colors: red | blue | green | yellow | purple | orange | pink | cyan
 # initialPrompt: ""               # prompt injected before user's first message
 ---
 
