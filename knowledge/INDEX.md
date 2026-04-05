@@ -19,7 +19,7 @@ last_updated: 2026-04-05
 | `components/` | 10 | Deep dives on each component type |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
 | `reference/` | 1 | Product design lifecycle (conceptual advisory framework) |
-| `operational-patterns/` | 11 | Orchestration (3), multi-agent (3), state management (3), team collaboration, extension discovery |
+| `operational-patterns/` | 12 | Orchestration (3), multi-agent (3), state management (3), team collaboration, extension discovery, sync protocol |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
 
