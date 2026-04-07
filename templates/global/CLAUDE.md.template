@@ -59,11 +59,10 @@ After correcting Claude, end with: "Update CLAUDE.md so you don't repeat this."}
 
 ## Extension Registry
 
-- Personal skills: see ~/.claude/skills/
-- Personal agents: see ~/.claude/agents/
-- Personal rules: see ~/.claude/rules/ (supports recursive subdirectories)
+- Agents: see ~/.claude/agents/
+- Skills: see ~/.claude/skills/
+- Commands: see ~/.claude/commands/ (legacy — prefer skills for new extensions)
+- Rules: see ~/.claude/rules/ (auto-loaded, supports recursive subdirectories)
+- Output Styles: see ~/.claude/output-styles/
+- Agent Memory: see ~/.claude/agent-memory/ (cross-project persistent memory for agents with `memory: user`)
 - Plugins: see ~/.claude/settings.json enabledPlugins
-
-## Cross-Project Rules
-
-@rules/
