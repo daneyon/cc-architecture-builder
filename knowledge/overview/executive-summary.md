@@ -13,12 +13,11 @@ source: CAB-original
 confidence: A
 review_by: 2026-07-05
 ---
-
 # Executive Summary
 
 ## Purpose
 
-This architecture establishes a standardized framework for building custom LLM solutions using Claude Code. It addresses the separation of concerns between **personal configuration** (global settings that travel with you) and **distributable projects** (shareable plugins with domain-specific capabilities).
+This architecture establishes a standardized framework for building custom LLM solutions using Claude Code to effectively transform traditional legacy project codebases to agentic OS platforms (codebase + CC CLI). It addresses the separation of concerns between **personal configuration** (global settings that travel with you) and **distributable projects** (shareable plugins with domain-specific capabilities).
 
 ## Core Insight
 
@@ -77,36 +76,38 @@ Claude Code is not merely a coding assistant—it is a configurable AI platform 
 
 ## Memory Hierarchy (5 Tiers)
 
-| Tier | Location | Purpose | Shared With |
-|------|----------|---------|-------------|
-| **1. Enterprise Policy** | System paths | Organization-wide standards | All org users |
-| **2. Project Memory** | `./CLAUDE.md` | Team-shared instructions | Team via git |
-| **3. Project Rules** | `./.claude/rules/*.md` | Modular topic-specific rules | Team via git |
-| **4. User Memory** | `~/.claude/CLAUDE.md` | Personal preferences | Just you |
-| **5. Local Memory** | `./CLAUDE.local.md` | Personal project-specific | Just you |
+| Tier                           | Location                 | Purpose                      | Shared With   |
+| ------------------------------ | ------------------------ | ---------------------------- | ------------- |
+| **1. Enterprise Policy** | System paths             | Organization-wide standards  | All org users |
+| **2. Project Memory**    | `./CLAUDE.md`          | Team-shared instructions     | Team via git  |
+| **3. Project Rules**     | `./.claude/rules/*.md` | Modular topic-specific rules | Team via git  |
+| **4. User Memory**       | `~/.claude/CLAUDE.md`  | Personal preferences         | Just you      |
+| **5. Local Memory**      | `./CLAUDE.local.md`    | Personal project-specific    | Just you      |
 
 **Precedence**: Higher tiers load first and take precedence.
 
 ## Key Design Principles
 
-| Principle | Description |
-|-----------|-------------|
-| **Separation of Concerns** | Global config stays personal; project config is distributable |
-| **Progressive Disclosure** | Load only what's needed; reference additional files via `@imports` |
-| **Convention over Configuration** | Follow official directory structures; minimize custom conventions |
-| **Git-Native Workflow** | Version control everything; enable team collaboration |
-| **Token Efficiency** | Keep CLAUDE.md concise; use skills/agents for complex instructions |
-| **Security by Default** | Private repos, credential exclusion, pre-publication review |
+| Principle                               | Description                                                          |
+| --------------------------------------- | -------------------------------------------------------------------- |
+| **Separation of Concerns**        | Global config stays personal; project config is distributable        |
+| **Progressive Disclosure**        | Load only what's needed; reference additional files via `@imports` |
+| **Convention over Configuration** | Follow official directory structures; minimize custom conventions    |
+| **Git-Native Workflow**           | Version control everything; enable team collaboration                |
+| **Token Efficiency**              | Keep CLAUDE.md concise; use skills/agents for complex instructions   |
+| **Security by Default**           | Private repos, credential exclusion, pre-publication review          |
 
 ## When to Use Each Schema
 
 ### Use Global Config (Schema 1) For:
+
 - Personal communication preferences
 - Cross-project utilities and skills
 - Default behaviors you want everywhere
 - Private settings that shouldn't be shared
 
 ### Use Plugin Project (Schema 2) For:
+
 - Domain-specific knowledge and expertise
 - Team-shared workflows and standards
 - Distributable custom LLM solutions

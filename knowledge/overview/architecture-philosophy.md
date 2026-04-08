@@ -13,12 +13,11 @@ source: https://code.claude.com/docs/en/memory
 confidence: A
 review_by: 2026-07-05
 ---
-
 # Architecture Philosophy
 
 ## The Intermediary Wrapper Architecture
 
-CAB operates as an **intermediary wrapper layer** between two surfaces:
+CAB operates as an **intermediary wrapper layer** between two surfaces to effectively transform traditional legacy project codebase to an agentic OS platform (codebase + CC CLI):
 
 1. **Upstream**: Claude Code's official platform (docs, runtime, APIs)
 2. **Downstream**: Project codebases that integrate CC
@@ -63,12 +62,12 @@ If CC docs cover a topic adequately, CAB provides a pointer with hyperlink — n
 
 CC implements a **4-scope configuration hierarchy** with clear precedence:
 
-| Scope | Location | Shared With |
-|-------|----------|-------------|
-| **1. Managed** | System paths / MDM / registry | Org-wide (enterprise) |
-| **2. Project** | `./CLAUDE.md`, `.claude/rules/*.md` | Team via git |
-| **3. User** | `~/.claude/CLAUDE.md` | Personal (all projects) |
-| **4. Local** | `./CLAUDE.local.md` | Personal (this project) |
+| Scope                | Location                                | Shared With             |
+| -------------------- | --------------------------------------- | ----------------------- |
+| **1. Managed** | System paths / MDM / registry           | Org-wide (enterprise)   |
+| **2. Project** | `./CLAUDE.md`, `.claude/rules/*.md` | Team via git            |
+| **3. User**    | `~/.claude/CLAUDE.md`                 | Personal (all projects) |
+| **4. Local**   | `./CLAUDE.local.md`                   | Personal (this project) |
 
 > **Official docs**: [code.claude.com/docs/en/memory](https://code.claude.com/docs/en/memory) — full details on scopes, @imports, HTML stripping, `claudeMdExcludes`, auto memory.
 
@@ -82,14 +81,14 @@ CC implements a **4-scope configuration hierarchy** with clear precedence:
 
 Beyond the 4-scope configuration, CC's runtime operates a multi-layer escalation pipeline where each layer prevents the next from firing:
 
-| Layer | What Happens | Cost |
-|-------|-------------|------|
-| CLAUDE.md + Auto Memory | Loaded at session start | Free |
-| Session Memory | Summaries every ~5K tokens | Low |
-| MicroCompact | Local editing of cached tool results (zero API calls) | Free |
-| AutoCompact | Structured summary at `effectiveContextWindow - 13,000` tokens | Moderate |
-| Full Compact | Complete conversation compression (9-section narrative) | Expensive |
-| Session Reset | Clears everything except system prompt | Destructive |
+| Layer                   | What Happens                                                     | Cost        |
+| ----------------------- | ---------------------------------------------------------------- | ----------- |
+| CLAUDE.md + Auto Memory | Loaded at session start                                          | Free        |
+| Session Memory          | Summaries every ~5K tokens                                       | Low         |
+| MicroCompact            | Local editing of cached tool results (zero API calls)            | Free        |
+| AutoCompact             | Structured summary at `effectiveContextWindow - 13,000` tokens | Moderate    |
+| Full Compact            | Complete conversation compression (9-section narrative)          | Expensive   |
+| Session Reset           | Clears everything except system prompt                           | Destructive |
 
 **Practical implication**: Proactive management (compacting at ~70%, or starting fresh sessions) avoids forced compaction cascades. See [Session Management](../operational-patterns/state-management/session-lifecycle.md) for decision framework.
 
@@ -97,13 +96,13 @@ Beyond the 4-scope configuration, CC's runtime operates a multi-layer escalation
 
 CC extensions compose through distinct invocation and context patterns:
 
-| Component | Trigger | Context | Notes |
-|-----------|---------|---------|-------|
-| **CLAUDE.md + Rules** | Automatic (session start) | Main | Always loaded |
-| **Skills** | Model-invoked or `/name` | Main (inline) or forked | Preferred over commands; 13 frontmatter fields |
-| **Agents** | Model/user-invoked | Separate context | Isolated; don't inherit parent skills |
-| **Hooks** | Event-driven (26 events) | External | 4 types: command, http, prompt, agent |
-| **MCP Servers** | Tool calls | Deferred schemas | Connected on start, disconnected on finish |
+| Component                   | Trigger                    | Context                 | Notes                                          |
+| --------------------------- | -------------------------- | ----------------------- | ---------------------------------------------- |
+| **CLAUDE.md + Rules** | Automatic (session start)  | Main                    | Always loaded                                  |
+| **Skills**            | Model-invoked or `/name` | Main (inline) or forked | Preferred over commands; 13 frontmatter fields |
+| **Agents**            | Model/user-invoked         | Separate context        | Isolated; don't inherit parent skills          |
+| **Hooks**             | Event-driven (26 events)   | External                | 4 types: command, http, prompt, agent          |
+| **MCP Servers**       | Tool calls                 | Deferred schemas        | Connected on start, disconnected on finish     |
 
 > **Official docs**: [Skills](https://code.claude.com/docs/en/skills), [Sub-agents](https://code.claude.com/docs/en/sub-agents), [Hooks](https://code.claude.com/docs/en/hooks), [MCP](https://code.claude.com/docs/en/mcp)
 
@@ -130,13 +129,13 @@ Session Start
 
 The 200-line discipline naturally enforces progressive disclosure:
 
-| Level | Content | When | Token Cost |
-|-------|---------|------|------------|
-| **L0** | CLAUDE.md seed instructions | Session start | ≤200 lines |
-| **L1** | Skill/agent metadata | Session start | ~100 tokens each |
-| **L2** | Full skill content | When triggered | Variable |
-| **L3** | KB files, bundled resources | On-demand (grep/read) | Variable |
-| **L4** | External docs via MCP/web | When needed | External |
+| Level        | Content                     | When                  | Token Cost       |
+| ------------ | --------------------------- | --------------------- | ---------------- |
+| **L0** | CLAUDE.md seed instructions | Session start         | ≤200 lines      |
+| **L1** | Skill/agent metadata        | Session start         | ~100 tokens each |
+| **L2** | Full skill content          | When triggered        | Variable         |
+| **L3** | KB files, bundled resources | On-demand (grep/read) | Variable         |
+| **L4** | External docs via MCP/web   | When needed           | External         |
 
 **Design implication**: Keep L0 lean. Reference L2-L4 via @imports and skill invocations rather than embedding content. A CLAUDE.md that tries to load everything upfront wastes the context budget on content that may never be relevant to the current task.
 
