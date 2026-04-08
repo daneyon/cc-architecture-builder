@@ -1,6 +1,6 @@
 # CAB (cc-architecture-builder)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
 > Your taxi to stay in line to properly integrate CC with best practices — and you as the driver to apply project context engineering.
 
@@ -153,4 +153,4 @@ All scaffolded projects follow security best practices:
 
 ## License
 
-[MIT](LICENSE)
+This project is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). See [LICENSE](LICENSE) for details.
