@@ -26,6 +26,7 @@ Use the `validating-structure` skill to:
 | `--security` | Include security audit |
 | `--prepublish` | Full + security (for distribution) |
 | `--audit` | Read-only analysis of existing project |
+| `--cab-audit` | **CAB standards compliance audit** — routes to `auditing-workspace` skill for 7-dimension quality assessment with scored findings and persistent artifacts |
 
 ## Examples
 
@@ -41,6 +42,9 @@ Use the `validating-structure` skill to:
 
 /validate --audit
 → Analyze without suggesting changes (for existing projects)
+
+/validate --cab-audit
+→ Full CAB v1.1.0 standards compliance audit (7 dimensions, scored, persistent artifact)
 ```
 
 ## Checks Performed

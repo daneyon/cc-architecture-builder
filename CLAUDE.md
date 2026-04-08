@@ -27,23 +27,24 @@ See `knowledge/INDEX.md` for the complete architecture guide, atomized for effic
 
 ## Available Commands
 
-| Command          | Description                                     |
-| ---------------- | ----------------------------------------------- |
-| `/integrate-existing` | Overlay CC architecture onto an existing project (auto-discover + guided) |
-| `/init-plugin`   | Initialize new CAB plugin with git setup (streamlined) |
-| `/init-worktree`  | Set up git worktrees for parallel agent execution |
-| `/execute-task`   | Start structured task via PLAN → VERIFY → COMMIT protocol |
-| `/commit-push-pr`  | Stage, commit, push, and create PR in one workflow |
-| `/techdebt`        | Scan codebase for tech debt, duplication, stale markers |
-| `/context-sync`    | Pull recent activity into session context summary |
-| `/new-project`   | Create a new plugin project (interactive discovery) |
-| `/new-global`    | Set up global user configuration                |
-| `/add-skill`     | Add a new skill to current project              |
-| `/add-agent`     | Add a new subagent to current project           |
-| `/add-command`   | Add a new custom command to current project     |
-| `/validate`      | Validate current project structure              |
-| `/kb-index`      | Regenerate knowledge base INDEX files           |
-| `/sync-check`      | Detect drift between CAB plugin and global extensions   |
+| Command                 | Description                                                                  |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| `/integrate-existing`   | Overlay CC architecture onto an existing project (auto-discover + guided)    |
+| `/init-plugin`          | Initialize new CAB plugin with git setup (streamlined)                       |
+| `/init-worktree`        | Set up git worktrees for parallel agent execution                            |
+| `/execute-task`         | Start structured task via PLAN → VERIFY → COMMIT protocol                    |
+| `/commit-push-pr`       | Stage, commit, push, and create PR in one workflow                           |
+| `/techdebt`             | Scan codebase for tech debt, duplication, stale markers                      |
+| `/context-sync`         | Pull recent activity into session context summary                            |
+| `/validate --cab-audit` | Audit workspace against CAB v1.1.0 standards (7-dimension scored assessment) |
+| `/new-project`          | Create a new plugin project (interactive discovery)                          |
+| `/new-global`           | Set up global user configuration                                             |
+| `/add-skill`            | Add a new skill to current project                                           |
+| `/add-agent`            | Add a new subagent to current project                                        |
+| `/add-command`          | Add a new custom command to current project                                  |
+| `/validate`             | Validate current project structure                                           |
+| `/kb-index`             | Regenerate knowledge base INDEX files                                        |
+| `/sync-check`           | Detect drift between CAB plugin and global extensions                        |
 
 ## Interactive Mode
 
