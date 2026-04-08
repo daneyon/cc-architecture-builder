@@ -5,17 +5,16 @@ description: {{SKILL_DESCRIPTION}}. Use when {{TRIGGER_CONDITIONS}}.
 
 # ── Tier 2: COMMON (uncomment as needed) ─────────────────────────────
 # argument-hint: {{ARGUMENT_HINT}}
-# allowed-tools: {{ALLOWED_TOOLS}}
-# effort: {{EFFORT_LEVEL}}
-# model: {{MODEL_OVERRIDE}}
+# allowed-tools: {{ALLOWED_TOOLS}}         # tools available without permission prompts
+# effort: {{EFFORT_LEVEL}}                 # low | medium | high | max
+# model: {{MODEL_OVERRIDE}}               # e.g., claude-sonnet-4-20250514
 
 # ── Tier 3: ADVANCED (uncomment as needed) ───────────────────────────
 # disable-model-invocation: false
 # user-invocable: true
-# context: fork                     # omit for default inline behavior
-# agent: Explore                    # subagent type when context: fork
-# hooks: {}
-# paths: []
+# context: fork                     # omit for default inline context; "fork" = isolated subagent
+# agent: Explore                    # subagent TYPE when context: fork (string, NOT boolean)
+# hooks: {}                         # skill-scoped lifecycle hooks
 # shell: {{SHELL_OVERRIDE}}
 #
 # Invocation Control Matrix:
@@ -33,12 +32,25 @@ description: {{SKILL_DESCRIPTION}}. Use when {{TRIGGER_CONDITIONS}}.
 
 # {{SKILL_TITLE}}
 
-> Skills are the preferred extension type, replacing legacy custom commands.
-> See the full field spec in `knowledge/components/agent-skills.md`.
+> **Scaffolding note**: For basic skill creation, use the built-in `skill-creator` plugin
+> (`/skill-creator`). This CAB template extends beyond basics with orchestration integration,
+> verification requirements, and state management patterns.
 
-## Overview
+## Purpose & Pipeline Position
 
 {{BRIEF_OVERVIEW}}
+
+**Pipeline position**: {{PIPELINE_POSITION}} (e.g., FIRST, MIDDLE, LAST, STANDALONE)
+**Depends on**: {{UPSTREAM_SKILLS_OR_NONE}}
+**Feeds into**: {{DOWNSTREAM_SKILLS_OR_NONE}}
+
+## Orchestration Integration
+
+How this skill integrates with the multi-agent orchestration framework:
+
+- **Delegation routing**: {{WHEN_ORCHESTRATOR_DELEGATES_HERE}}
+- **Skill-first rule**: This skill MUST be invoked instead of manual implementation for: {{ANTI_PATTERNS}}
+- **State interaction**: {{READS_FROM_OR_WRITES_TO_STATE_FILES}}
 
 ## Instructions
 
@@ -47,6 +59,17 @@ description: {{SKILL_DESCRIPTION}}. Use when {{TRIGGER_CONDITIONS}}.
 3. {{STEP_3}}
 4. {{STEP_4}}
 5. {{STEP_5}}
+
+## Verification
+
+How to verify this skill's output is correct:
+
+```bash
+{{VERIFICATION_COMMAND}}
+```
+
+- {{VERIFICATION_CHECK_1}}
+- {{VERIFICATION_CHECK_2}}
 
 ## When to Apply
 
@@ -62,21 +85,8 @@ description: {{SKILL_DESCRIPTION}}. Use when {{TRIGGER_CONDITIONS}}.
 {{OUTPUT_TEMPLATE}}
 ```
 
-## Examples
-
-### Example 1: {{EXAMPLE_1_TITLE}}
-
-Input: {{EXAMPLE_1_INPUT}}
-
-Output: {{EXAMPLE_1_OUTPUT}}
-
 ## References
 
-For detailed information, see:
-- {{REFERENCE_1}}
-- {{REFERENCE_2}}
-
-## See Also
-
-- [{{RELATED_1}}]({{RELATED_1_PATH}})
-- [{{RELATED_2}}]({{RELATED_2_PATH}})
+- `knowledge/components/agent-skills.md` — CAB skill field spec and design patterns
+- {{DOMAIN_REFERENCE_1}}
+- {{DOMAIN_REFERENCE_2}}
