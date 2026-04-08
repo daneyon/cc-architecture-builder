@@ -65,3 +65,6 @@ cc-architecture-builder.code-workspace
 # Internal/archive docs
 docs/_internal/
 docs/_archive/
+
+# Personal session notes (state management, audit artifacts)
+notes/
