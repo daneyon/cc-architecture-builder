@@ -80,15 +80,17 @@ Create only the CC architecture files:
 
 ```bash
 # CC architecture overlay — NEVER modifies existing project files
-mkdir -p .claude-plugin .claude/{rules,skills,agents,commands} knowledge hooks notes
+# Plugin project (default): components at root
+mkdir -p .claude-plugin .claude/rules knowledge hooks notes agents skills commands
 
 # Generate files from templates + discovery context
 # CLAUDE.md — populated from questionnaire answers
 # .claude-plugin/plugin.json — project metadata
 # .claude/settings.json — project permissions + hooks
 # knowledge/INDEX.md — initial structure based on domain
-# .claude/agents/ — domain-specific agents based on recommendations
-# .claude/commands/ — workflow shortcuts based on pain points
+# agents/ — domain-specific agents based on recommendations
+# commands/ — workflow shortcuts based on pain points
+# skills/ — domain skills based on discovery
 ```
 
 Run `/validate` to confirm structure compliance.
@@ -144,4 +146,4 @@ CC extensions sitting alongside it.
 - `/new-project` — Guided interactive project creation from scratch
 - `/init-plugin` — Quick scaffold without interactive discovery
 - `/validate` — Verify project structure compliance
-- `.claude/agents/architecture-advisor.md` — Detailed architecture consultation
+- `agents/architecture-advisor.md` — Detailed architecture consultation

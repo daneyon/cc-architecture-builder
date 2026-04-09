@@ -21,8 +21,13 @@ Use the `creating-components` skill to:
    - Lowercase letters, numbers, hyphens only
    - No reserved words
 
-3. **Create structure**:
+3. **Create structure** (location depends on project type):
    ```
+   # Plugin project (has .claude-plugin/plugin.json):
+   skills/{{skill-name}}/
+   └── SKILL.md
+   
+   # Standalone project:
    .claude/skills/{{skill-name}}/
    └── SKILL.md
    ```

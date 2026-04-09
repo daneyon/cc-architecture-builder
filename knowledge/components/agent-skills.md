@@ -31,11 +31,11 @@ Skills are **model-invoked** capabilities — Claude autonomously decides when t
 | Type | Location | Scope |
 | ---- | -------- | ----- |
 | **Personal** | `~/.claude/skills/` | All your projects |
-| **Project** | `.claude/skills/` | Current project (shared via git) |
-| **Plugin** | Bundled with plugins | When plugin installed |
+| **Project** | `.claude/skills/` (standalone) | Current project (shared via git) |
+| **Plugin** | `skills/` at plugin root (bundled) | When plugin installed |
 | **Monorepo** | `packages/*/.claude/skills/` | Auto-discovered per package (B10) |
 
-Monorepo nested discovery: CC walks the directory tree and auto-discovers `.claude/skills/` inside any package directory. No explicit registration required.
+Monorepo nested discovery: CC walks the directory tree and auto-discovers `.claude/skills/` inside any package directory. No explicit registration required. Plugin projects use root-level `skills/` — these are bundled for distribution.
 
 ---
 
@@ -215,7 +215,7 @@ See [Extension Discovery](../operational-patterns/extension-discovery.md) for th
 Use `/add-skill` to scaffold new skills with correct structure:
 
 ```bash
-# Creates .claude/skills/my-skill/ with SKILL.md template
+# Creates skills/my-skill/ (plugin) or .claude/skills/my-skill/ (standalone)
 /add-skill my-skill
 ```
 
@@ -228,7 +228,7 @@ The template includes all frontmatter fields as commented YAML for reference.
 | Symptom | Check |
 | ------- | ----- |
 | Skill not invoked | Description too vague — add specific trigger keywords |
-| Skill not discovered | Verify path: `~/.claude/skills/name/SKILL.md` or `.claude/skills/name/SKILL.md` |
+| Skill not discovered | Verify path: `~/.claude/skills/name/SKILL.md` (personal), `.claude/skills/name/SKILL.md` (standalone), or `skills/name/SKILL.md` (plugin) |
 | YAML parse error | Opening `---` on line 1, closing `---` before body, no tabs |
 | Model ignores skill | Check `disable-model-invocation` is not `true` |
 | User can't invoke | Check `user-invocable` is not `false` |

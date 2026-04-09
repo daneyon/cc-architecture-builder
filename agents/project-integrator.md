@@ -126,7 +126,7 @@ Project-specific, shareable via marketplace:
 - `CLAUDE.md` — Project instructions
 - `CLAUDE.local.md` — Personal overrides (gitignored)
 - `.claude/rules/` — Modular project rules
-- `.claude/skills/` — Project skills
+- `skills/` — Project skills
 - `agents/` — Project agents
 - `commands/` — Slash commands
 - `hooks/` — Event handlers

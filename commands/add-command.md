@@ -17,8 +17,12 @@ Use the `creating-components` skill to:
    - Arguments it accepts (if any)
    - Tool restrictions (if any)
 
-2. **Create file**:
+2. **Create file** (location depends on project type):
    ```
+   # Plugin project (has .claude-plugin/plugin.json):
+   commands/{{command-name}}.md
+   
+   # Standalone project:
    .claude/commands/{{command-name}}.md
    ```
 

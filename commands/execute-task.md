@@ -65,6 +65,6 @@ Verification: [commands]
 
 ## See Also
 
-- `.claude/skills/executing-tasks/` — The protocol skill (model-invoked, auto-triggered)
-- `.claude/agents/verifier.md` — Independent verification agent
-- `.claude/agents/orchestrator.md` — Autonomous orchestration
+- `skills/executing-tasks/` — The protocol skill (model-invoked, auto-triggered)
+- `agents/verifier.md` — Independent verification agent
+- `agents/orchestrator.md` — Autonomous orchestration

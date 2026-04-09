@@ -106,7 +106,7 @@ CC extensions compose through distinct invocation and context patterns:
 
 > **Official docs**: [Skills](https://code.claude.com/docs/en/skills), [Sub-agents](https://code.claude.com/docs/en/sub-agents), [Hooks](https://code.claude.com/docs/en/hooks), [MCP](https://code.claude.com/docs/en/mcp)
 
-**Key evolution (2026)**: Custom commands (`.claude/commands/`) merged into skills. Skills are the preferred path — commands still work but skills win when both exist. CAB maintains concise abbreviated names for plugin-level commands to preserve quick-trigger usability (e.g., `/cab:execute-task` not `/cc-architecture-builder:execute-task`).
+**Key evolution (2026)**: Custom commands merged into skills. Skills are the preferred path — commands still work but skills win when both exist. Plugin projects keep commands at root (`commands/`); standalone projects use `.claude/commands/`. CAB maintains concise abbreviated names for plugin-level commands to preserve quick-trigger usability (e.g., `/cab:execute-task` not `/cc-architecture-builder:execute-task`).
 
 ### Invocation Flow
 

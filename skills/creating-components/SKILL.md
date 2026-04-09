@@ -33,8 +33,11 @@ This skill helps create properly structured Claude Code components (skills, agen
    - When to trigger (for description)
    - Key instructions
 
-2. **Create structure**:
+2. **Create structure** (detect project type first):
    ```bash
+   # Plugin project (has .claude-plugin/plugin.json):
+   mkdir -p skills/{{skill-name}}
+   # Standalone project:
    mkdir -p .claude/skills/{{skill-name}}
    ```
 
@@ -150,7 +153,7 @@ After creating any component:
 |-----------|------------|
 | Skill | Name ≤64 chars, lowercase+hyphens, description ≤1024 chars |
 | Agent | Name unique, tools valid if specified |
-| Command | File in .claude/commands/, description present |
+| Command | File in commands/ (plugin) or .claude/commands/ (standalone), description present |
 | Hook | Valid event name, script exists and executable |
 
 ## Templates Reference

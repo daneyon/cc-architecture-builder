@@ -17,8 +17,12 @@ Use the `creating-components` skill to:
    - Tools needed (or inherit all)
    - Model preference (optional)
 
-2. **Create file**:
+2. **Create file** (location depends on project type):
    ```
+   # Plugin project (has .claude-plugin/plugin.json):
+   agents/{{agent-name}}.md
+   
+   # Standalone project:
    .claude/agents/{{agent-name}}.md
    ```
 

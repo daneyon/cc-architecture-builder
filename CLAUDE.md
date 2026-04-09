@@ -134,7 +134,7 @@ See `knowledge/operational-patterns/orchestration/framework.md` for full detail.
 
 ## Constraints
 
-- You must frequently inquire and/or automatically check any static files (e.g. \templates, \knowledge, \.claude\agents, \.claude\skills, etc.) are aligning with the latest official Claude Code docs (use 'claude-docs-helper' skill), as well as specific recommended plugin resources, and update the necessary files in the plugin as appropriate.
+- You must frequently inquire and/or automatically check any static files (e.g. \templates, \knowledge, \agents, \skills, etc.) are aligning with the latest official Claude Code docs (use 'claude-docs-helper' skill), as well as specific recommended plugin resources, and update the necessary files in the plugin as appropriate.
 - This builder creates initial base structure and templates; domain-specific content must be provided by the user to iteratively optimize and specialize the base architecture.
 - Large knowledge bases (100+ files) may require MCP integration for semantic search; recommend this approach when appropriate.
 - Templates use `{{PLACEHOLDER}}` syntax for customization

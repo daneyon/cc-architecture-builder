@@ -15,9 +15,9 @@ or periodically to ensure global config stays aligned.
 
    | CAB Location | Global Location |
    |-------------|----------------|
-   | `.claude/agents/*.md` | `~/.claude/agents/*.md` |
-   | `.claude/skills/*/SKILL.md` | `~/.claude/skills/*/SKILL.md` |
-   | `.claude/commands/*.md` | `~/.claude/commands/*.md` |
+   | `agents/*.md` | `~/.claude/agents/*.md` |
+   | `skills/*/SKILL.md` | `~/.claude/skills/*/SKILL.md` |
+   | `commands/*.md` | `~/.claude/commands/*.md` |
 
 2. **Compare each pair**:
    ```bash
@@ -31,24 +31,24 @@ or periodically to ensure global config stays aligned.
    ── SYNC CHECK ─────────────────────────────────
    
    ✅ In sync (N files)
-     .claude/agents/orchestrator.md
-     .claude/agents/verifier.md
+     agents/orchestrator.md
+     agents/verifier.md
      ...
    
    ⚠️  Drift detected (N files)
-     .claude/skills/architecture-analyzer/SKILL.md
+     skills/architecture-analyzer/SKILL.md
        CAB newer: 2026-04-05 | Global: 2026-04-03
        Lines changed: +12 -3
-     .claude/commands/techdebt.md
+     commands/techdebt.md
        CAB newer: 2026-04-05 | Global: 2026-04-01
        Lines changed: +5 -2
    
    ❌ Missing from global (N files)
-     .claude/skills/session-close/SKILL.md
-     .claude/commands/sync-check.md
+     skills/session-close/SKILL.md
+     commands/sync-check.md
    
    ❌ Extra in global (not in CAB) (N files)
-     .claude/skills/strategy-framework/SKILL.md
+     skills/strategy-framework/SKILL.md
    
    ───────────────────────────────────────────────
    ```

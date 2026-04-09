@@ -92,5 +92,5 @@ cleanup opportunities and optionally fixes low-risk items automatically.
 
 ## See Also
 
-- `.claude/agents/verifier.md` — Quality verification
+- `agents/verifier.md` — Quality verification
 - `/commit-push-pr` — Commit fixes after cleanup

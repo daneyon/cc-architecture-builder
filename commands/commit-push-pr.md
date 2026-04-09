@@ -66,5 +66,5 @@ so the commit message and PR description are accurate and context-rich, while pr
 
 ## See Also
 
-- `.claude/skills/executing-tasks/` — Full task execution protocol (Phase 5: COMMIT)
-- `.claude/agents/verifier.md` — Pre-commit verification
+- `skills/executing-tasks/` — Full task execution protocol (Phase 5: COMMIT)
+- `agents/verifier.md` — Pre-commit verification

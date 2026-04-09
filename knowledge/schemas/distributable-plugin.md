@@ -50,9 +50,9 @@ my-plugin/
 
 > **Note**: `CLAUDE.md` is a project-level file, not a plugin component. It is not part of the official standard plugin layout and is not copied to consumers when a plugin is installed. If your plugin repo uses `CLAUDE.md`, it serves as project instructions for plugin developers — not as distributed content.
 
-### Project `.claude/` Directory (Non-Plugin)
+### Standalone Project `.claude/` Directory (Alternative)
 
-For regular projects (not distributed as plugins), CC component directories live inside `.claude/`:
+For standalone projects (not distributed as plugins), CC component directories live inside `.claude/`. CAB defaults to plugin structure — use standalone only for personal experiments or projects that will never be shared:
 
 ```text
 your-project/

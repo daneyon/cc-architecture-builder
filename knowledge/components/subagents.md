@@ -34,13 +34,13 @@ Subagents **cannot spawn other subagents** (nesting depth = 1). Design delegatio
 
 Agents can be defined at 5 levels. When names conflict, the highest-priority source wins.
 
-| Priority     | Source       | Location                   | Scope                      |
-|--------------|--------------|----------------------------|----------------------------|
-| 1 (highest)  | **Managed**  | Enterprise managed settings | Organization-wide policy   |
-| 2            | **CLI flag** | `--agents` flag (JSON)     | Session-level override     |
-| 3            | **Project**  | `.claude/agents/`          | Current project            |
-| 4            | **User**     | `~/.claude/agents/`        | All projects for this user |
-| 5 (lowest)   | **Plugin**   | Bundled with plugins       | When plugin is installed   |
+| Priority     | Source       | Location                              | Scope                      |
+|--------------|--------------|---------------------------------------|----------------------------|
+| 1 (highest)  | **Managed**  | Enterprise managed settings           | Organization-wide policy   |
+| 2            | **CLI flag** | `--agents` flag (JSON)                | Session-level override     |
+| 3            | **Project**  | `.claude/agents/` (standalone)        | Current project            |
+| 4            | **User**     | `~/.claude/agents/`                   | All projects for this user |
+| 5 (lowest)   | **Plugin**   | `agents/` at plugin root (bundled)    | When plugin is installed   |
 
 ---
 
@@ -212,7 +212,7 @@ model: opus
 skills: executing-tasks, validating-structure
 ```
 
-See `.claude/agents/orchestrator.md` for the full definition.
+See `agents/orchestrator.md` for the full definition.
 
 ### Verifier Pattern
 
@@ -225,7 +225,7 @@ description: >
 model: inherit
 ```
 
-See `.claude/agents/verifier.md` for the full definition.
+See `agents/verifier.md` for the full definition.
 
 ### CAB Agent Template Requirements
 
