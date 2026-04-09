@@ -21,8 +21,10 @@ This skill validates Claude Code projects against the standardized architecture,
 
 Determine if validating:
 - Global user config (`~/.claude/`)
-- Plugin project (has `.claude-plugin/plugin.json`)
-- Hybrid/custom structure
+- **Plugin project** (has `.claude-plugin/plugin.json`) → components at ROOT (`agents/`, `skills/`, `commands/`)
+- **Standalone project** (has `.claude/` but no `.claude-plugin/`) → components under `.claude/`
+
+Set `project_type` = `plugin` | `standalone` | `global` — this determines all path expectations below.
 
 ### Step 2: Run Validation Checks
 
@@ -52,13 +54,30 @@ Determine if validating:
 □ Lists available commands (if any)
 ```
 
-**Directory Structure Check**:
+**Directory Structure Check** (conditional on `project_type`):
+
+For **plugin projects**:
 ```
-□ Component directories under .claude/ (per CC project schema)
+□ Component directories at project root (per CC plugin convention)
+  - commands/ (if used)
+  - agents/ (if used)
+  - skills/ (if used)
+  - hooks/hooks.json (if used)
+□ NO component directories under .claude/ (wrong convention for plugins)
+□ .claude/settings.json for project settings (stays in .claude/)
+□ .claude/rules/ for path-scoped rules (stays in .claude/)
+□ Root settings.json with only "agent" key (plugin-distributed, optional)
+□ plugin.json has NO stale custom paths pointing to .claude/
+□ knowledge/ has INDEX.md (if knowledge exists)
+```
+
+For **standalone projects**:
+```
+□ Component directories under .claude/ (per CC standalone convention)
   - .claude/commands/ (if used)
   - .claude/agents/ (if used)
   - .claude/skills/ (if used)
-  - hooks/ (if used)
+□ NO root-level component directories without .claude-plugin/plugin.json
 □ knowledge/ has INDEX.md (if knowledge exists)
 ```
 
@@ -163,7 +182,9 @@ Output format:
 | "plugin.json not found" | Wrong directory or missing | Create `.claude-plugin/plugin.json` |
 | "Skill name invalid" | Uppercase or special chars | Rename to lowercase-hyphens only |
 | "Description too long" | Over 1024 chars | Shorten to key trigger info |
-| "Components inside .claude-plugin/" | Wrong location | Move to project root |
+| "Components inside .claude-plugin/" | Wrong location | Move to project root (plugins) or .claude/ (standalone) |
+| "Plugin components in .claude/" | Plugin using standalone convention | Move agents/, skills/, commands/ to project root; remove custom plugin.json paths |
+| "Root components without plugin.json" | Standalone project with plugin-style layout | Either add .claude-plugin/plugin.json or move to .claude/ |
 | "INDEX.md missing" | Knowledge without index | Create knowledge/INDEX.md |
 
 ### KB Consumption Audit (--full mode)

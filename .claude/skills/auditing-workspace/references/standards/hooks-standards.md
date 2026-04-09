@@ -24,6 +24,7 @@ last_verified: 2026-04-07
 | # | Criterion | Minimal | Standard | Advanced |
 |---|-----------|---------|----------|----------|
 | 5 | Any hooks configured at all | N/A | INFO | WARN |
+| 13 | If plugin: hooks defined in `hooks/hooks.json` (not only in `.claude/settings.json`) | N/A | INFO | WARN |
 | 6 | Security gate via `PreToolUse` with `type: "command"` | N/A | INFO | WARN |
 | 7 | Security hooks use `type: "command"` not `type: "prompt"` for gates | N/A | WARN | ERROR |
 | 8 | `matcher` patterns used for targeted hook application | N/A | INFO | WARN |

@@ -37,7 +37,7 @@ audit_version: "1.0"
 cab_version: "1.1.0"
 audit_date: "YYYY-MM-DD"
 project_path: "/absolute/path/to/project"
-project_type: "plugin | cc-project"
+project_type: "plugin | standalone"
 complexity_tier: "minimal | standard | advanced"
 
 overall:

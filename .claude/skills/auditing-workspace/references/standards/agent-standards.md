@@ -13,7 +13,7 @@ last_verified: 2026-04-07
 
 | # | Criterion | Check Method | Severity |
 |---|-----------|-------------|----------|
-| 1 | Agent files are `.md` in `.claude/agents/` | Glob pattern match | ERROR |
+| 1 | Agent files are `.md` in correct location: `agents/` (plugin) or `.claude/agents/` (standalone) | Glob pattern match per `project_type` | ERROR |
 | 2 | `name` field present (lowercase + hyphens) | Grep frontmatter | ERROR |
 | 3 | `description` field present and non-empty | Grep frontmatter | ERROR |
 | 4 | Description includes auto-delegation cue ("Use when...", "Use PROACTIVELY...") | Read description content | WARN |
@@ -37,7 +37,7 @@ last_verified: 2026-04-07
 
 | Score | What it looks like |
 |-------|-------------------|
-| 0 ABSENT | No agents defined, or agents outside `.claude/agents/` |
+| 0 ABSENT | No agents defined, or agents outside expected location (`agents/` for plugin, `.claude/agents/` for standalone) |
 | 1 MINIMAL | Agents exist with name + description only; missing tools, effort, verification |
 | 2 ADEQUATE | Good frontmatter coverage (6+ fields), description has delegation cue, no invalid fields |
 | 3 EXEMPLARY | All applicable fields set, `## Verification` section, scoped tools, effort configured, no invalid fields, description is specific and actionable |

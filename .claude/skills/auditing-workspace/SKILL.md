@@ -40,18 +40,26 @@ packs at once (token efficiency — process one dimension at a time).
 Understand the project before applying standards. This prevents false positives
 from applying team-level expectations to a solo project.
 
-1. **Detect project type**:
+1. **Detect project type** (determines component location convention):
    ```bash
    ls CLAUDE.md .claude/ .claude-plugin/ 2>/dev/null
    ```
-   - Plugin project: has `.claude-plugin/plugin.json`
-   - CC project: has `.claude/` or `CLAUDE.md`
-   - Not CC-integrated: **ABORT** — suggest `/integrate-existing` instead
+   - **Plugin project**: has `.claude-plugin/plugin.json` → components at ROOT (`agents/`, `skills/`, `commands/`)
+   - **Standalone project**: has `.claude/` or `CLAUDE.md` but NO `.claude-plugin/` → components under `.claude/`
+   - **Not CC-integrated**: neither present → **ABORT** — suggest `/integrate-existing` instead
+
+   Set `project_type` = `plugin` | `standalone` — carry this through ALL subsequent phases.
+
+   > **Architecture rule**: Plugin components live at project root per CC convention.
+   > `.claude/` retains project settings, rules, local overrides, and agent-memory
+   > regardless of project type. Only distributable components differ in location.
 
 2. **Read project context**:
    - `CLAUDE.md` first paragraph for domain/purpose
-   - `plugin.json` for metadata (if plugin)
-   - Count components: agents, skills, commands, rules, hooks, knowledge dirs
+   - `plugin.json` for metadata, component paths, and distribution info (if plugin)
+   - Count components in the correct location per `project_type`:
+     - Plugin: `agents/`, `skills/`, `commands/`, `hooks/`, `knowledge/`
+     - Standalone: `.claude/agents/`, `.claude/skills/`, `.claude/commands/`, `knowledge/`
 
 3. **Determine complexity tier** (governs which criteria apply):
 
@@ -74,13 +82,17 @@ quality of files in the wrong location produces confusing results.
 
 **Critical checks** (any failure blocks Phase 2):
 - `CLAUDE.md` exists
-- CC components are under `.claude/` (not root-level `agents/`, `skills/`)
+- Components are in the correct location for `project_type`:
+  - **Plugin**: `agents/`, `skills/`, `commands/` at project root. Components found under `.claude/` instead = ERROR (wrong convention for plugins — must be at root for CC plugin discovery)
+  - **Standalone**: `.claude/agents/`, `.claude/skills/`, `.claude/commands/`. Root-level components without `.claude-plugin/plugin.json` = ERROR
 - If plugin: `.claude-plugin/plugin.json` exists and is valid JSON
+- If plugin: `plugin.json` does NOT have stale custom paths pointing to `.claude/` (e.g., `"agents": ".claude/agents/"`) — this is a non-standard workaround that masks the root-level convention. Severity: WARN
 
 **Warning checks** (noted but don't block):
 - `.gitignore` exists
 - `README.md` exists (plugins only)
-- No components inside `.claude-plugin/` directory
+- No components inside `.claude-plugin/` directory (only `plugin.json` belongs there)
+- If plugin: root `settings.json` exists with `agent` key (plugin-distributed default agent)
 
 If critical checks fail: emit structural report and **STOP**. Recommend
 `/validate --full` to fix structural issues before re-running audit.
@@ -99,15 +111,15 @@ For **each dimension**, follow this protocol:
 
 **Process dimensions sequentially** to manage token budget:
 
-| # | Dimension | Standard Pack | Target Files |
-|---|-----------|--------------|--------------|
-| 1 | CLAUDE.md Quality | `claudemd-standards.md` | `CLAUDE.md`, `CLAUDE.local.md` |
-| 2 | Agent Frontmatter | `agent-standards.md` | `.claude/agents/*.md` |
-| 3 | Skill Frontmatter | `skill-standards.md` | `.claude/skills/*/SKILL.md` |
-| 4 | Settings Configuration | `settings-standards.md` | `.claude/settings.json`, `settings.local.json` |
-| 5 | Rules Coverage | `rules-standards.md` | `.claude/rules/**/*.md` |
-| 6 | Knowledge Structure | `knowledge-standards.md` | `knowledge/**` |
-| 7 | Hooks Configuration | `hooks-standards.md` | hooks in settings.json or hooks/ |
+| # | Dimension | Standard Pack | Target Files (plugin) | Target Files (standalone) |
+|---|-----------|--------------|----------------------|--------------------------|
+| 1 | CLAUDE.md Quality | `claudemd-standards.md` | `CLAUDE.md`, `CLAUDE.local.md` | same |
+| 2 | Agent Frontmatter | `agent-standards.md` | `agents/*.md` | `.claude/agents/*.md` |
+| 3 | Skill Frontmatter | `skill-standards.md` | `skills/*/SKILL.md` | `.claude/skills/*/SKILL.md` |
+| 4 | Settings Configuration | `settings-standards.md` | `.claude/settings.json` + root `settings.json` | `.claude/settings.json` |
+| 5 | Rules Coverage | `rules-standards.md` | `.claude/rules/**/*.md` | same |
+| 6 | Knowledge Structure | `knowledge-standards.md` | `knowledge/**` | same |
+| 7 | Hooks Configuration | `hooks-standards.md` | `hooks/hooks.json` | hooks in `.claude/settings.json` |
 
 For dimensions with zero applicable components at the project's complexity tier,
 score as N/A rather than ABSENT. A minimal project with no agents is not
@@ -152,17 +164,17 @@ last_audit_date=$(grep "audit_date:" notes/cab-audit-latest.yaml | cut -d'"' -f2
 git diff --name-only --since="$last_audit_date" HEAD
 ```
 
-Map changed files to dimensions:
+Map changed files to dimensions (resolve paths per `project_type`):
 
-| Changed File Pattern | Re-audit Dimension |
-|---------------------|-------------------|
-| `CLAUDE.md` | CLAUDE.md Quality |
-| `.claude/agents/*` | Agent Frontmatter |
-| `.claude/skills/*` | Skill Frontmatter |
-| `.claude/settings*` | Settings Configuration |
-| `.claude/rules/*` | Rules Coverage |
-| `knowledge/**` | Knowledge Structure |
-| hooks config or scripts | Hooks Configuration |
+| Changed File Pattern (plugin) | Changed File Pattern (standalone) | Re-audit Dimension |
+|------------------------------|----------------------------------|-------------------|
+| `CLAUDE.md` | `CLAUDE.md` | CLAUDE.md Quality |
+| `agents/*` | `.claude/agents/*` | Agent Frontmatter |
+| `skills/*` | `.claude/skills/*` | Skill Frontmatter |
+| `.claude/settings*` or `settings.json` | `.claude/settings*` | Settings Configuration |
+| `.claude/rules/*` | `.claude/rules/*` | Rules Coverage |
+| `knowledge/**` | `knowledge/**` | Knowledge Structure |
+| `hooks/hooks.json` or hook scripts | hooks config or scripts | Hooks Configuration |
 
 Dimensions with no changed files retain their prior score.
 

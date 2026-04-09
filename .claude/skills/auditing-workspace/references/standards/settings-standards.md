@@ -13,7 +13,7 @@ last_verified: 2026-04-07
 
 | # | Criterion | Check Method | Severity |
 |---|-----------|-------------|----------|
-| 1 | `.claude/settings.json` exists (project-level) | Glob | WARN |
+| 1 | `.claude/settings.json` exists (project-level settings — applies to both plugin and standalone) | Glob | WARN |
 | 2 | Valid JSON syntax | `python -c "import json; json.load(open(...))"` | ERROR |
 | 3 | No credentials or secrets in settings | Grep for key/token/secret patterns | ERROR |
 | 4 | `effortLevel` set (not relying on default) | Read JSON field | INFO |
@@ -31,6 +31,8 @@ last_verified: 2026-04-07
 | 11 | `agent` field set (default agent for orchestration) | N/A | INFO | WARN |
 | 12 | Sensitive path protection (Write/Edit deny to settings*, .ssh/*, .aws/*) | N/A | INFO | WARN |
 | 13 | Shell escape prevention (deny patterns for powershell, cmd, eval) | N/A | N/A | INFO |
+| 14 | If plugin: root `settings.json` exists with `agent` key (plugin-distributed default agent) | N/A | INFO | WARN |
+| 15 | If plugin: root `settings.json` contains ONLY `agent` key (no non-plugin fields like permissions, hooks, effortLevel — those belong in `.claude/settings.json`) | N/A | INFO | WARN |
 
 ## Scoring Guide
 
