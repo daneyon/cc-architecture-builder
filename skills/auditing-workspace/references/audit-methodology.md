@@ -20,6 +20,15 @@ Phase 1: Structural Pre-Check (GATE)
   → Critical structural issues block further audit
   → If FAIL: stop, recommend /validate --full
 
+Phase 1.5: Settings Schema Validation (GATE — LL-22)
+  → If .claude/settings.json exists:
+    validate against CC JSON schema (structural correctness, not just field presence)
+  → Check: $schema URL exact match, hooks nesting, enabledPlugins type,
+    sandbox additionalProperties, top-level field name recognition
+  → If FAIL: flag as ERROR — CC silently rejects entire settings file
+  → This gate exists because presence-based checks (Phase 2) cannot detect
+    structural invalidity that causes CC to disable ALL settings
+
 Phase 2: Standards Audit (7 Dimensions, Sequential)
   → For each: load standard pack → read targets → evaluate → score → classify
 
