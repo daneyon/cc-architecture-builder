@@ -1,13 +1,12 @@
 ---
 name: executing-tasks
-description: >
-  INVOKE THIS SKILL to enforce the structured task execution protocol
-  (PLAN → REVIEW → EXECUTE → VERIFY → COMMIT) for non-trivial work.
-  Triggers: implement feature, fix bug, refactor, multi-step task, any work
-  producing artifacts that require verification. Prevents one-shotting,
-  premature completion, broken state handoff, and scope drift. Automatically
-  invoked by the orchestrator agent for delegated work.
+description: >-
+  Enforce PLAN → REVIEW → EXECUTE → VERIFY → COMMIT protocol for non-trivial
+  tasks. Prevents one-shotting, premature completion, and scope drift. Triggers:
+  implement feature, fix bug, refactor, multi-step task.
 argument-hint: "Task objective (e.g., 'refactor auth module to use JWT tokens')"
+allowed-tools: Read, Write, Edit, Bash, Grep, Glob
+effort: high
 ---
 
 # Task Execution Protocol

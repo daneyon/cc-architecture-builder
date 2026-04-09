@@ -4,11 +4,7 @@ description: Analyzes existing projects and proposes Claude Code architecture in
 tools: Read, Glob, Grep, Write, Edit, Bash
 model: opus
 effort: high
-permissionMode: plan
 skills: architecture-advisor, creating-components, scaffolding-projects, validating-structure
-context:
-  - knowledge/schemas/distributable-plugin.md
-  - knowledge/schemas/global-user-config.md
 ---
 
 # Project Integrator

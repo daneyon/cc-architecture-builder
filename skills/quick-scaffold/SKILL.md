@@ -1,13 +1,12 @@
 ---
 name: quick-scaffold
-description: >
-  INVOKE THIS SKILL for fast, no-questionnaire scaffolding of Claude Code
-  configurations. Triggers: quick setup, generate CLAUDE.md, scaffold structure
-  fast, create template, placeholder files. Unlike scaffolding-projects, skips
-  interactive discovery — user already knows what they want. Template-driven,
-  user refines afterward.
+description: >-
+  Fast, no-questionnaire CC configuration scaffolding. Template-driven, user
+  refines afterward. Triggers: quick setup, generate CLAUDE.md, scaffold fast,
+  create template, placeholder files.
 argument-hint: "Scaffold target (e.g., 'global config', 'project plugin', 'skill template', 'CLAUDE.md')"
 allowed-tools: Read, Write, Glob
+effort: low
 ---
 
 # Quick Scaffold

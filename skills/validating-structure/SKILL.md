@@ -1,12 +1,12 @@
 ---
 name: validating-structure
-description: >
-  INVOKE THIS SKILL to validate Claude Code project structure against CAB
-  architecture standards. Triggers: validate project, check structure, audit
-  plugin, verify compliance, pre-publish check. Runs required-file checks,
-  plugin.json validation, CLAUDE.md validation, component validation (skills,
-  agents, commands, hooks), security audit, and KB consumption audit.
+description: >-
+  Validate CC project structure against CAB conventions. Checks required files,
+  plugin.json, CLAUDE.md, components, security, and KB. Triggers: validate
+  project, check structure, audit plugin, verify compliance, pre-publish check.
 argument-hint: "Validation mode and target (e.g., '--full', '--security', '--prepublish', or path to project)"
+allowed-tools: Read, Grep, Glob, Bash
+effort: medium
 ---
 
 # Structure Validation

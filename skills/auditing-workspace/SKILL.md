@@ -1,14 +1,9 @@
 ---
 name: auditing-workspace
 description: >-
-  INVOKE THIS SKILL to audit any CC-integrated project workspace against CAB
-  v1.1.0 standards. Triggers: audit workspace, check project standards, cab
-  audit, review CC configuration quality, workspace health check, project
-  compliance review, assess CC setup. Performs read-only 7-dimension assessment
-  with scored findings and persistent YAML + markdown artifacts. Use this
-  whenever the user has an existing CC project and wants to know how well it
-  follows best practices — even if they just say "check my setup" or "is my
-  config any good."
+  Audit CC project workspace against CAB v1.1.0 standards. Read-only 7-dimension
+  scored assessment with YAML + markdown artifacts. Triggers: audit workspace,
+  check standards, cab audit, workspace health check, assess CC setup.
 argument-hint: "Target path (default: cwd) and flags (e.g., '--changed-only')"
 agent: true
 effort: high

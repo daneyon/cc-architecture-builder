@@ -12,6 +12,43 @@ CAB is a standardized framework for building custom LLM solutions using Claude C
 - **Orchestration framework** with 5 canonical agentic workflow patterns
 - **Verification-first development** with structured task execution protocol
 
+## Domain Guidelines
+
+- **Language**: Markdown (knowledge base, agents, skills, commands, templates)
+- **Schema**: YAML frontmatter for all extension files; JSON for settings and plugin manifest
+- **Architecture**: Two-schema model — Schema 1 (global `~/.claude/`), Schema 2 (plugin root)
+- **Plugin convention**: Distributable components at project root (`agents/`, `skills/`, `commands/`); `.claude/` for project config only (LL-21)
+- **Frontmatter fields**: Only CC-documented fields; no `context:`, `disallowedTools:`, or plugin-restricted `permissionMode:` (LL-15)
+- **KB files**: ≤300 lines each, `source:` metadata required, wrapper philosophy over comprehensive mirroring (LL-11)
+- **Freshness**: Always re-fetch official CC docs before modifying KB or frontmatter fields (LL-10)
+
+## Extension Registry
+
+### Agents (4)
+
+| Agent | Description | Model |
+|-------|-------------|-------|
+| `orchestrator` | Central coordination — task routing, state management, PLAN→VERIFY→COMMIT | opus |
+| `architecture-advisor` | Expert guidance on CC architecture + active project analysis | opus |
+| `project-integrator` | Analyzes existing projects, proposes CC integration aligned with CAB | opus |
+| `verifier` | End-to-end verification specialist — read-only, adversarial challenge | inherit |
+
+### Skills (9)
+
+| Skill | Description |
+|-------|-------------|
+| `auditing-workspace` | R2 standards audit — 7-dimension scored assessment |
+| `validating-structure` | Quick structural validation of CC project conventions |
+| `executing-tasks` | Structured task execution via PLAN→VERIFY→COMMIT protocol |
+| `planning-implementation` | Phased implementation planning with acceptance criteria |
+| `architecture-analyzer` | Codebase architecture analysis and recommendations |
+| `creating-components` | Scaffold new CC components (agents, skills, commands) |
+| `scaffolding-projects` | Full plugin project scaffolding from templates |
+| `quick-scaffold` | Rapid minimal project setup |
+| `session-close` | Standardized session state persistence + context handoff |
+
+### Commands (15)
+
 ## Knowledge Base
 
 See `knowledge/INDEX.md` for the complete architecture guide, atomized for efficient retrieval.
@@ -131,6 +168,28 @@ See `knowledge/operational-patterns/orchestration/framework.md` for full detail.
 - Read `notes/progress.md` for live session state and bootstrap protocol
 - Read `notes/lessons-learned.md` for operational constraints and insights
 - Internal design docs are in `docs/_internal/` (not tracked in git)
+
+## Verification
+
+Validate CAB project state with:
+
+- `/validate` — Quick structural validation (component locations, plugin.json, naming)
+- `/validate --cab-audit` — Full R2 standards audit (7 dimensions, scored, produces YAML + markdown report)
+- `/sync-check` — Detect drift between CAB plugin and global `~/.claude/` extensions
+
+Post-implementation verification: invoke the `verifier` agent with acceptance criteria before committing.
+
+## Learned Corrections
+
+Operational constraints from cross-session experience. Full log: `notes/lessons-learned.md`.
+
+- **LL-02/12**: Background agents cannot write files — all artifact-writing must be foreground
+- **LL-10**: Always re-fetch official CC docs in-session before modifying KB or frontmatter
+- **LL-11**: Wrapper files (defer to official docs) age better than comprehensive mirrors
+- **LL-13**: Self-modification deny rules take effect immediately — plan edits atomically
+- **LL-15**: Agent `context:` frontmatter does NOT exist in CC — use `skills:` for preloading
+- **LL-16**: `effort`, `allowed-tools`, `agent` are valid top-level skill fields (not under `metadata:`)
+- **LL-21**: Plugin components at root (`agents/`, `skills/`, `commands/`); `.claude/` for config only
 
 ## Constraints
 

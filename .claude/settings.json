@@ -16,9 +16,22 @@
       "Bash(mkdir *)"
     ],
     "deny": [
-      "Bash(rm -rf /)",
+      "Bash(rm -rf *)",
       "Bash(sudo *)",
-      "Bash(npm publish *)"
+      "Bash(npm publish *)",
+      "Bash(git push --force*)",
+      "Bash(git push * --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(curl * | sh*)",
+      "Bash(curl * | bash*)",
+      "Bash(eval *)",
+      "Edit(**/.env*)",
+      "Write(**/.env*)",
+      "Edit(**/.ssh/*)",
+      "Write(**/.ssh/*)",
+      "Edit(**/.aws/*)",
+      "Write(**/.aws/*)"
     ]
   }
 }

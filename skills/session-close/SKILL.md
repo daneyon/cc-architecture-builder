@@ -1,12 +1,12 @@
 ---
 name: session-close
-description: >
-  INVOKE THIS SKILL to cleanly close a session with proper state persistence and
-  context handoff. Triggers: ending a session, wrapping up work, switching to a new
-  task domain, context window getting full, user says "close", "wrap up", "save state",
-  "session done". Prevents context loss, broken state, orphaned progress, and stale
-  current-task files. Ensures next session can bootstrap cleanly.
+description: >-
+  Cleanly close session with state persistence and context handoff. Updates
+  progress.md, TODO.md, current-task.md. Triggers: close, wrap up, save state,
+  session done, ending session, context full.
 argument-hint: "Optional summary of what was accomplished"
+allowed-tools: Read, Write, Edit, Glob
+effort: medium
 ---
 
 # Session Close Protocol

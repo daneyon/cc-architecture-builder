@@ -1,14 +1,11 @@
 ---
 name: architecture-analyzer
 description: >-
-  INVOKE THIS SKILL for deep codebase analysis or new system architecture design.
-  Covers code structure review, full-stack application design, component decomposition,
-  data modeling, API design, technology selection, and architecture decision records
-  (ADRs). Triggers: review architecture, analyze code structure, evaluate design,
-  assess scalability/security, decompose monolith, design system from scratch,
-  tech stack evaluation. Applies multi-phase systems thinking across frontend,
-  backend, data, and infrastructure layers.
+  Deep codebase analysis and system architecture design. Covers structure review,
+  component decomposition, data modeling, API design, and ADRs. Triggers: review
+  architecture, analyze code, evaluate design, assess scalability, tech stack eval.
 argument-hint: "Target for analysis (e.g., 'src/auth/' or 'design a microservices architecture for order processing')"
+allowed-tools: Read, Grep, Glob, Bash
 effort: high
 agent: true
 ---

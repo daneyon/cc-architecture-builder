@@ -9,11 +9,7 @@ description: >
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: opus
 effort: high
-permissionMode: default
 skills: executing-tasks, validating-structure, auditing-workspace
-context:
-  - CLAUDE.md
-  - notes/progress.md
 ---
 
 # Orchestrator
