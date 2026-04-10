@@ -70,21 +70,26 @@ Implement one subtask at a time:
 1. **Focus on single subtask** — do not jump ahead
 2. **Commit after each meaningful subtask** (not at the end):
    ```bash
-   git add [specific files]
+   git add [specific files — never blind `git add .`]
    git commit -m "[type]: [description of subtask completed]"
    ```
-3. **If something goes wrong**: STOP immediately. Do not attempt heroic fixes.
+3. **Commit-per-phase cadence (DD-4, recommended)** — For multi-phase tasks
+   (Phase A → B → C), prefer one cohesive commit per phase over many small
+   per-subtask commits. Cleaner git history, easier audit trail, provides clear
+   work-commit anchors for the Phase 5 state refresh. This is guidance, not
+   prescription — use per-subtask commits when phases are long-running or when
+   incremental rollback is needed.
+4. **If something goes wrong**: STOP immediately. Do not attempt heroic fixes.
    Switch to plan mode and re-plan from current state.
-4. **Update progress** after each subtask:
-   ```markdown
-   # notes/progress.md
-   ## [Task name]
-   - [x] Subtask 1 — completed [timestamp]
-   - [ ] Subtask 2 — in progress
-   - [ ] Subtask 3 — pending
-   ```
+5. **Defer state updates to Phase 5** — Do not update `notes/progress.md` or
+   `notes/current-task.md` inline during execution. State files describe
+   *completed* work in past tense referencing commit hashes; updating them
+   before the commit lands guarantees stale tense (LL-26). The lightweight
+   exception: crossing-off completed subtasks in `notes/current-task.md` as
+   you go is acceptable since that doesn't describe work in tense-sensitive
+   status lines.
 
-**Failure mode prevented**: Broken state handoff (no progress tracking between sessions).
+**Failure mode prevented**: Broken state handoff (no progress tracking between sessions) + stale-tense state files (LL-26).
 
 ### Phase 4: VERIFY
 
@@ -117,23 +122,75 @@ After execution is complete, run verification **before** final commit:
 
 **Failure mode prevented**: Premature completion and skipped testing.
 
-### Phase 5: COMMIT
+### Phase 5: COMMIT (Two-Commit Pattern, LL-26/DD-1)
 
-Only after verification passes:
+Only after verification passes. **Two commits, not one** — work commit first,
+state refresh commit second. This structurally prevents stale-tense state files
+(Session 24 failure mode).
+
+#### Phase 5a: Work Commit
 
 ```bash
-git add [specific files — never blind `git add .`]
+git status                            # Inspect uncommitted changes
+git add [work files + any new KB/lesson artifacts that ARE the deliverable]
 git commit -m "[type]: [summary of completed work]
 
 [body: what was done, acceptance criteria met]
 
 Verified: [test results summary]"
+WORK_COMMIT=$(git rev-parse --short HEAD)
 ```
 
-Update state:
-- Mark task complete in `notes/progress.md`
-- Add any learned corrections to CLAUDE.md if applicable
-- Clean up `notes/current-task.md` or archive to `notes/completed/`
+**Classification rule** — what belongs in the work commit vs the state refresh:
+
+| File | Category | Goes In |
+|------|----------|---------|
+| Code, configs, skills, agents, KB, templates | **Work artifacts** | Work commit |
+| `notes/lessons-learned.md` (NEW LL entry codifying the lesson from this work) | **Work deliverable** | Work commit |
+| `notes/impl-plan-*.md` (NEW plan being committed as part of planning work) | **Work deliverable** | Work commit |
+| `notes/progress.md` (status refresh citing work-commit hash) | **State artifact** | State refresh commit |
+| `notes/current-task.md` (status refresh citing work-commit hash) | **State artifact** | State refresh commit |
+| `notes/TODO.md` (check-offs citing work-commit hash) | **State artifact** | State refresh commit |
+
+**Critical**: Exclude tense-sensitive state artifacts (progress.md, current-task.md,
+TODO.md) from this commit. They must reference `$WORK_COMMIT` in past tense,
+which is structurally impossible if they ride in the same commit as the work
+they describe. Knowledge artifacts (lessons-learned.md, KB files, plans) are
+NOT tense-sensitive in this way — they describe concepts, not transient status.
+
+#### Phase 5b: State Refresh
+
+Update state files using past-tense framing referencing `$WORK_COMMIT`:
+
+- `notes/current-task.md` — Mark subtasks complete with `"executed in <hash>"`
+- `notes/progress.md` — Session summary block with `Latest commit: <hash>`
+- `notes/TODO.md` — Check off items, cite hash where appropriate
+- `notes/lessons-learned.md` — Add any new LL entries
+- CLAUDE.md — Add any learned corrections if applicable
+
+**Tense hygiene check**:
+```bash
+grep -nE '^\*\*(Status|Phase|Gate)\*\*:.*(pending commit|ready for commit|awaiting commit|will commit)' notes/ || echo "CLEAN"
+```
+Expected output: `CLEAN`. Any match = stale tense in status line; fix before
+proceeding to Phase 5c.
+
+#### Phase 5c: State Refresh Commit
+
+```bash
+git add notes/
+git commit -m "chore(task): refresh state post-$WORK_COMMIT
+
+State updated with past-tense framing referencing work commit."
+```
+
+**Fallback — tense-neutral single-commit** (mid-task state touches with no
+substantive work): use `chore(notes): mid-task state update — <context>`.
+Only appropriate when no work files are staged.
+
+**Failure mode prevented**: Stale-tense state files (LL-26) — state artifacts
+frozen with "pending commit" language become invalid the instant the commit
+lands, misleading the next session's cold-start bootstrap.
 
 ## Failure Recovery
 

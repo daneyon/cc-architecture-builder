@@ -1,12 +1,25 @@
 #!/usr/bin/env bash
 # pre-push-state-review.sh
 #
-# CAB pre-push state review hook (LL-25). Deterministic gate layer of the
-# two-layer pre-push protection protocol.
+# CAB pre-push state review hook (LL-25 / LL-26). Deterministic gate layer of
+# the two-layer pre-push protection protocol.
 #
-# Purpose: Scan staged/tracked notes/ files for draft markers before allowing
-# `git push` to proceed. If markers found, block the push and suggest invoking
-# the pre-push-state-review skill for semantic review.
+# Purpose: Scan tracked notes/ files for two failure modes before allowing
+# `git push` to proceed:
+#   1. Draft markers (WIP/DRAFT/NOCOMMIT/PRIVATE labels) — LL-25
+#   2. Stale-tense status lines (pending/ready/awaiting commit) — LL-26
+#
+# Regex design (v2, post-Session-25-smoke-test):
+#   - Draft markers require LABEL format (followed by `:`) to avoid
+#     false-positives on descriptive prose mentioning the concepts.
+#     ❌ matches: "WIP: implement auth"           (label)
+#     ✅ allowed: "the WIP from last session"     (prose)
+#   - Tense markers require STATUS-LINE anchoring (line starts with
+#     **Status**:/**Phase**:/**Gate**:/**Current Position**:) to avoid
+#     false-positives on documentation/plans referencing the concepts.
+#     ❌ matches: "**Status**: pending commit"    (stale status)
+#     ✅ allowed: "the 'pending commit' pattern"  (prose)
+#     ✅ allowed: table cells documenting forbidden patterns
 #
 # Fires: PreToolUse on Bash tool
 # Filter: Only acts when the command is a `git push` variant
@@ -14,7 +27,8 @@
 # Exit 2: Block with reason (CC reads stderr as the block reason)
 #
 # References:
-#   - LL-25 (notes/lessons-learned.md)
+#   - LL-25 (notes/lessons-learned.md) — draft marker gate
+#   - LL-26 (notes/lessons-learned.md) — tense hygiene gate
 #   - skills/pre-push-state-review/SKILL.md (semantic review layer)
 #   - knowledge/operational-patterns/state-management/filesystem-patterns.md
 
@@ -41,36 +55,62 @@ fi
 
 notes_dir="$repo_root/notes"
 
-# Draft markers to detect (LL-25 defined set)
-markers='\b(WIP|DRAFT|PRIVATE|NOCOMMIT|TODO:redact|FIXME:private)\b'
+# Pattern 1 — Draft label markers (LL-25)
+# Require label format: marker followed by colon. Eliminates prose false-positives.
+# `\bTODO:redact\b` and `\bFIXME:private\b` are already label-shaped so pass as-is.
+draft_markers='\b(WIP|DRAFT|NOCOMMIT|PRIVATE):|\bTODO:redact\b|\bFIXME:private\b'
 
-# Scan tracked notes/ files for markers
-# Exclude _archive/, _drafts/, and draft-pattern files (already excluded from sync)
-matches=$(grep -rEn "$markers" "$notes_dir" \
-  --exclude-dir=_archive \
-  --exclude-dir=_drafts \
-  --exclude='scratch-*.md' \
-  --exclude='draft-*.md' \
-  --exclude='personal-*.md' \
-  2>/dev/null || true)
+# Pattern 2 — Stale-tense status lines (LL-26)
+# Anchored to markdown status-line contexts. Descriptive prose, body text,
+# table cells, and code-fenced examples are explicitly allowed.
+tense_markers='^\*\*(Status|Phase|Gate|Current Position|Next action)\*\*:.*\b(pending commit|ready for commit|awaiting commit|will commit)\b'
 
-if [ -z "$matches" ]; then
+# Common exclusions (files already excluded from tracking by .gitignore)
+exclude_args=(
+  --exclude-dir=_archive
+  --exclude-dir=_drafts
+  --exclude='scratch-*.md'
+  --exclude='draft-*.md'
+  --exclude='personal-*.md'
+)
+
+draft_matches=$(grep -rEn "$draft_markers" "$notes_dir" "${exclude_args[@]}" 2>/dev/null || true)
+# Tense markers use case-insensitive matching (catches "Ready"/"Pending"/"EXECUTED ✅ — Ready")
+tense_matches=$(grep -riEn "$tense_markers" "$notes_dir" "${exclude_args[@]}" 2>/dev/null || true)
+
+if [ -z "$draft_matches" ] && [ -z "$tense_matches" ]; then
   # Clean — allow push
   exit 0
 fi
 
 # Block with structured reason (written to stderr; CC surfaces this)
 {
-  echo "PRE-PUSH BLOCKED: Draft markers found in notes/ (LL-25)"
+  echo "PRE-PUSH BLOCKED: state file review failed (LL-25/LL-26)"
   echo ""
-  echo "The following state files contain draft markers that suggest in-dev content:"
-  echo ""
-  echo "$matches"
-  echo ""
+
+  if [ -n "$draft_matches" ]; then
+    echo "── Draft label markers (LL-25) ──"
+    echo "The following files contain labeled in-dev markers (e.g. 'WIP:', 'DRAFT:'):"
+    echo ""
+    echo "$draft_matches"
+    echo ""
+  fi
+
+  if [ -n "$tense_matches" ]; then
+    echo "── Stale-tense status lines (LL-26) ──"
+    echo "The following files have status lines with forbidden future/pending tense:"
+    echo ""
+    echo "$tense_matches"
+    echo ""
+    echo "Approved status-line patterns: 'executed in <hash>', 'committed in <hash>',"
+    echo "'landed in <hash>', 'executed YYYY-MM-DD'."
+    echo ""
+  fi
+
   echo "Resolution options:"
-  echo "  1. Remove the markers if content is ready to publish"
-  echo "  2. Move the file to notes/_archive/ to retroactively scrub (gitignored)"
-  echo "  3. Rename with scratch-/draft-/personal- prefix to exclude from tracking"
+  echo "  1. Remove/rewrite the flagged lines (recommended)"
+  echo "  2. Rename file with scratch-/draft-/personal- prefix to exclude from tracking"
+  echo "  3. Move file to notes/_archive/ to retroactively scrub (gitignored)"
   echo "  4. Invoke the 'pre-push-state-review' skill for semantic review"
   echo ""
   echo "To bypass this check (not recommended), set CAB_SKIP_PREPUSH_REVIEW=1 before push"

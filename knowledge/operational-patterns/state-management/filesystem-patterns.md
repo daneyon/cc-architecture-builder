@@ -8,11 +8,11 @@ depends_on: [session-lifecycle, orchestration-framework]
 related: [context-engineering, collaboration-patterns, worktree-workflows, git-foundation]
 complexity: intermediate
 last_updated: 2026-04-10
-estimated_tokens: 1200
+estimated_tokens: 1350
 source: CAB-original
 confidence: A
 review_by: 2026-07-10
-revision_note: "v3.1 — Added Git Tracking Policy section (LL-25). notes/ is now tracked by default with exclusion patterns for transient content. Multi-archetype justification: commit-local-only breaks for multi-machine/team/agent workflows."
+revision_note: "v3.2 — Added State File Tense Hygiene section (LL-26). Two-commit session close pattern (DD-1), forbidden/approved status-line patterns, anchored-regex enforcement. Addresses Session 24 stale-tense failure mode."
 ---
 
 # Filesystem State Patterns
@@ -242,6 +242,38 @@ CC's harness runs a 7-layer memory architecture: tool result storage (L1), micro
 4. **Re-read before any decision the LL governs** (reinforcing LL-12, LL-20). The value of LLs is proportional to how structurally they're woven into the workflow, not how thoroughly they're documented.
 
 This is the antidote to the LL-12/LL-17/LL-20 recurrence pattern: passive documentation doesn't prevent recurrence; structural integration does.
+
+---
+
+## State File Tense Hygiene (LL-26)
+
+State files committed alongside work become **stale the instant the work-commit lands** if they describe the work in future/pending tense. Session 24 tripped this: state said `"ready for commit + session close"` — accurate at write time, stale the moment `302f872` landed. Next session reads stale context.
+
+### Forbidden vs Approved Status-Line Patterns
+
+| | Pattern |
+|---|---|
+| **Forbidden** | `pending commit`, `ready for commit`, `awaiting commit`, `will commit`, `EXECUTED ✅ — ready for...` |
+| **Approved** | `executed in <hash>`, `committed in <hash>`, `landed in <hash>`, `executed YYYY-MM-DD` |
+
+The prohibition applies to **status-line contexts only** (`**Status**:`, `**Phase**:`, `**Gate**:`). Descriptive prose, body text, and code-fenced examples may reference the forbidden phrases freely — that's how this very document does it. The anchored-regex enforcement below distinguishes the two.
+
+### Two-Commit Session Close Pattern (DD-1)
+
+1. **Work commit** lands first with a descriptive message for the substantive change.
+2. **Refresh state files** in past tense, citing the work-commit hash (`"Executed in abc1234"`).
+3. **State refresh commit** lands as `chore(session-NN): refresh state post-<hash>`.
+
+Token cost ~130/session (0.065% budget) = negligible. A tense-neutral single-commit is a lightweight fallback for mid-session state touches only.
+
+### Enforcement Layers (Architecturally Woven)
+
+- `skills/session-close/SKILL.md` Step 4 — two-phase close protocol
+- `skills/executing-tasks/SKILL.md` Phase 5 — requires post-commit refresh + second commit
+- `hooks/scripts/pre-push-state-review.sh` — anchored status-line regex blocks stale push
+- Commit-per-phase cadence (DD-4) — recommended for multi-phase tasks
+
+See LL-26 in `notes/lessons-learned.md` for full root cause + corrective protocol.
 
 ---
 
