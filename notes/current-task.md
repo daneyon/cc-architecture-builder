@@ -92,8 +92,9 @@ Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-
 - A.2 `filesystem-patterns.md` — "State File Tense Hygiene" section
 - A.3 `skills/session-close/SKILL.md` — two-phase close pattern
 - A.4 `skills/executing-tasks/SKILL.md` — Phase 5 post-commit refresh
-- A.5 `hooks/scripts/pre-push-state-review.sh` — tense marker regex extension
-- A.6 Smoke test: retroactive validation against Session 24 files
+- A.5 `hooks/scripts/pre-push-state-review.sh` — tense marker regex extension. **CRITICAL nuance discovered in Session 25 smoke test**: naive regex on "pending commit" matches both (a) actual stale tense in status fields and (b) legitimate documentation/references to the concept (e.g., this very plan references "pending commit" descriptively). The regex must distinguish. Recommended: match only in status-line contexts like `^\*\*(Status|Phase|Gate)\*\*:.*pending commit` or similar anchored patterns. Alternatives considered: (i) unambiguous marker keyword `PENDING_COMMIT_REFRESH`, (ii) skip lines inside code fences/backticks. Anchored status-line matching is preferred because status lines are the actual failure surface; descriptive prose is fine.
+- A.6 `skills/executing-tasks/SKILL.md` — add commit-per-phase cadence as recommended guidance (DD-4, not prescriptive)
+- A.7 Smoke test: retroactive validation against Session 24 files (verify Session 24's stale `"EXECUTED ✅ — Ready for commit + session close"` would have been caught by the anchored regex)
 
 ### Phase B: CAB Finalization
 
