@@ -1,16 +1,87 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-10 (Session 24: State management git-tracking reform + LL-25)
-**Branch**: `master` (CAB), `main` (RAS-exec), `feat/plugin-first-migration-2026-04-09` (HydroCast)
-**Context health**: Closing cleanly. Session 24 work staged and verified; ready for commit.
+**Last session**: 2026-04-10 (Session 25: PLAN drafted for CAB protocol hardening + HydroCast harmonization)
+**Branch**: `master` (CAB, 2 commits ahead of origin), `main` (RAS-exec), `feat/plugin-first-migration-2026-04-09` (HydroCast)
+**Context health**: Session 25 closed cleanly at ~60% context usage. PLAN complete; Phase A execution deferred to Session 26 to preserve context budget for multi-file edits.
 
 ---
 
 ## Current Position
 
-**Gate**: LL-25 State Management Reform — EXECUTED ✅ (10/10 ACs pass, pending commit)
-**Next action**: (1) Commit Session 24 LL-25 reform, (2) HydroCast Phase 5 P1 KB remediation, (3) CAB LL-24 enhancement (marketplace.json awareness in audit skill), (4) CAB version bump v1.1.1, (5) LL-25 follow-ons (hook regex refinement, RAS-exec/HydroCast policy propagation, CC memory layer deep-dive, dream-consolidation skill concept)
-**Cumulative**: ...HydroCast P-MKT/P0/P0.5 ✅ + global settings cleanup ✅ → **Session 24: LL-25 state management reform (tracked notes/ + pre-push protocol + CC memory layer alignment) ✅**
+**Gate**: Session 25 PLAN v2 approved by user. Session 26 begins Phase A execution (CAB protocol hardening — tense hygiene fix).
+
+**Latest commits**:
+
+- `302f872` (Session 24): LL-25 state management reform — LOCAL ONLY (push deferred due to known pre-push hook false-positives on descriptive WIP prose)
+- `<session-25-state-commit>` (Session 25): State files refreshed with tense-neutral language, Session 25 plan documented — LOCAL ONLY (same push deferral)
+
+**Session 26 first actions**:
+
+1. Cold-start bootstrap: read `notes/current-task.md` (PLAN v2 with 7 Phase A ACs and 5 DDs) + this file's Session 25 block + `notes/lessons-learned.md` LL-25 entry
+2. Resume Phase A.1 — draft LL-26 entry for tense hygiene (root cause already documented in current-task.md)
+3. Proceed through A.2-A.7 incrementally, committing Phase A as a single cohesive commit at HITL-2 gate before Phase B
+
+**Next-step priority queue** (unchanged — see `notes/current-task.md` for full plan):
+A→B→C (CAB hardening + dedup) → D→E (HydroCast comparison + harmonization) → F (close)
+
+**Cumulative**: ...HydroCast P-MKT/P0/P0.5 ✅ → Session 24 LL-25 reform committed (`302f872`, unpushed) → **Session 25: PLAN v2 for tense hygiene + global dedup + HydroCast harmonization approved; Phase A execution deferred to preserve context**
+
+### Session 25 Summary — PLAN Drafted for CAB Protocol Hardening + HydroCast Harmonization
+
+**Objective**: Diagnose root cause of Session 24 hygiene lag (state files frozen with "pending commit" language), design multi-phase plan to (1) structurally prevent recurrence before CAB is applied to any project, (2) consolidate CAB as single source of truth by removing global duplicates, (3) strategically harmonize HydroCast's battle-tested 3-layer state mgmt with CAB's latest framework.
+
+**Outcome**: PLAN v2 approved by user. Execution deferred to Session 26 to preserve context budget. No code/config changes this session — plan drafting only.
+
+**Root causes documented in `notes/current-task.md`**:
+
+1. **Tense hygiene gap**: `skills/session-close/` Step 4 commits state updates but doesn't distinguish work-commit from state-refresh-commit. `skills/executing-tasks/` Phase 5 says update state AFTER commit but doesn't require a second commit for the refresh. Pre-push hook regex doesn't include tense markers. No documented tense-hygiene convention in `filesystem-patterns.md`. This is exactly the failure mode LL-25's "Lessons-Referenced Protocols" pattern was created to prevent — and it slipped through because LL-25 itself was the work being committed.
+2. **Global↔CAB duplication**: Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-task`, `commit-push-pr`, `context-sync`, `techdebt`). Global `~/.claude/skills/` and `agents/` also overlap with CAB (`architecture-analyzer`, `planning-implementation` skills; `orchestrator`, `verifier` agents). Two copies drift, confuses operators, violates CAB source-of-truth principle, obsolete since CAB is registered globally via `enabledPlugins`.
+
+**User-confirmed design decisions (DD-1 through DD-5)**:
+
+- **DD-1**: Two-commit pattern = default for session close (token cost negligible at ~130/session, 0.065% of budget); tense-neutral single-commit as lightweight fallback for mid-session state touches.
+- **DD-2**: Sync-upstream HITL default with minor auto-commit escape hatch for trivial deltas (whitespace, typos, already-aligned content) with clear log trail.
+- **DD-3**: HydroCast comparison-first — if CAB captures everything HydroCast's 3-layer practice offers AND nothing unique-to-HydroCast is advantageous, full restructure pre-approved; otherwise preserve unique value.
+- **DD-4**: Commit-per-phase = recommended guidance (not prescription) in CAB standardization — new AC-6 in Phase A adds this to `executing-tasks` skill.
+- **DD-5**: Global dedup = delete confirmed duplicates outright (global copies expected to be older); sync upstream only if global is rarely newer (HITL).
+
+**Plan structure (6 phases, see `notes/current-task.md` for full detail)**:
+
+- **Phase A** — CAB protocol hardening: 7 ACs, 5 files touched (LL-26 in lessons-learned.md, tense hygiene section in filesystem-patterns.md, two-phase close in session-close SKILL.md, Phase 5 refresh + commit-per-phase guidance in executing-tasks SKILL.md, tense marker regex in pre-push hook). Smoke test via retroactive validation against Session 24 state.
+- **Phase B** — CAB finalization: refresh state files using Phase A protocols, LL-25 artifact smoke tests, push decision (recommend `CAB_SKIP_PREPUSH_REVIEW=1` bypass for known false-positives), commit Phase A+B together as `feat: state file tense hygiene protocol (LL-26)`.
+- **Phase C** — Global↔CAB deduplication: inventory + diff global copies vs CAB equivalents, sync upstream any global improvements (rare), delete duplicates, update global `~/.claude/CLAUDE.md` registry, smoke test `/execute-task` still resolves via CAB plugin path.
+- **Phase D** — HydroCast strategic comparison (read-only): read HydroCast Tier 1 (learned-corrections.md, design-decisions.md D96, CLAUDE.md §Persistent Memory Architecture), Tier 2 (current-task.md, progress.md, session-24-transfer.md exemplar), compare to CAB baseline post-Phase-A, write comparison doc at `HydroCast/notes/cab-vs-hydrocast-state-mgmt-comparison-2026-04-10.md` answering the 7 review questions from `cab-state-mgmt-review-brief.md`.
+- **Phase E** — HydroCast remediation (HITL-4 gate): apply approved harmonization changes, Phase 5 P1 KB frontmatter fixes (3 files + INDEX.md), refresh HydroCast state files using CAB's new tense hygiene protocol, incremental commits on feat branch, push.
+- **Phase F** — CAB follow-on: update TODO.md, add upstream HydroCast patterns as new CAB TODOs, final commit + push.
+
+**HITL gates**:
+
+- HITL-1 (Session 25): ✅ PLAN approval obtained
+- HITL-2 (Session 26 end of Phase A): user reviews tense protocol deliverables before commit
+- HITL-3 (Phase C): user reviews dedup inventory + sync-upstream findings before deletion
+- HITL-4 (Phase E start): user scopes HydroCast harmonization approvals based on comparison doc
+
+**Strategic workflow advisory for HydroCast continuation** (embedded here for cross-session reference):
+
+- **HydroCast development stage**: Post-pilot → production buildout (W2 Production Infrastructure Strategic Assessment complete per Session 27 in HydroCast numbering). Parallel tracks active: W1-W4 platform infrastructure + GUI B.5 visual validation.
+- **Recommended CAB operational workflow patterns for Sessions 26-30**:
+  1. **Single-agent focus for Phase A** (CAB protocol updates) — deterministic text editing, no delegation needed, low risk of scope drift.
+  2. **Subagent delegation (fan-out) for Phase D comparison** — HydroCast Tier 1/2/3 file reads are context-heavy research; fan-out to Explore agent preserves main-context budget. Main session retains synthesis authority.
+  3. **HITL gate between Phase D and E** — comparison findings determine harmonization scope; cannot be pre-scripted.
+  4. **Worktree isolation NOT needed for Phase E** — HydroCast harmonization is sequential documentation work on one feat branch; worktree overhead outweighs benefit. Reserved for future parallel W3/W4 workstream execution if those need concurrent development.
+  5. **Verifier agent on final CAB deliverables** (Phase A + Phase E commits) — independent adversarial check before HITL-2 and final HydroCast push.
+  6. **Commit-per-phase (DD-4)** — 6 commits expected across Phases A-F, clean git history for audit trail.
+  7. **Two-commit pattern (DD-1)** applied at each session close from Session 26 onward — sets precedent for the pattern immediately after it's codified.
+- **HydroCast post-harmonization resume path**: Track A (W2 production infrastructure execution after user reviews W2 findings), Track B (GUI B.5 visual validation — user-directed, awaits compiled feedback). Harmonized state mgmt foundation enables confident session transitions across both tracks.
+
+**Files touched this session (state files only, no code/config)**:
+
+- `notes/current-task.md` — PLAN v2 written (was Session 24 stale content) — 167 lines
+- `notes/progress.md` — this Session 25 summary block added, Session 24 stale tense corrected
+- `notes/TODO.md` — no changes (Phase A execution will update)
+- `notes/lessons-learned.md` — no changes (LL-26 drafting deferred to Phase A.1)
+
+**Key risk for Session 26**: Avoid re-opening design discussions already settled by DD-1 through DD-5. The plan is locked; Session 26 executes. Only re-plan if execution surfaces a blocking issue not anticipated in the current plan.
 
 ### Session 24 Summary
 
