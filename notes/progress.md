@@ -1,30 +1,74 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-10 (Session 25: PLAN drafted for CAB protocol hardening + HydroCast harmonization)
-**Branch**: `master` (CAB, 2 commits ahead of origin), `main` (RAS-exec), `feat/plugin-first-migration-2026-04-09` (HydroCast)
-**Context health**: Session 25 closed cleanly at ~60% context usage. PLAN complete; Phase A execution deferred to Session 26 to preserve context budget for multi-file edits.
+**Last session**: 2026-04-10 (Session 26: Phase A LL-26 tense hygiene protocol landed in `62bf4a9`; Phase B state refresh in-flight)
+**Branch**: `master` (CAB, 4 commits ahead of origin after Session 26), `main` (RAS-exec), `feat/plugin-first-migration-2026-04-09` (HydroCast)
+**Context health**: Session 26 executed Phase A in a single focused pass. Phase B state refresh applies the new two-commit protocol to itself (dogfood test). Context budget remains healthy for Phase C inventory work if HITL-2 approves continuation.
 
 ---
 
 ## Current Position
 
-**Gate**: Session 25 PLAN v2 approved by user. Session 26 begins Phase A execution (CAB protocol hardening — tense hygiene fix).
+**Gate**: HITL-2 — Phase A deliverables committed in `62bf4a9`; awaiting user review of tense protocol changes before proceeding to Phase C (global dedup). Phase B state refresh commit to land after this block lands.
 
 **Latest commits**:
 
-- `302f872` (Session 24): LL-25 state management reform — LOCAL ONLY (push deferred due to known pre-push hook false-positives on descriptive WIP prose)
-- `<session-25-state-commit>` (Session 25): State files refreshed with tense-neutral language, Session 25 plan documented — LOCAL ONLY (same push deferral)
+- `302f872` (Session 24): LL-25 state management reform — LOCAL ONLY
+- `56975f8` (Session 25): PLAN v2 drafted — LOCAL ONLY
+- `264a861` (Session 25): A.5 regex design nuance captured from smoke test — LOCAL ONLY
+- `62bf4a9` (Session 26): **feat: state file tense hygiene protocol (LL-26)** — 5 files changed (+257/-75). Implements LL-26 lesson, v3.2 filesystem-patterns.md section, two-phase session-close, executing-tasks Phase 5 split (5a/5b/5c), anchored hook regex with case-insensitive tense matching. All 7 ACs PASS.
+- `<phase-5b-commit-pending>` (Session 26): State refresh post-`62bf4a9` — landing next.
 
-**Session 26 first actions**:
+**Next-step priority queue**:
+1. Phase B.5 push — clean push with no `CAB_SKIP_PREPUSH_REVIEW=1` bypass (eliminated by A.5 regex fix)
+2. **HITL-2 gate** — user reviews Phase A deliverables before Phase C
+3. Phase C — global↔CAB dedup (inventory + diff + delete + registry update)
+4. Phase D — HydroCast strategic comparison (read-only, fan-out agents)
+5. Phase E — HydroCast remediation (HITL-4 gate)
+6. Phase F — CAB follow-on close
 
-1. Cold-start bootstrap: read `notes/current-task.md` (PLAN v2 with 7 Phase A ACs and 5 DDs) + this file's Session 25 block + `notes/lessons-learned.md` LL-25 entry
-2. Resume Phase A.1 — draft LL-26 entry for tense hygiene (root cause already documented in current-task.md)
-3. Proceed through A.2-A.7 incrementally, committing Phase A as a single cohesive commit at HITL-2 gate before Phase B
+**Cumulative**: ...HydroCast P-MKT/P0/P0.5 ✅ → Session 24 LL-25 reform (`302f872`, unpushed) → Session 25 PLAN v2 (`56975f8`+`264a861`, unpushed) → **Session 26: Phase A LL-26 tense hygiene protocol landed in `62bf4a9`. Two-commit pattern dogfooded on itself. `CAB_SKIP_PREPUSH_REVIEW=1` bypass dependency eliminated.**
 
-**Next-step priority queue** (unchanged — see `notes/current-task.md` for full plan):
-A→B→C (CAB hardening + dedup) → D→E (HydroCast comparison + harmonization) → F (close)
+### Session 26 Summary — Phase A LL-26 Tense Hygiene Protocol
 
-**Cumulative**: ...HydroCast P-MKT/P0/P0.5 ✅ → Session 24 LL-25 reform committed (`302f872`, unpushed) → **Session 25: PLAN v2 for tense hygiene + global dedup + HydroCast harmonization approved; Phase A execution deferred to preserve context**
+**Objective**: Execute Phase A (CAB protocol hardening) from Session 25's approved PLAN v2. Structurally prevent recurrence of Session 24's stale-tense failure mode before applying CAB to HydroCast.
+
+**Outcome**: All 7 Phase A ACs PASS. Delivered in single cohesive commit `62bf4a9` per DD-4 commit-per-phase cadence. Two-commit pattern (DD-1) dogfooded — Phase A work committed first, this progress block + TODO.md updates + current-task.md refresh landing in separate Phase 5b commit referencing `62bf4a9`.
+
+**Key work landed in `62bf4a9`**:
+
+1. **LL-26 entry** (`notes/lessons-learned.md`) — full root cause, forbidden/approved patterns, two-commit pattern rationale, enforcement layers, smoke test outcome, reinforces LL-25/LL-20
+2. **Filesystem patterns KB** (`filesystem-patterns.md` v3.2, 299 lines) — new top-level "State File Tense Hygiene (LL-26)" section with forbidden/approved table, two-commit pattern steps, enforcement layer list
+3. **session-close skill** — Step 2 (work commit first) with work-vs-state classification rule, Step 3 (past-tense refresh citing hash), Step 4 (tense hygiene grep check), Step 5 (state refresh commit), Step 6-7 (verify + report). Anti-patterns updated with LL-26 reference.
+4. **executing-tasks skill** — Phase 3 gains commit-per-phase cadence guidance (DD-4) + defer-state-updates rule. Phase 5 split into 5a (work commit), 5b (state refresh), 5c (state refresh commit). Classification table distinguishes work deliverables (including new LL entries) from tense-sensitive state artifacts.
+5. **Pre-push hook regex v2** (`pre-push-state-review.sh`) — two pattern types:
+   - Draft labels: `\b(WIP|DRAFT|NOCOMMIT|PRIVATE):` (colon-suffix required, eliminates prose false-positives, resolves existing LL-25 follow-on)
+   - Tense markers: `^\*\*(Status|Phase|Gate|Current Position|Next action)\*\*:.*\b(pending commit|ready for commit|awaiting commit|will commit)\b` (anchored, case-insensitive, rejects descriptive prose + table cells)
+
+**Smoke test results (6 scenarios, all PASS)**:
+
+| # | Input | Expected | Result |
+|---|-------|----------|--------|
+| 1 | `**Status**: EXECUTED ✅ — Ready for commit + session close` (Session 24 actual) | MATCH | ✅ matched |
+| 2 | `**Phase**: pending commit + push` | MATCH | ✅ matched |
+| 3 | `The previous session left things in a pending commit state.` | NOT MATCH | ✅ rejected |
+| 4 | `\| **Forbidden** \| pending commit, ready for commit \|` | NOT MATCH | ✅ rejected |
+| 5 | `  // <LABEL, colon>` (comment-style draft label) | MATCH | ✅ matched |
+| 6 | `The draft-label from last session was finalized.` (prose mention) | NOT MATCH | ✅ rejected |
+
+**Live repo scan**: Clean on tense markers. The expected meta-case remaining is documentation files that reference the literal draft-label syntax as examples — that's the backtick-wrapped marker exclusion follow-on captured in TODO.md. Not a false negative of the protocol; an expected limitation of POSIX ERE without negative lookbehind.
+
+**Design decisions applied**: DD-1 (two-commit default ✅ dogfooded), DD-4 (commit-per-phase ✅ single Phase A commit), LL-25/LL-26 architectural integration pattern (lessons woven into skills/agents/hooks, not passive documentation).
+
+**Edge case surfaced mid-execution**: "Where does a new LL entry codifying the current work's lesson belong — work commit or state refresh commit?" Resolved by adding a classification rule to both session-close and executing-tasks skills: knowledge artifacts (new LL entries, KB files, impl-plans) go with the work commit; only tense-sensitive status artifacts (progress.md, current-task.md, TODO.md) get deferred to the state refresh commit. This refinement was added to the Phase A deliverables before the `62bf4a9` commit landed.
+
+**Remaining LL-26 follow-on added to TODO**: Backtick-wrapped marker exclusion (low priority — primary failure mode is cleanly handled).
+
+**Push strategy**: Phase B.5 push will proceed without the `CAB_SKIP_PREPUSH_REVIEW=1` bypass. The A.5 regex refinement eliminates the bypass dependency by design.
+
+**Files touched this session**:
+
+- *(Work commit `62bf4a9`)*: `notes/lessons-learned.md`, `knowledge/operational-patterns/state-management/filesystem-patterns.md`, `skills/session-close/SKILL.md`, `skills/executing-tasks/SKILL.md`, `hooks/scripts/pre-push-state-review.sh`
+- *(State refresh commit, this block)*: `notes/current-task.md`, `notes/progress.md`, `notes/TODO.md`
 
 ### Session 25 Summary — PLAN Drafted for CAB Protocol Hardening + HydroCast Harmonization
 

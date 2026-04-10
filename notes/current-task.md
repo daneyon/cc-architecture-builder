@@ -1,10 +1,10 @@
 # Current Task: CAB Source-of-Truth Consolidation + HydroCast State Mgmt Harmonization
 
-**Status**: PLAN v2 approved by user (Session 25, 2026-04-10). Execution resumes at Phase A in Session 26.
-**Started**: 2026-04-10 (Session 25 drafted plan; Session 26 begins Phase A execution)
-**Branches**: `master` (CAB, 2 commits ahead of origin after Session 25 state commit), `feat/plugin-first-migration-2026-04-09` (HydroCast, 9 modified + 7 untracked pre-existing from earlier sessions — NOT our work)
-**Prior task**: LL-25 state management reform (Session 24 commit `302f872`, local-only) exposed two structural gaps this task addresses (tense hygiene + global dedup)
-**Next action**: Session 26 cold-start → read this file + progress.md Session 25 block → begin Phase A.1 (draft LL-26)
+**Status**: Phase A executed in `62bf4a9` (Session 26, 2026-04-10). Phase B state refresh landing next; Phase C (global dedup) queued at HITL-3.
+**Started**: 2026-04-10 (Session 25 drafted plan; Session 26 executed Phase A + Phase B)
+**Branches**: `master` (CAB, 4 commits ahead of origin after Session 26 — `302f872` LL-25 + `56975f8` + `264a861` Session 25 plan + `62bf4a9` LL-26 Phase A), `feat/plugin-first-migration-2026-04-09` (HydroCast, unchanged from Session 25 — 9 modified + 7 untracked pre-existing)
+**Prior task**: LL-25 state management reform (Session 24 commit `302f872`, local-only) exposed two structural gaps this task addresses (tense hygiene ✅ done + global dedup pending)
+**Next action**: Complete Phase B push (HITL-2 gate on Phase A deliverables) → begin Phase C inventory + diff
 
 ## Design Decisions (User-Confirmed 2026-04-10)
 
@@ -48,15 +48,15 @@ Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-
 
 ## Acceptance Criteria
 
-### Phase A — CAB Protocol Hardening
+### Phase A — CAB Protocol Hardening ✅ (landed in `62bf4a9`)
 
-- [ ] AC-1: LL-26 entry drafted + added to `notes/lessons-learned.md` (tense hygiene + two-commit session close pattern)
-- [ ] AC-2: `filesystem-patterns.md` gains "State File Tense Hygiene" subsection (approved/forbidden patterns + two-commit protocol)
-- [ ] AC-3: `skills/session-close/SKILL.md` revised with explicit two-phase close (work commit → state refresh commit) + tense checklist
-- [ ] AC-4: `skills/executing-tasks/SKILL.md` Phase 5 COMMIT revised to require post-commit state refresh + second commit
-- [ ] AC-5: `hooks/scripts/pre-push-state-review.sh` regex extended with tense markers
-- [ ] AC-6: `skills/executing-tasks/SKILL.md` adds commit-per-phase as recommended cadence guidance (not prescription, per DD-4)
-- [ ] AC-7: Smoke test — retroactively apply updated protocol to Session 24 state (confirm it would have caught the stale tense)
+- [X] AC-1: LL-26 entry drafted + added to `notes/lessons-learned.md` (tense hygiene + two-commit session close pattern) — `62bf4a9`
+- [X] AC-2: `filesystem-patterns.md` gained "State File Tense Hygiene" section (v3.2, approved/forbidden patterns + two-commit protocol) — `62bf4a9`
+- [X] AC-3: `skills/session-close/SKILL.md` revised with explicit two-phase close (work commit → state refresh commit) + tense checklist + work-vs-state classification rule — `62bf4a9`
+- [X] AC-4: `skills/executing-tasks/SKILL.md` Phase 5 split into 5a/5b/5c; requires post-commit state refresh + second commit; classification table added — `62bf4a9`
+- [X] AC-5: `hooks/scripts/pre-push-state-review.sh` regex refactored (v2) — two pattern types (draft labels require colon-suffix; tense markers require status-line anchoring); case-insensitive tense matching — `62bf4a9`
+- [X] AC-6: `skills/executing-tasks/SKILL.md` Phase 3 adds commit-per-phase cadence as recommended guidance (DD-4, not prescription) + defer-state-updates rule — `62bf4a9`
+- [X] AC-7: Smoke test — retroactively validated against Session 24's `**Status**: EXECUTED ✅ — Ready for commit + session close` (caught), plus 6 scenarios: labels/prose/table-cells/status-lines/lowercase/descriptive all correctly classified — Session 26 A.7
 
 ### Phase B — CAB Finalization
 
