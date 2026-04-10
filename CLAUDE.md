@@ -164,10 +164,27 @@ See `knowledge/operational-patterns/orchestration/framework.md` for full detail.
 
 ## State Management
 
-- Read `notes/TODO.md` for current task state and progress tracking
-- Read `notes/progress.md` for live session state and bootstrap protocol
-- Read `notes/lessons-learned.md` for operational constraints and insights
-- Internal design docs are in `docs/_internal/` (not tracked in git)
+**`notes/` is TRACKED BY DEFAULT (LL-25)** — state artifacts are first-class deliverables, not scratch work. See [filesystem-patterns.md](knowledge/operational-patterns/state-management/filesystem-patterns.md#git-tracking-policy) for the full policy.
+
+### Bootstrap Protocol (always-load)
+
+- Read `notes/current-task.md` for active task context (<100 line anchor)
+- Read `notes/progress.md` for live session state and cumulative position
+- Read `notes/TODO.md` for tactical task queue and priorities
+- Read `notes/lessons-learned.md` for operational constraints (**architecturally enforced**, not optional reference — LL-25)
+
+### Track / Exclude Policy
+
+- **Tracked**: `progress.md`, `TODO.md`, `lessons-learned.md`, `current-task.md`, `impl-plan-*.md`, audit artifacts
+- **Excluded**: `notes/scratch-*.md`, `notes/draft-*.md`, `notes/personal-*.md`, `notes/_drafts/`, `notes/_archive/`
+- **Curation over compression** — CAB state files optimize for lossless semantic preservation; CC's internal memory layers optimize for token efficiency. These are complementary.
+- **Pre-push review** — two-layer protocol (hook + skill) catches draft markers before publication. See `hooks/pre-push-state-review.sh` + `skills/pre-push-state-review/`.
+- **Internal design docs** are in `docs/_internal/` (not tracked in git)
+
+### File Size Guidance
+
+- `current-task.md`: **<100 lines hard target** (cold-start anchor, concise by design)
+- `progress.md`, `TODO.md`, `lessons-learned.md`: **agentically flexible** — no hard limits. Archive to `notes/_archive/` before sync if bloat becomes a concern.
 
 ## Verification
 
@@ -190,6 +207,7 @@ Operational constraints from cross-session experience. Full log: `notes/lessons-
 - **LL-15**: Agent `context:` frontmatter does NOT exist in CC — use `skills:` for preloading
 - **LL-16**: `effort`, `allowed-tools`, `agent` are valid top-level skill fields (not under `metadata:`)
 - **LL-21**: Plugin components at root (`agents/`, `skills/`, `commands/`); `.claude/` for config only
+- **LL-25**: `notes/` tracked by default — multi-archetype policy. Curation > compression. Pre-push review protocol (hook + skill). Lessons-referenced protocols: LLs must be structurally woven into skills/agents, not passively documented
 
 ## Constraints
 

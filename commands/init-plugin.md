@@ -22,14 +22,15 @@ Create a new CAB-compliant plugin project with the complete base architecture, i
 
 3. **Generate core files from templates**:
    - `.claude-plugin/plugin.json` from `templates/plugin/plugin.json.template`
+   - `.claude-plugin/marketplace.json` from `templates/plugin/marketplace.json.template` (LL-24)
    - `CLAUDE.md` from `templates/plugin/CLAUDE.md.template`
    - `.claude/settings.json` from `templates/plugin/settings.json.template`
    - `README.md` from `templates/plugin/README.md.template`
-   - `.gitignore` (CC security defaults)
+   - `.gitignore` (CC security defaults + `notes/` tracking policy — see LL-25)
    - `.mcp.json` (empty scaffold)
-   - `hooks/hooks.json` (with PostToolUse format hook)
+   - `hooks/hooks.json` (with PostToolUse format hook + pre-push state review hook — LL-25)
    - `knowledge/INDEX.md` (empty scaffold)
-   - `notes/.gitkeep`
+   - `notes/progress.md`, `notes/TODO.md`, `notes/lessons-learned.md` (tracked seed files, LL-25)
 
 4. **Initialize git** (private by default):
    ```bash
@@ -78,7 +79,10 @@ Create a new CAB-compliant plugin project with the complete base architecture, i
   ├── agents/
   ├── knowledge/INDEX.md
   ├── hooks/hooks.json
-  └── notes/
+  └── notes/                        (tracked — state management SSOT)
+      ├── progress.md
+      ├── TODO.md
+      └── lessons-learned.md
 
 ✓ Git initialized (private)
 ✓ Initial commit: "Initial plugin structure via CAB /init-plugin"

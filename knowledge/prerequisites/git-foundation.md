@@ -47,11 +47,14 @@ mkdir my-custom-llm && cd my-custom-llm
 git init
 
 # 5. Create initial structure and commit
-mkdir -p .claude-plugin commands agents skills knowledge docs
+mkdir -p .claude-plugin commands agents skills knowledge docs notes
 touch CLAUDE.md README.md .gitignore
+touch notes/progress.md notes/TODO.md notes/lessons-learned.md
 git add .
 git commit -m "Initial project structure"
 ```
+
+**Note on `notes/`**: The `notes/` directory is **tracked by default**, not gitignored. State artifacts (`progress.md`, `TODO.md`, `lessons-learned.md`, `current-task.md`, `impl-plan-*.md`, audit reports) are first-class deliverables that must survive sessions, machines, and collaborators. See [filesystem-patterns.md](../operational-patterns/state-management/filesystem-patterns.md#git-tracking-policy) for the full tracking policy, exclusion patterns, and pre-push review protocol.
 
 ## Recommended .gitignore
 
@@ -86,6 +89,16 @@ build/
 
 # Vector database (if using local semantic search)
 .vectors/
+
+# State management — TRACKED BY DEFAULT
+# notes/ is intentionally NOT gitignored. State artifacts are first-class
+# deliverables. Only transient/private content is excluded below.
+# See knowledge/operational-patterns/state-management/filesystem-patterns.md
+notes/scratch-*.md
+notes/draft-*.md
+notes/personal-*.md
+notes/_drafts/
+notes/_archive/
 ```
 
 ## GitHub Repository Setup

@@ -66,5 +66,18 @@ cc-architecture-builder.code-workspace
 docs/_internal/
 docs/_archive/
 
-# Personal session notes (state management, audit artifacts)
-notes/
+# State management artifacts — TRACKED BY DEFAULT (see knowledge/operational-patterns/state-management/filesystem-patterns.md)
+# notes/ is intentionally tracked: progress.md, TODO.md, lessons-learned.md, current-task.md,
+# impl-plan-*.md, and audit artifacts are first-class deliverables that survive sessions and
+# machines. Exclusions below are for transient, private, or retroactively-scrubbed content only.
+
+# Ad-hoc exclusion patterns (draft markers)
+notes/scratch-*.md
+notes/draft-*.md
+notes/personal-*.md
+
+# Organized drafts subdirectory
+notes/_drafts/
+
+# Archive escape hatch (retroactive scrub for content already committed)
+notes/_archive/

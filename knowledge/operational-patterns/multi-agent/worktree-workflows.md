@@ -124,6 +124,7 @@ When the orchestrator detects a parallelizable task:
 - **Keep a dedicated analysis worktree** for read-only investigation
 - **Enable system notifications** to know when a session needs input
 - **Clean up after merging** — worktrees are ephemeral task containers
+- **State changes travel with code changes** (LL-17, LL-25): `notes/` is tracked by default, so state mutations (`progress.md`, `TODO.md`, `current-task.md`) happen on the same branch as the code change that produced them. This eliminates split-brain workflows where code lives on feat branches but state lives on main — the source of LL-17 cross-branch contamination. Always `cd` into the worktree before mutating state files.
 
 ### Cleanup
 

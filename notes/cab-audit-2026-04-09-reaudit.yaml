@@ -1,0 +1,203 @@
+# CAB Workspace Audit — Machine-readable artifact (Re-audit)
+audit_version: "1.0"
+cab_version: "1.1.0"
+audit_date: "2026-04-09"
+audit_type: "reaudit"
+project_path: "c:/Users/daniel.kang/Desktop/Automoto/cc-architecture-builder"
+project_type: "plugin"
+complexity_tier: "advanced"
+
+overall:
+  score: 13
+  max_score: 21
+  percentage: 62
+  classification: "DEVELOPING"
+  dimensions_audited: 7
+  dimensions_na: 0
+  findings_count:
+    error: 0
+    warn: 9
+    info: 2
+    suppressed: 0
+
+dimensions:
+  claudemd:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "CM-09: @imports for depth"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "Workflow diagrams (lines 97-125) and Templates section (lines 136-144) are inlined. Could be @imported or replaced with 2-3 line summaries pointing to KB/skill docs."
+        remediation: "Replace verbose workflow sections with @import references or concise summaries. Keep CLAUDE.md as behavioral anchors."
+        delta: "PERSISTENT — unchanged from prior audit"
+      - criterion: "CM-14: Seed instruction architecture"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "CLAUDE.md at 200 lines is at the recommended ceiling. Workflow ASCII diagrams (lines 97-125) and Templates/Security/Interactive sections consume ~40 lines that could be condensed."
+        remediation: "Condense workflow + templates + security sections to free token budget. Move detail to KB docs."
+        delta: "PERSISTENT — unchanged from prior audit"
+    resolved_from_prior:
+      - "CM-06: Domain guidelines section — NOW PRESENT (lines 16-23)"
+      - "CM-07: Extension registry table — NOW PRESENT (lines 27-49)"
+      - "CM-10: Learned corrections section — NOW PRESENT (lines 182-193)"
+      - "CM-13: Verification commands — NOW PRESENT (lines 172-180)"
+
+  agents:
+    score: 3
+    max: 3
+    findings:
+      - criterion: "AG-13: Memory field"
+        status: "info"
+        classification: "ENHANCEMENT"
+        severity: "INFO"
+        evidence: "No agents have 'memory: user' configured. For orchestrator and architecture-advisor, cross-session memory could improve continuity."
+        remediation: "Consider adding 'memory: user' to orchestrator and architecture-advisor agents."
+        delta: "PERSISTENT — deferred from prior audit (INFO-level, does not affect score)"
+    resolved_from_prior:
+      - "AG-05: Invalid field names — RESOLVED (context: removed from all agents, disallowedTools: removed from verifier)"
+      - "AG-14: Plugin-restricted fields — RESOLVED (permissionMode: removed from all 4 agents)"
+
+  skills:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "SK-10: agent:true for investigative skills"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "5 multi-step skills lack 'agent: true': executing-tasks, planning-implementation, scaffolding-projects, session-close, validating-structure. Only architecture-analyzer and auditing-workspace have it."
+        remediation: "Add 'agent: true' to multi-step skills that benefit from subagent execution context."
+        delta: "PERSISTENT — unchanged from prior audit"
+      - criterion: "SK-11: See Also / References section"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "3/9 skills lack KB cross-references: architecture-analyzer, quick-scaffold, session-close. Improved from 8/9 missing in prior audit."
+        remediation: "Add '## See Also' footer to remaining 3 skills with relevant KB doc links."
+        delta: "PARTIALLY RESOLVED — improved from 8/9 missing to 3/9 missing"
+    resolved_from_prior:
+      - "SK-05: Description length <=250 chars — RESOLVED (all 9 now under 250: max is architecture-analyzer at 240)"
+      - "SK-08: allowed-tools scoped — RESOLVED (all 9 now have allowed-tools field)"
+      - "SK-09: effort field — RESOLVED (all 9 now have effort field)"
+
+  settings:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "ST-08: Hooks configured"
+        status: "warn"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No hooks section in .claude/settings.json. For Advanced tier, at minimum SessionStart and PreToolUse hooks expected."
+        remediation: "Add hooks section per knowledge/components/hooks.md patterns."
+        delta: "PERSISTENT — deferred from prior audit"
+      - criterion: "ST-09: Sandbox configured"
+        status: "warn"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No sandbox configuration in settings.json."
+        remediation: "Add sandbox configuration or document why not applicable."
+        delta: "PERSISTENT — deferred from prior audit"
+    resolved_from_prior:
+      - "ST-05: Deny list — RESOLVED (expanded from 3 to 14 patterns: git push --force, git reset --hard, git clean -f, curl|sh, curl|bash, eval, .env, .ssh, .aws)"
+      - "ST-12: Sensitive path protection — RESOLVED (Edit/Write deny for .env*, .ssh/*, .aws/*)"
+      - "ST-14: Plugin root settings.json — RESOLVED (created with { \"agent\": \"orchestrator\" })"
+
+  rules:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "RU-05: paths: frontmatter for file-scoped rules"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "Only kb-conventions.md has paths: scoping (paths: knowledge/**). component-standards.md and security.md apply globally but could be scoped to agents/skills paths."
+        remediation: "Add 'paths:' frontmatter to component-standards.md (scope to agents/ and skills/) and security.md (scope to .claude/)."
+        delta: "NEW — not flagged in prior audit (rules did not exist)"
+      - criterion: "RU-09: Interaction/communication rules"
+        status: "info"
+        classification: "MISSING"
+        severity: "INFO"
+        evidence: "No interaction/communication rules present. Global rules cover this, so project-level rules may be unnecessary."
+        remediation: "Optional: add interaction rules if project-specific communication patterns exist beyond global rules."
+        delta: "NEW — INFO only"
+    resolved_from_prior:
+      - "RU-01: Rules directory exists — RESOLVED (3 rule files created: component-standards.md, security.md, kb-conventions.md)"
+
+  knowledge:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "KB-09: Atomic file sizing (<=300 lines)"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "6 files exceed 300-line limit: cc-architecture-diagrams.md (466), team-collaboration.md (340), product-design-cycle.md (339), hooks.md (324), marketplace.md (320), global-user-config.md (303)."
+        remediation: "Split oversized files into focused subtopics."
+        delta: "PERSISTENT — deferred from prior audit"
+      - criterion: "KB-12: INDEX last_updated freshness"
+        status: "warn"
+        classification: "STALE"
+        severity: "WARN"
+        evidence: "INDEX.md last_updated: 2026-04-05 — predates Phase 2 migration (2026-04-08). File count (36) still matches actual count, so content is aligned but date is stale."
+        remediation: "Run /kb-index to update last_updated date."
+        delta: "PERSISTENT — deferred from prior audit"
+
+  hooks:
+    score: 0
+    max: 3
+    findings:
+      - criterion: "HK-05: Any hooks configured"
+        status: "fail"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No hooks/ directory. No hooks section in .claude/settings.json. Zero hook configuration anywhere in the project."
+        remediation: "Create hooks/hooks.json with at minimum SessionStart bootstrap hook."
+        delta: "PERSISTENT — deferred from prior audit"
+
+delta:
+  previous_date: "2026-04-09"
+  previous_score: 10
+  previous_percentage: 48
+  score_change: 3
+  percentage_change: 14
+  changed_dimensions:
+    - dimension: "agents"
+      previous: 2
+      current: 3
+      direction: "improved"
+    - dimension: "rules"
+      previous: 0
+      current: 2
+      direction: "improved"
+    - dimension: "claudemd"
+      previous: 2
+      current: 2
+      direction: "unchanged (4 findings resolved, 2 remain)"
+    - dimension: "skills"
+      previous: 2
+      current: 2
+      direction: "unchanged (3 findings resolved, 2 remain)"
+    - dimension: "settings"
+      previous: 2
+      current: 2
+      direction: "unchanged (3 findings resolved, 2 remain)"
+    - dimension: "knowledge"
+      previous: 2
+      current: 2
+      direction: "unchanged (deferred findings)"
+    - dimension: "hooks"
+      previous: 0
+      current: 0
+      direction: "unchanged (deferred)"
+
+remediation_summary:
+  resolved: 17
+  persistent: 7
+  new: 2
+  total_remaining: 9
+
+suppressed: []

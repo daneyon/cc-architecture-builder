@@ -1,0 +1,198 @@
+# CAB Workspace Audit — Machine-readable artifact
+audit_version: "1.0"
+cab_version: "1.1.0"
+audit_date: "2026-04-09"
+project_path: "c:/Users/daniel.kang/Desktop/Automoto/cc-architecture-builder"
+project_type: "plugin"
+complexity_tier: "advanced"
+
+overall:
+  score: 10
+  max_score: 21
+  percentage: 48
+  classification: "DEVELOPING"
+  dimensions_audited: 7
+  dimensions_na: 0
+  findings_count:
+    error: 7
+    warn: 14
+    info: 3
+    suppressed: 0
+
+dimensions:
+  claudemd:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "CM-06: Domain guidelines section"
+        status: "fail"
+        classification: "ENHANCEMENT"
+        severity: "ERROR"
+        evidence: "No explicit 'Domain Guidelines' section. Core Principles partially covers domain context but does not establish language, framework, or architectural constraints."
+        remediation: "knowledge/components/memory-claudemd.md — add concise domain guidelines (e.g., Markdown-centric, Python 3.11+, CC platform conventions)"
+      - criterion: "CM-07: Extension registry table"
+        status: "fail"
+        classification: "ENHANCEMENT"
+        severity: "ERROR"
+        evidence: "Available Commands table lists 16 commands but no registry of 4 agents or 9 skills. Incomplete extension visibility."
+        remediation: "Add extension registry table: agents (4), skills (9), commands (16). See knowledge/components/memory-claudemd.md seed instruction patterns."
+      - criterion: "CM-09: @imports for depth"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "References KB INDEX via markdown paths but no formal @import directives. CLAUDE.md inlines workflow diagrams and templates section that could be @imported."
+        remediation: "Replace verbose sections (Workflow for New Projects, Workflow for Existing Projects) with @import references to KB or skill docs."
+      - criterion: "CM-10: Learned corrections section"
+        status: "fail"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No learned corrections / feedback loop section in CLAUDE.md despite 21 entries in notes/lessons-learned.md. Cross-session corrections not surfaced at CLAUDE.md level."
+        remediation: "Add '## Learned Corrections' section — even a stub pointing to notes/lessons-learned.md."
+      - criterion: "CM-13: Verification commands"
+        status: "fail"
+        classification: "MISSING"
+        severity: "ERROR"
+        evidence: "No verification commands documented. Advanced project should specify how to validate the project (e.g., '/validate', '/validate --cab-audit', test commands)."
+        remediation: "Add '## Verification' section with key validation commands."
+      - criterion: "CM-14: Seed instruction architecture"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "CLAUDE.md at 141 lines is within budget but includes verbose ASCII workflow diagrams (lines 60-88) that consume tokens. Could be more concise as seed instructions."
+        remediation: "Condense workflow sections to 2-3 line summaries + @import. Keep CLAUDE.md as behavioral anchors, not workflow documentation."
+
+  agents:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "AG-05: Invalid field names"
+        status: "fail"
+        classification: "STALE"
+        severity: "ERROR"
+        evidence: "3 agents (architecture-advisor, orchestrator, project-integrator) use 'context:' frontmatter field. Per LL-15, this field does NOT exist in CC agent frontmatter — silently ignored by runtime. Verifier uses 'disallowedTools:' which is also not a valid CC agent field."
+        remediation: "Remove 'context:' from all agents. For preloading content, use 'skills:' field or embed instructions in agent body. Remove 'disallowedTools:' — use 'tools:' with explicit allow-list instead."
+      - criterion: "AG-14: Plugin-restricted fields"
+        status: "fail"
+        classification: "STALE"
+        severity: "ERROR"
+        evidence: "All 4 agents use 'permissionMode:' which is listed as plugin-restricted in agent-standards.md. Plugin-distributed agents should not set permissionMode — the consumer project controls this."
+        remediation: "Remove permissionMode from all 4 agents. Document desired permission behavior in agent body as guidance, not enforcement."
+      - criterion: "AG-13: Memory field"
+        status: "warn"
+        classification: "MISSING"
+        severity: "INFO"
+        evidence: "No agents have 'memory:' configured. For persistent agents like orchestrator and architecture-advisor, cross-session memory could improve continuity."
+        remediation: "Consider 'memory: user' for orchestrator (persists across sessions per user) per knowledge/components/subagents.md."
+
+  skills:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "SK-05: Description length <=250 chars"
+        status: "warn"
+        classification: "STALE"
+        severity: "WARN"
+        evidence: "All 9 skills exceed 250-char description limit: architecture-analyzer (536), auditing-workspace (553), creating-components (328), executing-tasks (424), planning-implementation (472), quick-scaffold (336), scaffolding-projects (322), session-close (400), validating-structure (371). Descriptions are truncated in skill listing."
+        remediation: "Shorten all descriptions to <=250 chars. Move detailed trigger lists to skill body. Keep description as single imperative sentence."
+      - criterion: "SK-08: allowed-tools scoped"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "7/9 skills have no 'allowed-tools' field: creating-components, executing-tasks, planning-implementation, scaffolding-projects, session-close, validating-structure, architecture-analyzer. Only auditing-workspace and quick-scaffold scope their tools."
+        remediation: "Add 'allowed-tools:' to all skills. Read-only skills should restrict to 'Read, Grep, Glob, Bash'. Write skills should include 'Write, Edit' explicitly."
+      - criterion: "SK-09: effort field"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "6/9 skills missing 'effort' field: creating-components, executing-tasks, quick-scaffold, scaffolding-projects, session-close, validating-structure."
+        remediation: "Set effort level on all skills. Lightweight skills: 'low'. Multi-step investigation skills: 'high'."
+      - criterion: "SK-10: agent:true for investigative skills"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "Skills that perform multi-step investigation lack 'agent: true': executing-tasks, scaffolding-projects, session-close, planning-implementation, validating-structure. Only architecture-analyzer and auditing-workspace have it."
+        remediation: "Add 'agent: true' to multi-step skills that benefit from subagent execution (their own isolated context window)."
+      - criterion: "SK-11: See Also / References section"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "Only auditing-workspace has a 'See Also' section. 8/9 skills lack KB cross-references in their body."
+        remediation: "Add '## See Also' footer to each skill linking to relevant KB docs (e.g., executing-tasks -> knowledge/operational-patterns/orchestration/framework.md)."
+
+  settings:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "ST-05: Deny list for destructive operations"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: ".claude/settings.json deny list has only 3 patterns (rm -rf /, sudo, npm publish). Missing: 'git push --force', 'git reset --hard', 'git checkout -- .', 'git clean -f', 'Bash(powershell *)', 'Bash(cmd /c *)'. Insufficient for Advanced tier."
+        remediation: "Expand deny list per knowledge/prerequisites/security-defaults.md patterns."
+      - criterion: "ST-08: Hooks configured"
+        status: "fail"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No hooks section in .claude/settings.json. For Advanced tier, at minimum SessionStart (state bootstrap) and PreToolUse (security gate) hooks are expected."
+        remediation: "Add hooks section. See knowledge/components/hooks.md for patterns and templates/hooks.json.template for starter config."
+      - criterion: "ST-09: Sandbox configured"
+        status: "fail"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No 'sandbox' configuration in settings.json. Advanced projects should configure sandbox for safe autonomous execution."
+        remediation: "Add 'sandbox: { enabled: true }' or document why sandbox is not applicable."
+      - criterion: "ST-12: Sensitive path protection"
+        status: "fail"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No Write/Edit deny patterns for settings*, .ssh/*, .aws/*. Settings files are writable without restriction."
+        remediation: "Add deny rules: 'Edit(settings*)', 'Write(settings*)' or scoped equivalents per LL-13 (note: takes effect immediately)."
+      - criterion: "ST-14: Plugin root settings.json"
+        status: "fail"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No root settings.json with 'agent' key. Plugin consumers won't get default 'orchestrator' agent without this."
+        remediation: "Create root settings.json: { \"agent\": \"orchestrator\" }"
+
+  rules:
+    score: 0
+    max: 3
+    findings:
+      - criterion: "RU-01: Rules directory exists"
+        status: "fail"
+        classification: "MISSING"
+        severity: "ERROR"
+        evidence: "No .claude/rules/ directory exists. CAB is an Advanced-tier project with zero project-scoped rules. All behavioral policies rely on CLAUDE.md + global user rules — no project-specific enforcement."
+        remediation: "Create .claude/rules/ with at minimum: code-style.md (KB markdown standards), security.md (credential handling, pre-publish), domain.md (CAB-specific conventions like plugin-first, verification-required). See knowledge/components/memory-claudemd.md rules section."
+
+  knowledge:
+    score: 2
+    max: 3
+    findings:
+      - criterion: "KB-09: Atomic file sizing (<=300 lines)"
+        status: "warn"
+        classification: "ENHANCEMENT"
+        severity: "WARN"
+        evidence: "6 files exceed 300-line limit: hooks.md (324), marketplace.md (320), team-collaboration.md (340), product-design-cycle.md (339), cc-architecture-diagrams.md (466), global-user-config.md (303). Largest is cc-architecture-diagrams.md at 466 lines."
+        remediation: "Split oversized files: cc-architecture-diagrams.md into separate diagram files, hooks.md into hooks-events.md + hooks-patterns.md, etc."
+      - criterion: "KB-12: INDEX last_updated freshness"
+        status: "warn"
+        classification: "STALE"
+        severity: "WARN"
+        evidence: "INDEX.md last_updated: 2026-04-05 — pre-dates Phase 2 structural migration (commit 01cfa2e, 2026-04-08). INDEX may not reflect current file paths or counts post-migration."
+        remediation: "Run /kb-index to regenerate INDEX.md with current dates and verify file_count accuracy."
+
+  hooks:
+    score: 0
+    max: 3
+    findings:
+      - criterion: "HK-05: Any hooks configured"
+        status: "fail"
+        classification: "MISSING"
+        severity: "WARN"
+        evidence: "No hooks/ directory for plugin hooks. No hooks section in .claude/settings.json. Zero hook configuration anywhere in the project."
+        remediation: "Create hooks/hooks.json with at minimum a SessionStart hook for state bootstrap. CAB documents 26 hook events and 4 types in its own KB but implements none."
+
+delta: null  # First R2 audit — baseline established
+
+suppressed: []

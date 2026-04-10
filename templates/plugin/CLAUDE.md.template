@@ -49,6 +49,33 @@
 
 ## State Management
 
+**`notes/` is tracked by default (CAB LL-25 policy)** — state artifacts are first-class deliverables, not scratch work. See the CAB `filesystem-patterns.md` KB card for full rationale.
+
+### Bootstrap Protocol
+
+At session start, read in order:
+
+1. `notes/current-task.md` — active task context (<100 line target)
+2. `notes/progress.md` — live session state and cumulative position
+3. `notes/TODO.md` — tactical task queue
+4. `notes/lessons-learned.md` — operational constraints (architecturally enforced, not optional)
+
+### Track / Exclude
+
+- **Tracked**: `progress.md`, `TODO.md`, `lessons-learned.md`, `current-task.md`, implementation plans, audit artifacts
+- **Excluded** (via `.gitignore`): `notes/scratch-*.md`, `notes/draft-*.md`, `notes/personal-*.md`, `notes/_drafts/`, `notes/_archive/`
+
+### Size Guidance
+
+- `current-task.md`: <100 lines hard target
+- Other state files: agentically flexible, no hard limits
+
+### Pre-Push Review
+
+Two-layer protocol catches draft markers before publication:
+- **Hook** (`hooks/scripts/pre-push-state-review.sh`): deterministic gate
+- **Skill** (`pre-push-state-review`): semantic review
+
 ### Learned Corrections
 
 {{This section grows over time. After correcting Claude, end with:
