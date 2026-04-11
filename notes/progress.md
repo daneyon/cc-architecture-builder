@@ -1,38 +1,87 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-10 (Session 26: Phase A LL-26 tense hygiene protocol landed in `62bf4a9`; Phase B state refresh in-flight)
-**Branch**: `master` (CAB, 4 commits ahead of origin after Session 26), `main` (RAS-exec), `feat/plugin-first-migration-2026-04-09` (HydroCast)
-**Context health**: Session 26 executed Phase A in a single focused pass. Phase B state refresh applies the new two-commit protocol to itself (dogfood test). Context budget remains healthy for Phase C inventory work if HITL-2 approves continuation.
+**Last session**: 2026-04-11 (Session 27: transcript-tail recovery of Session 26's post-death work; LL-27 + LL-28 drafted in `436ffbd`)
+**Branch**: `master` (CAB, 1 commit ahead of origin after Session 27 work commit `436ffbd`; state refresh commit landing this block), `main` (RAS-exec), `feat/plugin-first-migration-2026-04-09` (HydroCast)
+**Context health**: Session 27 started at ~22% remaining after state-file bootstrap + transcript investigation. Work commit landed; state refresh commit landing this block. Pending question from Session 26 still unanswered — will be addressed in next turn after state refresh commits clean.
 
 ---
 
 ## Current Position
 
-**Gate**: HITL-2 — Phase A deliverables committed in `62bf4a9`; awaiting user review of tense protocol changes before proceeding to Phase C (global dedup). Phase B state refresh commit to land after this block lands.
+**Gate**: HITL-3 mid-dialogue — Phase C.1 inventory completed in Session 26 (4 command + 2 skill + 2 agent duplicates identified, all CAB versions confirmed as strict supersets), but Session 26 died with "Prompt is too long" during the architectural HITL discussion about whether to delete the shadow copy of `orchestrator.md` from global. User's last clarifying question: *"do i need the latest updated orchestrator agent from CAB still to be in my global cc to act as my master strategist per CAB design philosophies and operational protocols?"* — awaiting answer.
 
 **Latest commits**:
 
-- `302f872` (Session 24): LL-25 state management reform — LOCAL ONLY
-- `56975f8` (Session 25): PLAN v2 drafted — LOCAL ONLY
-- `264a861` (Session 25): A.5 regex design nuance captured from smoke test — LOCAL ONLY
-- `62bf4a9` (Session 26): **feat: state file tense hygiene protocol (LL-26)** — 5 files changed (+257/-75). Implements LL-26 lesson, v3.2 filesystem-patterns.md section, two-phase session-close, executing-tasks Phase 5 split (5a/5b/5c), anchored hook regex with case-insensitive tense matching. All 7 ACs PASS.
-- `<phase-5b-commit-pending>` (Session 26): State refresh post-`62bf4a9` — landing next.
+- `302f872` (Session 24): LL-25 state management reform — PUSHED (Session 26 Phase B.5)
+- `56975f8` (Session 25): PLAN v2 drafted — PUSHED
+- `264a861` (Session 25): A.5 regex design nuance captured from smoke test — PUSHED
+- `62bf4a9` (Session 26): **feat: state file tense hygiene protocol (LL-26)** — 5 files changed (+257/-75). Implements LL-26 lesson, v3.2 filesystem-patterns.md section, two-phase session-close, executing-tasks Phase 5 split (5a/5b/5c), anchored hook regex with case-insensitive tense matching. All 7 ACs PASS. PUSHED.
+- `726c50b` (Session 26): **chore(session-26): refresh state post-62bf4a9** — Phase 5b state refresh dogfooding the new two-commit pattern. PUSHED clean with no `CAB_SKIP_PREPUSH_REVIEW=1` bypass (A.5 regex eliminated the dependency).
+- `436ffbd` (Session 27): **docs(ll): LL-27 agent name-resolution shadowing + LL-28 dialogue-level state gap** — lessons-learned.md only. LL-27 captures the shadowing discovery that Session 26 surfaced but never recorded (CC agent resolution order: local → user → plugin silently overrides plugin-authored agents). LL-28 captures the emergence-staleness gap that LL-26 didn't solve (state writes trigger on phase boundaries, not on dialogue-level discovery/decision events).
+- `<session-27-state-refresh>` (Session 27): State refresh commit landing this block — backfills Session 26 post-death work + records Session 27 recovery.
 
 **Next-step priority queue**:
-1. Phase B.5 push — clean push with no `CAB_SKIP_PREPUSH_REVIEW=1` bypass (eliminated by A.5 regex fix)
-2. **HITL-2 gate** — user reviews Phase A deliverables before Phase C
-3. Phase C — global↔CAB dedup (inventory + diff + delete + registry update)
-4. Phase D — HydroCast strategic comparison (read-only, fan-out agents)
-5. Phase E — HydroCast remediation (HITL-4 gate)
-6. Phase F — CAB follow-on close
+1. Land this state refresh commit (Session 27 Phase 5b dogfood, same two-commit pattern)
+2. **Answer the pending HITL question** from Session 26 mid-dialogue death — architectural recommendation on orchestrator global↔plugin layering
+3. HITL-3 gate — user decides shadow-copy cleanup strategy (delete globals vs hybrid vs keep)
+4. Execute chosen cleanup (Phase C.2 — deletion or sync-upstream) + Phase C.3 registry updates
+5. Phase D — HydroCast strategic comparison (read-only, fan-out agents)
+6. Phase E — HydroCast remediation (HITL-4 gate)
+7. Phase F — CAB follow-on close (includes LL-27/LL-28 enforcement-layer follow-ons)
 
-**Cumulative**: ...HydroCast P-MKT/P0/P0.5 ✅ → Session 24 LL-25 reform (`302f872`, unpushed) → Session 25 PLAN v2 (`56975f8`+`264a861`, unpushed) → **Session 26: Phase A LL-26 tense hygiene protocol landed in `62bf4a9`. Two-commit pattern dogfooded on itself. `CAB_SKIP_PREPUSH_REVIEW=1` bypass dependency eliminated.**
+**Cumulative**: ...Session 24 LL-25 reform (`302f872`) → Session 25 PLAN v2 (`56975f8`+`264a861`) → Session 26 Phase A LL-26 tense hygiene (`62bf4a9`) → Session 26 Phase 5b dogfood (`726c50b`) → Session 26 Phase B.5 CLEAN PUSH (no bypass) → Session 26 Phase C.1 inventory + diffs (8 duplicates all CAB-superior) → Session 26 LL-27 shadowing discovery surfaced during orchestrator.md diff → Session 26 architectural HITL-3 analysis (Options A/B/C, 3-layer framing, Option B recommended) → **Session 26 died "Prompt is too long" mid-dialogue on user's clarifying question** → **Session 27: transcript-tail recovery, LL-27 + LL-28 drafted (`436ffbd`), state backfill landing this block**.
 
-### Session 26 Summary — Phase A LL-26 Tense Hygiene Protocol
+### Session 27 Summary — Transcript-Tail Recovery + LL-27/LL-28 Drafting
+
+**Objective**: Recover Session 26's post-death work (everything between the `726c50b` state refresh and the terminal "Prompt is too long" response) into persistent state. Draft LL-27 (shadowing discovery) and LL-28 (emergence-staleness gap) so the discoveries survive across sessions. Answer the pending user clarifying question after state is clean.
+
+**Outcome (so far)**: Work commit `436ffbd` landed with LL-27 + LL-28 entries. State refresh commit landing this block. Pending user question answered in next turn after refresh clean.
+
+**Bootstrap + investigation methodology (for future LL-28 validation)**:
+
+1. Read state files only first (current-task.md, progress.md tail, TODO.md head, lessons-learned.md) — established plan-level baseline
+2. Identified dying-session transcript (`b452a187-5bfb-4f3d-be74-e9e6b6cbec03.jsonl`, 335 lines, 106 assistant turns, ended 2026-04-10T19:38Z with text "Prompt is too long")
+3. Extracted last 2 user messages + last 2 assistant messages via Python JSONL parser
+4. Extracted post-line-216 transcript activity (everything after the last Edit to progress.md in Session 26) — captured tool calls + text summaries
+5. Synthesized coverage gap: state files had accurate plan-level structure but missed post-state-refresh phase B.5 push, Phase C.1 inventory, LL-27 discovery, Option B analysis, user's clarifying question
+6. User approved Option 1 (state-refresh commit before answering pending question) — executing now
+
+**Token accounting (Session 27, partial)**:
+
+- Bootstrap + state file reads: ~20K tokens
+- Transcript JSONL investigation (2 Python scripts, 3 file reads): ~15K tokens
+- Coverage gap analysis + user dialogue: ~25K tokens
+- LL-27 + LL-28 drafting: ~8K tokens
+- This state refresh: estimated ~10K tokens
+- **Remaining budget target**: must leave headroom for the actual answer to the pending question (+verifier decision)
+- **LL-28 implication**: bootstrap + meta-investigation is expensive (~70K tokens consumed before any productive work). This is why LL-28's "event-triggered state writes" protocol matters — every token spent on recovery is a token not spent on the actual task.
+
+**Key discoveries surfaced (see LL-27 and LL-28 for full detail)**:
+
+- **LL-27 (arch)**: CC agent name-resolution precedence silently shadows plugin-authored agents. CAB's `agents/orchestrator.md` R2 updates (Sessions 19-26) were invisible in operational reality for ~2 weeks because `~/.claude/agents/orchestrator.md` was frozen at April 7 snapshot and took precedence. Same risk applies to `verifier.md` and any future name collision.
+- **LL-28 (proc)**: LL-26 solved tense staleness but not emergence staleness. Phase-boundary state writes miss dialogue-level content. Corrective protocol candidate: event-triggered state writes (dialogue checkpoint after each substantive analytical turn or HITL question).
+- **Architectural 3-layer framing** (surfaced during Session 26's HITL discussion, now recorded in LL-27): Identity (`~/.claude/CLAUDE.md`, persona/philosophy, global-authoritative) / Behavioral (`<plugin>/agents/*.md`, protocols/heuristics, plugin-versioned) / Selection (`~/.claude/settings.json`, pointer). Mixing identity into behavioral files creates the attachment that resists clean plugin-first separation.
+
+**Pending**: User's verbatim question from Session 26 (still unanswered):
+
+> "no i mean i have the CAB orchestrator enabled as the default agent per global cc settings json. do i need the latest updated orchestrator agent from CAB still to be in my global cc to act as my master strategist per CAB design philosophies and operational protocols?"
+
+**Files touched this session**:
+
+- *(Work commit `436ffbd`)*: `notes/lessons-learned.md` (LL-27 + LL-28 added)
+- *(State refresh commit, this block)*: `notes/progress.md`, `notes/current-task.md`, `notes/TODO.md`
+
+**User framing captured for future protocol evolution** (Session 27 dialogue):
+
+1. **Iterative optimization philosophy**: State mgmt standardization is ongoing. Don't hard-code any protocol addition. Each layer must be individually revertable via `git revert <hash>`. New protocols are candidates until they pass real-world recovery tests.
+2. **Bootstrap token tracking as first-class metric**: Every new protocol layer expands the bootstrap cost. Need explicit measurement + guardrails against drift toward bloat.
+3. **Mid-dialogue death is the #1 motivating failure mode**: The entire incremental tiered state mgmt standardization exists specifically to avoid losing valuable context when "Prompt is too long" strikes before a clean phase close.
+
+### Session 26 Summary (backfilled 2026-04-11) — Phase A LL-26 + Phase B + Phase C.1 + HITL-3 mid-dialogue death
 
 **Objective**: Execute Phase A (CAB protocol hardening) from Session 25's approved PLAN v2. Structurally prevent recurrence of Session 24's stale-tense failure mode before applying CAB to HydroCast.
 
-**Outcome**: All 7 Phase A ACs PASS. Delivered in single cohesive commit `62bf4a9` per DD-4 commit-per-phase cadence. Two-commit pattern (DD-1) dogfooded — Phase A work committed first, this progress block + TODO.md updates + current-task.md refresh landing in separate Phase 5b commit referencing `62bf4a9`.
+**Outcome**: Phase A through C.1 all completed. Session died mid-dialogue on the HITL-3 architectural decision (orchestrator global↔plugin layering). Recovered by Session 27 via transcript-tail backfill.
 
 **Key work landed in `62bf4a9`**:
 
@@ -68,7 +117,51 @@
 **Files touched this session**:
 
 - *(Work commit `62bf4a9`)*: `notes/lessons-learned.md`, `knowledge/operational-patterns/state-management/filesystem-patterns.md`, `skills/session-close/SKILL.md`, `skills/executing-tasks/SKILL.md`, `hooks/scripts/pre-push-state-review.sh`
-- *(State refresh commit, this block)*: `notes/current-task.md`, `notes/progress.md`, `notes/TODO.md`
+- *(Phase 5b state refresh commit `726c50b`)*: `notes/current-task.md`, `notes/progress.md`, `notes/TODO.md`
+
+**Post-state-refresh work (backfilled from transcript 2026-04-11 by Session 27)**:
+
+This is the block Session 26 never recorded because the session died with "Prompt is too long" before Session 27's bootstrap could re-run the state write. All data reconstructed from `~/.claude/projects/c--Users-daniel-kang-Desktop-Automoto-cc-architecture-builder/b452a187-5bfb-4f3d-be74-e9e6b6cbec03.jsonl`, lines 216-333.
+
+1. **Phase B.5 CLEAN PUSH**: After the Phase 5b state refresh commit `726c50b` landed, the session attempted `git push origin master` without the `CAB_SKIP_PREPUSH_REVIEW=1` bypass. Push succeeded cleanly — the A.5 anchored regex refinement eliminated the bypass dependency exactly as designed. All 5 new Session 24-26 commits (`302f872`, `56975f8`, `264a861`, `62bf4a9`, `726c50b`) landed on `origin/master`. Working tree clean, `git log origin/master..master` empty.
+
+2. **Phase C.1 inventory (read-only analysis)**: Ran full inventory + diff between `~/.claude/commands|skills|agents/` and CAB's `commands|skills|agents/`. Results:
+
+   | Category | Duplicates | Unique to global | Unique to CAB |
+   |---|---|---|---|
+   | Commands | 4 (`commit-push-pr`, `context-sync`, `execute-task`, `techdebt`) | 0 | 11 (add-*, init-*, integrate-*, kb-index, new-*, sync-check, validate) |
+   | Skills | 2 (`architecture-analyzer`, `planning-implementation`) | 8 (assessing-quality, claude-docs-helper, designing-workflows, presentation-outline, readme-generator, slide-designer, token-optimizer, visualizing-data) | 7 (CAB-specific audit/scaffold skills) |
+   | Agents | 2 (`orchestrator`, `verifier`) | 3 (code-reviewer, debugger-specialist, general-researcher) | 2 (architecture-advisor, project-integrator) |
+
+3. **Phase C.1 diff analysis**: All 8 duplicates were confirmed as **CAB strict supersets**. Specifically:
+   - `commit-push-pr.md`: CAB updated paths from `.claude/` to plugin-root (LL-21); global lags
+   - `context-sync.md`: CAB added session-lifecycle reference; global lags
+   - `execute-task.md`: Global has stale `allowed-tools:` frontmatter that CAB intentionally dropped (CAB pattern: 7 of 15 commands use `allowed-tools`, 8 don't — `execute-task` is a lean trigger). Not a regression.
+   - `techdebt.md`: CAB version SIGNIFICANTLY longer (expanded detail, options, examples); global is condensed/older. Strict superset.
+   - `architecture-analyzer/SKILL.md` + `planning-implementation/SKILL.md`: CAB has R2-remediation updates (imperative descriptions, `argument-hint`, `effort`, scoped `allowed-tools`); global frozen at pre-R2 state.
+   - `orchestrator.md` + `verifier.md`: CAB has R2 remediation (LL-15 `context:` removal, LL-21 paths, permissionMode cleanup); global frozen at April-7 snapshot.
+
+4. **LL-27 DISCOVERY (surfaced during orchestrator.md diff)**: The orchestrator diff revealed that global `~/.claude/agents/orchestrator.md` was silently SHADOWING CAB's plugin orchestrator via CC agent resolution order (local → user → plugin). All R2 remediation updates to CAB's orchestrator.md since Session 19 had NOT been reaching operational reality — the April-7 snapshot had been the operationally-active version for ~2 weeks. Same risk confirmed for `verifier.md`. **Discovery recorded as LL-27 in Session 27's `436ffbd`.**
+
+5. **Architectural HITL analysis**: In response to user's question about whether to keep the global orchestrator "as the master strategist", the session produced a 3-layer architectural framing (Identity/Behavioral/Selection) and three options with 4-lens reasoning (Strategic / Economic / Psychological / Systems):
+   - **Option A**: Keep global orchestrator, sync from CAB (manual sync burden, guaranteed drift)
+   - **Option B (recommended)**: Delete global, rely on CAB plugin (single source of truth, auto-propagation, resolves the shadowing)
+   - **Option C**: Hybrid thin-fallback (complexity, still shadows per precedence, drift risk returns)
+   - Recommended safeguards if Option B adopted: (a) note in `~/.claude/CLAUDE.md` that CAB is required for orchestrator behavior, (b) periodic `/sync-check` audit, (c) reference note in Extension Registry, (d) keep global `rules/` (CAB doesn't claim those).
+
+6. **User's pending clarifying question (verbatim, never answered)**:
+
+   > "no i mean i have the CAB orchestrator enabled as the default agent per global cc settings json. do i need the latest updated orchestrator agent from CAB still to be in my global cc to act as my master strategist per CAB design philosophies and operational protocols?"
+
+   **The user was pushing back on Session 26's framing** — they weren't asking whether to have AN orchestrator, but whether the *updated CAB version* still needs to exist in global even though CAB is enabled as the default agent via `settings.json`. This question is the subtle form of the answer: if CAB is already the default via plugin resolution, the global copy is redundant AND harmful (shadowing). The answer directly follows from LL-27.
+
+7. **Context exhaustion**: Immediately after the user's clarifying question, the next turn returned literal text "Prompt is too long" with usage `input=0 output=0 cache_read=0` — no analytical turn ran, the session had hit the hard context limit. This is the LL-28 triggering incident.
+
+**Session 26 actual files touched (full)**:
+
+- *(Work commit `62bf4a9`)*: listed above
+- *(State refresh commit `726c50b`)*: listed above
+- *(Never-committed discoveries — recovered by Session 27 in `436ffbd` + this backfill)*: LL-27 shadowing finding, LL-28 emergence-staleness finding, 3-layer architectural framing, Option B recommendation + safeguards
 
 ### Session 25 Summary — PLAN Drafted for CAB Protocol Hardening + HydroCast Harmonization
 

@@ -1,10 +1,10 @@
 # Current Task: CAB Source-of-Truth Consolidation + HydroCast State Mgmt Harmonization
 
-**Status**: Phase A executed in `62bf4a9` (Session 26, 2026-04-10). Phase B state refresh landing next; Phase C (global dedup) queued at HITL-3.
-**Started**: 2026-04-10 (Session 25 drafted plan; Session 26 executed Phase A + Phase B)
-**Branches**: `master` (CAB, 4 commits ahead of origin after Session 26 — `302f872` LL-25 + `56975f8` + `264a861` Session 25 plan + `62bf4a9` LL-26 Phase A), `feat/plugin-first-migration-2026-04-09` (HydroCast, unchanged from Session 25 — 9 modified + 7 untracked pre-existing)
-**Prior task**: LL-25 state management reform (Session 24 commit `302f872`, local-only) exposed two structural gaps this task addresses (tense hygiene ✅ done + global dedup pending)
-**Next action**: Complete Phase B push (HITL-2 gate on Phase A deliverables) → begin Phase C inventory + diff
+**Status**: Phases A, B, C.1 all executed across Sessions 26-27. Phase A landed in `62bf4a9`, Phase 5b state refresh in `726c50b`, Phase B.5 pushed clean (no bypass). Phase C.1 inventory completed during Session 26, discovered LL-27 shadowing, session died mid-dialogue on HITL-3 with "Prompt is too long". Session 27 recovered the work via transcript-tail backfill: LL-27 + LL-28 drafted in `436ffbd`, state refresh commit landing next.
+**Started**: 2026-04-10 (Session 25 plan; Session 26 execution; Session 27 recovery + pending question answer)
+**Branches**: `master` (CAB, 1 commit ahead of origin after Session 27's `436ffbd`; state refresh commit +1 more this block; all Session 24-26 commits pushed), `feat/plugin-first-migration-2026-04-09` (HydroCast, unchanged)
+**Prior task**: LL-25 state management reform (`302f872`, now PUSHED) exposed the tense hygiene gap; LL-26 solved tense staleness but Session 26's dying session exposed emergence staleness (LL-28)
+**Next action**: Land this state refresh commit → answer Session 26's unanswered clarifying question (orchestrator global↔plugin layering) → HITL-3 decision on shadow-copy cleanup → Phase C.2 execution
 
 ## Design Decisions (User-Confirmed 2026-04-10)
 
@@ -58,21 +58,22 @@ Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-
 - [X] AC-6: `skills/executing-tasks/SKILL.md` Phase 3 adds commit-per-phase cadence as recommended guidance (DD-4, not prescription) + defer-state-updates rule — `62bf4a9`
 - [X] AC-7: Smoke test — retroactively validated against Session 24's `**Status**: EXECUTED ✅ — Ready for commit + session close` (caught), plus 6 scenarios: labels/prose/table-cells/status-lines/lowercase/descriptive all correctly classified — Session 26 A.7
 
-### Phase B — CAB Finalization
+### Phase B — CAB Finalization ✅ (landed in `726c50b` + clean push)
 
-- [ ] AC-7: CAB `current-task.md` + `progress.md` refreshed using Phase A protocols (describes Session 24 via commit hash, no "pending" markers)
-- [ ] AC-8: LL-25 artifacts smoke-tested (hook runs, skill frontmatter valid, gitignore patterns behave)
-- [ ] AC-9: Push decision resolved + executed (recommend `CAB_SKIP_PREPUSH_REVIEW=1` bypass for known descriptive-prose false positives; regex tightening stays on TODO)
-- [ ] AC-10: CAB `master` pushed to origin, `git status` clean, `git log origin/master..master` empty
+- [X] AC-7: CAB `current-task.md` + `progress.md` refreshed using Phase A protocols — `726c50b` (Session 26) + this Session 27 backfill
+- [X] AC-8: LL-25 artifacts smoke-tested (hook runs, skill frontmatter valid, gitignore patterns behave) — verified in Session 26
+- [X] AC-9: Push decision resolved + executed — `CAB_SKIP_PREPUSH_REVIEW=1` bypass dependency eliminated by A.5 regex refinement; clean push proceeded without bypass
+- [X] AC-10: CAB `master` pushed to origin (Session 26 end), `git status` clean, `git log origin/master..master` empty at push time
 
-### Phase C — Global↔CAB Source-of-Truth Consolidation
+### Phase C — Global↔CAB Source-of-Truth Consolidation (Phase C.1 done, C.2+ blocked on HITL-3)
 
-- [ ] AC-11: Diff each global copy against CAB version; if global is newer, sync upstream to CAB first (no regressions)
-- [ ] AC-12: Delete duplicate global commands: `execute-task`, `commit-push-pr`, `context-sync`, `techdebt`
-- [ ] AC-13: Diff global skills `architecture-analyzer`, `planning-implementation` against CAB — delete globals if CAB is current
-- [ ] AC-14: Diff global agents `orchestrator`, `verifier` against CAB — delete globals if CAB is current
-- [ ] AC-15: Update global `~/.claude/CLAUDE.md` Extension Registry — remove deleted items, clarify CAB-provided extensions
+- [X] AC-11: Diff each global copy against CAB version — done in Session 26 Phase C.1, all 8 duplicates confirmed as CAB strict supersets, no sync-upstream needed. `execute-task.md` allowed-tools delta confirmed as intentional CAB cleanup, not regression.
+- [ ] AC-12: Delete duplicate global commands: `execute-task`, `commit-push-pr`, `context-sync`, `techdebt` — blocked on HITL-3
+- [ ] AC-13: Delete duplicate global skills `architecture-analyzer`, `planning-implementation` — blocked on HITL-3
+- [ ] AC-14: Delete duplicate global agents `orchestrator`, `verifier` — blocked on HITL-3 (LL-27 shadowing discovery makes this the most urgent deletion, not the least)
+- [ ] AC-15: Update global `~/.claude/CLAUDE.md` Extension Registry — remove deleted items, add "CAB provides — do not duplicate" notes per LL-27
 - [ ] AC-16: Smoke test — open fresh CC session, verify `/execute-task` and friends still resolve (via CAB plugin path)
+- [ ] **AC-17 (new, from LL-27)**: After deletion, verify CAB's plugin orchestrator is now the active resolution target (not shadowed). Method TBD — needs agent introspection or behavioral smoke test.
 
 ### Phases D-E — HydroCast Harmonization
 
