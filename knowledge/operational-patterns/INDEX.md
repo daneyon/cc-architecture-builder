@@ -1,9 +1,9 @@
 ---
 type: index
 scope: operational-patterns
-file_count: 13
-last_updated: 2026-04-05
-revision_note: "v3.0 — Modularized into subdirectories. 3 monolith files split into 9 focused files across 3 subdirectories."
+file_count: 14
+last_updated: 2026-04-11
+revision_note: "v3.1 — Added state-management/bootstrap-read-pattern.md (P3/P4 of bootstrap efficiency task). v3.0 — Modularized into subdirectories. 3 monolith files split into 9 focused files across 3 subdirectories."
 ---
 
 # Operational Patterns Index
@@ -25,7 +25,8 @@ operational-patterns/
 ├── state-management/       # Sessions, context, filesystem state
 │   ├── session-lifecycle.md # Session resume, context health, compaction
 │   ├── context-engineering.md  # 200-line discipline, optimization
-│   └── filesystem-patterns.md  # notes/, cold-start anchors, persistence
+│   ├── filesystem-patterns.md  # notes/, cold-start anchors, persistence
+│   └── bootstrap-read-pattern.md  # Cheap-to-expensive partial-read cascade, T1 boundaries
 ├── team-collaboration.md   # Multi-human + multi-agent protocols
 ├── extension-discovery.md  # Extension awareness, Three-Point Reinforcement
 └── sync-protocol.md        # CAB ↔ global ~/.claude/ deployment protocol
@@ -58,6 +59,7 @@ operational-patterns/
 | Continuing previous work / session health | `state-management/session-lifecycle.md` |
 | Optimizing context usage | `state-management/context-engineering.md` |
 | Designing cross-session state | `state-management/filesystem-patterns.md` |
+| Cold-starting with bounded token budget | `state-management/bootstrap-read-pattern.md` |
 | Multiple people/agents on same repo | `team-collaboration.md` |
 | Skills forgotten mid-session | `extension-discovery.md` |
 | Deploying CAB changes to global | `sync-protocol.md` |

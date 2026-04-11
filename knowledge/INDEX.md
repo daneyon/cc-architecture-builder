@@ -1,8 +1,8 @@
 ---
 type: index
 scope: master
-file_count: 36
-last_updated: 2026-04-05
+file_count: 37
+last_updated: 2026-04-11
 ---
 
 # Knowledge Base Index
@@ -116,13 +116,13 @@ Sharing and marketplace publication.
 - `marketplace.md` — Plugin distribution, team configuration, security review
 - `cowork.md` — Cowork sessions, enterprise distribution, team sharing
 
-### Operational Patterns (12 files in 3 subdirectories + 2 root)
+### Operational Patterns (13 files in 3 subdirectories + 2 root)
 
 Advanced workflow and orchestration patterns. See `operational-patterns/INDEX.md` for full directory structure.
 
 - `orchestration/` — Framework tenets, canonical patterns, delegation templates, cost model
 - `multi-agent/` — Collaboration patterns, Agent Teams, worktree workflows
-- `state-management/` — Session lifecycle, context engineering, filesystem state patterns
+- `state-management/` — Session lifecycle, context engineering, filesystem state patterns, bootstrap read pattern
 - `team-collaboration.md` — Shared-repo conventions, conflict resolution, PR review workflows
 - `extension-discovery.md` — Extension discovery patterns, Three-Point Reinforcement
 
