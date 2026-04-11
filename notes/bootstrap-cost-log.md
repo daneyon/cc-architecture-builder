@@ -35,8 +35,9 @@ the "fix the read, not the file" thesis this log exists to validate.
 
 | Date | Session / Label | current.l | current.tok | progress.l | progress.tok | TODO.l | TODO.tok | LL.l | LL.tok | TOTAL.tok | Note |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 2026-04-11 | session-28-bootstrap | 174 | 4425 | 882 | 19989 | 468 | 9454 | 59 | 7213 | **41081** | **Baseline**. Measured from git commit `c24968b` (state at Session 28 cold-start). Session 28 died on "Prompt is too long" mid-state-close. |
-| 2026-04-11 | session-29-pre-p2 | 77 | 1399 | 919 | 20543 | 495 | 10131 | 59 | 7213 | 39286 | Post Session 28 `current-task.md` compression + Session 29 recovery-backfill commit (`698eb4e`). Current-task dropped 97 lines (−3026 tok) but progress.md grew +37 lines (+554 tok) from recovery entries. **Net delta: −1795 tok (−4.4%)** — compression alone is insufficient; P2 partial-read is the architectural fix. |
+| 2026-04-11 | session-28-bootstrap | 174 | 4425 | 882 | 19989 | 468 | 9454 | 59 | 7213 | **41081** | **Baseline**. Measured from git commit `c24968b` (state at Session 28 cold-start). Session 28 died on "Prompt is too long" mid-state-close. 4-file cascade (full-read). |
+| 2026-04-11 | session-29-pre-p2 | 77 | 1399 | 919 | 20543 | 495 | 10131 | 59 | 7213 | 39286 | Post Session 28 `current-task.md` compression + Session 29 recovery-backfill commit (`698eb4e`). Current-task dropped 97 lines (−3026 tok) but progress.md grew +37 lines (+554 tok) from recovery entries. **Net delta: −1795 tok (−4.4%)** — compression alone is insufficient; P2 partial-read is the architectural fix. 4-file cascade (full-read). |
+| 2026-04-11 | session-32-task-close | 65 | 939 | 100 (top) | 2701 | 80 (top) | 2912 | — | — (excluded) | **6552** | **Post-fix final measurement. Task close commit (P5).** Post-fix 3-file cascade with budget-aware partial-read. `lessons-learned.md` excluded (Session 32 Pivot 1 — read on-demand only). **Net delta vs baseline: −34,529 tok (−84.05%)**. Beats <10K stretch target by ~35%. Beats <15K required target by ~56%. Three-axes governance (file size, read budget, bootstrap-necessity) operational. |
 
 ## Historical context
 

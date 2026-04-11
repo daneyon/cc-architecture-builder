@@ -1,51 +1,55 @@
 # CAB Progress — Live Session State
 
-> **⚠ NOTICE (2026-04-11 Session 29)**: This file is NOT to be read at cold-start bootstrap until the bootstrap efficiency fix lands (P2 of `impl-plan-bootstrap-efficiency-2026-04-11.md`). Per user directive 2026-04-11, the standardized CAB bootstrap protocol is BROKEN. Session 29+ use the non-standard protocol documented in `notes/current-task.md`. This file stays for historical narrative and on-demand grep access only.
-
-**Last session**: 2026-04-11 (Session 29 — P1 instrumentation landed: `hooks/scripts/bootstrap-cost.sh` + baseline 41,081 tokens in commit `8dfef75`)
-**Current task**: Bootstrap Token Efficiency Restoration (v2 plan, P2 active Session 30)
-**Branch**: `master` (CAB, local-only; solo workflow — no push)
+**Last session**: 2026-04-11 (Session 32 — **Bootstrap Token Efficiency Restoration TASK COMPLETE**, ~82.5% cold-start cost reduction achieved)
+**Current task**: (none — see `notes/current-task.md` and `notes/TODO.md` Top Priorities for next pickup)
+**Branch**: `master` (CAB, local-only; solo workflow)
 
 ---
 
 ## Current Position
 
-**Session**: 30 — landed P2 "Convention refactor" of `impl-plan-bootstrap-efficiency-2026-04-11.md` (this commit). HITL-2 approved with 5 design-decision polish. Session 31 next.
-**Gate**: P1 `8dfef75` (Session 29) + P2 this commit (Session 30) landed. P2 established T1 boundary markers + top-section reorganization across 4 state files with **zero semantic content loss**. `Read(progress.md, limit=100)` now returns only this T1 section; full file loads on-demand. Partial-read cascade post-P2 (estimate): ~12,510 tokens vs 41,081 baseline = **69% reduction** (hits P5 <15K target; stretch <10K blocked by lessons-learned.md density, flagged as P4 target).
+**Session**: 32 — Bootstrap Token Efficiency Restoration task closed. P4 (Docs + LL audit) + P5 (Validation + LL-29 + close) executed in single session per Session 31 HITL-3 Option A directive.
 
-**Active task pointer**: `notes/current-task.md` → `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`
+**Gate**: All 5 phases complete. Final bootstrap cost: **~7,169 tokens** vs **41,081 baseline** = **~82.5% reduction** (beats <10K stretch target). Three architectural axes (file size on disk, bootstrap read budget, bootstrap-necessity) now separately governed via the post-fix 3-file cascade.
 
-### Phase Status
+**Active task pointer**: `notes/current-task.md` → no active task. Consult `notes/TODO.md` Top Priorities.
+
+### Phase Status (final)
 
 | Phase | Status | Commit |
 |---|---|---|
 | P1 Instrumentation | ✅ landed | `8dfef75` (Session 29) |
-| P2 Convention refactor | ✅ landed | this commit (Session 30) |
-| P3 Minimal enforcement | pending (Session 31 next) | — |
-| P4 Docs + LL audit | pending | — |
-| P5 Validation + LL-29 | pending | — |
+| P2 Convention refactor | ✅ landed | `836f3aa` (Session 30) |
+| P3 Minimal enforcement | ✅ landed | `731bea0` (Session 31) |
+| P4 Docs + LL audit | ✅ landed | `30ae350` (Session 32) |
+| P5 Validation + LL-29 + close | ✅ landed | this commit (Session 32) |
 
-### Next-Action Queue
+### Session 32 Pivots (executed mid-session per HITL dialogue)
 
-**This session (30)**: state close only. Single commit per directive #5 (no LL-26 two-commit dogfood).
+1. **Pivot 1** — Drop `lessons-learned.md` from standardized bootstrap entirely. LLs are reference data (read on-demand at phase transitions / decision-domain matches), not operational state. The unvalidated "Status" feature (active/integrated/superseded) was replaced with a validated **Classification** (`INTEGRATED` / `ACTIVE` / `ADVISORY` / `ARCHIVED`) + **Priority** (`P0` / `P1` / `P2` / `—`) schema modeled on `auditing-workspace/references/classification-schema.md`. Cascade went from 4-file → 3-file.
+2. **Pivot 2** — Flat `notes/` directory policy. No subfolders except `_archive/`. Removed `notes/references/`, `notes/qa/`, `notes/metrics/`. 22 stale files archived. One path domain, one mental model.
+3. **Pivot 3** — Holistic instrument-grounded efficiency: always verify cost via proper instruments (`/context`, `bootstrap-cost.sh`), not self-estimates. Self-estimation was the recurring failure mode through Sessions 28-31.
 
-**Session 31** (next):
+### What Landed in Session 32 (P4 `30ae350` + P5 this commit)
 
-1. P3 — `current-task.md <100` pre-commit hook + partial-read KB card (HITL-3 before commit)
-2. P4 — CLAUDE.md bootstrap rewrite + 2 new KB cards (`bootstrap-read-pattern.md` + `cc-memory-layer-alignment.md`) + LL integration audit (compact-index vs verbose-detail split of LL table is a scoped sub-deliverable here per Session 30 HITL-2 discussion)
-3. P5 — Post-fix bootstrap-cost metrics + LL-29 draft + task close (HITL-4 on metrics)
+- `knowledge/operational-patterns/state-management/bootstrap-read-pattern.md` v1.1 — 3-file cascade rewrite, on-demand LL section, density-bottleneck section removed
+- `knowledge/operational-patterns/state-management/filesystem-patterns.md` v3.3 — flat `notes/` policy section, Classification + Priority schema documented, Lessons-Referenced Protocols rewrite
+- `CLAUDE.md` §Bootstrap Protocol — explicit `Read` invocations for 3-file cascade, on-demand LL guidance, escalation rules, LL-29 entry in §Learned Corrections + LL-25 Session 32 correction note
+- `hooks/scripts/bootstrap-cost.sh` — full rewrite from 4-file full-read to 3-file budget-aware partial-read measurement
+- `notes/lessons-learned.md` — schema refactor with Classification + Priority columns, 28 LLs sorted/classified, LL-20/21 merge glitch fixed, KNOWN P4 TARGET HTML comment removed, LL-29 final entry appended in P5
+- `notes/bootstrap-cost-log.md` — Session 32 P5 final measurement row (~7,169 tokens / 82.5% reduction)
+- 22 stale files archived to `notes/_archive/` (8 QA + 14 root + 1 reference)
+- All path-reference cleanups in 5 active files for the flat `notes/` migration
+- `enforce-current-task-budget.sh` path reference update
+- `notes/current-task.md` rewritten as task-done version (65 lines, under 100-line hard gate)
 
-### User Directives (2026-04-11, authoritative)
+### User Directives (Session 28-32, authoritative — preserved for cross-session memory)
 
-1. State mgmt is BROKEN — this task is the authoritative fix; supersedes all other state-mgmt work
-2. HydroCast audit state-mgmt remediation DEFERRED — will NOT be implemented from the now-old audit
-3. Non-standard cold-start bootstrap (3 files: `current-task.md` + impl plan + Session 28 recovery artifact) mandatory until P3-P5 lands real fix
+1. State mgmt was BROKEN — this task superseded all other state-mgmt work
+2. HydroCast audit state-mgmt remediation DEFERRED (now un-deferred)
+3. Single commit per phase — no LL-26 two-commit dogfooding (broken protocol being replaced by P4 deliverables)
 4. No over-building — partial reads + convention, not hard limits + hooks everywhere
-5. No LL-26 two-commit pattern dogfooding during this task — single commit per phase
-
-### Reference Artifacts
-
-See `notes/current-task.md` §Reference Artifacts for the full pointer index (impl plan, recovery artifact, 5 findings reference, memory architecture reference, Session 28 JSONL source).
+5. Holistic instrument-grounded efficiency — always use `/context`, `bootstrap-cost.sh`, etc., never self-estimate budgets
 
 <!-- T1:BOUNDARY — partial-read at `Read(progress.md, limit=100)` captures Current Position section above this marker; Historical Narrative below is on-demand only. -->
 

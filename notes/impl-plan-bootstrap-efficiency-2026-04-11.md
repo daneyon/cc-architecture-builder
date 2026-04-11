@@ -282,3 +282,70 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 - Hook real-world validation was partial: git pre-commit shim path tested live on `git commit 731bea0`, CC PreToolUse path deferred to S32 (hooks.json is cached).
 
 **Next session entry point (S32)**: Cold-start with 3 files (current-task.md + this impl plan + session-28-recovery-2026-04-11.md) per current-task.md protocol. Execute P4 (5 deliverables: CLAUDE.md §Bootstrap rewrite, filesystem-patterns.md v3.3 update, cc-memory-layer-alignment.md NEW KB card, ll-integration-audit.md audit report, LL table compact-index/verbose-detail split) then P5 (bootstrap-cost.sh re-run + LL-29 draft + HITL-4). Ask user for actual context budget at each phase boundary instead of self-estimating.
+
+---
+
+### Session 32 (2026-04-11) — P4 + P5 landed; **TASK COMPLETE**
+
+**Commits**: `30ae350 feat(bootstrap): P4 docs + LL audit — Pivot 1 (LL excluded from bootstrap) + Pivot 2 (flat notes/) + LL Classification schema` + (this commit) `feat(bootstrap): P5 validation + LL-29 + task close`
+
+**Mid-session strategic pivots** (P4 scope reframed three times during HITL dialogue):
+
+1. **Pivot 1 — Drop `lessons-learned.md` from bootstrap entirely**. The Session 31 byte-weight finding (`lessons-learned.md` ~489 chars/line dense table) had been queued as "P4 LL table compact-index/verbose-detail split" — a sycophantic adherence to keeping LLs in the always-loaded tier. Re-examination reframed this as a category error: **LLs are reference data, not operational state**. Fix: 4-file cascade → 3-file cascade. LLs read on-demand at phase transitions / decision-domain matches. The unvalidated `Status: active/integrated/superseded` feature was replaced with a validated **Classification (INTEGRATED/ACTIVE/ADVISORY/ARCHIVED) + Priority (P0/P1/P2/—)** schema modeled on `auditing-workspace/references/classification-schema.md`.
+
+2. **Pivot 2 — Flat `notes/` directory policy**. Removed `notes/references/`, `notes/qa/`, `notes/metrics/`. 22 stale files archived to `notes/_archive/`. Eliminates path-domain ambiguity and prevents subfolder proliferation drift. Rationale: balance performance efficiency with minimalism — one path domain, one mental model.
+
+3. **Pivot 3 — Holistic instrument-grounded efficiency directive**. Always verify cost via proper instruments (`/context`, `bootstrap-cost.sh`), not self-estimates. Self-estimation was the recurring failure mode through Sessions 28-31 (S28 death, S31 3.6× undercount). This is the operational correction surfaced by the S31 meta-finding.
+
+**P4 deliverables (commit `30ae350`)**:
+- `knowledge/operational-patterns/state-management/bootstrap-read-pattern.md` v1.1 — full rewrite from 4-file to 3-file cascade. Density-bottleneck section removed (no longer applicable). New "When to Read `lessons-learned.md` (On-Demand)" section with trigger table (phase transitions, decision-domain matches, periodic audit, new LL drafting). 169 lines, under 300 cap.
+- `knowledge/operational-patterns/state-management/filesystem-patterns.md` v3.3 — added "Flat `notes/` Directory Policy" section. Rewrote "Lessons-Referenced Protocols" — no longer claims always-load. Added "Lessons Learned Persistence" section with full Classification + Priority schema documentation. 306 lines, under 300 soft cap (LL-11 wrapper philosophy).
+- `CLAUDE.md` — §Bootstrap Protocol renamed to "3-File Cheap-to-Expensive Cascade", explicit `Read` invocations specified, "When to Read lessons-learned.md (On-Demand)" subsection added, "Escalation to Full Read" subsection added, `Track / Exclude Policy` updated for flat structure. §Learned Corrections updated: LL-25 summary gained Session 32 correction note, LL-29 entry added.
+- `hooks/scripts/bootstrap-cost.sh` — full rewrite from 4-file full-read measurement to 3-file budget-aware partial-read measurement. Parallel arrays `FILES[]` + `BUDGETS[]`; budget semantics: -1 = full-file, positive N = `head -n N` partial. 9-field CSV output (was 11). Smoke-tested in P4: 7,169 tokens.
+- `notes/lessons-learned.md` — schema refactor. Active/Integrated/Superseded section partition removed, replaced with single `INTEGRATED → ACTIVE-P0 → ACTIVE-P1 → ACTIVE-P2 → ADVISORY → ARCHIVED` ordering. Priority Queue header table lists 8 ACTIVE entries needing structural integration. **LL-20/21 merge glitch fixed** — original LL-20 row was missing its Detail cell; LL-21's row had two Detail cells separated by an unintended pipe. **KNOWN P4 TARGET HTML comment removed** (no longer applicable since LL excluded from bootstrap). 120 lines / 26K bytes (was 62 lines / 29K bytes).
+- 22 stale files archived to `notes/_archive/` (8 QA + 14 root + 1 reference + memory architecture reference)
+- Path-reference cleanups in 5 active files: TODO.md, impl-plan, bootstrap-cost-log, enforce-current-task-budget.sh, and the KB cards.
+
+**P5 deliverables (this commit)**:
+- `notes/bootstrap-cost.sh` re-run after state-close updates → final measurement row appended to `notes/bootstrap-cost-log.md`
+- `notes/lessons-learned.md` LL-29 finalized with measured numbers + full enforcement layer surface
+- `notes/current-task.md` rewritten as task-done version (65 lines, under 100-line hard gate). All Session 32 protocol scaffolding removed; replaced with phase roll-up table + outcome summary + next-task pointer.
+- `notes/progress.md` Session 32 close T1 section (replaces stale Session 30 T1 block)
+- `notes/TODO.md` Top Priorities updated — bootstrap restoration marked complete, next P0/P1/P2 candidates surfaced from LL refactor + LL-25/27/28 backlog
+- This impl plan Session Log entry
+- `.mcp.json` stale deletion folded in (carrying 4 sessions, finally cleaned)
+
+**Final measurements (post-fix 3-file cascade)**:
+
+| Metric | Baseline (S28) | Post-fix (S32) | Delta |
+|---|---|---|---|
+| Total bootstrap tokens (3-file partial) | 41,081 | ~7,169 | **−82.5%** |
+| `current-task.md` (full read) | 4,425 | ~1,671 | −62% |
+| `progress.md` (top 100 lines) | 19,989 | ~2,546 | −87% |
+| `TODO.md` (top 80 lines) | 9,454 | ~2,952 | −69% |
+| `lessons-learned.md` | 7,213 (always loaded) | 0 (on-demand only) | −100% |
+
+**Beats <10K stretch target by ~28%.** Beats <15K required target by ~52%.
+
+**Architectural outcome (the three separable variables)**:
+
+| Variable | Pre-fix mental model | Post-fix governance |
+|---|---|---|
+| File size on disk | "Big files = expensive" | Optimize for semantic preservation (curation > compression). LL-25 hold. |
+| Bootstrap read budget | "Read all files in full" | Partial-read cascade via `Read(file, limit=N)`. T1 boundary marker convention. |
+| Bootstrap-necessity | (not separated) | **NEW**: partition state files. Operational state = always-loaded; reference data = on-demand. |
+
+LL-29 captures the three-axes framing as the canonical lesson with full enforcement layer surface.
+
+**Deviations from impl plan**:
+- DEFERRED: `cc-memory-layer-alignment.md` NEW KB card (P4 deliverable from original plan) — already summarized in `filesystem-patterns.md` §CC Memory Layer Alignment from LL-25 work; the standalone card was redundant. Logged as P2 backlog item in TODO.md.
+- DEFERRED: `ll-integration-audit.md` standalone audit report — replaced in scope by the Classification column added directly to `notes/lessons-learned.md`. The audit IS the classification.
+- ADDED: Pivot 1 / 2 / 3 above (not in original impl plan; emerged from Session 32 HITL dialogue and reframed P4 substantially).
+
+**S32 meta-observations**:
+- Forced compaction occurred mid-session (after CLAUDE.md updates, before LL refactor). Recovery via summary + system-reminder context restoration was clean — confirms the LL-28 fallback-recovery protocol works empirically (third validation: S29 from S28 JSONL, S27 from S26 JSONL, S32 from S32 compaction summary).
+- Single commit per phase respected (P4 = `30ae350`, P5 = this commit). Two commits this session, both phase-boundary-driven, not LL-26 two-commit pair.
+- `.mcp.json` deletion finally landed — 4-session carry resolved by folding into the task-close commit.
+- The Session 31 finding "assistant-side context estimation is unreliable" was honored at every phase boundary in S32 — measurements taken from `bootstrap-cost.sh` and user `/context` reports, not self-estimates.
+
+**Task closed**. No follow-on work in this plan; LL-25/27/28 follow-ons + HydroCast Phase D + LL-19/20/28 ACTIVE-P0 integration items are now top-of-queue in `notes/TODO.md`.

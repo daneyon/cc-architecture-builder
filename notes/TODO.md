@@ -1,37 +1,39 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-> **⚠ NOTICE (2026-04-11 Session 29)**: This file is NOT to be read at cold-start bootstrap until the bootstrap efficiency fix lands. Per user directive 2026-04-11, state mgmt is BROKEN. Use non-standard bootstrap protocol in `notes/current-task.md`. This file retained for historical context + on-demand grep access only.
-
-**Last Updated**: 2026-04-11 (Session 29 recovery backfill)
-**Plugin Version**: 1.1.0 (bootstrap efficiency fix pending; pre-existing LL-24 enhancements also pending)
-**Active Implementation Plan**: `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` (supersedes all prior plans for immediate execution)
+**Last Updated**: 2026-04-11 (Session 32 — Bootstrap Token Efficiency Restoration task closed)
+**Plugin Version**: 1.1.0
+**Active Implementation Plan**: (none — Bootstrap Token Efficiency Restoration completed Session 32)
 **Active Task**: see `notes/current-task.md`
 
 ---
 
-## Top Priorities (Session 29+)
+## Top Priorities (post Session 32)
 
-### P0 — Bootstrap Token Efficiency Restoration (active, blocks everything else)
+### COMPLETED Session 32
 
-See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` and `notes/session-28-recovery-2026-04-11.md`. Phases:
+- [X] **Bootstrap Token Efficiency Restoration** — landed across Sessions 28-32. Final cost ~7,169 tokens (~82.5% reduction from 41,081 baseline; beats <10K stretch target). All 5 phases complete: P1 `8dfef75`, P2 `836f3aa`, P3 `731bea0`, P4 `30ae350`, P5 (this session). See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` + LL-29 in `notes/lessons-learned.md`.
 
-- [ ] **P1 — Instrumentation** (Session 29 NEXT) — `hooks/scripts/bootstrap-cost.sh` + baseline metric row
-- [ ] **P2 — Convention refactor** (Session 29, the hinge) — T1 boundary markers, top-section reorg, zero content deletion
-- [ ] **P3 — Minimal enforcement** (Session 30) — `current-task.md` <100 line pre-commit hook only
-- [ ] **P4 — Docs + LL audit** (Session 30) — CLAUDE.md rewrite + 2 new KB cards + LL integration audit
-- [ ] **P5 — Validation + LL-29 draft** (Session 31) — post-fix metric + LL-29 draft + task close
+### P0 — Next active candidates (pick one to start)
 
-### DEFERRED (2026-04-11 user directive) — do NOT pursue from old audit
+- [ ] **LL-19 / LL-20 protocol counter** (ACTIVE-P0 in lessons-learned.md) — sycophantic-agreement-with-persistence-gaps recurrence pattern needs structural counter. Currently meta-lesson without enforcement layer.
+- [ ] **LL-28 event-triggered dialogue-checkpoint protocol** (ACTIVE-P0) — implementation of the Session 27 candidate. Pre-requisite per Session 27 directive: at least one survived dying-session recovery test before hard-coding.
+- [ ] **HydroCast Phase D strategic comparison** (un-deferred now that CAB state-mgmt reform is complete) — read-only comparison of CAB vs HydroCast state-mgmt approaches. Was queued behind CAB bootstrap fix.
 
-- **HydroCast audit state-mgmt remediation** — user directive: *"we will NOT implement the state mgmt portion during hydrocast remediation from the (now old) audit."* Revisit AFTER CAB bootstrap fix stabilizes. The old audit's state-mgmt recommendations are invalidated by the bootstrap fix thesis (fix the read, not the file).
-- **Phase D HydroCast strategic comparison** (was next before Session 28) — remains queued behind bootstrap fix
-- **Phase G Global CLAUDE.md v2 upgrade** — remains queued behind bootstrap fix + Phase D
+### P1 — High value, integrate this quarter
 
-### P0 follow-on items surfaced by Session 28/29 recovery
+- [ ] **LL-02 / LL-12 background-write gate** (ACTIVE-P1) — pre-delegation hook detecting `run_in_background: true` + Write/Edit/NotebookEdit tool intent. Recurring failure mode since LL-02 first logged.
+- [ ] **LL-08 background-output persistence verification** (ACTIVE-P1) — post-agent step that checks for expected artifact files before treating output as authoritative.
+- [ ] **LL-17 worktree auto-detect** (ACTIVE-P1) — pre-commit branch context verification + worktree suggestion when concurrent-session risk detected. KB exists; programmatic surface does not.
+- [ ] **LL-27 follow-on: extend `/sync-check`** for plugin↔global agent name-collision detection — highest-priority LL-27 enforcement layer (currently manual).
+- [ ] **Global CLAUDE.md v2 architecture upgrade** (Session 27 origin) — re-evaluate ~200-line global memory budget after Phase D comparison.
 
-- [ ] **LL-28 fallback-recovery protocol augmentation** — add "grep CC session JSONL archive at `~/.claude/projects/<slug>/*.jsonl` as first resort" to a recovery skill or `filesystem-patterns.md` section. Session 29 proved the pattern works empirically; needs structural weaving. Candidate until it survives one more real dying-session recovery test.
-- [ ] **LL-28 two-protocol split** — LL-28 currently treated as one "emergence staleness" problem; actually needs (a) prevention (event-triggered state writes during normal ops) + (b) recovery (JSONL-first bootstrap after abnormal termination). Update LL-28 wording when next LL revision lands.
-- [ ] **Persist operational workflow advice as reusable pattern** — Session 29 recovery artifact Part 7 documents "Iterative Bounded-Phase Execution with Artifact-Carried Context" pattern. If the pattern proves effective through Session 29-31, promote to `knowledge/operational-patterns/orchestration/` as a reusable card.
+### P2 — Nice to have
+
+- [ ] **LL-10 fresh-fetch pre-edit hook** (ACTIVE-P2) — pre-edit gate on KB files referencing official CC docs.
+- [ ] **LL-25 RAS-exec / HydroCast policy propagation** — documentation alignment.
+- [ ] **LL-25 CC Memory Layer Alignment KB card** — currently summarized in `filesystem-patterns.md`; may warrant dedicated reference.
+- [ ] **LL-25 Dream consolidation skill concept** — mimics CC Layer 6 (Dreaming) for LL → CLAUDE.md promotion workflow.
+- [ ] LL-27 follow-ons: KB card `multi-agent/agent-resolution.md`, `/validate --cab-audit` shadow-check, "CAB provides" notes in CAB's own extension registry.
 
 ---
 
