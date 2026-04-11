@@ -180,3 +180,30 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 - Architecture KB: `knowledge/operational-patterns/state-management/filesystem-patterns.md`
 - Session bootstrap config: `CLAUDE.md` §State Management
 - Hook scripts: `hooks/scripts/`
+
+---
+
+## Session Log
+
+### Session 29 (2026-04-11) — P1 landed
+
+**Commits**: `8dfef75 feat(bootstrap): P1 instrumentation — bootstrap-cost.sh + baseline log`
+
+**What landed**:
+- `hooks/scripts/bootstrap-cost.sh` — Git Bash compatible, pure bash, zero deps. CSV row to stdout (11 fields), human-readable table to stderr. Token heuristic: `bytes / 4` (BPE approximation, directional not absolute). Verified 3× with exit 0.
+- `notes/metrics/bootstrap-cost-log.md` — markdown table log with two rows:
+  - `session-28-bootstrap`: 41,081 tokens (recovered from `git show c24968b` — the state that motivated this task)
+  - `session-29-pre-p2`: 39,286 tokens (post current-task.md compression + recovery-backfill commit `698eb4e`)
+
+**Deviations from impl plan**: None structural. Actual baseline (41,081) is 3.8% higher than the ~39,575 figure quoted in the recovery artifact, which itself was an estimate. The script's measurement is authoritative going forward.
+
+**Unexpected finding — P4-relevant**: `lessons-learned.md` is 59 lines but 28,852 bytes → **~489 chars/line average**, making it the **3rd-largest state file by token weight** despite being the smallest by line count. The LL-25 "≤300 lines" policy uses line count as the proxy metric — it misses dense-line files entirely. **P4's LL audit and any future state-file size policies must factor byte/token weight, not just line count.** This finding would not have been visible without P1's dual-metric capture — measurement is self-validating.
+
+**Empirical confirmation of P2 necessity**: Net bootstrap delta from current-task.md compression + recovery-backfill is only **−1,795 tokens (−4.4%)**. This empirically validates the v2 thesis that single-file compression is insufficient — partial-read cascade is required for meaningful reduction.
+
+**Session 29 meta-observations**:
+- Non-standard 3-file cold-start protocol worked as designed (~8K tokens vs ~40K). Ending session ~18K tokens into context budget, well under any pressure point.
+- `git show <sha>:<path>` as retroactive state measurement is a reusable pattern for any future drift-detection work — full timeseries can be reconstructed from commit history without needing to re-run prior sessions.
+- No LL-26 two-commit dogfooding per Session 28 recovery directive. Single commit for P1 work; this state-close is a separate cosmetic commit (current-task.md phase update + this session-log entry).
+
+**Next session entry point**: Session 30 executes P2 (the hinge). Cold-start protocol remains non-standard per this file + current-task.md + recovery artifact only. HITL-2 gate before P2 commit.

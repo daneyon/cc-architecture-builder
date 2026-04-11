@@ -1,25 +1,26 @@
 # Current Task: Bootstrap Token Efficiency Restoration
 
-**Status**: PLAN v2 approved (HITL-1 passed Session 28). P1 not yet started. **Session 29 opens fresh to execute P1** via `cab:execute-task`.
+**Status**: P1 landed Session 29 (`8dfef75`). **Session 30 opens fresh to execute P2** (the hinge) via `cab:execute-task`.
 **Started**: 2026-04-11 Session 28 (diagnostic + v1 plan + v2 pivot + death mid-state-close on "Prompt is too long")
 **Recovery completed**: 2026-04-11 Session 29 (JSONL-transcript-sourced backfill of Session 28 emergent content — see recovery artifact)
+**P1 completed**: 2026-04-11 Session 29 (`8dfef75` — bootstrap-cost.sh + baseline log)
 **Branch**: `master` (CAB, local-only; solo workflow — no push needed)
 
 ---
 
-## ⚠ Session 29 Cold-Start Protocol — DO NOT USE STANDARDIZED BOOTSTRAP
+## ⚠ Session 30 Cold-Start Protocol — DO NOT USE STANDARDIZED BOOTSTRAP
 
 **User directive 2026-04-11**: *"our current state mgmt is BROKEN and the recent changes we have made in the last week or so have effectively downgraded the UX. for our next session, don't use our standardized bootstrapping protocol."*
 
-Session 28 bootstrap alone consumed ~40K tokens (62% of context) before any productive work — Session 28 died mid-execution as direct consequence.
+**Session 30 must read ONLY these 3 files at cold-start** (target: ~8K tokens):
 
-**Session 29 must read ONLY these 3 files at cold-start** (target: ~8K tokens):
+1. `notes/current-task.md` — this file (task pointer + phase status)
+2. `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` — authoritative 5-phase plan (see Session Log at bottom for P1 landing notes + byte-weight finding)
+3. `notes/references/session-28-recovery-2026-04-11.md` — Session 28 emergent content + operational workflow advice
 
-1. `notes/current-task.md` — this file (~90 lines, task pointer)
-2. `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` — authoritative 5-phase plan (~300 lines)
-3. `notes/references/session-28-recovery-2026-04-11.md` — Session 28 emergent content + operational workflow advice (~400 lines)
+**Do NOT read at cold-start**: `progress.md`, `TODO.md`, `lessons-learned.md`. Semantically corrupt (still Session 27 content, not refreshed until P5 task close). Grep on-demand only if a specific lookup is needed. Non-standard protocol is the interim workaround until P2-P5 lands the real fix.
 
-**Do NOT read at cold-start**: `progress.md`, `TODO.md`, `lessons-learned.md`. These are semantically corrupt (still Session 27 content because Session 28 died before updating them). Grep into them on-demand only if a specific lookup is needed. This non-standard protocol is the interim workaround until P1-P5 lands the real fix.
+**Session 30 first-turn sequence**: cold-start reads → acknowledge P1 landed → invoke `cab:execute-task` with P2 as target → HITL-2 gate after P2 refactor before committing.
 
 ---
 
@@ -37,26 +38,26 @@ Session 28 standard bootstrap consumed ~40K tokens across 4 full state-file read
 
 | Phase | Status | Deliverable | Est |
 |---|---|---|---|
-| P1 — Instrumentation | **NEXT (Session 29)** | `hooks/scripts/bootstrap-cost.sh` + baseline metric row | ~2K |
-| P2 — Convention refactor (**the hinge**) | pending | T1 boundary markers + top-section reorg, zero content deletion | ~12K |
+| P1 — Instrumentation | ✅ **DONE** (`8dfef75`) | `hooks/scripts/bootstrap-cost.sh` + `notes/metrics/bootstrap-cost-log.md` (baseline: 41,081 tok) | ~2K |
+| P2 — Convention refactor (**the hinge**) | **NEXT (Session 30)** | T1 boundary markers + top-section reorg, zero content deletion | ~12K |
 | P3 — Minimal enforcement | pending | `current-task.md` <100 line pre-commit hook + partial-read KB card | ~4K |
-| P4 — Docs + LL audit | pending | CLAUDE.md rewrite + `bootstrap-read-pattern.md` + `cc-memory-layer-alignment.md` KB cards + LL integration audit | ~10K |
+| P4 — Docs + LL audit | pending | CLAUDE.md rewrite + `bootstrap-read-pattern.md` + `cc-memory-layer-alignment.md` KB cards + LL integration audit (factor **byte/token weight, not just line count** — lessons-learned.md finding, see impl plan Session Log) | ~10K |
 | P5 — Validation + LL-29 | pending | Post-fix metric + LL-29 draft + HITL-4 | ~4K |
 
-**Total remaining**: ~32K tokens across 2-3 sessions.
+**Total remaining**: ~30K tokens across 2 sessions.
 
-## Recommended per-session cadence (Session 29-31)
+## Recommended per-session cadence (Session 30-31)
 
-- **Session 29**: P1 + P2 — P1 is 2K (instrumentation), P2 is 12K (the hinge). HITL-2 after P2.
-- **Session 30**: P3 + P4 — P3 hook (4K), P4 docs + LL audit (10K). HITL-3 on hook before push.
-- **Session 31**: P5 validation + task close. HITL-4 on metrics + LL-29 draft.
+- **Session 30**: P2 — convention refactor, the hinge. HITL-2 gate before commit. P2 is 12K tokens, close state after if budget tight.
+- **Session 31**: P3 + P4 + P5 — hook (4K), docs + LL audit (10K), validation + LL-29 draft + final close (4K). HITL-3 on hook before commit, HITL-4 on final metrics. If 18K is too much for one session, split P3+P4 from P5.
 
 Full operational workflow advice (artifact-carried context pattern, anti-patterns, first-turn sequence) in `session-28-recovery-2026-04-11.md` Part 7.
 
 ## HITL Gates
 
 - [X] HITL-1: v2 plan approved (Session 28 dialogue)
-- [ ] HITL-2: refactored `current-task.md` + `progress.md` structure after P2
+- [X] HITL-2 (implicit P1): "proceed" received Session 29, P1 committed `8dfef75`
+- [ ] HITL-2 (explicit P2): refactored `progress.md`/`TODO.md`/`lessons-learned.md` T1-section structure before commit
 - [ ] HITL-3: `current-task.md` <100 line hook before commit (affects all future commits)
 - [ ] HITL-4: pre/post bootstrap metrics + LL-29 draft before task close
 
