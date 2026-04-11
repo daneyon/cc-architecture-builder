@@ -1,174 +1,77 @@
-# Current Task: CAB Source-of-Truth Consolidation + HydroCast State Mgmt Harmonization
+# Current Task: Bootstrap Token Efficiency Restoration
 
-**Status**: Phases A, B, and C (full scope: agents + commands + skills) complete. Phase A landed in `62bf4a9`, Phase 5b state refresh in `726c50b`, Phase B.5 pushed clean. Phase C.1 inventory completed Session 26, LL-27 shadowing discovered, session died mid-dialogue on HITL-3. Session 27 recovered via transcript-tail backfill (LL-27 + LL-28 in `436ffbd`, state refresh in `bc9ce69`), user confirmed full Option B scope, and all 8 duplicates removed from `~/.claude/`: 2 agents + 4 commands + 2 skills. Global `CLAUDE.md` Extension Registry updated to reflect post-cleanup reality with LL-27 shadowing rule permanently documented. CAB plugin is now the single authoritative source for all overlapping extensions. Phase D (HydroCast comparison) is the next HITL gate.
-**Started**: 2026-04-10 (Session 25 plan; Session 26 execution; Session 27 recovery + full Option B execution)
-**Branches**: `master` (CAB, local-only state refreshes ahead of origin; user directive: no push needed for solo workflow — still honored), `feat/plugin-first-migration-2026-04-09` (HydroCast, unchanged)
-**Prior task**: LL-25 state management reform (`302f872`, PUSHED) exposed tense hygiene gap; LL-26 solved tense staleness; LL-27 captured shadowing; LL-28 captured emergence staleness; Session 27 proved the shadow-cleanup pattern on the full duplication surface (not just agents) and validated LL-27's architectural claim that plugin-provided extensions are the correct authority layer.
-**Next action**: Phase D — HydroCast strategic comparison (read-only, fan-out to specialists). After Phase D completes, execute **Global CLAUDE.md v2 Architecture Upgrade** (queued 2026-04-11 Session 27 per user directive; full rationale + proposal in `notes/TODO.md` under "Global CLAUDE.md v2 Architecture Upgrade" section; origin = dialogue identifying Extension Registry as a Policy/Inventory category error wasting ~15% of global memory budget). Then HITL-4 + Phase E remediation + Phase F close. Lazy-load protocol question and LL-29 quality-over-tokens candidate deferred to post-Phase-F review.
-
-## Design Decisions (User-Confirmed 2026-04-10)
-
-- **DD-1**: Two-commit pattern = default for session close. Token cost ~130/session (0.065% of budget) = negligible. Tense-neutral single-commit documented as lightweight fallback for mid-session state touches.
-- **DD-2**: Sync-upstream HITL default = present findings + recommendation, user approves. Minor auto-commit escape hatch for truly trivial deltas (whitespace, typos, already-aligned content) with clear log trail.
-- **DD-3**: HydroCast comparison-first approach — after comparison (Phase D), if CAB has genuinely captured everything HydroCast's 3-layer practice offers AND nothing unique-to-HydroCast is advantageous, full restructure to align with CAB is pre-approved. Otherwise preserve HydroCast-unique value.
-- **DD-4**: Commit-per-phase = default guidance (not prescription) in CAB standardization. Adds item to Phase A: weave into `executing-tasks` skill as recommended cadence.
-- **DD-5**: Global dedup = delete confirmed duplicates only; non-overlapping extensions stay global. If global copies are OLDER than CAB (expected case), just delete. If global happens to be NEWER, sync upstream first (rare case, still HITL).
+**Status**: PLAN v2 approved (HITL-1 passed Session 28). P1 not yet started. **Session 29 opens fresh to execute P1** via `cab:execute-task`.
+**Started**: 2026-04-11 Session 28 (diagnostic + v1 plan + v2 pivot + death mid-state-close on "Prompt is too long")
+**Recovery completed**: 2026-04-11 Session 29 (JSONL-transcript-sourced backfill of Session 28 emergent content — see recovery artifact)
+**Branch**: `master` (CAB, local-only; solo workflow — no push needed)
 
 ---
 
-## Objective
+## ⚠ Session 29 Cold-Start Protocol — DO NOT USE STANDARDIZED BOOTSTRAP
 
-Three linked goals sequenced so CAB is hardened and consolidated BEFORE being applied to HydroCast:
+**User directive 2026-04-11**: *"our current state mgmt is BROKEN and the recent changes we have made in the last week or so have effectively downgraded the UX. for our next session, don't use our standardized bootstrapping protocol."*
 
-1. **Phase A — CAB protocol hardening (tense hygiene)**: Structurally prevent recurrence of Session 24's hygiene lag (state files frozen with "pending commit" language). Weave the fix into skills/protocols/hooks so it cannot recur.
-2. **Phase C — CAB source-of-truth consolidation**: Remove duplicate global `~/.claude/` copies of CAB commands (and overlapping skills/agents) so CAB plugin becomes the single authoritative source. Eliminates drift risk and operator confusion.
-3. **Phases D-E — HydroCast state mgmt harmonization**: Strategically compare CAB framework vs HydroCast's battle-tested 3-layer LC-08 lineage. Apply CAB standardizations where beneficial, preserve HydroCast-unique value, extract upstream opportunities. Enable user to resume HydroCast work on a harmonized foundation.
+Session 28 bootstrap alone consumed ~40K tokens (62% of context) before any productive work — Session 28 died mid-execution as direct consequence.
 
-## Root Causes Summary
+**Session 29 must read ONLY these 3 files at cold-start** (target: ~8K tokens):
 
-### Gap 1 — State File Tense Hygiene
+1. `notes/current-task.md` — this file (~90 lines, task pointer)
+2. `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` — authoritative 5-phase plan (~300 lines)
+3. `notes/references/session-28-recovery-2026-04-11.md` — Session 28 emergent content + operational workflow advice (~400 lines)
 
-Session 24 committed work + state files together in `302f872`. State files said `"EXECUTED ✅ — Ready for commit + session close"` — true at write time, stale the instant the commit landed. No protocol layer catches this:
+**Do NOT read at cold-start**: `progress.md`, `TODO.md`, `lessons-learned.md`. These are semantically corrupt (still Session 27 content because Session 28 died before updating them). Grep into them on-demand only if a specific lookup is needed. This non-standard protocol is the interim workaround until P1-P5 lands the real fix.
 
-- `skills/session-close/` Step 4 commits state updates but doesn't distinguish work-commit from state-refresh-commit
-- `skills/executing-tasks/` Phase 5 says update state AFTER commit — but doesn't require a second commit for the refresh, nor forbid "pending" tense
-- Pre-push hook regex doesn't include tense markers (`pending commit`, `ready for commit`)
-- No documented tense-hygiene convention in `filesystem-patterns.md`
+---
 
-This is exactly the failure mode LL-25's "Lessons-Referenced Protocols" pattern was created to prevent — and it slipped through because LL-25 itself was the work being committed.
+## Problem Statement (concise)
 
-### Gap 2 — Global↔CAB Command/Skill Duplication
+Session 28 standard bootstrap consumed ~40K tokens across 4 full state-file reads. Root cause: LL-25/26/27/28 cumulative state-mgmt work optimized for semantic preservation without counter-pressure for cold-start compactness. `current-task.md` breached <100 target (174 lines). `progress.md` +44% since LL-25. Zero programmatic enforcement — "architecturally enforced" was aspirational language.
 
-Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-task`, `commit-push-pr`, `context-sync`, `techdebt`). Global `~/.claude/skills/` and `agents/` also overlap with CAB (`architecture-analyzer`, `planning-implementation` skills; `orchestrator`, `verifier` agents). Impact:
+## Fix Approach (v2 — the architectural pivot)
 
-- Two copies drift — already observed: global commands lag behind CAB enhancements
-- Operator confusion: unclear which version triggers on `/execute-task`
-- Violates CAB's core principle that it IS the source of truth for architectural extensions
-- Originally made sense pre-plugin-marketplace; now obsolete since CAB is registered globally via `enabledPlugins`
+**Fix the READ pattern, not the FILE size.** User rejected v1 (hard limits on progress/TODO) because `progress.md` currently serves as de facto session-narrative durable store. v2 uses partial-read cascade at bootstrap via `Read(file, limit=N)`. Only hard gate: `current-task.md` <100 lines. Other files stay agentically flexible.
 
-## Acceptance Criteria
+**Core thesis (never captured in state files until Session 29 recovery)**: *"File size (on disk) and bootstrap read size (loaded at cold-start) are separable variables. Fix the read, not the file."* Full architectural framing in `session-28-recovery-2026-04-11.md` Parts 2-3.
 
-### Phase A — CAB Protocol Hardening ✅ (landed in `62bf4a9`)
+## Phase Status
 
-- [X] AC-1: LL-26 entry drafted + added to `notes/lessons-learned.md` (tense hygiene + two-commit session close pattern) — `62bf4a9`
-- [X] AC-2: `filesystem-patterns.md` gained "State File Tense Hygiene" section (v3.2, approved/forbidden patterns + two-commit protocol) — `62bf4a9`
-- [X] AC-3: `skills/session-close/SKILL.md` revised with explicit two-phase close (work commit → state refresh commit) + tense checklist + work-vs-state classification rule — `62bf4a9`
-- [X] AC-4: `skills/executing-tasks/SKILL.md` Phase 5 split into 5a/5b/5c; requires post-commit state refresh + second commit; classification table added — `62bf4a9`
-- [X] AC-5: `hooks/scripts/pre-push-state-review.sh` regex refactored (v2) — two pattern types (draft labels require colon-suffix; tense markers require status-line anchoring); case-insensitive tense matching — `62bf4a9`
-- [X] AC-6: `skills/executing-tasks/SKILL.md` Phase 3 adds commit-per-phase cadence as recommended guidance (DD-4, not prescription) + defer-state-updates rule — `62bf4a9`
-- [X] AC-7: Smoke test — retroactively validated against Session 24's `**Status**: EXECUTED ✅ — Ready for commit + session close` (caught), plus 6 scenarios: labels/prose/table-cells/status-lines/lowercase/descriptive all correctly classified — Session 26 A.7
+| Phase | Status | Deliverable | Est |
+|---|---|---|---|
+| P1 — Instrumentation | **NEXT (Session 29)** | `hooks/scripts/bootstrap-cost.sh` + baseline metric row | ~2K |
+| P2 — Convention refactor (**the hinge**) | pending | T1 boundary markers + top-section reorg, zero content deletion | ~12K |
+| P3 — Minimal enforcement | pending | `current-task.md` <100 line pre-commit hook + partial-read KB card | ~4K |
+| P4 — Docs + LL audit | pending | CLAUDE.md rewrite + `bootstrap-read-pattern.md` + `cc-memory-layer-alignment.md` KB cards + LL integration audit | ~10K |
+| P5 — Validation + LL-29 | pending | Post-fix metric + LL-29 draft + HITL-4 | ~4K |
 
-### Phase B — CAB Finalization ✅ (landed in `726c50b` + clean push)
+**Total remaining**: ~32K tokens across 2-3 sessions.
 
-- [X] AC-7: CAB `current-task.md` + `progress.md` refreshed using Phase A protocols — `726c50b` (Session 26) + this Session 27 backfill
-- [X] AC-8: LL-25 artifacts smoke-tested (hook runs, skill frontmatter valid, gitignore patterns behave) — verified in Session 26
-- [X] AC-9: Push decision resolved + executed — `CAB_SKIP_PREPUSH_REVIEW=1` bypass dependency eliminated by A.5 regex refinement; clean push proceeded without bypass
-- [X] AC-10: CAB `master` pushed to origin (Session 26 end), `git status` clean, `git log origin/master..master` empty at push time
+## Recommended per-session cadence (Session 29-31)
 
-### Phase C — Global↔CAB Source-of-Truth Consolidation ✅ (all ACs landed Session 27, 2026-04-11)
+- **Session 29**: P1 + P2 — P1 is 2K (instrumentation), P2 is 12K (the hinge). HITL-2 after P2.
+- **Session 30**: P3 + P4 — P3 hook (4K), P4 docs + LL audit (10K). HITL-3 on hook before push.
+- **Session 31**: P5 validation + task close. HITL-4 on metrics + LL-29 draft.
 
-- [X] AC-11: Diff each global copy against CAB version — done in Session 26 Phase C.1, all 8 duplicates confirmed as CAB strict supersets, no sync-upstream needed. `execute-task.md` allowed-tools delta confirmed as intentional CAB cleanup, not regression.
-- [X] AC-12: Delete duplicate global commands `execute-task`, `commit-push-pr`, `context-sync`, `techdebt` — DONE (Session 27, 2026-04-11). `~/.claude/commands/` is now empty; all 4 commands resolve via CAB plugin path.
-- [X] AC-13: Delete duplicate global skills `architecture-analyzer`, `planning-implementation` — DONE (Session 27, 2026-04-11). Both skill directories (including `planning-implementation/assets/` subdir with 2 template files) removed via file-by-file + rmdir cascade (security gate blocks `rm -rf`, LL-14 working correctly). Remaining global skills: 8 non-CAB (assessing-quality, claude-docs-helper, designing-workflows, presentation-outline, readme-generator, slide-designer, token-optimizer, visualizing-data).
-- [X] **AC-14**: Delete duplicate global agents `orchestrator`, `verifier` — DONE (Session 27, 2026-04-11). `~/.claude/agents/orchestrator.md` + `~/.claude/agents/verifier.md` removed. Remaining global agents: code-reviewer, debugger-specialist, general-researcher (CAB does not provide these).
-- [X] AC-15: Update global `~/.claude/CLAUDE.md` Extension Registry — DONE for all three categories. Agents=3 (with LL-27 past-tense incident note), Skills=8 (with past-tense "removed in Phase C.2" warning for CAB-duplicates), Commands=0 (with same past-tense warning). LL-27 shadowing rule section added as permanent policy for all future plugin adoption.
-- [ ] AC-16: Smoke test — open fresh CC session, verify `/execute-task` and friends still resolve via CAB plugin path (now that global copies are gone, resolution path is forced through the plugin). **Deferred to next session cold-start** — this session has mutated `~/.claude/` and continuing verification in-session wouldn't prove anything the plugin registration check hasn't already proven.
-- [~] **AC-17 (from LL-27)**: Verify CAB's plugin orchestrator is now the active resolution target. Partial verification done this session: `settings.json` shows `cab@cab: True` in `enabledPlugins` and `cab` in `extraKnownMarketplaces`; plugin discovery chain is intact. Full behavioral verification (e.g., observing that the orchestrator's Session 26+ R2 updates are now active in operational output) deferred to next cold-start session alongside AC-16.
-
-### Phases D-E — HydroCast Harmonization
-
-- [ ] AC-18: Strategic comparison doc written at HydroCast `notes/cab-vs-hydrocast-state-mgmt-comparison-2026-04-10.md` — answers the 7 review questions from `cab-state-mgmt-review-brief.md`; side-by-side matrix; HydroCast-unique value; CAB-unique value; harmonization recommendations with HITL gates; upstream opportunities (renumbered from AC-17 on 2026-04-11 to resolve collision with Phase C's AC-17 LL-27 follow-on)
-- [ ] AC-19: HITL gate — user scopes harmonization approvals before any HydroCast structural change
-- [ ] AC-20: HydroCast Phase 5 P1 KB frontmatter fixes landed (3 files + `knowledge/INDEX.md` reference)
-- [ ] AC-21: Approved harmonization changes applied (docs + protocols only; no structural file moves unless explicitly approved)
-- [ ] AC-22: HydroCast state files coherent post-change (`current-task.md` <40 lines, `progress.md`/LC/D intact, bootstrap protocol still works)
-- [ ] AC-23: Upstream HydroCast→CAB opportunities added as CAB TODOs (candidates: D96 transfer doc protocol, LC/D numbering, ephemeral session layer)
-- [ ] AC-24: HydroCast feat branch committed (incremental subcommits) and pushed; uncommitted pre-existing work disambiguated (not bundled)
-
-## Subtasks
-
-### Phase A: CAB Protocol Hardening
-
-- A.1 LL-26 draft (root cause + corrective protocol + category `proc`)
-- A.2 `filesystem-patterns.md` — "State File Tense Hygiene" section
-- A.3 `skills/session-close/SKILL.md` — two-phase close pattern
-- A.4 `skills/executing-tasks/SKILL.md` — Phase 5 post-commit refresh
-- A.5 `hooks/scripts/pre-push-state-review.sh` — tense marker regex extension. **CRITICAL nuance discovered in Session 25 smoke test**: naive regex on "pending commit" matches both (a) actual stale tense in status fields and (b) legitimate documentation/references to the concept (e.g., this very plan references "pending commit" descriptively). The regex must distinguish. Recommended: match only in status-line contexts like `^\*\*(Status|Phase|Gate)\*\*:.*pending commit` or similar anchored patterns. Alternatives considered: (i) unambiguous marker keyword `PENDING_COMMIT_REFRESH`, (ii) skip lines inside code fences/backticks. Anchored status-line matching is preferred because status lines are the actual failure surface; descriptive prose is fine.
-- A.6 `skills/executing-tasks/SKILL.md` — add commit-per-phase cadence as recommended guidance (DD-4, not prescriptive)
-- A.7 Smoke test: retroactive validation against Session 24 files (verify Session 24's stale `"EXECUTED ✅ — Ready for commit + session close"` would have been caught by the anchored regex)
-
-### Phase B: CAB Finalization
-
-- B.1 Apply Phase A protocols → refresh `current-task.md` + `progress.md`
-- B.2 LL-25 artifact smoke tests
-- B.3 Resolve push decision
-- B.4 Commit Phase A+B: `feat: state file tense hygiene protocol (LL-26)`
-- B.5 Push master (with bypass env var if hook false-positives)
-
-### Phase C: Global↔CAB Deduplication
-
-- C.1 Inventory + diff global `commands/`, `skills/`, `agents/` vs CAB equivalents
-- C.2 Sync upstream to CAB any global improvements not yet reflected
-- C.3 Delete confirmed duplicates from `~/.claude/`
-- C.4 Update global `~/.claude/CLAUDE.md` Extension Registry
-- C.5 Smoke test in fresh CC session
-- C.6 Commit CAB-side changes (if sync-upstream happened); record dedup in CAB progress
-
-### Phase D: HydroCast Strategic Comparison (Read-Only)
-
-- D.1 Read HydroCast Tier 1 (learned-corrections.md, design-decisions.md D96, CLAUDE.md §Persistent Memory Architecture)
-- D.2 Read HydroCast Tier 2 (current-task.md, progress.md, session-24-transfer.md exemplar)
-- D.3 Read CAB baseline post-Phase-A (filesystem-patterns.md, CLAUDE.md §State Management)
-- D.4 Write comparison doc answering the 7 review questions
-
-### Phase E: HydroCast Remediation (HITL Gate)
-
-- E.1 Present comparison doc → HITL scoping
-- E.2 Phase 5 P1 KB frontmatter fixes (independent, low-risk — can run in parallel)
-- E.3 Apply approved harmonization changes
-- E.4 Refresh HydroCast state files using CAB's new tense hygiene protocol
-- E.5 Commit incrementally on feat branch, push
-
-### Phase F: CAB Follow-On
-
-- F.1 Update CAB TODO.md — mark LL-25 follow-ons, add upstream HydroCast patterns
-- F.2 Final CAB commit + push
-
-## Verification
-
-- **CAB clean**: `git status` → clean working tree
-- **CAB pushed**: `git log origin/master..master` → empty
-- **CAB tense hygiene**: `grep -rEn "pending commit|ready for commit" notes/` → no matches
-- **Global dedup**: duplicate files removed from `~/.claude/commands/`, `skills/`, `agents/`
-- **Slash command resolves**: fresh CC session `/execute-task` still works (via CAB plugin path)
-- **HydroCast clean**: `git status` shows only intentional changes
-- **HydroCast pushed**: feat branch commits visible on origin
-- **Comparison doc exists**: `HydroCast/notes/cab-vs-hydrocast-state-mgmt-comparison-2026-04-10.md`
-- **Cold-start sim**: read CAB `current-task.md` → no stale tense markers found
+Full operational workflow advice (artifact-carried context pattern, anti-patterns, first-turn sequence) in `session-28-recovery-2026-04-11.md` Part 7.
 
 ## HITL Gates
 
-- **HITL-1**: User reviews this plan → approves Phase A-C scope before execution begins
-- **HITL-2**: User reviews Phase A deliverables before commit (tense protocol changes affect all future CAB work)
-- **HITL-3**: User reviews Phase C dedup inventory (sign-off on what to delete from global)
-- **HITL-4**: User reviews strategic comparison doc → scopes HydroCast harmonization approvals
+- [X] HITL-1: v2 plan approved (Session 28 dialogue)
+- [ ] HITL-2: refactored `current-task.md` + `progress.md` structure after P2
+- [ ] HITL-3: `current-task.md` <100 line hook before commit (affects all future commits)
+- [ ] HITL-4: pre/post bootstrap metrics + LL-29 draft before task close
 
-## Risks / Out of Scope
+## User Directives (Session 28/29, authoritative)
 
-- **Risk**: HydroCast feat branch has pre-existing modified files (marketplace.json, environment.yml, KB file, state files) + untracked items (diagrams, model tier1 JSONs, strategic assessment notes). Must disambiguate before committing to avoid bundling unrelated work.
-- **Risk**: Pre-push hook false-positives on descriptive "WIP" prose — known issue, bypass with env var for this task, regex refinement stays on TODO (LL-25 follow-on)
-- **Risk**: Phase C deletion irreversible if CAB plugin is later disabled — mitigated by CAB being the source of truth anyway (backup exists in CAB repo history)
-- **Risk**: If Phase C diff reveals global copies have uncommitted improvements, sync-upstream may expand scope; stop and re-plan if >2× estimate
-- **Out of scope**: RAS-exec harmonization (deferred per existing TODO), full CC memory layer KB card deep-dive, dream-consolidation skill concept, HydroCast structural file moves unless explicitly approved in HITL-4
+1. **State mgmt is BROKEN** — this task is the authoritative fix; takes priority over all other state-mgmt work
+2. **HydroCast audit state-mgmt remediation is DEFERRED** — will NOT be implemented from the now-old audit; revisit after CAB fix stabilizes
+3. **Session 29 non-standard bootstrap mandatory** — see protocol above
+4. **No over-building** — partial reads + convention, not hard limits + hooks everywhere
+5. **No LL-26 two-commit pattern dogfooding during this task** — that's the broken protocol being replaced; use single commit per phase
 
-## Reference Files
+## Reference Artifacts
 
-- **Session-close skill**: `skills/session-close/SKILL.md`
-- **Executing-tasks skill**: `skills/executing-tasks/SKILL.md`
-- **Filesystem patterns KB**: `knowledge/operational-patterns/state-management/filesystem-patterns.md`
-- **Pre-push hook script**: `hooks/scripts/pre-push-state-review.sh`
-- **Global dedup targets**: `~/.claude/commands/`, `~/.claude/skills/`, `~/.claude/agents/`
-- **Global CLAUDE.md registry**: `~/.claude/CLAUDE.md`
-- **HydroCast review brief**: `../Flood-Forecasting/notes/cab-state-mgmt-review-brief.md`
-- **HydroCast LC lineage**: `../Flood-Forecasting/notes/memory/learned-corrections.md`
-- **HydroCast D96**: `../Flood-Forecasting/notes/memory/design-decisions.md`
+- **Impl plan (load at Session 29 cold-start)**: `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`
+- **Session 28 recovery (load at Session 29 cold-start)**: `notes/references/session-28-recovery-2026-04-11.md`
+- **5 Critical Findings (permanent reference)**: `notes/references/prior-session-5-findings-2026-04-10.md`
+- **Session 28 JSONL source**: `~/.claude/projects/c--Users-daniel-kang-Desktop-Automoto-cc-architecture-builder/d17b1e16-a94e-4b33-b222-7fef5fc60773.jsonl`
+- **Memory architecture reference**: `notes/references/How Anthropic Built 7 Layers of Memory and a Dreaming System for Claude Code  (video breakdown).md`

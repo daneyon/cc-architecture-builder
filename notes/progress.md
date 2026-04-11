@@ -1,8 +1,45 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-11 (Session 27: transcript-tail recovery → LL-27 + LL-28 drafted `436ffbd` → state refresh `bc9ce69` → forceful compaction mid-dialogue → full Phase C.2 Option B cleanup landed post-compaction)
-**Branch**: `master` (CAB, N+1 commits ahead of origin after Session 27 state refresh commits; user directive: no push needed for solo workflow — honored), `main` (RAS-exec), `feat/plugin-first-migration-2026-04-09` (HydroCast)
-**Context health**: Session 27 experienced forceful compaction mid-dialogue during Phase C.2 execution. Post-compaction continuation successfully executed: retried the failed global `CLAUDE.md` edit (typo `ai-style-design` → `ai-system-design`, stale skill count → 8), then updated CAB `current-task.md` AC-12/13/14/15 to mark full Phase C.2 done, now landing this progress refresh. Phase D (HydroCast comparison) is next.
+> **⚠ NOTICE (2026-04-11 Session 29)**: This file is NOT to be read at cold-start bootstrap until the bootstrap efficiency fix lands (P2 of `impl-plan-bootstrap-efficiency-2026-04-11.md`). Per user directive 2026-04-11, the standardized CAB bootstrap protocol is BROKEN. Session 29+ use the non-standard protocol documented in `notes/current-task.md`. This file stays for historical narrative and on-demand grep access only.
+
+**Last session**: 2026-04-11 (Session 29: recovery backfill from Session 28 JSONL transcript — landed recovery artifacts + rewrote `current-task.md` with non-standard bootstrap protocol)
+**Current task**: Bootstrap Token Efficiency Restoration (v2 plan, P1 pending Session 29+ execution)
+**Branch**: `master` (CAB, local-only; solo workflow — no push)
+
+---
+
+## Current Position
+
+**Gate**: Session 28 produced v2 impl plan (HITL-1 passed) then died mid-state-close on "Prompt is too long" before `progress.md`/`TODO.md` were updated. Session 29 opened via JSONL recovery (not standardized bootstrap), wrote two recovery artifacts, compressed `current-task.md` to 77 lines, and is now closing state for Session 29+ to execute P1 fresh.
+
+**Active task**: see `notes/current-task.md` → `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`
+
+**Authoritative Session 28 narrative + operational workflow advice**: `notes/references/session-28-recovery-2026-04-11.md` (supersedes this file as the Session 28→29 handoff document)
+
+**User directive 2026-04-11** (authoritative, propagates to all pending work):
+1. State mgmt is BROKEN; bootstrap efficiency task is the authoritative fix
+2. HydroCast audit state-mgmt remediation DEFERRED (will not be implemented from the now-old audit)
+3. Session 29+ non-standard bootstrap mandatory until P2-P5 lands
+4. No LL-26 two-commit pattern dogfooding during this task
+
+**Session 28 death location**: `d17b1e16-a94e-4b33-b222-7fef5fc60773.jsonl` entry 153, 2026-04-11T15:37:16Z, immediately after writing compressed `current-task.md`, before `progress.md`/`TODO.md`/commit/operational-workflow-advice.
+
+**Session 29 recovery backfill artifacts**:
+- `notes/references/prior-session-5-findings-2026-04-10.md` — permanent reference, closes LL-28 for that data loss
+- `notes/references/session-28-recovery-2026-04-11.md` — transient bridge artifact, Session 28→29 handoff
+- `notes/current-task.md` — rewritten to 77 lines with non-standard bootstrap protocol at top
+- This progress.md notice block
+
+**Session 29 still-pending work** (do NOT execute this session — Session 29 context is for recovery close only):
+- P1-P5 of bootstrap efficiency plan (Sessions 29+, 30, 31 cadence per recovery artifact Part 7)
+- HydroCast strategic comparison (Phase D of prior plan) — REMAINS QUEUED behind bootstrap fix
+- Global CLAUDE.md v2 upgrade (Phase G) — REMAINS QUEUED behind bootstrap fix + Phase D
+
+---
+
+## Historical Narrative (Session 27 and earlier)
+
+The content below this line is the pre-Session-28 narrative. It is retained for historical reference but should NOT be read at cold-start bootstrap (see notice block above).
 
 ---
 

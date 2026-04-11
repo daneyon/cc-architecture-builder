@@ -1,10 +1,37 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-10 (Session 24)
-**Plugin Version**: 1.1.0 (bump to 1.1.1 pending LL-24 enhancements)
-**Implementation Plan**: `notes/impl-plan-plugin-first-architecture-2026-04-08.md`
-**R2 Audit Report**: `notes/cab-audit-2026-04-09-reaudit.md` (DEVELOPING 62%, 11 findings, +14pp from baseline)
-**Recent reform**: LL-25 state management git-tracking reform (Session 24, tracked notes/ + pre-push protocol)
+> **⚠ NOTICE (2026-04-11 Session 29)**: This file is NOT to be read at cold-start bootstrap until the bootstrap efficiency fix lands. Per user directive 2026-04-11, state mgmt is BROKEN. Use non-standard bootstrap protocol in `notes/current-task.md`. This file retained for historical context + on-demand grep access only.
+
+**Last Updated**: 2026-04-11 (Session 29 recovery backfill)
+**Plugin Version**: 1.1.0 (bootstrap efficiency fix pending; pre-existing LL-24 enhancements also pending)
+**Active Implementation Plan**: `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` (supersedes all prior plans for immediate execution)
+**Active Task**: see `notes/current-task.md`
+
+---
+
+## Top Priorities (Session 29+)
+
+### P0 — Bootstrap Token Efficiency Restoration (active, blocks everything else)
+
+See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` and `notes/references/session-28-recovery-2026-04-11.md`. Phases:
+
+- [ ] **P1 — Instrumentation** (Session 29 NEXT) — `hooks/scripts/bootstrap-cost.sh` + baseline metric row
+- [ ] **P2 — Convention refactor** (Session 29, the hinge) — T1 boundary markers, top-section reorg, zero content deletion
+- [ ] **P3 — Minimal enforcement** (Session 30) — `current-task.md` <100 line pre-commit hook only
+- [ ] **P4 — Docs + LL audit** (Session 30) — CLAUDE.md rewrite + 2 new KB cards + LL integration audit
+- [ ] **P5 — Validation + LL-29 draft** (Session 31) — post-fix metric + LL-29 draft + task close
+
+### DEFERRED (2026-04-11 user directive) — do NOT pursue from old audit
+
+- **HydroCast audit state-mgmt remediation** — user directive: *"we will NOT implement the state mgmt portion during hydrocast remediation from the (now old) audit."* Revisit AFTER CAB bootstrap fix stabilizes. The old audit's state-mgmt recommendations are invalidated by the bootstrap fix thesis (fix the read, not the file).
+- **Phase D HydroCast strategic comparison** (was next before Session 28) — remains queued behind bootstrap fix
+- **Phase G Global CLAUDE.md v2 upgrade** — remains queued behind bootstrap fix + Phase D
+
+### P0 follow-on items surfaced by Session 28/29 recovery
+
+- [ ] **LL-28 fallback-recovery protocol augmentation** — add "grep CC session JSONL archive at `~/.claude/projects/<slug>/*.jsonl` as first resort" to a recovery skill or `filesystem-patterns.md` section. Session 29 proved the pattern works empirically; needs structural weaving. Candidate until it survives one more real dying-session recovery test.
+- [ ] **LL-28 two-protocol split** — LL-28 currently treated as one "emergence staleness" problem; actually needs (a) prevention (event-triggered state writes during normal ops) + (b) recovery (JSONL-first bootstrap after abnormal termination). Update LL-28 wording when next LL revision lands.
+- [ ] **Persist operational workflow advice as reusable pattern** — Session 29 recovery artifact Part 7 documents "Iterative Bounded-Phase Execution with Artifact-Carried Context" pattern. If the pattern proves effective through Session 29-31, promote to `knowledge/operational-patterns/orchestration/` as a reusable card.
 
 ---
 
