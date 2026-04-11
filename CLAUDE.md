@@ -164,27 +164,50 @@ See `knowledge/operational-patterns/orchestration/framework.md` for full detail.
 
 ## State Management
 
-**`notes/` is TRACKED BY DEFAULT (LL-25)** — state artifacts are first-class deliverables, not scratch work. See [filesystem-patterns.md](knowledge/operational-patterns/state-management/filesystem-patterns.md#git-tracking-policy) for the full policy.
+**`notes/` is TRACKED BY DEFAULT (LL-25)** — state artifacts are first-class deliverables, not scratch work. **`notes/` is FLAT** (no subfolders except `_archive/`) — see Session 32 Pivot 2. See [filesystem-patterns.md](knowledge/operational-patterns/state-management/filesystem-patterns.md#git-tracking-policy) for the full policy.
 
-### Bootstrap Protocol (always-load)
+### Bootstrap Protocol — 3-File Cheap-to-Expensive Cascade
 
-- Read `notes/current-task.md` for active task context (<100 line anchor)
-- Read `notes/progress.md` for live session state and cumulative position
-- Read `notes/TODO.md` for tactical task queue and priorities
-- Read `notes/lessons-learned.md` for operational constraints (**architecturally enforced**, not optional reference — LL-25)
+At cold-start, read these three files via partial-read invocations. **Lessons-learned is excluded from bootstrap** and consulted on-demand (see below). Full cascade specification: [bootstrap-read-pattern.md](knowledge/operational-patterns/state-management/bootstrap-read-pattern.md).
+
+```
+Read(notes/current-task.md)                # full file, ≤100 lines hard cap (L1 anchor)
+Read(notes/progress.md, limit=100)         # T1 section only — Current Position
+Read(notes/TODO.md, limit=80)              # T1 section only — Top Priorities
+```
+
+Expected cost: **~7-8K tokens** (vs. ~40K for the pre-fix 4-file always-load protocol — see `notes/bootstrap-cost-log.md`). Each layer gates the next; if L1's pointer answers your question, you may skip L2/L3.
+
+### When to Read `lessons-learned.md` (On-Demand)
+
+- **Phase transitions** in a multi-phase task — scan the Classification column for `ACTIVE-P0`/`ACTIVE-P1` entries touching the next phase's domain
+- **Decision-domain match** — grep specific LL IDs when a current decision touches their governed area (delegation: LL-02/12; state mgmt: LL-25/26/27/28; schema: LL-15/16/21/23/24)
+- **Periodic audit** at major phase boundaries — re-score Classification states (`INTEGRATED` / `ACTIVE` / `ADVISORY` / `ARCHIVED`)
+- **New LL drafting** — full read first to check for duplicates / related entries
+
+The cadence is reader-determined, not protocol-mandated. Structural integration of LLs into skills/hooks/rules is the durable enforcement; rereading the file every cold-start is not.
+
+### Escalation to Full Read
+
+| Trigger | Action |
+|---------|--------|
+| L1 references a section of `progress.md` outside the T1 window | Full read `progress.md` |
+| New task planning requires full backlog visibility | Full read `TODO.md` |
+| Recovering from abnormal termination (`Prompt is too long`, force-compact, crash) | Grep CC session JSONL archive at `~/.claude/projects/<slug>/*.jsonl` *first* (LL-28 fallback-recovery), then state files |
 
 ### Track / Exclude Policy
 
-- **Tracked**: `progress.md`, `TODO.md`, `lessons-learned.md`, `current-task.md`, `impl-plan-*.md`, audit artifacts
+- **Tracked**: `progress.md`, `TODO.md`, `lessons-learned.md`, `current-task.md`, `impl-plan-*.md`, `bootstrap-cost-log.md`, audit artifacts, recovery artifacts
 - **Excluded**: `notes/scratch-*.md`, `notes/draft-*.md`, `notes/personal-*.md`, `notes/_drafts/`, `notes/_archive/`
+- **Flat structure**: all active state at `notes/` root; cold storage in `notes/_archive/`; no other subfolders
 - **Curation over compression** — CAB state files optimize for lossless semantic preservation; CC's internal memory layers optimize for token efficiency. These are complementary.
 - **Pre-push review** — two-layer protocol (hook + skill) catches draft markers before publication. See `hooks/pre-push-state-review.sh` + `skills/pre-push-state-review/`.
 - **Internal design docs** are in `docs/_internal/` (not tracked in git)
 
 ### File Size Guidance
 
-- `current-task.md`: **<100 lines hard target** (cold-start anchor, concise by design)
-- `progress.md`, `TODO.md`, `lessons-learned.md`: **agentically flexible** — no hard limits. Archive to `notes/_archive/` before sync if bloat becomes a concern.
+- `current-task.md`: **<100 lines hard target** (cold-start anchor, concise by design — enforced by `hooks/scripts/enforce-current-task-budget.sh`)
+- `progress.md`, `TODO.md`, `lessons-learned.md`: **agentically flexible** — no hard limits. Top T1 sections (above `<!-- T1:BOUNDARY -->`) bounded by convention to support partial-read cascade. Archive to `notes/_archive/` if bloat becomes a concern.
 
 ## Verification
 
@@ -207,7 +230,8 @@ Operational constraints from cross-session experience. Full log: `notes/lessons-
 - **LL-15**: Agent `context:` frontmatter does NOT exist in CC — use `skills:` for preloading
 - **LL-16**: `effort`, `allowed-tools`, `agent` are valid top-level skill fields (not under `metadata:`)
 - **LL-21**: Plugin components at root (`agents/`, `skills/`, `commands/`); `.claude/` for config only
-- **LL-25**: `notes/` tracked by default — multi-archetype policy. Curation > compression. Pre-push review protocol (hook + skill). Lessons-referenced protocols: LLs must be structurally woven into skills/agents, not passively documented
+- **LL-25**: `notes/` tracked by default — multi-archetype policy. Curation > compression. Pre-push review protocol (hook + skill). Lessons-referenced protocols: LLs structurally woven into skills/agents, not passively documented. **Session 32 correction**: the v3.2 "always-load LLs at bootstrap" corollary was wrong — structural weaving is the enforcement; always-loading was a token-cost regression that did not prevent the LL-12/17/20 recurrence pattern.
+- **LL-29 (Session 32)**: Bootstrap loads are about *read pattern* AND *file partition* — partition state files by bootstrap-necessity (operational state vs reference data). `notes/` is FLAT (no subfolders except `_archive/`); only 3 files always-load (`current-task.md`, `progress.md`, `TODO.md`). LL refactor: Classification (INTEGRATED/ACTIVE/ADVISORY/ARCHIVED) + Priority schema replaces unvalidated Status feature.
 
 ## Constraints
 

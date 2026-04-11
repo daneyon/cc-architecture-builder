@@ -59,7 +59,7 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 
 **Deliverables**:
 - `hooks/scripts/bootstrap-cost.sh` — utility script that counts lines + approximate tokens across the 4 state files, outputs CSV row `{date, session, file_lines..., t1_tokens_estimate, total_tokens_estimate}`
-- `notes/metrics/bootstrap-cost-log.md` — append-only log of measurements, baseline row for Session 28 recorded
+- `notes/bootstrap-cost-log.md` — append-only log of measurements, baseline row for Session 28 recorded
 
 **Acceptance criteria**:
 - Script runs cleanly under Git Bash on Windows (shell compatibility)
@@ -106,7 +106,7 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 - `CLAUDE.md` §Bootstrap Protocol rewritten: specifies partial-read pattern per file, cheap-to-expensive cascade framing, explicit `Read(file, limit=N)` invocations
 - `knowledge/operational-patterns/state-management/filesystem-patterns.md` v3.3 — adds "Cheap-to-Expensive Bootstrap Cascade" section, reframes "agentically flexible" to clarify it means full-file unbounded + T1-section bounded-by-convention
 - `knowledge/operational-patterns/state-management/cc-memory-layer-alignment.md` — NEW KB card (from prior-session deferred list), maps CAB state files to CC's 7 memory layers, documents "wrapper philosophy" (LL-11) applied to runtime memory, documents CC auto-memory directory location at `~/.claude/projects/<slug>/memory/` and its exclusion of CLAUDE.md content
-- `notes/metrics/ll-integration-audit.md` — audit report listing each LL-01 through LL-28 with columns: `woven_in_skill` (which skills reference/invoke the LL), `woven_in_hook` (which hooks enforce the LL), `status` (WOVEN / PARTIAL / PASSIVE), `gap_action` (recommendation for passive ones)
+- **DEFERRED (Session 32)**: `ll-integration-audit.md` — standalone one-time audit deferred as follow-on work; replaced in P4 scope by a lighter Classification column added directly to `notes/lessons-learned.md` (see LL refactor below)
 
 **Acceptance criteria**:
 - `CLAUDE.md` bootstrap section specifies exact `Read` tool invocations with `limit` parameter
@@ -119,7 +119,7 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 ### P5 — Validation + LL-29 draft
 
 **Deliverables**:
-- Re-run `hooks/scripts/bootstrap-cost.sh` → appends post-fix row to `notes/metrics/bootstrap-cost-log.md`
+- Re-run `hooks/scripts/bootstrap-cost.sh` → appends post-fix row to `notes/bootstrap-cost-log.md`
 - Comparison table (baseline vs post-fix) in commit message
 - **LL-29** drafted in `notes/lessons-learned.md` — "Partial-read bootstrap cascade preserves flexibility without enforcement" with root-cause analysis of why v1 plan (hard limits) was wrong and v2 (partial reads) is correct
 - **LL-30 candidate status** in TODO unchanged — still awaiting Global CLAUDE.md v2 upgrade to validate
@@ -176,7 +176,7 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 
 - Baseline state files: `notes/current-task.md`, `notes/progress.md`, `notes/TODO.md`, `notes/lessons-learned.md`
 - Prior-session findings source: `C:\Users\daniel.kang\.claude\projects\c--Users-daniel-kang-Desktop-Automoto-cc-architecture-builder\c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` (message idx 136)
-- Memory reference: `notes/references/How Anthropic Built 7 Layers of Memory and a Dreaming System for Claude Code  (video breakdown).md`
+- Memory reference: `notes/_archive/references/How Anthropic Built 7 Layers of Memory and a Dreaming System for Claude Code  (video breakdown).md` (archived 2026-04-11 Session 32 during flat-notes cleanup)
 - Architecture KB: `knowledge/operational-patterns/state-management/filesystem-patterns.md`
 - Session bootstrap config: `CLAUDE.md` §State Management
 - Hook scripts: `hooks/scripts/`
@@ -191,7 +191,7 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 
 **What landed**:
 - `hooks/scripts/bootstrap-cost.sh` — Git Bash compatible, pure bash, zero deps. CSV row to stdout (11 fields), human-readable table to stderr. Token heuristic: `bytes / 4` (BPE approximation, directional not absolute). Verified 3× with exit 0.
-- `notes/metrics/bootstrap-cost-log.md` — markdown table log with two rows:
+- `notes/bootstrap-cost-log.md` — markdown table log with two rows:
   - `session-28-bootstrap`: 41,081 tokens (recovered from `git show c24968b` — the state that motivated this task)
   - `session-29-pre-p2`: 39,286 tokens (post current-task.md compression + recovery-backfill commit `698eb4e`)
 

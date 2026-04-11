@@ -13,7 +13,7 @@
 
 ### P0 — Bootstrap Token Efficiency Restoration (active, blocks everything else)
 
-See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` and `notes/references/session-28-recovery-2026-04-11.md`. Phases:
+See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` and `notes/session-28-recovery-2026-04-11.md`. Phases:
 
 - [ ] **P1 — Instrumentation** (Session 29 NEXT) — `hooks/scripts/bootstrap-cost.sh` + baseline metric row
 - [ ] **P2 — Convention refactor** (Session 29, the hinge) — T1 boundary markers, top-section reorg, zero content deletion

@@ -68,7 +68,7 @@ run_check() {
       printf 'cascade established in P2. Compress before committing:\n'
       printf '  - Move verbose task detail into the impl-plan file (link, do not mirror).\n'
       printf '  - Keep only phase status + cold-start protocol + directives here.\n'
-      printf '  - See notes/references/session-28-recovery-2026-04-11.md Part 3\n'
+      printf '  - See notes/session-28-recovery-2026-04-11.md Part 3\n'
       printf '    ("Impl Plan As The Real Session-Transfer Artifact").\n\n'
     } >&2
     exit 2

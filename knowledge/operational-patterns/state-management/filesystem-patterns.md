@@ -7,12 +7,12 @@ summary: Design patterns for filesystem-based state management — notes/ direct
 depends_on: [session-lifecycle, orchestration-framework]
 related: [context-engineering, collaboration-patterns, worktree-workflows, git-foundation]
 complexity: intermediate
-last_updated: 2026-04-10
-estimated_tokens: 1350
+last_updated: 2026-04-11
+estimated_tokens: 1400
 source: CAB-original
 confidence: A
-review_by: 2026-07-10
-revision_note: "v3.2 — Added State File Tense Hygiene section (LL-26). Two-commit session close pattern (DD-1), forbidden/approved status-line patterns, anchored-regex enforcement. Addresses Session 24 stale-tense failure mode."
+review_by: 2026-07-11
+revision_note: "v3.3 — Session 32 Pivots 1-2: (1) Flat `notes/` directory policy (no subfolders except `_archive/`); (2) Cheap-to-Expensive Bootstrap Cascade now 3-file (LL excluded from always-load, read on-demand at phase transitions). CC Memory Layer Alignment softened accordingly. Lessons Learned Persistence field list simplified (Status feature removed as unvalidated). v3.2 introduced tense hygiene (LL-26); v3.1 introduced tracked-by-default (LL-25)."
 ---
 
 # Filesystem State Patterns
@@ -100,6 +100,16 @@ The hook provides the deterministic gate; the skill provides the contextual revi
 
 ---
 
+## Flat `notes/` Directory Policy
+
+**Rule**: `notes/` is a **flat directory** for all active state artifacts. Only `notes/_archive/` (cold storage) is permitted as a subdirectory. No other nesting — no `references/`, `metrics/`, `qa/`, or per-task folders.
+
+**Rationale**: subfolder proliferation creates multiple path domains the agent must reason about during bootstrap and grep. Flat = one path prefix, one grep root, one mental model. The Session 32 flatten exposed the failure mode: orchestration reflexively referenced stale `notes/references/...` paths even after files were moved, because subfolder paths embedded in historical documentation drift out of sync with the filesystem.
+
+**Archival**: when material becomes reference-only or superseded, move to `notes/_archive/`. The archive may organize internally — it is cold storage, never bootstrapped. **Enforcement** is convention only: author discipline + periodic `ls notes/` sanity check.
+
+---
+
 ## Three-Tier State Hierarchy
 
 CAB uses a deliberate state hierarchy where each tier serves a different audience and lifecycle:
@@ -163,43 +173,24 @@ Tracks not just task completion but the *decisions* that shaped the work. Decisi
 
 Scaled to project complexity:
 
-### Lightweight: Notes Directory
+### Lightweight: Notes Directory (Flat)
 
 ```
 notes/
-├── progress.md              # Session state + bootstrap
-├── current-task.md          # Active task anchor
-├── lessons-learned.md       # Compounding corrections
-└── <topic-specific>.md      # As needed
+├── current-task.md          # Cold-start anchor (L1, hard-gated <100 lines)
+├── progress.md              # Session state + historical narrative (L2, partial-read)
+├── TODO.md                  # Task queue (L3, partial-read)
+├── lessons-learned.md       # Compounding corrections (on-demand only, excluded from bootstrap)
+├── impl-plan-<task>.md      # Strategic plans for active tasks
+├── <topic-specific>.md      # As needed — flat, no subfolders
+└── _archive/                # Cold storage for superseded material (not bootstrapped)
 ```
 
-In CLAUDE.md: reference via `@notes/progress.md` or read at session start via bootstrap protocol.
+Bootstrap protocol reads the 3-file cascade (L1/L2/L3). LLs are consulted on-demand at phase transitions. See `bootstrap-read-pattern.md` for the full cascade specification.
 
-### Medium: Progress + Feature List
+### Medium / Full scales
 
-For long-running autonomous tasks:
-
-- `notes/progress.md` — Free-form progress notes
-- `features.json` — Structured tracking with `passes: boolean` per feature
-
-```json
-{
-  "features": [
-    {"id": "auth-login", "description": "User login with JWT", "passes": true},
-    {"id": "auth-register", "description": "Registration flow", "passes": false}
-  ]
-}
-```
-
-### Full: Project State YAML
-
-For multi-phase lifecycle management:
-
-- `project-state.yaml` — Lifecycle phase, active agents, completion criteria
-- `notes/` directory for operational state
-- Git commits for permanent checkpoints
-
-**JSON for agent-editable, YAML for human-managed**: Models introduce fewer formatting errors in JSON. Use JSON for files agents modify (feature lists, test results); YAML for files humans primarily maintain (project state, configuration).
+For long-running autonomous tasks or multi-phase lifecycle management, add structured machine-readable state alongside `notes/`: a `features.json` (per-feature boolean gates, agent-editable) for task tracking, or a `project-state.yaml` (lifecycle phase, active agents, completion criteria, human-managed) for strategic position. **JSON for agent-editable, YAML for human-managed** — models introduce fewer formatting errors in JSON.
 
 ---
 
@@ -232,16 +223,18 @@ CC's harness runs a 7-layer memory architecture: tool result storage (L1), micro
 - **Append-friendly where natural.** Cache preservation (CC's prompt cache has ~1 hour TTL) favors append-only patterns. CAB's `TODO.md` is already append-only. `progress.md` benefits from "newest session at top" when convenient — but this is guidance, not prescription. Don't let cache optimization warp the semantic structure.
 - **Current-task.md is the exception.** This file has a hard <100 line target because it's the cold-start anchor. Concise by design. Everything else remains agentically flexible.
 
-### Lessons-Referenced Protocols (Always-Load, Architecturally-Enforced)
+### Lessons-Referenced Protocols (Structurally Integrated, Not Always-Loaded)
 
-`notes/lessons-learned.md` is **not optional context**. CAB treats lessons as hard constraints on the protocols they govern, not passive reference documentation. The pattern:
+`notes/lessons-learned.md` is **reference data**, not operational state. CAB treats lessons as hard constraints woven into the protocols they govern, but does **not** load the file at every cold-start. The Session 32 Pivot 1 correction recognized that reading the LL file every session was a category error — the v3.2 "always-load" framing was aspirational and generated the 41K bootstrap regression without actually preventing the LL-12/LL-17/LL-20 recurrence pattern (structural integration does that, not rereading).
 
-1. **Bootstrap protocol loads lessons-learned alongside progress.md and TODO.md** — never skip.
-2. **Protocols, skills, and agents reference LL IDs explicitly** where their behavior is governed by a past correction. Example: the executing-tasks skill should reference LL-12 ("never delegate file writes to background agents") directly in its delegation step, not as a footnote.
-3. **New LL entries trigger protocol updates** — adding an LL is the *start* of integration, not the end. The corresponding protocol/skill/agent must cite the LL or mechanically prevent the failure mode.
-4. **Re-read before any decision the LL governs** (reinforcing LL-12, LL-20). The value of LLs is proportional to how structurally they're woven into the workflow, not how thoroughly they're documented.
+The pattern:
 
-This is the antidote to the LL-12/LL-17/LL-20 recurrence pattern: passive documentation doesn't prevent recurrence; structural integration does.
+1. **Structural weaving is the enforcement mechanism** — protocols, skills, agents, and hooks reference LL IDs explicitly where their behavior is governed by a past correction. Example: the `executing-tasks` skill references LL-12 ("never delegate file writes to background agents") directly in its delegation step. The enforcement lives in the skill, not in a cold-start re-read.
+2. **Classification drives cadence** — each LL carries a Classification (`INTEGRATED` / `ACTIVE` / `ADVISORY` / `ARCHIVED`). `INTEGRATED` LLs are woven into a skill/hook/rule and don't need operational re-reading. `ACTIVE` LLs lack structural weaving and should be re-read at phase transitions until integrated.
+3. **New LL entries trigger protocol updates** — adding an LL is the *start* of integration, not the end. The corresponding protocol/skill/agent must cite the LL or mechanically prevent the failure mode. Until weaving exists, the entry's Classification is `ACTIVE` (not `INTEGRATED`).
+4. **On-demand reads at phase transitions** — at major phase boundaries in a task, scan the LL Classification column for `ACTIVE` entries touching the next phase's domain. Grep specific LL IDs when a decision matches their governed domain. See `bootstrap-read-pattern.md §When to Read lessons-learned.md`.
+
+This is the antidote to the LL-12/LL-17/LL-20 recurrence pattern: passive documentation doesn't prevent recurrence; structural integration does. Reading the file every session does neither.
 
 ---
 
@@ -279,18 +272,32 @@ See LL-26 in `notes/lessons-learned.md` for full root cause + corrective protoco
 
 ## Lessons Learned Persistence
 
-`notes/lessons-learned.md` captures operational insights that compound across sessions:
+`notes/lessons-learned.md` captures operational insights that compound across sessions. The file is **excluded from bootstrap** and consulted on-demand at phase transitions or when a decision touches a specific LL's domain.
+
+### Schema
 
 | Field | Purpose |
 |-------|---------|
-| ID | Sequential (LL-01, LL-02, ...) |
+| ID | Sequential (`LL-01`, `LL-02`, …) |
 | Date | When discovered |
 | Category | `ops`, `arch`, `ctx`, `proc`, `tool` |
 | Lesson | One-line summary |
+| Classification | `INTEGRATED`, `ACTIVE`, `ADVISORY`, `ARCHIVED` (see below) |
+| Priority | `P0`, `P1`, `P2` (only for `ACTIVE` entries; otherwise `—`) |
 | Detail | Actionable explanation |
-| Status | `active`, `integrated`, `superseded` |
 
-**Integration flow**: Active lessons inform current work → when integrated into CLAUDE.md or KB files, status changes to `integrated` → superseded lessons archived when replaced by better understanding.
+### Classification schema
+
+| Value | Meaning | Action Implied |
+|-------|---------|----------------|
+| `INTEGRATED` | Structurally woven into skill/hook/rule/KB; recurrence is programmatically prevented or canonically documented | None — verification only (periodic re-audit) |
+| `ACTIVE` | Load-bearing for current work but NOT yet woven into enforcement; recurrence risk exists | Queue for integration work at priority `P0`/`P1`/`P2` |
+| `ADVISORY` | Wisdom, heuristic, or platform fact that doesn't need enforcement; low recurrence risk | Periodic review only |
+| `ARCHIVED` | Superseded by a better pattern, fixed at root, or no longer applicable to current architecture | None — historical reference |
+
+**Integration flow**: new LL enters as `ACTIVE-P0/P1/P2` → structural weaving lands in a skill/hook/rule → re-classify to `INTEGRATED` → if later superseded, re-classify to `ARCHIVED`. Re-prioritization and re-scoring happen at major task phase transitions or during periodic audit, not continuously.
+
+**Schema heritage**: modeled on the `auditing-workspace` classification-schema pattern (MISSING/STALE/ENHANCEMENT/CURRENT + severity), adapted to the LL lifecycle. Deliberately kept to two dimensions (Classification + Priority) for operational simplicity.
 
 ## See Also
 

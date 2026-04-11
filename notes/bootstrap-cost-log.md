@@ -2,21 +2,27 @@
 
 Append-only log of cold-start state-file load cost. Produced by
 `hooks/scripts/bootstrap-cost.sh`. See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`
-(P1) for rationale and `notes/references/session-28-recovery-2026-04-11.md` Part 2 for
+(P1) for rationale and `notes/session-28-recovery-2026-04-11.md` Part 2 for
 the "fix the read, not the file" thesis this log exists to validate.
 
 ## Metric definitions
 
-- **File set**: the 4 state files loaded by the standardized CAB bootstrap protocol:
-  `notes/current-task.md`, `notes/progress.md`, `notes/TODO.md`, `notes/lessons-learned.md`.
-- **Lines**: `wc -l` output. Tracks structural bloat.
+- **File set**: the **3** state files loaded by the post-fix CAB bootstrap protocol
+  (Session 32 Pivot 1): `notes/current-task.md`, `notes/progress.md`, `notes/TODO.md`.
+  `notes/lessons-learned.md` is **excluded from bootstrap** — it is read on-demand at
+  phase transitions only. Baseline rows below preserve the original 4-file measurement
+  for historical comparison.
+- **Budget-aware counting**: the script now measures partial-read budgets matching the
+  actual bootstrap protocol — `current-task.md` full (hard-gated <100 lines),
+  `progress.md` top 100 lines, `TODO.md` top 80 lines.
+- **Lines**: `wc -l` output (full-file). Tracks structural bloat regardless of partial-read.
 - **Tokens**: `bytes / 4` BPE approximation. Directional, not absolute — absolute magnitude
   may be off by ~15% vs a real tokenizer, but consistency across runs means drift signal is
   reliable. Chosen over `wc -w × 1.3` (noisy on markdown/tables) and tiktoken (extra dep,
   cross-platform fragility on Git Bash). Revisit if drift detection gets noisy.
-- **Total tokens**: sum of the 4 file token estimates. Does not include plugin/tool overhead
-  (~18K separately), CLAUDE.md instructions (~4-5K), or rules auto-loads (~3-4K). Those are
-  out of scope for this fix.
+- **Total tokens (partial)**: sum of budget-scoped token estimates under the post-fix
+  cascade. Does not include plugin/tool overhead (~18K separately), CLAUDE.md instructions
+  (~4-5K), or rules auto-loads (~3-4K). Those are out of scope for this fix.
 
 ## Targets (from impl plan P5)
 

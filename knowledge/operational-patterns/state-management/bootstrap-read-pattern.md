@@ -3,29 +3,29 @@ id: bootstrap-read-pattern
 title: Bootstrap Read Pattern — Cheap-to-Expensive Partial-Read Cascade
 category: operational-patterns/state-management
 tags: [bootstrap, cold-start, partial-read, cascade, token-efficiency, state, LL-25, LL-28]
-summary: How to cold-start a CAB session with a bounded token budget by reading a prefix of each state file, escalating to full reads only when a specific decision demands the tail content.
+summary: How to cold-start a CAB session with a bounded token budget by reading a prefix of each state file under a 3-file cascade, escalating to full reads only when a specific decision demands the tail content. Lessons-learned is excluded from bootstrap and read on-demand at phase transitions.
 depends_on: [filesystem-patterns, session-lifecycle]
 related: [context-engineering, orchestration-framework]
 complexity: intermediate
 last_updated: 2026-04-11
-estimated_tokens: 1200
+estimated_tokens: 1300
 source: CAB-original (impl-plan-bootstrap-efficiency-2026-04-11.md, P3/P4)
 confidence: A
 review_by: 2026-07-11
-revision_note: "v1.0 — initial publication as P3/P4 deliverable of the bootstrap efficiency task. Supersedes the 'read all 4 files in full' protocol that caused the Session 28 regression (~40K tokens, 37% over pre-LL-25 baseline)."
+revision_note: "v1.1 — Session 32 Pivot 1: `lessons-learned.md` is excluded from bootstrap entirely. 4-layer cascade reduced to 3-layer. Density-bottleneck section removed (no longer applicable). LL reads are on-demand at phase transitions, not at every cold-start. v1.0 (P3, Session 31) introduced the 4-layer cascade under LL-as-L4."
 ---
 
 # Bootstrap Read Pattern
 
 ## Core Principle
 
-**File size and bootstrap read size are separable variables.** A state file can be large on disk (durable, semantically preserved) without being read in full at cold-start. Fix the *read pattern*, not the *file size*.
+**File size, bootstrap read size, and bootstrap-necessity are three separable variables.** A state file can be large on disk (durable, semantically preserved), read partially at cold-start (bounded cost), AND — critically — not read at cold-start at all if it is reference data rather than operational state. Fix the *read pattern* and the *file list*, not the *file size*.
 
-This pattern exists because LL-25/26/27/28 correctly optimized state files for semantic preservation and cross-session recovery — but without counter-pressure for cold-start compactness, the standardized "read all 4 files in full" bootstrap regressed from ~30K tokens (pre-LL-25) to ~40K tokens (post-LL-28) in ~1 week.
+This pattern exists because LL-25/26/27/28 correctly optimized state files for semantic preservation — but without counter-pressure for cold-start compactness, the standardized "read all 4 files in full" bootstrap regressed from ~30K tokens (pre-LL-25) to ~40K tokens (post-LL-28) in ~1 week. The Session 32 Pivot 1 correction surfaced a deeper category error in the original design: `lessons-learned.md` is *reference data*, not *operational state*, and had no business being in the always-loaded tier.
 
 ---
 
-## The Cheap-to-Expensive Cascade
+## The Cheap-to-Expensive Cascade (3-File)
 
 Each layer gates the next. If Layer N gives you what you need, you never touch Layer N+1.
 
@@ -34,22 +34,39 @@ Each layer gates the next. If Layer N gives you what you need, you never touch L
 | **L1** | `notes/current-task.md` | Full read | ≤100 lines (hard gate) | Cold-start anchor; pointer to active task + phase status + directives. Size-enforced by `hooks/scripts/enforce-current-task-budget.sh`. |
 | **L2** | `notes/progress.md` | `Read(path, limit=100)` | ~100 lines of top section | Current Position (latest session state, next-action queue) sits above a `<!-- T1:BOUNDARY -->` marker; historical narrative flows below. |
 | **L3** | `notes/TODO.md` | `Read(path, limit=80)` | ~80 lines of top section | Top Priorities (P0/P1) above the boundary; full backlog below. |
-| **L4** | `notes/lessons-learned.md` | `Read(path, limit=60)` | ~60 lines (compact LL table) | LL index/table at top; detailed LL sections below the boundary. See §Density Bottleneck below. |
 
-**Per-file budget is per-file convention, not per-file enforcement.** Only L1 has a hard hook gate. L2/L3/L4 rely on the T1 boundary marker convention being maintained by authors during normal state-writing.
+**Excluded from bootstrap**: `notes/lessons-learned.md`. LLs are reference data that describe hard-won operational constraints; they change every few weeks at most. Reading them every session trades daily token cost for marginal cross-session coherence. Instead, they are consulted **on-demand at phase transitions** or **when a specific decision touches their domain** — see §When to Read `lessons-learned.md` below.
+
+**Per-file budget is per-file convention, not per-file enforcement.** Only L1 has a hard hook gate. L2/L3 rely on the T1 boundary marker convention being maintained by authors during normal state-writing.
 
 ---
 
 ## How to Invoke at Cold-Start
 
 ```
-Read(notes/current-task.md)                        # full file, ~100 lines max
+Read(notes/current-task.md)                        # full file, ≤100 lines hard cap
 Read(notes/progress.md, limit=100)                 # T1 section only
 Read(notes/TODO.md, limit=80)                      # T1 section only
-Read(notes/lessons-learned.md, limit=60)           # LL table only
 ```
 
-Expected cost: **~12-13K tokens** (vs. ~40K for full reads of all four). See `notes/metrics/bootstrap-cost-log.md` for current baseline.
+Expected cost under this pattern: **~7-8K tokens** measured by `hooks/scripts/bootstrap-cost.sh` (vs. ~40K for the pre-fix "read all 4 files in full" protocol). See `notes/bootstrap-cost-log.md` for the current measurement timeseries.
+
+---
+
+## When to Read `lessons-learned.md` (On-Demand)
+
+LLs are **not loaded by default**. Read them — or grep specific entries — when:
+
+| Trigger | Read Pattern |
+|---------|--------------|
+| Phase transition in a multi-phase task (P1 → P2, etc.) | Full read once, scan the Classification column for any `ACTIVE-P0` or `PENDING` entries touching the next phase's domain |
+| Current decision is about delegation, agent selection, or background-vs-foreground choice | Grep for `LL-02`, `LL-08`, `LL-12` (delegation LLs) |
+| Current decision is about state files, tracking, or commit flow | Grep for `LL-25`, `LL-26`, `LL-27`, `LL-28` (state-mgmt LLs) |
+| Current decision is about plugins, frontmatter, or CC schema | Grep for `LL-15`, `LL-16`, `LL-21`, `LL-23`, `LL-24` (schema LLs) |
+| Periodic audit — re-scoring and re-prioritizing Classification states | Full read, re-evaluate each entry's `WOVEN` / `ACTIVE` / `ADVISORY` / `ARCHIVED` status |
+| Drafting a new LL entry after a correctable error | Full read to check for duplicates / related entries before appending |
+
+The cadence is reader-determined, not protocol-mandated. The original LL-25 framing ("lessons-referenced protocols, always-load") was aspirational — in practice, structurally weaving LLs into the skills/hooks/rules that govern their domains is a stronger guarantee than rereading the file every cold-start.
 
 ---
 
@@ -71,7 +88,7 @@ Every state file beyond `current-task.md` uses an HTML comment as a structural b
 - **Invisible in rendered markdown** — HTML comments don't affect readers
 - **Greppable for tooling** — audit scripts can `grep -n 'T1:BOUNDARY'` to find the split
 - **Reversible** — moving a section across the boundary is a pure-text edit, no schema change
-- **No enforcement** — authors are trusted to place it correctly; measurement (P1 `bootstrap-cost.sh`) catches drift
+- **No enforcement** — authors are trusted to place it correctly; measurement (`bootstrap-cost.sh`) catches drift
 
 See P2 of `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` for the original boundary-marker rollout.
 
@@ -85,7 +102,7 @@ Partial reads are the *default*. Escalate to full reads when:
 |---------|--------|
 | L1 pointer references a section of `progress.md` outside the T1 window | Full read `progress.md` |
 | New task planning requires full backlog visibility | Full read `TODO.md` |
-| Current decision matches an LL category and the L4 compact table row is insufficient | Full read `lessons-learned.md` + grep for specific LL-NN |
+| Any of the on-demand triggers in §When to Read `lessons-learned.md` fires | Read or grep `lessons-learned.md` |
 | Recovering from abnormal termination (`Prompt is too long`, force-compact, crash) | Grep the CC session JSONL archive at `~/.claude/projects/<slug>/*.jsonl` *before* attempting any state-file re-read (LL-28 fallback-recovery protocol) |
 
 **Escalation is cheap because it's targeted**: full-file reads on demand cost the same as always, but you pay them once when needed instead of every session.
@@ -114,26 +131,17 @@ chmod +x .git/hooks/pre-commit
 
 ### Soft gates (convention only)
 
-- **L2/L3/L4 top-section placement** — no hook. Maintained by authors. Drift is caught by `hooks/scripts/bootstrap-cost.sh` run as a periodic measurement, not a commit gate.
-- **LL architectural weaving** — L4 being "load on demand" only works if LLs are structurally woven into the skills/hooks that govern their domains. Audit coverage tracked in `notes/metrics/ll-integration-audit.md` (P4 deliverable).
-
----
-
-## Density Bottleneck (lessons-learned.md)
-
-`notes/lessons-learned.md` is the outlier in the cascade. Even at 60 lines, `Read(path, limit=60)` costs ~7K tokens because the LL table is dense (~489 chars/line average — ~3× the `progress.md` density). Line-count policies (e.g., LL-25's "≤300 lines") miss this entirely because they use line count as the proxy metric.
-
-**Mitigation (P4)**: split the LL table into a **compact index** (one-line per LL, load-bearing for bootstrap) above the boundary, and **verbose detail sections** (grep-on-demand) below. This is the only L4 structural change planned; no size limit is added.
-
-**General rule**: any future state-file size policy must factor **byte/token weight**, not just line count.
+- **L2/L3 top-section placement** — no hook. Maintained by authors. Drift is caught by `hooks/scripts/bootstrap-cost.sh` run as a periodic measurement, not a commit gate.
+- **LL Classification re-scoring** — not hook-enforced. A periodic audit protocol (to be defined) re-evaluates entries; in the interim, audit is an advisory practice performed at major phase transitions.
 
 ---
 
 ## Why This Works
 
-- **Prompt cache friendly** — T1 sections are at the top of each file (newest content above older) so cache hits carry across turns (LL-10/Finding 1 precedent).
-- **Semantic preservation invariant** — no content is deleted. The boundary marker is purely a placement convention. LL-25's "tracked by default" guarantee holds byte-for-byte.
+- **Prompt cache friendly** — T1 sections are at the top of each file (newest content above older) so cache hits carry across turns (LL-10 / Finding 1 precedent).
+- **Semantic preservation invariant** — no content is deleted. The boundary marker is purely a placement convention; LL exclusion from bootstrap does not remove LLs from the repo. LL-25's "tracked by default" guarantee holds byte-for-byte.
 - **Agentic flexibility preserved** — files beyond L1 can grow without limit. The read pattern is bounded, not the write pattern.
+- **Classification over cadence** — LLs are partitioned by bootstrap-necessity (included vs excluded), not by read-frequency quota. The partition is a structural decision, not a runtime rate limit.
 - **Measurement-driven** — `bootstrap-cost.sh` makes drift visible before it compounds. The instrumentation *is* the compensating control for the soft gates.
 
 ---
@@ -144,17 +152,18 @@ chmod +x .git/hooks/pre-commit
 |---------|---------|-----|
 | Author writes new session narrative at the *tail* of `progress.md` | L2 partial read misses the latest session state | Rewrite top-section convention: append to "Current Position", migrate old section below boundary |
 | Boundary marker is deleted in a refactor | Partial reads load unbounded prefix | Re-add marker; `bootstrap-cost.sh` will show the token cost spike |
-| `current-task.md` grows past 100 lines | Hook blocks commit | Move verbose task detail into the impl-plan file (the real session-transfer artifact — see `notes/references/session-28-recovery-2026-04-11.md` Part 3) |
-| Post-compaction session forgets the cold-start protocol | Reads all 4 files in full again | Re-anchor via `CLAUDE.md §Bootstrap Protocol` (P4 deliverable specifies the exact `Read` invocations) |
+| `current-task.md` grows past 100 lines | Hook blocks commit | Move verbose task detail into the impl-plan file (the real session-transfer artifact — see `notes/session-28-recovery-2026-04-11.md` Part 3) |
+| Assistant forgets LL is excluded and bootstraps with `Read(lessons-learned.md, ...)` | Reverts to 4-file cascade, partial savings only | Re-anchor via `CLAUDE.md §Bootstrap Protocol`; the canonical 3-file invocation is the source of truth |
+| Post-compaction session forgets the cold-start protocol | Reads all files in full again | Re-anchor via `CLAUDE.md §Bootstrap Protocol` (specifies the exact `Read` invocations) |
 
 ---
 
 ## References
 
 - `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` — authoritative implementation plan (P1–P5)
-- `notes/references/session-28-recovery-2026-04-11.md` — architectural thesis ("Fix the read, not the file"), Parts 2-3
-- `notes/metrics/bootstrap-cost-log.md` — timeseries of bootstrap token cost per session
+- `notes/session-28-recovery-2026-04-11.md` — architectural thesis ("Fix the read, not the file"), Parts 2-3
+- `notes/bootstrap-cost-log.md` — timeseries of bootstrap token cost per session
 - `hooks/scripts/enforce-current-task-budget.sh` — L1 hard gate (this card's enforcement surface)
-- `hooks/scripts/bootstrap-cost.sh` — measurement instrumentation
-- `knowledge/operational-patterns/state-management/filesystem-patterns.md` — tracked-by-default policy (LL-25), tense hygiene (LL-26)
+- `hooks/scripts/bootstrap-cost.sh` — measurement instrumentation (3-file cascade, budget-aware)
+- `knowledge/operational-patterns/state-management/filesystem-patterns.md` — tracked-by-default policy (LL-25), tense hygiene (LL-26), flat-notes policy (Session 32)
 - `knowledge/operational-patterns/state-management/session-lifecycle.md` — session resumption flow
