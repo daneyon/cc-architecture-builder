@@ -4,7 +4,7 @@
 **Started**: 2026-04-10 (Session 25 plan; Session 26 execution; Session 27 recovery + full Option B execution)
 **Branches**: `master` (CAB, local-only state refreshes ahead of origin; user directive: no push needed for solo workflow — still honored), `feat/plugin-first-migration-2026-04-09` (HydroCast, unchanged)
 **Prior task**: LL-25 state management reform (`302f872`, PUSHED) exposed tense hygiene gap; LL-26 solved tense staleness; LL-27 captured shadowing; LL-28 captured emergence staleness; Session 27 proved the shadow-cleanup pattern on the full duplication surface (not just agents) and validated LL-27's architectural claim that plugin-provided extensions are the correct authority layer.
-**Next action**: Commit this Phase C.2 full-scope state refresh → answer user's lazy-load protocol question → pivot to Phase D HydroCast strategic comparison (read-only, fan-out to specialists).
+**Next action**: Phase D — HydroCast strategic comparison (read-only, fan-out to specialists). After Phase D completes, execute **Global CLAUDE.md v2 Architecture Upgrade** (queued 2026-04-11 Session 27 per user directive; full rationale + proposal in `notes/TODO.md` under "Global CLAUDE.md v2 Architecture Upgrade" section; origin = dialogue identifying Extension Registry as a Policy/Inventory category error wasting ~15% of global memory budget). Then HITL-4 + Phase E remediation + Phase F close. Lazy-load protocol question and LL-29 quality-over-tokens candidate deferred to post-Phase-F review.
 
 ## Design Decisions (User-Confirmed 2026-04-10)
 

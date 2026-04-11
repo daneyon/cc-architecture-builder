@@ -44,6 +44,56 @@
 - [ ] Follow-on: KB consistency pass (connected to LL-19)
 - [ ] **CAB Enhancement (LL-24)**: Update audit skill + validate command + KB + templates to check marketplace.json presence
 
+### Global CLAUDE.md v2 Architecture Upgrade (QUEUED — execute after Phase D HydroCast comparison, before HITL-4)
+
+**Origin**: Session 27 post-compaction dialogue (2026-04-11). User asked whether the current global `~/.claude/CLAUDE.md` — freshly updated this session with the Extension Registry + LL-27 shadowing warnings — is actually the optimal master-strategist configuration, or whether the "Extension Registry" section is redundant accretion that wastes the ~200-line global-memory budget.
+
+**Diagnosis (recorded for cold-start resume)**:
+
+The global CLAUDE.md currently mixes four distinct content types that should be separated:
+
+| Content type | Example | Ideal location | Current location | Drift risk |
+|---|---|---|---|---|
+| **Identity** (persona, values, role) | "Master strategist, no sycophancy" | CLAUDE.md | ✅ CLAUDE.md | None |
+| **Framework** (heuristics, protocols) | "PLAN → REVIEW → EXECUTE → VERIFY → COMMIT" | CLAUDE.md or rules/ | ✅ CLAUDE.md | None |
+| **Policy** (do/don't rules) | "Never create shadowed agent files" | rules/ (auto-loaded cascade) | ❌ CLAUDE.md Extension Registry | Low |
+| **Inventory** (what exists) | "Agents: code-reviewer, debugger-specialist..." | Runtime — *never* hand-maintained | ❌ CLAUDE.md Extension Registry | **HIGH** (this is the category error that caused LL-27) |
+
+**What's actually double-loaded**: agent/skill/command names + counts, rules list, plugin ecosystem list, output styles pointer, agent memory pointer. All of these are already injected by CC runtime at session start (visible in the system prompt's "Available Skills" and plugin description blocks). The only **unique, load-bearing content** in the Extension Registry is the LL-27 shadowing warnings + the permanent policy rule — both of which are *policy*, not inventory.
+
+**Budget math**: Extension Registry consumes ~30 lines of a ~200-line budget (15%). Runtime already provides all inventory content. Deleting the registry returns 15% of budget to identity/philosophy/orchestration content.
+
+**Proposal**:
+
+1. **Delete** the Extension Registry section entirely (lines ~125-148 of current `~/.claude/CLAUDE.md`).
+2. **Replace** with a compact "Plugin Hygiene Policy" block — 5-6 lines maximum, pure policy: "Before creating global `~/.claude/{agents,skills,commands}/*.md` files that collide with plugin-provided names, check plugin ownership (LL-27 shadowing risk). Identity/persona lives here; behavioral definitions live in plugins. Runtime lists actual extensions — don't mirror that state here."
+3. **Optional**: Move the LL-27 shadowing rule to a new `~/.claude/rules/meta/plugin-hygiene.md` file for auto-enforcement via the rules cascade (more durable; rules cascade is a non-shadowable layer).
+4. **Reinvest** the freed ~25 lines into one of:
+   - Sharper orchestration heuristics (when to fan-out, when not to, anti-patterns)
+   - Multi-disciplinary lens application policy (currently in `rules/process/analysis-framework.md` but the 80/20 weighting trigger isn't codified)
+   - Behavioral invariants like the LL-29 candidate ("quality-over-tokens") — invariants that shape trade-offs under context pressure
+
+**Architectural framing** (this is the deeper point, not just a token optimization):
+
+The thing that shadowed the orchestrator in LL-27 was partly the same failure mode as hand-maintaining an inventory that diverges from filesystem reality. Fixing the Extension Registry isn't just optimization — it's correcting a category error that LL-27 itself exposed. The registry mixed Policy (shadowing warnings) with Inventory (file listings). Separating them cleanly is a structural correction.
+
+**Candidate LL-30 (proc)**: "Hand-maintained inventories in global memory are anti-patterns because they duplicate runtime-provided state and drift." Candidate until this upgrade is executed and validated.
+
+**Execution plan** (pre-drafted for cold-start resume):
+
+- Phase G.1: Draft `~/.claude/CLAUDE.md` v2 side-by-side with v1, showing the removed Extension Registry and the compact Plugin Hygiene Policy replacement
+- Phase G.2: Draft the reinvestment content (pick one of the 3 options above, or all three compactly)
+- Phase G.3: HITL gate — user reviews v2 diff before replacing v1
+- Phase G.4: Replace v1 → v2 in a dedicated commit (or branch) for easy revert
+- Phase G.5: Optionally create `~/.claude/rules/meta/plugin-hygiene.md` if shadowing rule should be fully extracted
+- Phase G.6: Record outcome + drop LL-30 candidate → confirmed LL if the budget reinvestment proves valuable in practice
+
+**Why queued behind Phase D, not before**: User directive Session 27 — "queue this behind phase D that already have plans to not make you side-track again." Phase D is the next committed work. The CLAUDE.md v2 upgrade is architecturally upstream of HydroCast harmonization (which will reference CAB patterns), so the right insertion is between Phase D (comparison, read-only, doesn't need CLAUDE.md v2) and Phase E (remediation, which benefits from the updated global architecture).
+
+**Why not before Phase D**: Phase D is a read-only comparison — CLAUDE.md v2 doesn't change what the comparison reveals. Starting with Phase D keeps the original session's momentum and avoids turning a comparison task into a CLAUDE.md rewrite task.
+
+**Reference**: Full Session 27 dialogue captured in `notes/progress.md` Session 27 Post-Compaction Addendum. Diagnosis table + 4-column classification + architectural framing all preserved there.
+
 ### CAB R2 Remediation — Prioritized Checklist
 
 Source: `notes/cab-audit-2026-04-09.md` (24 findings). Sequenced by impact on global orchestrator and plugin consumers.

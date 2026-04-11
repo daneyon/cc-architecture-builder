@@ -118,6 +118,26 @@
 
 **Deferred to next cold-start session**: AC-16 (smoke test `/execute-task` resolves via plugin path) + AC-17 (behavioral verification that plugin-provided orchestrator R2 updates are now active in operational output). These verifications require a fresh session boundary to be meaningful.
 
+### Session 27 Post-Close Discussion — Global CLAUDE.md v2 Architecture (QUEUED behind Phase D)
+
+**Context**: After Phase C.2 state refresh landed in `493c27e`, user surfaced a strategic question: is the freshly-updated global `~/.claude/CLAUDE.md` Extension Registry actually the optimal master-strategist configuration, or is the registry redundant accretion that wastes the ~200-line budget by mirroring runtime-provided state?
+
+**Outcome**: Strategic 4-quadrant diagnosis recorded in `notes/TODO.md` under "Global CLAUDE.md v2 Architecture Upgrade" section. Key finding: the Extension Registry mixes Policy (LL-27 shadowing warnings, load-bearing) with Inventory (file listings, duplicating runtime state) — the latter is a category error that wastes ~15% of budget and mirrors the same hand-maintained-drift failure mode that caused LL-27 in the first place. Concrete v2 proposal: delete the registry section, replace with a 5-6 line compact Plugin Hygiene Policy block, optionally promote the LL-27 rule to `~/.claude/rules/meta/plugin-hygiene.md`, reinvest the freed ~25 lines into identity/orchestration depth.
+
+**Decision**: User approved queuing this upgrade **behind Phase D** (HydroCast comparison is already committed as next-action and should not be sidetracked). Execution sequence:
+
+1. Phase D (HydroCast comparison, read-only) — next session, original priority
+2. Global CLAUDE.md v2 upgrade (Phase G.1-G.6 defined in TODO.md)
+3. HITL-4 (HydroCast harmonization scoping) — benefits from updated global architecture
+4. Phase E + Phase F close
+
+**Candidate LL-30 (proc)**: "Hand-maintained inventories in global memory are anti-patterns because they duplicate runtime-provided state and drift." Candidate status until v2 upgrade executes and validates the framing in practice.
+
+**Other deferred items from Session 27 dialogue**:
+
+- **Lazy-load protocol question** — user asked whether four-file bootstrap read was too aggressive; my read was: No, meta-verification task legitimately required broad coverage, but lazy-load should be classified as a CANDIDATE protocol per LL-28 until validated on a non-meta task. Deferred to post-Phase-F review.
+- **LL-29 candidate (quality-over-tokens invariant)** — recorded as dialogue framing; to be promoted to confirmed LL if it proves load-bearing through Phase D-F.
+
 ### Session 26 Summary (backfilled 2026-04-11) — Phase A LL-26 + Phase B + Phase C.1 + HITL-3 mid-dialogue death
 
 **Objective**: Execute Phase A (CAB protocol hardening) from Session 25's approved PLAN v2. Structurally prevent recurrence of Session 24's stale-tense failure mode before applying CAB to HydroCast.
