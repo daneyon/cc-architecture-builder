@@ -251,3 +251,34 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 - No LL-26 two-commit dogfooding per directive #5. Single commit includes both P2 work + state-update (progress.md + current-task.md + impl plan log entry all together).
 
 **Next session entry point**: Session 31 executes P3 (current-task.md <100 line pre-commit hook) + P4 (CLAUDE.md rewrite + 2 new KB cards + LL integration audit incl. compact-index/verbose-detail LL table split) + P5 (post-fix metrics + LL-29 draft + task close). Cold-start protocol remains non-standard until P3/P4 lands the real fix; partial-read cascade is available for on-demand use. HITL-3 gate before P3 hook commit; HITL-4 gate on post-fix metrics before task close.
+
+### Session 31 (2026-04-11) — P3 landed; early-close on context exhaustion
+
+**Commits**: `731bea0 feat(bootstrap): P3 enforcement — current-task.md <100 line hard gate + partial-read KB card`
+
+**What landed**:
+- `hooks/scripts/enforce-current-task-budget.sh` — dual-mode dispatcher (CC PreToolUse JSON-stdin OR git native pre-commit tty-stdin) via `[[ -t 0 ]]` test + empty-stdin + non-JSON fallback cascade. Budget: 100 lines hard cap on `notes/current-task.md`. `wc -l` counting (no filters). Exit 0/1/2 semantics mirror `pre-push-state-review.sh` sibling precedent.
+- `hooks/hooks.json` — second `PreToolUse/Bash` entry registered alongside pre-push hook. NOTE: CC hooks.json is cached at session start — the new registration won't take effect until S32. Git pre-commit shim path is live immediately.
+- `.git/hooks/pre-commit` — 5-line `exec` shim delegating to the source script. Per-clone install, not tracked (documented in KB card).
+- `knowledge/operational-patterns/state-management/bootstrap-read-pattern.md` — NEW KB card, 160 lines, under 300 cap. Documents L1-L4 cheap-to-expensive cascade, T1 boundary marker convention, enforcement surface (hard vs soft gates), density bottleneck (lessons-learned.md ~489 chars/line), escalation-to-full-read criteria, common failure modes. Wrapper philosophy + source frontmatter.
+- 3 INDEX updates: `state-management/INDEX.md` (3→4 files), `operational-patterns/INDEX.md` (13→14 files, v3.1 revision note, directory tree + "When to Use" table entry added), `knowledge/INDEX.md` (36→37 files).
+
+**Test matrix (7/7 pass)**: direct-mode pass (81L), direct-mode block (106L + formatted reason), direct-mode restore pass, CC-mode `git commit` JSON pass (81L), CC-mode `ls -la` JSON pass-through, git pre-commit shim delegation, CC-mode + bloat composition block (106L). Real-world validation fired on this session's `git commit 731bea0` — the shim path allowed the commit cleanly.
+
+**Scope excluded**: `.mcp.json D` still in git status — 4th session carrying the same stale deletion. Trivial to clean up but blurs scope boundaries; flagging for task-close commit or a standalone cleanup.
+
+**Deviations from impl plan**: None structural. P3 scope grew by ~2K to cover 3 INDEX updates (`state-management/`, `operational-patterns/`, master `knowledge/`) which weren't explicitly enumerated in the P3 deliverable list but are required by KB conventions. P4's scope was reassessed at HITL-3 close: original estimate ~10K, actual estimate ~20-22K due to LL audit's grep-heavy nature and the Session 30 add-on (LL table compact-index/verbose-detail split).
+
+**CRITICAL S31 finding — assistant-side context estimation is unreliable**:
+- After P3 commit, I presented a budget check estimating ~52K / 200K used (~26%), projecting ~79K / 40% at end of P4+P5.
+- **Actual user report: ~6% remaining (~188K used, ~94%)**. My estimate undershot by a factor of ~3.6×.
+- Likely undercounts: (a) global CLAUDE.md + all 7 rule files (real ~15-20K, I estimated ~10K); (b) full skills/agents/plugins listing injected via system-reminder (~8-10K, I estimated ~3K); (c) MCP/tool schema overhead (~8-12K, I estimated ~6K); (d) cold-start file contents were larger than estimated; (e) 6 cycles of Bash tool stdin/stdout for hook testing each carrying full output into context.
+- **Implication for P5 LL-29 draft**: the v2 partial-read cascade is NECESSARY but NOT SUFFICIENT. Bootstrap cost measured by `bootstrap-cost.sh` covers only the 4 state files, which are the tip of the iceberg. **Full session context at cold-start is dominated by harness overhead** (system prompt + CLAUDE.md + rules + plugin listings + tool schemas), not user state files. This is load-bearing for LL-29.
+- **Operational correction**: at each phase boundary, check actual budget via `/context` slash command or ask user for budget remaining, instead of self-estimating. Self-estimates drift by 3× or more — this is the second instance of "prompt too long" class failure in this task (S28 death → S31 early-close).
+
+**S31 meta-observations**:
+- Single commit per directive #5 (no LL-26 two-commit dogfooding). P3 work commit + state-close commit = 2 commits this session, but they're sequential phase transitions, not a work/state pair for the same phase.
+- The `.mcp.json D` persistence across 4 sessions (S28→S29→S30→S31) is itself a data point on scope discipline. Carry it into S32 or clean up in a standalone commit — user call.
+- Hook real-world validation was partial: git pre-commit shim path tested live on `git commit 731bea0`, CC PreToolUse path deferred to S32 (hooks.json is cached).
+
+**Next session entry point (S32)**: Cold-start with 3 files (current-task.md + this impl plan + session-28-recovery-2026-04-11.md) per current-task.md protocol. Execute P4 (5 deliverables: CLAUDE.md §Bootstrap rewrite, filesystem-patterns.md v3.3 update, cc-memory-layer-alignment.md NEW KB card, ll-integration-audit.md audit report, LL table compact-index/verbose-detail split) then P5 (bootstrap-cost.sh re-run + LL-29 draft + HITL-4). Ask user for actual context budget at each phase boundary instead of self-estimating.

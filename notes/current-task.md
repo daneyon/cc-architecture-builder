@@ -1,6 +1,6 @@
 # Current Task: Bootstrap Token Efficiency Restoration
 
-**Status**: P1 landed Session 29 (`8dfef75`), P2 landed Session 30 (this commit). **Session 31 opens fresh to execute P3 + P4 + P5** (+ task close).
+**Status**: P1 S29 (`8dfef75`), P2 S30 (`836f3aa`), P3 S31 (`731bea0`). **Session 32 opens fresh for P4 + P5 + task close** (Option A per S31 HITL-3 dialogue).
 **Started**: 2026-04-11 Session 28 (diagnostic + v1 plan + v2 pivot + death mid-state-close on "Prompt is too long")
 **Recovery completed**: 2026-04-11 Session 29 (JSONL-transcript-sourced backfill of Session 28 emergent content — see recovery artifact)
 **P1 completed**: 2026-04-11 Session 29 (`8dfef75` — bootstrap-cost.sh + baseline log)
@@ -8,19 +8,19 @@
 
 ---
 
-## ⚠ Session 31 Cold-Start Protocol — DO NOT USE STANDARDIZED BOOTSTRAP (YET)
+## ⚠ Session 32 Cold-Start Protocol — NON-STANDARD BOOTSTRAP STILL IN EFFECT
 
-**User directive 2026-04-11**: *"our current state mgmt is BROKEN and the recent changes we have made in the last week or so have effectively downgraded the UX. for our next session, don't use our standardized bootstrapping protocol."*
+**User directive 2026-04-11 (still authoritative)**: standard bootstrap protocol remains in workaround status until P4 lands the CLAUDE.md §Bootstrap rewrite.
 
-**Session 31 must read ONLY these 3 files at cold-start** (target: ~8K tokens):
+**Session 32 must read ONLY these 3 files at cold-start** (target: ~8K tokens):
 
 1. `notes/current-task.md` — this file (task pointer + phase status)
-2. `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` — authoritative 5-phase plan (Session Log has P1/P2 landing notes + byte-weight finding)
-3. `notes/references/session-28-recovery-2026-04-11.md` — Session 28 emergent content + operational workflow advice
+2. `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` — 5-phase plan; Session Log has P1/P2/P3 landing notes + byte-weight finding + S31 context-estimation finding
+3. `notes/references/session-28-recovery-2026-04-11.md` — v1→v2 thesis + operational workflow advice
 
-**Partial-read cascade now available** (post-P2 landing): the three larger state files (`progress.md`, `TODO.md`, `lessons-learned.md`) have T1 boundary markers in place. Session 31 cold-start does NOT need to read them, but if a specific lookup is needed, use `Read(progress.md, limit=100)` / `Read(TODO.md, limit=80)` / `Read(lessons-learned.md, limit=60)` — these return the load-bearing T1 section only. Full file loads on-demand via grep or unlimited Read. Standardized bootstrap protocol stays in workaround status until P3 (hook) + P4 (docs rewrite) land the real fix.
+**Partial-read cascade available**: `Read(progress.md, limit=100)` / `Read(TODO.md, limit=80)` / `Read(lessons-learned.md, limit=60)` return T1 sections only. Full reads on-demand via unlimited Read or grep. **`bootstrap-read-pattern.md` KB card** documents the cascade.
 
-**Session 31 first-turn sequence**: cold-start reads → acknowledge P1+P2 landed → invoke `cab:execute-task` with P3 as target → HITL-3 gate after P3 hook before committing → if context budget allows, continue to P4 and P5 in same session.
+**Session 32 first-turn sequence**: cold-start reads → acknowledge P3 landed → execute P4 (5 deliverables: CLAUDE.md §Bootstrap rewrite, filesystem-patterns.md v3.3, cc-memory-layer-alignment.md NEW KB card, ll-integration-audit.md audit report, LL table compact-index/verbose-detail split) → commit P4 → P5 (bootstrap-cost.sh re-run + LL-29 draft + HITL-4) → task close. **CRITICAL S31 finding: assistant context estimation is unreliable** — check `/context` or ask user for actual budget at each phase boundary instead of self-estimating.
 
 ---
 
@@ -40,16 +40,15 @@ Session 28 standard bootstrap consumed ~40K tokens across 4 full state-file read
 |---|---|---|---|
 | P1 — Instrumentation | ✅ **DONE** (`8dfef75`) | `hooks/scripts/bootstrap-cost.sh` + `notes/metrics/bootstrap-cost-log.md` (baseline: 41,081 tok) | ~2K |
 | P2 — Convention refactor (**the hinge**) | ✅ **DONE** (this commit, Session 30) | T1 boundary markers in 3 files + Session 30 T1 top-section in progress.md + Session 29 content archived to Historical Narrative + duplicate `## Current Position` header renamed. Zero semantic content loss. | ~12K |
-| P3 — Minimal enforcement | **NEXT (Session 31)** | `current-task.md` <100 line pre-commit hook + partial-read KB card | ~4K |
-| P4 — Docs + LL audit | pending | CLAUDE.md rewrite + `bootstrap-read-pattern.md` + `cc-memory-layer-alignment.md` KB cards + LL integration audit (factor **byte/token weight, not just line count** — lessons-learned.md finding, see impl plan Session Log; compact-index vs verbose-detail structural split of LL table also scoped here per Session 30 HITL-2 discussion) | ~10K |
-| P5 — Validation + LL-29 | pending | Post-fix metric + LL-29 draft + HITL-4 | ~4K |
+| P3 — Minimal enforcement | ✅ **DONE** (`731bea0`, S31) | `enforce-current-task-budget.sh` dual-mode hook (CC PreToolUse + git pre-commit shim) + `bootstrap-read-pattern.md` KB card + 3 INDEX updates. 7/7 tests pass. | ~4K actual |
+| P4 — Docs + LL audit | **NEXT (Session 32)** | CLAUDE.md §Bootstrap rewrite + `filesystem-patterns.md` v3.3 + `cc-memory-layer-alignment.md` NEW KB card + `ll-integration-audit.md` + LL table compact-index/verbose-detail split | ~20-22K (scope reassessed S31) |
+| P5 — Validation + LL-29 | pending | bootstrap-cost.sh re-run, comparison table, LL-29 draft, HITL-4, task close | ~5K |
 
-**Total remaining**: ~18K tokens across 1 session (Session 31).
+**Total remaining**: ~25-27K tokens across 1 session (Session 32).
 
-## Recommended per-session cadence (Session 30-31)
+## Recommended per-session cadence
 
-- **Session 30** (done): P2 convention refactor. HITL-2 approved with 5 design-decision polish. Single commit per directive #5.
-- **Session 31**: P3 + P4 + P5 — hook (4K), docs + LL audit (10K), validation + LL-29 draft + final close (4K). HITL-3 on hook before commit, HITL-4 on final metrics. If 18K is too much for one session, split P3+P4 from P5.
+- **S32**: P4 (~20-22K) + P5 (~5K). Single session per user directive (Option A). If P4 LL audit balloons, split to S33.
 
 Full operational workflow advice (artifact-carried context pattern, anti-patterns, first-turn sequence) in `session-28-recovery-2026-04-11.md` Part 7.
 
@@ -58,7 +57,7 @@ Full operational workflow advice (artifact-carried context pattern, anti-pattern
 - [X] HITL-1: v2 plan approved (Session 28 dialogue)
 - [X] HITL-2 (implicit P1): "proceed" received Session 29, P1 committed `8dfef75`
 - [X] HITL-2 (explicit P2): approved Session 30 ("follow your final contemplated best recommended advise on the 5 design decisions")
-- [ ] HITL-3: `current-task.md` <100 line hook before commit (affects all future commits)
+- [X] HITL-3: hook approved S31 (7/7 tests pass), committed `731bea0`
 - [ ] HITL-4: pre/post bootstrap metrics + LL-29 draft before task close
 
 ## User Directives (Session 28/29, authoritative)
