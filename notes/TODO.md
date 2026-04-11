@@ -35,6 +35,8 @@ See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` and `notes/references/s
 
 ---
 
+<!-- T1:BOUNDARY — partial-read at `Read(TODO.md, limit=80)` captures Top Priorities section above this marker; everything below is backlog / deferred / archive and loads on-demand only. -->
+
 ## Active — Immediate
 
 ### Plugin-First Architecture Correction (Sessions 16-18+)

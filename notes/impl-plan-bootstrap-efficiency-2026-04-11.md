@@ -207,3 +207,47 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 - No LL-26 two-commit dogfooding per Session 28 recovery directive. Single commit for P1 work; this state-close is a separate cosmetic commit (current-task.md phase update + this session-log entry).
 
 **Next session entry point**: Session 30 executes P2 (the hinge). Cold-start protocol remains non-standard per this file + current-task.md + recovery artifact only. HITL-2 gate before P2 commit.
+
+### Session 30 (2026-04-11) — P2 landed
+
+**Commits**: This session's single P2 commit (see git log for hash).
+
+**What landed**:
+- `notes/progress.md`: Session 30 T1 section (Current Position → Phase Status → Next-Action Queue split into "This Session" / "Session 31" / User Directives / Reference Artifacts pointer); `<!-- T1:BOUNDARY -->` at line 50; old Session 29 recovery-close T1 content migrated into Historical Narrative as `### Session 29 Recovery Close (archived T1 snapshot)`; the duplicate `## Current Position` header at original line 46 renamed to `## Session 27 Current Position (archived)` to eliminate markdown/grep ambiguity.
+- `notes/TODO.md`: `<!-- T1:BOUNDARY -->` at line 38 after Top Priorities section (already T1-compliant by accident from Session 29 — minimal change needed).
+- `notes/lessons-learned.md`: `<!-- T1:BOUNDARY -->` at line 49 after LL-28, with an expanded HTML comment flagging the file as a KNOWN P4 TARGET (semantic breadcrumb only, no cost reduction — all 28 LLs are Active and limit=60 captures ~98% of the file at ~7,134-7,261 tokens).
+- `notes/current-task.md`: updated to Session 31 orientation (status line, cold-start protocol section, phase status table, cadence, HITL gate checkboxes); added `<!-- T1:BOUNDARY -->` at line 80 for tooling consistency across all 4 state files (redundant with the <100 line hard gate but aids grep-based audits). Still 81 lines, well under target.
+- `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`: this Session 30 log entry.
+
+**Pre/post byte delta** (zero semantic content loss):
+- Pre-P2 (Session 29 close): 157,640 bytes / 1,551 lines
+- Post-P2 (this commit): 161,211 bytes / 1,584 lines
+- Delta: +3,571 bytes / +33 lines (+2.3%)
+- All growth is additive: 4 boundary markers + Session 30 T1 content + archived Session 29 block + expanded lessons-learned.md boundary comment + current-task.md Session 31 orientation. No content was deleted; Session 29 recovery-close narrative was migrated into the Historical Narrative section rather than discarded.
+
+**Full-file post-P2 bootstrap cost** (via `bootstrap-cost.sh`): 39,923 tokens. This is only a 2.8% reduction from the 41,081-token Session 28 baseline because full-file reads still pull in everything — P2's savings come from the partial-read cascade, not from file shrinkage. This is the expected and designed behavior.
+
+**Partial-read cost estimate (post-P2, pre-P3/P4 real bootstrap protocol)**:
+- `current-task.md` full read: ~1,745 tokens (81 lines, entire file is T1)
+- `Read(progress.md, limit=100)`: ~2,222 tokens (100 of 945 lines = 10.6%)
+- `Read(TODO.md, limit=80)`: ~1,638 tokens (80 of 497 lines = 16.1%)
+- `Read(lessons-learned.md, limit=60)`: ~7,261 tokens (60 of 61 lines = 98% — density bottleneck)
+- **Total partial-read**: ~12,866 tokens
+- **Reduction vs 41,081 baseline**: **69%** — hits P5 `<15K` target.
+- **Stretch `<10K` target**: blocked by lessons-learned.md density. Scoped as P4 sub-deliverable (compact-index vs verbose-detail table split).
+
+**Deviations from impl plan**: P2 grew slightly in scope to include design-decision polish after HITL-2. Four of the five design decisions introduced at HITL-2 were applied:
+1. Phase Status table format kept as-is (no change, my recommendation)
+2. Next-Action Queue split into "This Session" / "Session 31" subsections (+2 lines in progress.md)
+3. Boundary marker added to current-task.md for tooling consistency (+2 lines)
+4. Reference Artifacts in progress.md tightened to one-line pointer to current-task.md §Reference Artifacts (-5 lines net)
+5. lessons-learned.md boundary retained but HTML comment rewritten to explicitly flag the density bottleneck as a P4 target (+1 line, ~500 bytes of explanatory comment)
+
+**Session 30 meta-observations**:
+- Non-standard 3-file cold-start protocol continues to work cleanly (~8K tokens budget, ~22% context headroom at end of session)
+- User's HITL-2 feedback on #5 was sharp and correct — the boundary marker on lessons-learned.md doesn't reduce partial-read cost when all LL entries are Active. The honest framing is that the boundary is a semantic breadcrumb that future tooling (P4 compact-index split) will cash in. Documenting this in the boundary comment itself prevents the loss of context between Session 30 and P4.
+- Discovered and resolved a small LL-28 recurrence: Session 29's recovery backfill had left TWO `## Current Position` headers in progress.md (line 11 + line 46) because the backfill appended new content without renaming the old section. P2 caught and fixed this via header rename. Adds weight to the LL-28 "event-triggered state writes" protocol candidate — reactive backfill produces invisible artifacts that compound across sessions.
+- `.mcp.json` dangling deletion still in git status (not staged for P2 commit, scope discipline — carried over from Session 28). Flagged for user awareness; address in a separate scope-limited commit if desired.
+- No LL-26 two-commit dogfooding per directive #5. Single commit includes both P2 work + state-update (progress.md + current-task.md + impl plan log entry all together).
+
+**Next session entry point**: Session 31 executes P3 (current-task.md <100 line pre-commit hook) + P4 (CLAUDE.md rewrite + 2 new KB cards + LL integration audit incl. compact-index/verbose-detail LL table split) + P5 (post-fix metrics + LL-29 draft + task close). Cold-start protocol remains non-standard until P3/P4 lands the real fix; partial-read cascade is available for on-demand use. HITL-3 gate before P3 hook commit; HITL-4 gate on post-fix metrics before task close.

@@ -2,25 +2,62 @@
 
 > **⚠ NOTICE (2026-04-11 Session 29)**: This file is NOT to be read at cold-start bootstrap until the bootstrap efficiency fix lands (P2 of `impl-plan-bootstrap-efficiency-2026-04-11.md`). Per user directive 2026-04-11, the standardized CAB bootstrap protocol is BROKEN. Session 29+ use the non-standard protocol documented in `notes/current-task.md`. This file stays for historical narrative and on-demand grep access only.
 
-**Last session**: 2026-04-11 (Session 29: recovery backfill from Session 28 JSONL transcript — landed recovery artifacts + rewrote `current-task.md` with non-standard bootstrap protocol)
-**Current task**: Bootstrap Token Efficiency Restoration (v2 plan, P1 pending Session 29+ execution)
+**Last session**: 2026-04-11 (Session 29 — P1 instrumentation landed: `hooks/scripts/bootstrap-cost.sh` + baseline 41,081 tokens in commit `8dfef75`)
+**Current task**: Bootstrap Token Efficiency Restoration (v2 plan, P2 active Session 30)
 **Branch**: `master` (CAB, local-only; solo workflow — no push)
 
 ---
 
 ## Current Position
 
-**Gate**: Session 28 produced v2 impl plan (HITL-1 passed) then died mid-state-close on "Prompt is too long" before `progress.md`/`TODO.md` were updated. Session 29 opened via JSONL recovery (not standardized bootstrap), wrote two recovery artifacts, compressed `current-task.md` to 77 lines, and is now closing state for Session 29+ to execute P1 fresh.
+**Session**: 30 — landed P2 "Convention refactor" of `impl-plan-bootstrap-efficiency-2026-04-11.md` (this commit). HITL-2 approved with 5 design-decision polish. Session 31 next.
+**Gate**: P1 `8dfef75` (Session 29) + P2 this commit (Session 30) landed. P2 established T1 boundary markers + top-section reorganization across 4 state files with **zero semantic content loss**. `Read(progress.md, limit=100)` now returns only this T1 section; full file loads on-demand. Partial-read cascade post-P2 (estimate): ~12,510 tokens vs 41,081 baseline = **69% reduction** (hits P5 <15K target; stretch <10K blocked by lessons-learned.md density, flagged as P4 target).
 
-**Active task**: see `notes/current-task.md` → `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`
+**Active task pointer**: `notes/current-task.md` → `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`
 
-**Authoritative Session 28 narrative + operational workflow advice**: `notes/references/session-28-recovery-2026-04-11.md` (supersedes this file as the Session 28→29 handoff document)
+### Phase Status
 
-**User directive 2026-04-11** (authoritative, propagates to all pending work):
-1. State mgmt is BROKEN; bootstrap efficiency task is the authoritative fix
-2. HydroCast audit state-mgmt remediation DEFERRED (will not be implemented from the now-old audit)
-3. Session 29+ non-standard bootstrap mandatory until P2-P5 lands
-4. No LL-26 two-commit pattern dogfooding during this task
+| Phase | Status | Commit |
+|---|---|---|
+| P1 Instrumentation | ✅ landed | `8dfef75` (Session 29) |
+| P2 Convention refactor | ✅ landed | this commit (Session 30) |
+| P3 Minimal enforcement | pending (Session 31 next) | — |
+| P4 Docs + LL audit | pending | — |
+| P5 Validation + LL-29 | pending | — |
+
+### Next-Action Queue
+
+**This session (30)**: state close only. Single commit per directive #5 (no LL-26 two-commit dogfood).
+
+**Session 31** (next):
+
+1. P3 — `current-task.md <100` pre-commit hook + partial-read KB card (HITL-3 before commit)
+2. P4 — CLAUDE.md bootstrap rewrite + 2 new KB cards (`bootstrap-read-pattern.md` + `cc-memory-layer-alignment.md`) + LL integration audit (compact-index vs verbose-detail split of LL table is a scoped sub-deliverable here per Session 30 HITL-2 discussion)
+3. P5 — Post-fix bootstrap-cost metrics + LL-29 draft + task close (HITL-4 on metrics)
+
+### User Directives (2026-04-11, authoritative)
+
+1. State mgmt is BROKEN — this task is the authoritative fix; supersedes all other state-mgmt work
+2. HydroCast audit state-mgmt remediation DEFERRED — will NOT be implemented from the now-old audit
+3. Non-standard cold-start bootstrap (3 files: `current-task.md` + impl plan + Session 28 recovery artifact) mandatory until P3-P5 lands real fix
+4. No over-building — partial reads + convention, not hard limits + hooks everywhere
+5. No LL-26 two-commit pattern dogfooding during this task — single commit per phase
+
+### Reference Artifacts
+
+See `notes/current-task.md` §Reference Artifacts for the full pointer index (impl plan, recovery artifact, 5 findings reference, memory architecture reference, Session 28 JSONL source).
+
+<!-- T1:BOUNDARY — partial-read at `Read(progress.md, limit=100)` captures Current Position section above this marker; Historical Narrative below is on-demand only. -->
+
+## Historical Narrative (Session 27 and earlier)
+
+The content below this line is pre-Session-28 narrative. Retained for historical reference and on-demand grep access but NOT read at cold-start bootstrap (see notice block above).
+
+### Session 29 Recovery Close (archived T1 snapshot)
+
+*Preserved here for historical continuity; superseded by Session 30 T1 section above.*
+
+**Gate**: Session 28 produced v2 impl plan (HITL-1 passed) then died mid-state-close on "Prompt is too long" before `progress.md`/`TODO.md` were updated. Session 29 opened via JSONL recovery (not standardized bootstrap), wrote two recovery artifacts, compressed `current-task.md` to 77 lines, landed P1 instrumentation (`8dfef75`), and closed state for Session 30 to execute P2.
 
 **Session 28 death location**: `d17b1e16-a94e-4b33-b222-7fef5fc60773.jsonl` entry 153, 2026-04-11T15:37:16Z, immediately after writing compressed `current-task.md`, before `progress.md`/`TODO.md`/commit/operational-workflow-advice.
 
@@ -28,22 +65,11 @@
 - `notes/references/prior-session-5-findings-2026-04-10.md` — permanent reference, closes LL-28 for that data loss
 - `notes/references/session-28-recovery-2026-04-11.md` — transient bridge artifact, Session 28→29 handoff
 - `notes/current-task.md` — rewritten to 77 lines with non-standard bootstrap protocol at top
-- This progress.md notice block
-
-**Session 29 still-pending work** (do NOT execute this session — Session 29 context is for recovery close only):
-- P1-P5 of bootstrap efficiency plan (Sessions 29+, 30, 31 cadence per recovery artifact Part 7)
-- HydroCast strategic comparison (Phase D of prior plan) — REMAINS QUEUED behind bootstrap fix
-- Global CLAUDE.md v2 upgrade (Phase G) — REMAINS QUEUED behind bootstrap fix + Phase D
+- `hooks/scripts/bootstrap-cost.sh` + `notes/metrics/bootstrap-cost-log.md` — P1 instrumentation deliverables (`8dfef75`)
 
 ---
 
-## Historical Narrative (Session 27 and earlier)
-
-The content below this line is the pre-Session-28 narrative. It is retained for historical reference but should NOT be read at cold-start bootstrap (see notice block above).
-
----
-
-## Current Position
+## Session 27 Current Position (archived)
 
 **Gate**: Phase C complete; Phase D next. All 8 duplicates removed from global `~/.claude/` (4 commands + 2 skills + 2 agents). Global `CLAUDE.md` Extension Registry updated to past-tense reality with LL-27 shadowing rule permanently codified. CAB plugin is now the single authoritative source for all overlapping extensions. Session 26's mid-dialogue HITL-3 question has been implicitly answered by execution: the user confirmed the full Option B scope verbally before the compaction, and post-compaction continuation carried it out. Next gate is HITL-4 (HydroCast harmonization scoping) after Phase D comparison doc is written.
 
