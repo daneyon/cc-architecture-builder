@@ -1,12 +1,56 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-11 (Session 32 — **Bootstrap Token Efficiency Restoration TASK COMPLETE**, ~82.5% cold-start cost reduction achieved)
-**Current task**: (none — see `notes/current-task.md` and `notes/TODO.md` Top Priorities for next pickup)
+**Last session**: 2026-04-11 (Session 33 — **HydroCast audit P1 close** — feat branch PR #8 opened, pending user merge)
+**Current task**: Phase D HydroCast ↔ CAB state-mgmt comparison (QUEUED on PR #8 merge — see `notes/current-task.md`)
 **Branch**: `master` (CAB, local-only; solo workflow)
 
 ---
 
 ## Current Position
+
+**Session**: 33 — Cross-repo HydroCast plugin-first migration audit workstream officially closed. CAB repo itself had no code changes; work was on HydroCast repo with CAB state-close happening here. Phase 4 (HydroCast ↔ CAB state-mgmt strategic comparison) queued for Session 34 on PR merge.
+
+**Cross-repo state**:
+- **CAB**: `master` clean. Session 32 bootstrap restoration (~7,169 tokens vs 41,081 baseline) fully landed. No uncommitted changes.
+- **HydroCast**: `feat/plugin-first-migration-2026-04-09` pushed to origin (PR #8: https://github.com/daneyon/Flood-Forecasting/pull/8). 4 commits ahead of main (`19379cf` migration, `4a93eaa` marketplace, `711df77` P0+P0.5, `0c2d1c1` P1 close). Working tree has intentional WIP (Sessions 24-27 strategic assessments + GUI B.5 work) preserved for user's parallel-worktree resume.
+
+**Gate**: User review + merge of HydroCast PR #8. Phase D execution blocked until merge completes and `git worktree` is split for parallel-safe HydroCast access (per LL-17).
+
+### What Landed in Session 33 (HydroCast repo commit `0c2d1c1`)
+
+- HydroCast `CLAUDE.md`: `knowledge/INDEX.md` reference added to Critical Context section (closes `claudemd.no_knowledge_index_ref` WARN)
+- HydroCast `knowledge/mod09-visualization/research-floodguard-mockup.md`: YAML frontmatter added (WIP preserved via stash/edit/commit/pop pattern)
+- HydroCast `knowledge/reference/external_sources_connection/USGS_WPI/usgs_data_categories.md`: UTF-16 → UTF-8 conversion + YAML frontmatter (closes `knowledge.missing_frontmatter` WARN for 2/3 flagged files; 3rd obviated — moved to `_archive/` since audit)
+- HydroCast `notes/cab-audit-2026-04-09.yaml`: audit artifact committed (was left untracked in the original workstream — itself a LL-28 data point)
+
+### Deferred from Session 33 (awaiting next full HydroCast audit)
+
+4 persistent WARN items validated as still-applicable against current CAB standards but lower leverage and outside minimum P1 close:
+- `skills.no_agent_field` — add `agent:` field to pipeline skills
+- `skills.no_references_section` — add `## See Also` sections
+- `agents.tools_broadly_scoped` — review tool scopes on data-acquisition agents
+- `knowledge.no_depends_on` — add cross-reference fields to module specs
+
+Plus 5 INFO items (rules subdirectory organization, SessionStart hook, platform-conditional hook paths). All queued for next full audit cycle per user directive.
+
+### Session 33 Operational Insight (Phase D input)
+
+The HydroCast audit workstream sat incomplete ~4 weeks despite multiple intervening sessions. Root cause has two layers worth capturing as Phase D input:
+
+1. **Branch hygiene gap**: `feat/plugin-first-migration-2026-04-09` became a drifting long-lived branch accumulating unrelated strategic-assessment work (Sessions 24-27) on top of the audit remediation commits, preventing clean merge.
+2. **LL-28 dialogue-level state gap**: parallel session starting from `main` auto-switched to the feat branch (because the HydroCast working directory was already on it) and continued work unknowingly. Resolution pattern — `git worktree` for parallel-safe cross-branch access — is already documented in CAB KB but was not enforced structurally.
+
+This is a strong test case for LL-28 structural countermeasures and a high-value Phase D data point: CAB's `PLAN → EXECUTE → VERIFY → COMMIT` protocol would have gate-checked the audit workstream close before allowing Session 24's strategic work to begin on the same branch.
+
+### Session 33 Execution Notes (for bootstrap reader)
+
+- Stash/edit/commit/pop pattern validated for WIP-preservation: `git stash push -- <file>` → edit → `git add <file>` → commit (with other audit files) → `git stash pop` cleanly re-applies the WIP onto the new committed state. Usable pattern for future mixed-intent single-file scenarios.
+- UTF-16 web scrape in `knowledge/reference/external_sources_connection/USGS_WPI/usgs_data_categories.md` converted to UTF-8 inline with frontmatter addition. If HydroCast has other UTF-16 files, flag during next audit.
+- PR #8 includes a Test plan checklist — user should verify items post-merge before Phase D starts.
+
+---
+
+## Session 32 Current Position (archived — preserved for historical continuity)
 
 **Session**: 32 — Bootstrap Token Efficiency Restoration task closed. P4 (Docs + LL audit) + P5 (Validation + LL-29 + close) executed in single session per Session 31 HITL-3 Option A directive.
 

@@ -1,23 +1,27 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-11 (Session 32 — Bootstrap Token Efficiency Restoration task closed)
+**Last Updated**: 2026-04-11 (Session 33 — HydroCast audit P1 close + PR #8 opened)
 **Plugin Version**: 1.1.0
-**Active Implementation Plan**: (none — Bootstrap Token Efficiency Restoration completed Session 32)
-**Active Task**: see `notes/current-task.md`
+**Active Implementation Plan**: (none — Phase D queued on HydroCast PR #8 merge)
+**Active Task**: see `notes/current-task.md` (Phase D HydroCast ↔ CAB state-mgmt comparison, QUEUED)
 
 ---
 
-## Top Priorities (post Session 32)
+## Top Priorities (post Session 33)
+
+### COMPLETED Session 33
+
+- [X] **HydroCast audit P1 close** — closed `claudemd.no_knowledge_index_ref` + 2 of 3 `knowledge.missing_frontmatter` WARN findings (3rd obviated via `_archive/` relocation). HydroCast commit `0c2d1c1`. Feat branch `feat/plugin-first-migration-2026-04-09` pushed, PR #8 opened: https://github.com/daneyon/Flood-Forecasting/pull/8. 4 persistent WARN items deferred to next full audit per user directive.
 
 ### COMPLETED Session 32
 
-- [X] **Bootstrap Token Efficiency Restoration** — landed across Sessions 28-32. Final cost ~7,169 tokens (~82.5% reduction from 41,081 baseline; beats <10K stretch target). All 5 phases complete: P1 `8dfef75`, P2 `836f3aa`, P3 `731bea0`, P4 `30ae350`, P5 (this session). See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` + LL-29 in `notes/lessons-learned.md`.
+- [X] **Bootstrap Token Efficiency Restoration** — landed across Sessions 28-32. Final cost ~7,169 tokens (~82.5% reduction from 41,081 baseline; beats <10K stretch target). All 5 phases complete: P1 `8dfef75`, P2 `836f3aa`, P3 `731bea0`, P4 `30ae350`, P5 `572988e`. See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` + LL-29 in `notes/lessons-learned.md`.
 
-### P0 — Next active candidates (pick one to start)
+### P0 — Active / Next candidates
 
+- [ ] **HydroCast Phase D strategic comparison** (ACTIVE-P0, gated on PR #8 merge) — read-only comparison of CAB post-Session-32 3-file cascade vs HydroCast LC-08 3-layer hierarchy. Multi-agent fan-out (`general-researcher` + `cab:architecture-advisor`). Deliverable: `Flood-Forecasting/notes/cab-vs-hydrocast-state-mgmt-comparison-2026-04-11.md`. See `notes/current-task.md` for full scope + key questions + execution strategy.
 - [ ] **LL-19 / LL-20 protocol counter** (ACTIVE-P0 in lessons-learned.md) — sycophantic-agreement-with-persistence-gaps recurrence pattern needs structural counter. Currently meta-lesson without enforcement layer.
-- [ ] **LL-28 event-triggered dialogue-checkpoint protocol** (ACTIVE-P0) — implementation of the Session 27 candidate. Pre-requisite per Session 27 directive: at least one survived dying-session recovery test before hard-coding.
-- [ ] **HydroCast Phase D strategic comparison** (un-deferred now that CAB state-mgmt reform is complete) — read-only comparison of CAB vs HydroCast state-mgmt approaches. Was queued behind CAB bootstrap fix.
+- [ ] **LL-28 event-triggered dialogue-checkpoint protocol** (ACTIVE-P0) — implementation of the Session 27 candidate. **New data point from Session 33**: the HydroCast audit workstream itself was a LL-28 case study (state gap across ~4 weeks; dialogue-level discovery never persisted; parallel session auto-switched to feat branch unknowingly). Strong validation dataset for the checkpoint protocol design. Pre-requisite per Session 27 directive: at least one survived dying-session recovery test before hard-coding.
 
 ### P1 — High value, integrate this quarter
 
