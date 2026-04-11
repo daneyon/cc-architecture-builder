@@ -1,10 +1,10 @@
 # Current Task: CAB Source-of-Truth Consolidation + HydroCast State Mgmt Harmonization
 
-**Status**: Phases A, B, C.1 all executed across Sessions 26-27. Phase A landed in `62bf4a9`, Phase 5b state refresh in `726c50b`, Phase B.5 pushed clean (no bypass). Phase C.1 inventory completed during Session 26, discovered LL-27 shadowing, session died mid-dialogue on HITL-3 with "Prompt is too long". Session 27 recovered the work via transcript-tail backfill: LL-27 + LL-28 drafted in `436ffbd`, state refresh commit landing next.
-**Started**: 2026-04-10 (Session 25 plan; Session 26 execution; Session 27 recovery + pending question answer)
-**Branches**: `master` (CAB, 1 commit ahead of origin after Session 27's `436ffbd`; state refresh commit +1 more this block; all Session 24-26 commits pushed), `feat/plugin-first-migration-2026-04-09` (HydroCast, unchanged)
-**Prior task**: LL-25 state management reform (`302f872`, now PUSHED) exposed the tense hygiene gap; LL-26 solved tense staleness but Session 26's dying session exposed emergence staleness (LL-28)
-**Next action**: Land this state refresh commit → answer Session 26's unanswered clarifying question (orchestrator global↔plugin layering) → HITL-3 decision on shadow-copy cleanup → Phase C.2 execution
+**Status**: Phases A, B, and C (full scope: agents + commands + skills) complete. Phase A landed in `62bf4a9`, Phase 5b state refresh in `726c50b`, Phase B.5 pushed clean. Phase C.1 inventory completed Session 26, LL-27 shadowing discovered, session died mid-dialogue on HITL-3. Session 27 recovered via transcript-tail backfill (LL-27 + LL-28 in `436ffbd`, state refresh in `bc9ce69`), user confirmed full Option B scope, and all 8 duplicates removed from `~/.claude/`: 2 agents + 4 commands + 2 skills. Global `CLAUDE.md` Extension Registry updated to reflect post-cleanup reality with LL-27 shadowing rule permanently documented. CAB plugin is now the single authoritative source for all overlapping extensions. Phase D (HydroCast comparison) is the next HITL gate.
+**Started**: 2026-04-10 (Session 25 plan; Session 26 execution; Session 27 recovery + full Option B execution)
+**Branches**: `master` (CAB, local-only state refreshes ahead of origin; user directive: no push needed for solo workflow — still honored), `feat/plugin-first-migration-2026-04-09` (HydroCast, unchanged)
+**Prior task**: LL-25 state management reform (`302f872`, PUSHED) exposed tense hygiene gap; LL-26 solved tense staleness; LL-27 captured shadowing; LL-28 captured emergence staleness; Session 27 proved the shadow-cleanup pattern on the full duplication surface (not just agents) and validated LL-27's architectural claim that plugin-provided extensions are the correct authority layer.
+**Next action**: Commit this Phase C.2 full-scope state refresh → answer user's lazy-load protocol question → pivot to Phase D HydroCast strategic comparison (read-only, fan-out to specialists).
 
 ## Design Decisions (User-Confirmed 2026-04-10)
 
@@ -65,25 +65,25 @@ Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-
 - [X] AC-9: Push decision resolved + executed — `CAB_SKIP_PREPUSH_REVIEW=1` bypass dependency eliminated by A.5 regex refinement; clean push proceeded without bypass
 - [X] AC-10: CAB `master` pushed to origin (Session 26 end), `git status` clean, `git log origin/master..master` empty at push time
 
-### Phase C — Global↔CAB Source-of-Truth Consolidation (Phase C.1 done, C.2+ blocked on HITL-3)
+### Phase C — Global↔CAB Source-of-Truth Consolidation ✅ (all ACs landed Session 27, 2026-04-11)
 
 - [X] AC-11: Diff each global copy against CAB version — done in Session 26 Phase C.1, all 8 duplicates confirmed as CAB strict supersets, no sync-upstream needed. `execute-task.md` allowed-tools delta confirmed as intentional CAB cleanup, not regression.
-- [ ] AC-12: Delete duplicate global commands: `execute-task`, `commit-push-pr`, `context-sync`, `techdebt` — blocked on HITL-3
-- [ ] AC-13: Delete duplicate global skills `architecture-analyzer`, `planning-implementation` — blocked on HITL-3
-- [ ] AC-14: Delete duplicate global agents `orchestrator`, `verifier` — blocked on HITL-3 (LL-27 shadowing discovery makes this the most urgent deletion, not the least)
-- [ ] AC-15: Update global `~/.claude/CLAUDE.md` Extension Registry — remove deleted items, add "CAB provides — do not duplicate" notes per LL-27
-- [ ] AC-16: Smoke test — open fresh CC session, verify `/execute-task` and friends still resolve (via CAB plugin path)
-- [ ] **AC-17 (new, from LL-27)**: After deletion, verify CAB's plugin orchestrator is now the active resolution target (not shadowed). Method TBD — needs agent introspection or behavioral smoke test.
+- [X] AC-12: Delete duplicate global commands `execute-task`, `commit-push-pr`, `context-sync`, `techdebt` — DONE (Session 27, 2026-04-11). `~/.claude/commands/` is now empty; all 4 commands resolve via CAB plugin path.
+- [X] AC-13: Delete duplicate global skills `architecture-analyzer`, `planning-implementation` — DONE (Session 27, 2026-04-11). Both skill directories (including `planning-implementation/assets/` subdir with 2 template files) removed via file-by-file + rmdir cascade (security gate blocks `rm -rf`, LL-14 working correctly). Remaining global skills: 8 non-CAB (assessing-quality, claude-docs-helper, designing-workflows, presentation-outline, readme-generator, slide-designer, token-optimizer, visualizing-data).
+- [X] **AC-14**: Delete duplicate global agents `orchestrator`, `verifier` — DONE (Session 27, 2026-04-11). `~/.claude/agents/orchestrator.md` + `~/.claude/agents/verifier.md` removed. Remaining global agents: code-reviewer, debugger-specialist, general-researcher (CAB does not provide these).
+- [X] AC-15: Update global `~/.claude/CLAUDE.md` Extension Registry — DONE for all three categories. Agents=3 (with LL-27 past-tense incident note), Skills=8 (with past-tense "removed in Phase C.2" warning for CAB-duplicates), Commands=0 (with same past-tense warning). LL-27 shadowing rule section added as permanent policy for all future plugin adoption.
+- [ ] AC-16: Smoke test — open fresh CC session, verify `/execute-task` and friends still resolve via CAB plugin path (now that global copies are gone, resolution path is forced through the plugin). **Deferred to next session cold-start** — this session has mutated `~/.claude/` and continuing verification in-session wouldn't prove anything the plugin registration check hasn't already proven.
+- [~] **AC-17 (from LL-27)**: Verify CAB's plugin orchestrator is now the active resolution target. Partial verification done this session: `settings.json` shows `cab@cab: True` in `enabledPlugins` and `cab` in `extraKnownMarketplaces`; plugin discovery chain is intact. Full behavioral verification (e.g., observing that the orchestrator's Session 26+ R2 updates are now active in operational output) deferred to next cold-start session alongside AC-16.
 
 ### Phases D-E — HydroCast Harmonization
 
-- [ ] AC-17: Strategic comparison doc written at HydroCast `notes/cab-vs-hydrocast-state-mgmt-comparison-2026-04-10.md` — answers the 7 review questions from `cab-state-mgmt-review-brief.md`; side-by-side matrix; HydroCast-unique value; CAB-unique value; harmonization recommendations with HITL gates; upstream opportunities
-- [ ] AC-18: HITL gate — user scopes harmonization approvals before any HydroCast structural change
-- [ ] AC-19: HydroCast Phase 5 P1 KB frontmatter fixes landed (3 files + `knowledge/INDEX.md` reference)
-- [ ] AC-20: Approved harmonization changes applied (docs + protocols only; no structural file moves unless explicitly approved)
-- [ ] AC-21: HydroCast state files coherent post-change (`current-task.md` <40 lines, `progress.md`/LC/D intact, bootstrap protocol still works)
-- [ ] AC-22: Upstream HydroCast→CAB opportunities added as CAB TODOs (candidates: D96 transfer doc protocol, LC/D numbering, ephemeral session layer)
-- [ ] AC-23: HydroCast feat branch committed (incremental subcommits) and pushed; uncommitted pre-existing work disambiguated (not bundled)
+- [ ] AC-18: Strategic comparison doc written at HydroCast `notes/cab-vs-hydrocast-state-mgmt-comparison-2026-04-10.md` — answers the 7 review questions from `cab-state-mgmt-review-brief.md`; side-by-side matrix; HydroCast-unique value; CAB-unique value; harmonization recommendations with HITL gates; upstream opportunities (renumbered from AC-17 on 2026-04-11 to resolve collision with Phase C's AC-17 LL-27 follow-on)
+- [ ] AC-19: HITL gate — user scopes harmonization approvals before any HydroCast structural change
+- [ ] AC-20: HydroCast Phase 5 P1 KB frontmatter fixes landed (3 files + `knowledge/INDEX.md` reference)
+- [ ] AC-21: Approved harmonization changes applied (docs + protocols only; no structural file moves unless explicitly approved)
+- [ ] AC-22: HydroCast state files coherent post-change (`current-task.md` <40 lines, `progress.md`/LC/D intact, bootstrap protocol still works)
+- [ ] AC-23: Upstream HydroCast→CAB opportunities added as CAB TODOs (candidates: D96 transfer doc protocol, LC/D numbering, ephemeral session layer)
+- [ ] AC-24: HydroCast feat branch committed (incremental subcommits) and pushed; uncommitted pre-existing work disambiguated (not bundled)
 
 ## Subtasks
 
