@@ -1,7 +1,6 @@
 ---
 description: Start a structured task using the standard execution protocol (PLAN → REVIEW → EXECUTE → VERIFY → COMMIT)
 ---
-
 # Execute Task Command
 
 Initiates a structured task workflow following the standard execution protocol.
@@ -14,7 +13,7 @@ Use the `executing-tasks` skill to enforce the protocol:
 
 1. **If arguments provided**: Use as task objective, proceed to PLAN phase
 2. **If no arguments**: Ask user for task objective and acceptance criteria
-3. **Create plan** in `notes/current-task.md`
+3. **Create plan** ; use `planning-implementation` skill for extensive tasks ideal for phases and/or user requests detailed phased planning 
 4. **Present plan** for user review
 5. **On approval**: Execute subtasks with incremental commits
 6. **After execution**: Run verification (invoke verifier agent if available)
