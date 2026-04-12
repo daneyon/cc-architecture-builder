@@ -1,13 +1,17 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-11 (Session 33 — HydroCast audit P1 close + PR #8 opened)
+**Last Updated**: 2026-04-12 (Session 34 — CLAUDE.md restructure)
 **Plugin Version**: 1.1.0
 **Active Implementation Plan**: (none — Phase D queued on HydroCast PR #8 merge)
 **Active Task**: see `notes/current-task.md` (Phase D HydroCast ↔ CAB state-mgmt comparison, QUEUED)
 
 ---
 
-## Top Priorities (post Session 33)
+## Top Priorities (post Session 34)
+
+### COMPLETED Session 34
+
+- [X] **CLAUDE.md restructure** — template-informed, attention-optimized rewrite of both project CLAUDE.md (`2de116d`, 242→189 lines) and global `~/.claude/CLAUDE.md` (152→138 lines, not in git). Added Identity, Operating Philosophy, Anti-Patterns. Removed redundant auto-load content. Resolved bootstrap protocol conflict. Three-layer complement model formalized.
 
 ### COMPLETED Session 33
 

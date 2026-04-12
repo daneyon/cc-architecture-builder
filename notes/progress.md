@@ -1,6 +1,6 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-11 (Session 33 — **HydroCast audit P1 close** — feat branch PR #8 opened, pending user merge)
+**Last session**: 2026-04-12 (Session 34 — **CLAUDE.md restructure** — project + global, template-informed)
 **Current task**: Phase D HydroCast ↔ CAB state-mgmt comparison (QUEUED on PR #8 merge — see `notes/current-task.md`)
 **Branch**: `master` (CAB, local-only; solo workflow)
 
@@ -8,7 +8,23 @@
 
 ## Current Position
 
-**Session**: 33 — Cross-repo HydroCast plugin-first migration audit workstream officially closed. CAB repo itself had no code changes; work was on HydroCast repo with CAB state-close happening here. Phase 4 (HydroCast ↔ CAB state-mgmt strategic comparison) queued for Session 34 on PR merge.
+**Session**: 34 — Side-task: CLAUDE.md restructure using the Custom LLM Macro Architecture template (`docs/_internal/Claude-code/CLAUDE-md-template.md`) as conceptual reference. Two files restructured in one session.
+
+**What landed in Session 34**:
+
+- **CAB project CLAUDE.md** (`2de116d`): 242→189 lines. Added Identity (intermediary wrapper layer concept from KB), Operating Philosophy (9-principle decision-axis table), Human-AI Collaboration Contract, Anti-Patterns (7 items at bottom for U-curve attention). Removed Extension Registry tables, Commands table, workflow diagrams, templates listing (all auto-load or exist elsewhere). Compressed State Management from ~50→18 lines.
+- **Global `~/.claude/CLAUDE.md`** (not in git, file write only): 152→138 lines. Resolved bootstrap protocol conflict (global was prescribing pre-Session-28 4-file order that contradicted CAB's post-Session-32 3-file cascade). Removed Extension Registry, project-level State Management, CAB Plugin Awareness. Added Anti-Patterns section with LL-27 shadowing rule. Added three-layer complement model (global=generic, project=specialized, agent=subagent).
+- **`commands/execute-task.md`** (`b0571cc`): Pre-existing user change committed — step 3 references `planning-implementation` skill for phased planning.
+
+**Key design decisions (Session 34)**:
+- Template used as conceptual reference, not 1:1 prescription (user feedback: v1 draft was too template-aligned; v2 grounded identity in `knowledge/overview/` materials instead)
+- Extensions section eliminated entirely from both CLAUDE.md files — auto-load makes enumeration wasteful
+- Three-layer complement model formalized: global CLAUDE.md (generic persona) → project CLAUDE.md (domain specialization) → agents/*.md (subagent-specific behavior). Each layer is complementary, not redundant.
+- Global CLAUDE.md State Management section now delegates to project level: "Each project's CLAUDE.md defines its own bootstrap protocol"
+
+**Gate**: Phase D still blocked on HydroCast PR #8 merge. No change.
+
+### Session 33 (archived — previous session)
 
 **Cross-repo state**:
 - **CAB**: `master` clean. Session 32 bootstrap restoration (~7,169 tokens vs 41,081 baseline) fully landed. No uncommitted changes.

@@ -1,8 +1,10 @@
 # Current Task: Phase D — HydroCast ↔ CAB State-Management Strategic Comparison
 
 **Status**: QUEUED (pre-requisite: HydroCast PR #8 merged to main)
-**Started**: TBD — target Session 34
+**Started**: TBD — target Session 35+
 **Branch**: CAB `master`; HydroCast work via `git worktree` off post-merge main (LL-17)
+
+> **Session 34 side-task completed**: CLAUDE.md restructure (project `2de116d` + global `~/.claude/CLAUDE.md`). Phase D gate unchanged — still blocked on PR #8 merge.
 
 ---
 
