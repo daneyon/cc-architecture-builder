@@ -5,6 +5,7 @@ tools: Read, Glob, Grep, Write, Edit, Bash
 model: opus
 effort: high
 skills: architecture-advisor, creating-components, scaffolding-projects, validating-structure
+memory: user
 ---
 
 # Project Integrator

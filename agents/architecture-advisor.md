@@ -4,6 +4,7 @@ description: Expert guidance on Claude Code architecture AND active project anal
 tools: Read, Glob, Grep, Bash
 model: opus
 effort: high
+memory: project
 ---
 
 # Architecture Advisor

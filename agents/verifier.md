@@ -8,6 +8,7 @@ description: >
 tools: Read, Bash, Grep, Glob, Search
 model: inherit
 effort: high
+memory: project
 ---
 
 # Verifier
