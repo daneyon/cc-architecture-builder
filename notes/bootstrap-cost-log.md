@@ -65,3 +65,4 @@ hooks/scripts/bootstrap-cost.sh session-NN-label 2>/dev/null
 
 Manually translate CSV fields into a new table row. The table is authoritative; raw CSV
 is an interchange format only. Do not delete historical rows — append-only.
+2026-04-22,session-35-uxl-018,66,1059,100,2701,80,2995,6755

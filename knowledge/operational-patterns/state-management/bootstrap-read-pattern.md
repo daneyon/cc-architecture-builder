@@ -158,6 +158,66 @@ chmod +x .git/hooks/pre-commit
 
 ---
 
+## Budget Ceiling — Soft Signal, Not Prescription [UXL-018]
+
+Bootstrap token cost is an **observability signal**, not an enforced ceiling.
+`hooks/scripts/bootstrap-cost.sh` makes the cost visible; the signal
+*informs* judgment, it does not automate behavior.
+
+### Convention: track `bootstrap_tokens` in progress.md session header
+
+At the start of each new session block in `notes/progress.md`, record the
+measured bootstrap token cost as a header field:
+
+```markdown
+**Session**: 36 — <one-line topic>
+**Bootstrap tokens**: ~7,800 (3-file cascade; run `hooks/scripts/bootstrap-cost.sh`)
+**Date**: 2026-04-23
+```
+
+This creates a timeseries alongside `notes/bootstrap-cost-log.md` so session
+narrative + cost data live together. Makes drift visible at session-boundary
+review without requiring a separate audit step.
+
+### Soft budget ceiling guidance
+
+A **~15% of context window** soft ceiling on bootstrap cost is a useful
+default heuristic: beyond that, each new protocol layer's marginal cost
+starts crowding out productive output. When bootstrap approaches or exceeds
+this threshold, the signal is: **reconsider whether every auto-loaded layer
+is load-bearing for the current session class** — not: mechanically compact
+existing content to hit a number.
+
+### User directive (2026-04-22) — preserved verbatim for durability:
+
+> "the limits are soft not prescriptions; final decision should be
+> adaptively resorted to the agentic reasoning based on the specific
+> user/project request and domain context (e.g. one of the classic
+> worst-case scenario of blindly automating this away will be agents
+> (and the human users influenced by them) resorting to compact contents
+> unnecessarily when the specific in-series sessions or phased task(s)
+> at hand require detailed transfers for example)."
+
+### Anti-pattern: mechanical compaction to hit budget
+
+Do NOT compact detailed phase-task transfers, curated session narratives,
+or load-bearing `notes/*.md` artifacts to reduce `bootstrap_tokens`. This is
+the exact failure mode LL-29 (quality-over-tokens invariant) was recorded
+to counter. Detailed cross-session transfers often justify higher bootstrap
+cost — especially during complex multi-session work.
+
+Correct responses when `bootstrap_tokens` trends high:
+
+1. **Evaluate what's auto-loaded** — is each file still serving cold-start anchor or has it drifted to on-demand utility? Archival to `_archive/` or move-to-on-demand (like LL exclusion from bootstrap in Session 32) is structural — doesn't lose information.
+2. **Check T1 boundaries** — are top-sections in `progress.md` / `TODO.md` still tight, or have they bled past the partial-read budget? Re-anchor boundaries.
+3. **Accept the cost if the work demands it** — an 8-week architectural refactor spanning 12 sessions legitimately needs detailed transfer artifacts. Budget signal is a prompt to *reason*, not to *trim*.
+
+The agent's job: interpret the signal in context. The script's job: surface
+the data. Neither the script nor this doc should impose behavior that runs
+counter to task-specific reasoning.
+
+---
+
 ## References
 
 - `notes/impl-plan-bootstrap-efficiency-2026-04-11.md` — authoritative implementation plan (P1–P5)

@@ -9,6 +9,7 @@
 ## Current Position
 
 **Session**: 35 — Implementation of CAB UX Log + Ideabox Tracker per `notes/impl-plan-ux-log-tracker-2026-04-22.md` (674-line plan, tier-refined, SME-verified). Phases 1-4 executed with Phase 5 spec folded into the guide opportunistically.
+**Bootstrap tokens**: ~6,651 (3-file cascade measured 2026-04-22 via `hooks/scripts/bootstrap-cost.sh`; 7% below Session 32 baseline 7,169; well under 15% soft ceiling of 200K context window) — new header convention per UXL-018, see [bootstrap-read-pattern.md §Budget Ceiling](../knowledge/operational-patterns/state-management/bootstrap-read-pattern.md#budget-ceiling--soft-signal-not-prescription-uxl-018). **This is a signal, not a prescription** — do not compact curated session narrative to hit a number (LL-29 quality-over-tokens invariant).
 
 **What landed in Session 35**:
 
