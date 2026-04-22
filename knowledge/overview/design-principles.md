@@ -13,7 +13,6 @@ source: CAB-original
 confidence: A
 review_by: 2026-07-05
 ---
-
 # CAB Design Principles
 
 ## Principle 1: Context Engineering Is the Foundation
@@ -68,7 +67,7 @@ LAYER 4: EXECUTION (runtime)
 - Skills are the orchestrator's "how-to" library — agents are its "delegation roster."
 - An agent loading a skill gets an isolated copy in its own context window.
 - **Commands are now skills**: CC merged commands into skills (2026). Skills are preferred; commands still work but skills win when both exist. CAB maintains concise abbreviated names (e.g., `cab:execute-task`) for quick-trigger usability.
-- When a skill involves repeatable logic, extract it into executable scripts (`skills/[name]/scripts/` for plugins, `.claude/skills/[name]/scripts/` for standalone) that the skill invokes via Bash. Tested code > generated code.
+- When a skill involves repeatable logic, extract it into executable scripts (`skills/[name]/scripts/` for plugins, `.claude/skills/[name]/scripts/` for standalone) that the skill invokes via Bash. Tested deterministic code > agentically (inefficiently) generated code; all operational workflows ought to be initially evaluated of the feasibility to systematize and automate with AI agentic reasoning when deterministic, traditional rule-based automation is deemed more efficient holistically and/or desired per specific policy/industry conventions.
 
 ---
 
@@ -133,6 +132,12 @@ Extensions should be as general as possible while remaining **programmatically a
 
 The end-product objective is a multi-agent system that operates autonomously to the fullest extent possible — with human involvement limited to strategic direction, periodic KB alignment with platform upgrades, and review of verification reports.
 
+**Terminology follows EU AI Act / NIST conventions:**
+
+- IN-THE-LOOP: active co-decision; human approves each batch
+- ON-THE-LOOP: monitor + intervene; human reviews outputs, intervenes on exceptions
+- DIRECTED: set policy, not each action; human defines rules/thresholds
+
 **Human oversight touchpoints**:
 
 - Strategic direction (what to build, why, priorities)
@@ -148,7 +153,7 @@ The end-product objective is a multi-agent system that operates autonomously to 
 
 ## Principle 7: Verification as Architectural Requirement
 
-Every agent, every task, every phase gate requires a verification method. Providing the model a way to verify its own work improves output quality significantly.
+Every agent, every task, every phase gate requires a verification method (with holistically standardized risk classification/weighted scoring system of tangible KPIs, as appropriate). Providing the model a way to verify its own work improves output quality significantly.
 
 Verification is not QA bolted on at the end — it is a structural element of every agent definition, every task plan, and every phase transition. An agent without a verification section is architecturally incomplete.
 
