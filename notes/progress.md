@@ -52,10 +52,18 @@ Ranked by composite of severity + value/effort + strategic leverage. Top-10 for 
 
 **Coupled execution candidates** (consider bundling):
 - UXL-004 + UXL-005 + UXL-009 + UXL-010 → KB knowledge-graph deep dive (defer until after top-3 resolved)
-- UXL-007 + UXL-022 → memory-layer alignment pair
+- **UXL-007 + UXL-022 + UXL-032** → memory-layer alignment trio (UXL-007 already resolved in Phase 5 docs refresh; UXL-022 authors canonical KB card; UXL-032 applies spec to agents/*.md — execute in this order)
 - UXL-016 + UXL-017 → LL-28 event-write + dying-session-recovery pair
 - UXL-027 + UXL-028 → LL-02/12/08 background-agent bracket (pre-gate + post-check)
 - UXL-014 + UXL-015 + UXL-025 → subsume into UXL-025 v2 effort
+
+### Phase 5 addendum (post docs refresh, 2026-04-22)
+
+- **UXL-031** logged + resolved in same pass: `.claude/rules/component-standards.md` valid-fields list refreshed from current CC docs (memory, disallowedTools, background, isolation, color, initialPrompt, maxTurns added; stale "disallowedTools not valid" note removed). Commit `b537f25`.
+- **UXL-007** answered: user's memory-layer mental model is correct per current docs. Both `~/.claude/projects/<project>/memory/` (main-agent) and `.claude/agent-memory/<name>/` (subagent) are authoritative; additional scope discovered: `.claude/agent-memory-local/<name>/` (gitignored).
+- **UXL-022** value upgraded M → H: the CC Memory Layer Alignment KB card is now higher leverage because it authors the canonical spec UXL-032 (and future agent-memory adoption) will apply.
+- **UXL-023** scope narrowed: auto-memory already implements Layer-6-dreaming-adjacent behavior; Dream consolidation skill scope narrows to LL → CLAUDE.md human-curated promotion only.
+- **UXL-032** added: agent memory-field audit. Deferred; coupled with UXL-022 for spec-first execution. Candidate adoption by agent: architecture-advisor + verifier + project-integrator → project scope likely; orchestrator → likely NONE (stateless-per-invocation by design).
 
 **Gate**: User sign-off on this triage + prioritized queue before proceeding to first `/cab:planning-implementation` on a UXL row.
 
