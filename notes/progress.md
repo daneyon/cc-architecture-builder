@@ -1,14 +1,69 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-12 (Session 34 — **CLAUDE.md restructure** — project + global, template-informed)
-**Current task**: Phase D HydroCast ↔ CAB state-mgmt comparison (QUEUED on PR #8 merge — see `notes/current-task.md`)
+**Last session**: 2026-04-22 (Session 35 — **UX Log + Ideabox Tracker** — Phases 1-4 landed, Phase 4 signoff pending)
+**Current task**: UX Log Tracker — awaiting user sign-off on Phase 4 triage (see `notes/current-task.md`)
 **Branch**: `master` (CAB, local-only; solo workflow)
 
 ---
 
 ## Current Position
 
-**Session**: 34 — Side-task: CLAUDE.md restructure using the Custom LLM Macro Architecture template (`docs/_internal/Claude-code/CLAUDE-md-template.md`) as conceptual reference. Two files restructured in one session.
+**Session**: 35 — Implementation of CAB UX Log + Ideabox Tracker per `notes/impl-plan-ux-log-tracker-2026-04-22.md` (674-line plan, tier-refined, SME-verified). Phases 1-4 executed with Phase 5 spec folded into the guide opportunistically.
+
+**What landed in Session 35**:
+
+- **Phase 1 (planning refinement)** — commit `eb0cdd5`: §3.2 7-tier hierarchy (T1 user-braindump minimum → T7 hook-auto); Appendix B schema Tier+KG columns added to all 25 rows; 2 user-directed deferrals absorbed into Appendix C + §1.1 out-of-scope
+- **Phase 2 (scaffolding)** — commit `537b511` (10 files, 1376 insertions): `notes/ux-log-template.csv` (25 headers), `notes/ux-log-examples.csv` (5 rows, 1+ per surface), `notes/ux-log-guide.md` (241 lines, includes Phase 5 protocol spec), `knowledge/reference/prioritization-frameworks.md` (155 lines), `knowledge/reference/ux-testing-agentic-os.md` (200 lines), 3 orphan reference files relocated from `skills/planning-implementation/references/` with UTF-16→UTF-8 fix on `workflow-processflow.md`, `.claude/rules/kb-conventions.md` governance update (reference-folder carve-out + [UXL-NNN] commit convention + LL↔tracker cross-ref convention), `knowledge/reference/INDEX.md` updated
+- **Phase 3+4 (initial pass + triage)** — see pending commit: `notes/ux-log-001-2026-04-22-pass-1.csv` with 30 rows (UXL-001..030), verbatim fidelity verified via Python DictReader prefix-match against plan Appendix C
+
+**Phase 3+4 pass content**:
+- UXL-001..007: user's 7 brain-dump items (VERBATIM in `user_comment`; fidelity grep-verified)
+- UXL-008: dogfood — UTF-16 bug + nested Windows-1252 smart-quote mojibake discovered during Phase 2.6
+- UXL-009..010: user-directed deferrals (HydroCast kb-standardization pattern extraction; AgentContextGraphVisualizer feasibility eval) — `status=deferred` until current plan fully completes
+- UXL-011..015: LL-27 follow-ons (sync-check extension, agent-resolution KB card, cab-audit shadow-check, global + CAB CLAUDE.md "CAB provides" notes)
+- UXL-016..019: LL-28 follow-ons (event-triggered state-write, dying-session recovery, bootstrap token tracking, reversibility inventory)
+- UXL-020..023: LL-25 follow-ons (RAS-exec propagation, HydroCast propagation, CC memory-layer alignment KB card, Dream consolidation skill)
+- UXL-024: LL-26 follow-on (backtick-marker exclusion)
+- UXL-025: Global CLAUDE.md v2 (Extension Registry removal + Plugin Hygiene Policy reinvestment)
+- UXL-026..030: P0/P1 structural counters (LL-19/20, LL-02/12, LL-08, LL-17, LL-10)
+
+**Key design decisions (Session 35)**:
+- Tiered schema explicitly formalized in plan §3.2: T1 user-fill minimum (4 cols) vs KG-critical subset (7 cols); user braindump burden bounded to 4 columns
+- Phase 5 protocol spec folded into `ux-log-guide.md` (status state machine + commit convention + hook spec + LL cross-ref) rather than authored as separate artifact — guide becomes self-contained
+- kb-conventions carve-out documented for `knowledge/reference/**` — formalizes de-facto policy (product-design-cycle.md at 339 lines pre-existed)
+- Python build script used to construct pass-1 CSV (proper RFC 4180 quoting via csv.DictWriter); transient script deleted after run
+
+### Prioritized Queue (Phase 4 output — top candidates for next `/cab:planning-implementation`)
+
+Ranked by composite of severity + value/effort + strategic leverage. Top-10 for user review:
+
+| Rank | Row | Surface | Title | Rationale |
+|---|---|---|---|---|
+| 1 | **UXL-007** | meta | CLAUDEmd U-shape standard template + memory-layer alignment | V=H, E=L, question-type; user SME sign-off trivial; unblocks UXL-022 (CC memory-layer KB) |
+| 2 | **UXL-018** | meta | Bootstrap token cost tracking + soft budget ceiling | V=H, E=L; supports LL-29; measurable ROI |
+| 3 | **UXL-011** | integration | Extend /sync-check for agent name-collision detection | V=H, E=L; highest-priority LL-27 enforcement layer |
+| 4 | **UXL-002** | meta | Command→skill migration audit | V=H, E=M; strategic (upcoming CC deprecation); starts with mapping exercise |
+| 5 | **UXL-001** | integration | Default setup protocol fix (project schema vs plugin schema) | V=H, E=M; fixes legitimate UX friction observed across projects |
+| 6 | **UXL-005** | meta | KB→knowledge-graph standardization | V=H, E=H; root-cause for UXL-004/009/010; couple with UXL-009 execution |
+| 7 | **UXL-003** | meta | Re-evaluate CAB orchestrator subagent as global-default | V=M, E=L; analysis-only; low-risk |
+| 8 | **UXL-025** | meta | Global CLAUDE.md v2 (Extension Registry removal) | V=H, E=M; queued behind Phase D per Session 27 directive; supersedes UXL-014/015 |
+| 9 | **UXL-016** | agentic | Event-triggered state-write protocol (LL-28 cand.) | V=H, E=M; needs dying-session recovery validation first (UXL-017 pairs) |
+| 10 | **UXL-028** | agentic | LL-08 background-output persistence verification | V=H, E=M; pairs with UXL-027 (pre-gate) to bracket bg-agent write failures |
+
+**Coupled execution candidates** (consider bundling):
+- UXL-004 + UXL-005 + UXL-009 + UXL-010 → KB knowledge-graph deep dive (defer until after top-3 resolved)
+- UXL-007 + UXL-022 → memory-layer alignment pair
+- UXL-016 + UXL-017 → LL-28 event-write + dying-session-recovery pair
+- UXL-027 + UXL-028 → LL-02/12/08 background-agent bracket (pre-gate + post-check)
+- UXL-014 + UXL-015 + UXL-025 → subsume into UXL-025 v2 effort
+
+**Gate**: User sign-off on this triage + prioritized queue before proceeding to first `/cab:planning-implementation` on a UXL row.
+
+---
+
+### Session 34 (archived — previous session)
+
+**Side-task completed**: CLAUDE.md restructure using the Custom LLM Macro Architecture template (`docs/_internal/Claude-code/CLAUDE-md-template.md`) as conceptual reference. Two files restructured in one session.
 
 **What landed in Session 34**:
 
