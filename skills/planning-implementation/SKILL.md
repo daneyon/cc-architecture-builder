@@ -8,7 +8,6 @@ argument-hint: "Project or feature to plan (e.g., 'plan migration from REST to G
 allowed-tools: Read, Write, Grep, Glob
 effort: high
 ---
-
 # Planning & Implementation
 
 ## Purpose
@@ -46,16 +45,16 @@ Idea/Request
 
 ## When to Use Which Template
 
-| Situation | Template | Audience |
-|-----------|----------|----------|
-| New project proposal / internal pitch | **SOW** | PM, advisor, client, leadership |
-| Approved project ready for development | **Implementation Plan** | Engineering team, QA, DevOps |
-| Quick feature addition | Neither — use executing-tasks skill directly | Self |
-| Complex feature with unknowns | SOW (lightweight) -> Implementation Plan (targeted sections) | Team |
+| Situation                              | Template                                                     | Audience                        |
+| -------------------------------------- | ------------------------------------------------------------ | ------------------------------- |
+| New project proposal / internal pitch  | **SOW**                                                | PM, advisor, client, leadership |
+| Approved project ready for development | **Implementation Plan**                                | Engineering team, QA, DevOps    |
+| Quick feature addition                 | Neither — use executing-tasks skill directly                | Self                            |
+| Complex feature with unknowns          | SOW (lightweight) -> Implementation Plan (targeted sections) | Team                            |
 
 ## Scoping: The SOW Approach
 
-The SOW (Statement of Work) is the **concise approval document** — it defines what
+The SOW (Scope of Work) is the **concise approval document** — it defines what
 we're building, why, for whom, and what success looks like. It does NOT specify
 technical implementation details.
 
@@ -97,14 +96,14 @@ requirements into a single working document.
 
 Every phase transition requires explicit criteria before proceeding:
 
-| Transition | Gate |
-|-----------|------|
-| Discovery -> Strategy | Problem validated, feasibility confirmed |
-| Strategy -> Architecture | Requirements approved, KPIs defined, risks accepted |
-| Architecture -> Implementation | Architecture reviewed, designs approved, specs complete |
-| Implementation -> Validation | Feature-complete, code reviewed, CI green |
-| Validation -> Deployment | Critical bugs resolved, UAT signed off, performance acceptable |
-| Deployment -> Operations | Deployed, monitoring active, rollback tested |
+| Transition                     | Gate                                                           |
+| ------------------------------ | -------------------------------------------------------------- |
+| Discovery -> Strategy          | Problem validated, feasibility confirmed                       |
+| Strategy -> Architecture       | Requirements approved, KPIs defined, risks accepted            |
+| Architecture -> Implementation | Architecture reviewed, designs approved, specs complete        |
+| Implementation -> Validation   | Feature-complete, code reviewed, CI green                      |
+| Validation -> Deployment       | Critical bugs resolved, UAT signed off, performance acceptable |
+| Deployment -> Operations       | Deployed, monitoring active, rollback tested                   |
 
 Full template: [assets/implementation-plan-template.md](assets/implementation-plan-template.md)
 
@@ -126,16 +125,17 @@ Product Vision (SOW Section 3)
 
 ### Prioritization Frameworks
 
-| Framework | Best For | Method |
-|-----------|----------|--------|
-| **RICE** | Feature backlogs | (Reach x Impact x Confidence) / Effort |
-| **MoSCoW** | MVP scoping | Must / Should / Could / Won't |
-| **Kano** | UX prioritization | Basic / Performance / Delight classification |
-| **Value vs. Effort** | Quick sprint planning | 2x2 matrix: high-value + low-effort first |
+| Framework                  | Best For              | Method                                       |
+| -------------------------- | --------------------- | -------------------------------------------- |
+| **RICE**             | Feature backlogs      | (Reach x Impact x Confidence) / Effort       |
+| **MoSCoW**           | MVP scoping           | Must / Should / Could / Won't                |
+| **Kano**             | UX prioritization     | Basic / Performance / Delight classification |
+| **Value vs. Effort** | Quick sprint planning | 2x2 matrix: high-value + low-effort first    |
 
 ### Acceptance Criteria Standards
 
 Every story/task must have acceptance criteria that are:
+
 - **Specific** — "Renders within 200ms" not "fast"
 - **Testable** — Can be verified by running a command or inspecting output
 - **Independent** — Each criterion verifiable on its own
@@ -163,11 +163,11 @@ When the project involves AI/ML components, add these considerations:
 
 When planning full-stack implementations, consider the dependency graph between layers:
 
-| Pattern | When to Use | Approach |
-|---------|------------|----------|
-| **API-first** (backend leads ~1 sprint) | Data-heavy apps, complex business logic | Backend builds endpoints -> frontend integrates with real APIs |
+| Pattern                                            | When to Use                              | Approach                                                         |
+| -------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------- |
+| **API-first** (backend leads ~1 sprint)      | Data-heavy apps, complex business logic  | Backend builds endpoints -> frontend integrates with real APIs   |
 | **Design-first** (frontend leads with mocks) | UX-critical apps, design-driven products | Frontend builds UI with mock data -> backend implements to match |
-| **Contract-first** (parallel) | Clear API contracts, experienced teams | Both develop against shared API spec simultaneously |
+| **Contract-first** (parallel)                | Clear API contracts, experienced teams   | Both develop against shared API spec simultaneously              |
 
 Let the project's actual architecture determine which pattern fits — don't default to
 one approach for all projects.
