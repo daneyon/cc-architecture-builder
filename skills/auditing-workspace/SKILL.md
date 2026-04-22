@@ -109,7 +109,7 @@ For **each dimension**, follow this protocol:
 | # | Dimension | Standard Pack | Target Files (plugin) | Target Files (standalone) |
 |---|-----------|--------------|----------------------|--------------------------|
 | 1 | CLAUDE.md Quality | `claudemd-standards.md` | `CLAUDE.md`, `CLAUDE.local.md` | same |
-| 2 | Agent Frontmatter | `agent-standards.md` | `agents/*.md` | `.claude/agents/*.md` |
+| 2 | Agent Frontmatter | `agent-standards.md` | `agents/*.md` + shadow scan vs `~/.claude/agents/*.md` | `.claude/agents/*.md` |
 | 3 | Skill Frontmatter | `skill-standards.md` | `skills/*/SKILL.md` | `.claude/skills/*/SKILL.md` |
 | 4 | Settings Configuration | `settings-standards.md` | `.claude/settings.json` + root `settings.json` | `.claude/settings.json` |
 | 5 | Rules Coverage | `rules-standards.md` | `.claude/rules/**/*.md` | same |
@@ -119,6 +119,17 @@ For **each dimension**, follow this protocol:
 For dimensions with zero applicable components at the project's complexity tier,
 score as N/A rather than ABSENT. A minimal project with no agents is not
 penalized for lacking agent frontmatter.
+
+**Agent Frontmatter dimension — mandatory shadow scan (LL-27 enforcement
+via UXL-013)**: for plugin projects, after the per-file frontmatter
+evaluation, execute the shadow scan documented in
+`knowledge/operational-patterns/multi-agent/agent-resolution.md` §Detection.
+For each plugin agent, check whether a same-named file exists at
+`~/.claude/agents/<name>.md` — byte-identical match = WARN (future-drift
+risk); content-diverged match without documented intentional-override
+block = ERROR. Unresolved shadows gate EXEMPLARY score structurally (see
+agent-standards.md Scoring Guide). Pattern mirrors `/cab:sync-check --shadow-only`
+(UXL-011 commit 2185da9) — same detection logic, different trigger surface.
 
 Read `references/classification-schema.md` before starting Phase 2 for the
 full scoring rubric, classification definitions, and contextual tier adjustments.
