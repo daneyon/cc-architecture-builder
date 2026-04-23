@@ -1,10 +1,19 @@
-# Implementation Plan: Background-Agent Write-Failure Bracket (UXL-027 + UXL-028)
+# Implementation Plan: Background-Agent Post-Check (UXL-028 only)
 
-**Date**: 2026-04-22
+**Date**: 2026-04-22 (plan) / **Revised**: 2026-04-23 (scope reduced)
 **Owner**: orchestrator (CAB)
-**Source rows**: UXL-027 (LL-02/12 pre-gate) + UXL-028 (LL-08 post-check) — Wave 2 of `notes/ux-log-wave-plan-2026-04-22.md`
-**Effort**: M per row (paired execution; single plan, two phases)
+**Source rows**: UXL-028 (LL-08 post-check) — Wave 2 of `notes/ux-log-wave-plan-2026-04-22.md`
+**Effort**: M (single-phase execution)
 **Plan scope**: self-contained; no cross-project work
+
+## Revision Note (2026-04-23)
+
+Original plan bundled UXL-027 (PreToolUse bg-agent write-gate) + UXL-028 (PostToolUse post-check). After SME review:
+
+- **UXL-027 DROPPED** (status → `wontfix`). Rationale: LL-02/12 haven't recurred empirically since rules/memory integration + recent Claude model upgrades; heuristic pre-invocation gate would add perf tax on every `Agent` call without measurable value; subagent `tools:` frontmatter already physically gates Write/Edit/NotebookEdit capability — the "read-only subagent allowlist" in the original design was duplicating info already in the authoritative frontmatter (LL-27-shaped inventory-drift anti-pattern applied to my own design). Escalation path preserved: if LL-02/12 recurs, file a fresh row with empirical data.
+- **UXL-028 KEPT, simplified**. Rationale: post-tool surgical check fires only on actual missing-file events (no heuristic fuzziness), adds no pre-invocation latency (runs AFTER tool completes), catches empirical LL-08 pattern directly. New acceptance criterion: measurable perf tax <20ms per fire + no false-positive WARN in steady state.
+
+See `notes/lessons-learned.md` + memory/feedback_dual_pov_check.md for the governing principle applied to this revision.
 
 ---
 

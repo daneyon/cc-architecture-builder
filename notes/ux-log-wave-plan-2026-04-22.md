@@ -58,15 +58,14 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 
 ---
 
-### Wave 2 — Background-Agent Bracket (2 rows; tight pair)
+### Wave 2 — Background-Agent Post-Check (UXL-028 only; scope revised 2026-04-23)
 
-**Rows**: UXL-027 (LL-02/12 pre-gate), UXL-028 (LL-08 post-check)
-**Coupling rationale**: Highest RICE (3.6 each, tied); brackets the background-agent write-failure class (pre-condition + post-condition). Single plan covers both since they share detection logic. Same pattern as UXL-011→UXL-013 trio proved structurally efficient.
-**MoSCoW**: M, M
-**Execution approach**: `/cab:planning-implementation "UXL-027+UXL-028: LL-02/12/08 background-agent bracket"` → single plan with 2 phases → `/cab:execute-task`.
+**Rows**: UXL-028 (LL-08 post-check)
+**Scope revision rationale**: UXL-027 (LL-02/12 pre-gate) dropped as `wontfix` after SME review — empirical non-recurrence of LL-02/12 + perf-tax-per-Agent-invocation + subagent `tools:` frontmatter already gates write capability structurally + heuristic fuzziness of prompt-regex matching. Dual-POV check (memory/feedback_dual_pov_check.md) argued against the over-build. UXL-028 retained because post-tool surgical check fires only on empirical failures, zero pre-invocation latency, no heuristic matching.
+**MoSCoW**: M
+**Execution approach**: single-phase execution; plan updated at `notes/impl-plan-bg-agent-bracket-2026-04-22.md` §Revision Note. Perf acceptance criterion added: <20ms per fire + no false-positive WARN in steady state.
 
-**Pre-req**: Decide PreToolUse hook mechanics (block vs warn) — design decision point.
-**Estimated cost**: ~1-2 sessions.
+**Estimated cost**: ~30-45 min (single script + hooks.json registration + reversibility inventory row).
 
 ---
 
@@ -151,6 +150,31 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 **Execution approach**: Post-Wave-8 re-triage + individual plans.
 
 **Estimated cost**: UXL-004 = 3-5 sessions; UXL-009 = 1-2 sessions (pattern extraction synthesis); UXL-010 = 2-3 sessions (feasibility eval + prototype decision + architecture recommendation).
+
+---
+
+### Wave 10 — HydroCast Comprehensive State-Mgmt Alignment (UXL-036; scope added 2026-04-23)
+
+**Rows**: UXL-036 (HydroCast comprehensive state-mgmt alignment audit — full-dimension vs tracked-notes-only)
+**Coupling rationale**: The UXL-020/021 propagation rows only covered LL-25 tracked-notes scope. A comprehensive alignment requires auditing: bootstrap-read-pattern (CAB 3-file cascade vs HydroCast LC-08 3-layer), hook presence (pre-push-state-review, enforce-current-task-budget, bg-agent-post-check from UXL-028), T1 boundary conventions, LL classification schema, kb-conventions, memory-layer adoption (UXL-031/032), UX-log tracker pattern (HydroCast's `notes/gui-review-comments/` → CAB's tiered `notes/ux-log-*.csv`), prioritization-frameworks adoption, active-top sort ergonomics.
+
+**Deferral rationale**: CAB still iterating state-mgmt through Wave 5 (LL-28 state-write protocol) + Wave 6 (CLAUDE.md v2 + state-mgmt-capture skill). Aligning HydroCast now = re-aligning later. Wave 10 placement avoids redundant work. HydroCast Phase D comparison (queued on PR #8) will naturally surface alignment deltas as byproduct.
+
+**MoSCoW**: S
+**Execution approach**: Dedicated `/cab:planning-implementation` plan; possibly split into sub-phases per alignment dimension. Couples to Phase D output where available.
+
+**Estimated cost**: 3-5 sessions.
+
+---
+
+### Wave 11 — Cross-Project Propagation Pattern Formalization (UXL-035; scope added 2026-04-23)
+
+**Rows**: UXL-035 (CAB-side deliverable + external-repo apply pattern formalization)
+**Coupling rationale**: Pattern proved in Wave 1 (UXL-020 RAS-exec patch-ready artifact). Needs standardization: template artifact structure, convention for when CAB-side work is "done" vs "needs external apply," cross-reference schema back to tracker.
+**MoSCoW**: C
+**Execution approach**: Short standalone plan; produces template + documentation.
+
+**Estimated cost**: ~1 session.
 
 ---
 
