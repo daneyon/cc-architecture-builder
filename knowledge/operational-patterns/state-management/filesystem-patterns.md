@@ -299,6 +299,38 @@ See LL-26 in `notes/lessons-learned.md` for full root cause + corrective protoco
 
 **Schema heritage**: modeled on the `auditing-workspace` classification-schema pattern (MISSING/STALE/ENHANCEMENT/CURRENT + severity), adapted to the LL lifecycle. Deliberately kept to two dimensions (Classification + Priority) for operational simplicity.
 
+---
+
+## State-Management Protocol Reversibility Inventory (UXL-019)
+
+**Principle** (per Session 27 user directive): every state-management protocol
+addition must be individually revertable. This inventory maps each load-bearing
+state-mgmt protocol to the commit that introduced it + the revert command, so
+rollback is a one-liner if any layer proves counterproductive in practice.
+
+Append new rows as new protocols land. Remove or update rows only when a
+protocol is formally superseded (not just evolved).
+
+| Protocol | Landed commit | Revert command | Notes |
+|---|---|---|---|
+| LL-25 — notes/ tracked-by-default + pre-push draft-marker gate | `302f872` | `git revert 302f872` | Introduced `.gitignore` adjustments + `hooks/scripts/pre-push-state-review.sh` scaffold. Tracked-by-default was the architectural shift. |
+| LL-26 — State-file tense hygiene (status-line anchored regex) | `62bf4a9` | `git revert 62bf4a9` | Refined pre-push regex to require status-line anchoring on tense matches. Subsequent refinement: UXL-024 (backtick exclusion). |
+| LL-27 — Plugin↔global shadow detection (pre-incident fix) | `436ffbd` | `git revert 436ffbd` | Initial LL-27 landing. Enforcement layer expanded in UXL-011 (sync-check shadow scan) + UXL-012 (agent-resolution KB) + UXL-013 (audit fold-in). |
+| LL-29 — Bootstrap token efficiency restoration (3-file cascade + T1 boundary + L1 hard gate) | `8dfef75..572988e` (P1..P5) | `git revert 572988e^..572988e` (or per-phase reverts) | Multi-commit span across Sessions 28-32. Each phase independently revertable per Session 27 directive. See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`. |
+| UXL-011 — /sync-check shadow detection | `2185da9` | `git revert 2185da9` | Adds shadow-scan step to sync-check command. Declarative-command edit only; no new backing script. |
+| UXL-012 — agent-resolution.md KB card (LL-27 canonical spec) | `a9796fa` | `git revert a9796fa` | Reference documentation; no runtime behavior. Revert = remove card + INDEX.md delta. |
+| UXL-013 — Shadow scan folded into /validate --cab-audit | `e985760` | `git revert e985760` | Adds criterion 15 to agent-standards.md + shadow-scan step to auditing-workspace SKILL.md. |
+| UXL-018 — Bootstrap token cost tracking (soft signal framing) | `d1a0b23` | `git revert d1a0b23` | progress.md header convention + soft-signal philosophy in bootstrap-read-pattern.md. Signal, not prescription (LL-29 alignment). |
+| UXL-022 — CC memory layer alignment KB card | `7db3a2a` | `git revert 7db3a2a` | Reference documentation; no runtime behavior. |
+| UXL-024 — Pre-push backtick-wrapped marker exclusion | `430fe64` | `git revert 430fe64` | Second-pass filter on draft-marker regex. LL-26 refinement. |
+| UXL-032 — Agent memory: field adoption (3 CAB agents) | `600d9ba` | `git revert 600d9ba` | Frontmatter-only change on architecture-advisor, verifier, project-integrator. Orchestrator intentionally skipped. |
+| UXL-033 — uxl-update.py helper + active-top sort | `008f90e` | `git revert 008f90e` | Adds `hooks/scripts/uxl-update.py` + applies sort to pass-1 CSV. Future resolutions use the helper; reverting removes the helper but not the CSV changes from other commits. |
+| LL-28 candidate (event-triggered state-write protocol) | *TBD (Wave 5)* | *TBD* | Per Session 27 directive: "at least one survived dying-session recovery test before hard-coding." Not yet shipped. |
+
+**Append convention**: when a new state-mgmt protocol lands, add its row here in the same commit that introduces it. Include `[UXL-019]` in the commit message suffix when doing so, so the post-commit hook (once shipped) can verify the inventory stays current.
+
+**Scope note**: this inventory tracks *state-management* protocol additions specifically. Other protocol categories (hooks, skills, rules) don't need revertability tracking at this granularity because their failure modes are more bounded. State-mgmt protocols compound across sessions, so a broken protocol can poison multiple downstream tasks before it's caught.
+
 ## See Also
 
 - [Session Lifecycle](session-lifecycle.md) — When to compact vs. fresh session
