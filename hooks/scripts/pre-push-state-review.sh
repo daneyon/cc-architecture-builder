@@ -75,6 +75,29 @@ exclude_args=(
 )
 
 draft_matches=$(grep -rEn "$draft_markers" "$notes_dir" "${exclude_args[@]}" 2>/dev/null || true)
+
+# Second-pass filter (UXL-024 / LL-26 follow-on): exclude lines where ALL
+# marker occurrences are inside backtick code spans. Documentation files
+# that reference the markers (e.g. table cells "| `WIP:` | forbidden |" or
+# prose mentioning `WIP:` labels) must not trigger the hook. POSIX ERE lacks
+# negative lookbehind, so: for each matched line, strip backtick-wrapped
+# marker occurrences; if the stripped line still matches, keep it. Otherwise
+# drop as a documentation-reference false-positive.
+if [ -n "$draft_matches" ]; then
+  filtered=""
+  while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    stripped=$(echo "$line" | sed -E \
+      -e 's/`[[:space:]]*(WIP|DRAFT|NOCOMMIT|PRIVATE):[[:space:]]*`//g' \
+      -e 's/`[[:space:]]*TODO:redact[[:space:]]*`//g' \
+      -e 's/`[[:space:]]*FIXME:private[[:space:]]*`//g')
+    if echo "$stripped" | grep -qE "$draft_markers"; then
+      filtered="${filtered}${line}"$'\n'
+    fi
+  done <<< "$draft_matches"
+  draft_matches=$(printf '%s' "$filtered" | sed '/^$/d')
+fi
+
 # Tense markers use case-insensitive matching (catches "Ready"/"Pending"/"EXECUTED ✅ — Ready")
 tense_matches=$(grep -riEn "$tense_markers" "$notes_dir" "${exclude_args[@]}" 2>/dev/null || true)
 
