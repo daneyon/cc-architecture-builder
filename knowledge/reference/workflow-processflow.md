@@ -9,14 +9,14 @@ related: [planning-implementation, visualization-workflow, product-design-cycle]
 complexity: foundational
 last_updated: 2026-04-22
 estimated_tokens: 2500
-source: 3rd-party article (sixsigmadsi.com) curated into CAB reference; relocated from skills/planning-implementation/references/ in Phase 2.6 of impl-plan-ux-log-tracker-2026-04-22.md. **KNOWN DEFECT**: nested Windows-1252 smart-quote bytes surviving UTF-16LE→UTF-8 conversion — see UXL-008 dogfood row for remediation scope
-confidence: C
+source: 3rd-party article (sixsigmadsi.com) curated into CAB reference; relocated from skills/planning-implementation/references/ in Phase 2.6; mojibake (Windows-1252 smart-quote residue) remediated in UXL-008 via codepoint substitution (U+00F4→U+201C, U+00F6→U+201D, U+00C6→U+2019) + stray HTML brace cleanup
+confidence: B
 review_by: 2026-07-22
 ---
 
 # Workflow Diagram vs. Process Flow Diagram: Key Differences
 
-In the fast-paced world of business and project management, understanding the nuances between various tools and techniques is crucial. Two commonly used terms are ôworkflow diagramö and ô[process](https://sixsigmadsi.com/journey-map-vs-process-map-key-differences/) flow diagram.ö While these terms might seem interchangeable, they represent distinct concepts with unique purposes and applications. In this article, we will delve into the key differences between workflow diagrams and [process](https://en.wikipedia.org/wiki/Business_process) flow diagrams, exploring their definitions, components, and when to use each. In the intricate landscape of business [process optimization](https://sixsigmadsi.com/glossary/process-characterization/), understanding the distinctions between a workflow diagram and a [process flow diagram](https://sixsigmadsi.com/glossary/process-flow-diagram/) is crucial. This article aims to provide a comprehensive insight into the principles of workflow [process mapping](https://sixsigmadsi.com/glossary/end-to-end-process-mapping/), detail process maps, and the intricacies of process map design. With a meticulous examination of detailed process map design, we embark on a journey to elucidate the essential elements that demarcate these indispensable tools, empowering you with the knowledge to refine and streamline your organizational processes effectively.
+In the fast-paced world of business and project management, understanding the nuances between various tools and techniques is crucial. Two commonly used terms are “workflow diagram” and “[process](https://sixsigmadsi.com/journey-map-vs-process-map-key-differences/) flow diagram.” While these terms might seem interchangeable, they represent distinct concepts with unique purposes and applications. In this article, we will delve into the key differences between workflow diagrams and [process](https://en.wikipedia.org/wiki/Business_process) flow diagrams, exploring their definitions, components, and when to use each. In the intricate landscape of business [process optimization](https://sixsigmadsi.com/glossary/process-characterization/), understanding the distinctions between a workflow diagram and a [process flow diagram](https://sixsigmadsi.com/glossary/process-flow-diagram/) is crucial. This article aims to provide a comprehensive insight into the principles of workflow [process mapping](https://sixsigmadsi.com/glossary/end-to-end-process-mapping/), detail process maps, and the intricacies of process map design. With a meticulous examination of detailed process map design, we embark on a journey to elucidate the essential elements that demarcate these indispensable tools, empowering you with the knowledge to refine and streamline your organizational processes effectively.
 
 What is a Workflow Diagram?
 
@@ -53,7 +53,7 @@ What is a Process Flow Diagram?
 
 ![What is a Process Map Design?](data:image/jpeg;base64...)What is a Process Map Design?
 
-A process flow diagram (PFD) is a visual representation that illustrates the sequence of steps and components involved in a process or system. Unlike workflow diagrams that focus on specific tasks, process flow diagrams provide a broader view, often detailing the overall structure of an organizationÆs operations. Process flow diagrams are versatile and can be used in various industries, from manufacturing and engineering to healthcare and project management.}
+A process flow diagram (PFD) is a visual representation that illustrates the sequence of steps and components involved in a process or system. Unlike workflow diagrams that focus on specific tasks, process flow diagrams provide a broader view, often detailing the overall structure of an organization’s operations. Process flow diagrams are versatile and can be used in various industries, from manufacturing and engineering to healthcare and project management.
 
 Key features of a Process Flow Diagram include:
 
