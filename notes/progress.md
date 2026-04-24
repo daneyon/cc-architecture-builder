@@ -1,8 +1,83 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-22 (Session 35 — **UX Log + Ideabox Tracker** — Phases 1-4 landed, Phase 4 signoff pending)
-**Current task**: UX Log Tracker — awaiting user sign-off on Phase 4 triage (see `notes/current-task.md`)
+**Last session**: 2026-04-22 → 2026-04-24 (Session 35-36 — **UX Log + Ideabox Tracker** build-out + Wave 1 + Wave 2 VOID + Wave 3 Phase 1 mapping + Phase 3a effort/rule refresh)
+**Current task**: UX Log Tracker — Wave 3 Phase 3b+ pending SME decisions (see `notes/current-task.md`)
 **Branch**: `master` (CAB, local-only; solo workflow)
+
+---
+
+## Session 36 — Wave 1 close + Wave 2 VOID + Wave 3 Phase 1/3a (2026-04-23 → 2026-04-24)
+
+**Bootstrap tokens** (session start + end): ~6,755 (3-file cascade; stable across session per `hooks/scripts/bootstrap-cost.sh`; 7% below Session 32 baseline 7,169; well under 15% soft ceiling). UXL-018 signal-not-prescription framing held — no mechanical compaction despite growth.
+
+### What landed in Session 36
+
+**Wave 1 — Hygiene batch (5 rows resolved)**:
+- UXL-024 (430fe64): pre-push hook backtick-wrapped draft-marker exclusion (LL-26 follow-on; sed strip-and-recheck filter)
+- UXL-008 (30ae167): workflow-processflow.md mojibake 2-pass fix (U+00F4/F6→U+201C/D quotes + U+00C6→U+2019 apostrophe + stray HTML brace cleanup; KNOWN DEFECT cleared; confidence C→B)
+- UXL-019 (1f19b19): state-mgmt reversibility inventory table in filesystem-patterns.md (13 rows mapping protocol → commit → revert command per Session 27 user directive)
+- UXL-020 + UXL-021 (8f84a3a): LL-25 propagation status analysis; HydroCast already aligned (NO-OP close); RAS-exec patch-ready artifact at `notes/ll-25-propagation-status-2026-04-22.md` (apply pending in RAS-exec session)
+- Wave 1 chore (19438c5): CSV state-machine batch close
+
+**Wave 2 — VOIDED (both rows wontfix after prototype benchmark)**:
+- UXL-027 (plan commit f9b035d, drop commit 7054c5c + 34d5a3e): bg-agent PreToolUse write-gate DROPPED pre-implementation. Rationale: LL-02/12 empirically not recurring post rules + memory + model upgrades; heuristic prompt-regex fuzziness; subagent `tools:` frontmatter already gates physical write capability; "read-only allowlist" design was LL-27-shaped inventory-drift anti-pattern applied to my own hook.
+- UXL-028 (34d5a3e): bg-agent PostToolUse post-check DROPPED after prototype benchmark revealed ~1.27s/fire on Windows Git Bash (~60x the 20ms acceptance criterion). Windows python cold-start dominance. Artifacts deleted (`hooks/scripts/bg-agent-post-check.sh` + `notes/impl-plan-bg-agent-bracket-2026-04-22.md` via git rm).
+- **New durable principle saved to auto-memory**: `memory/feedback_dual_pov_check.md` — dual-POV check before building automation. Caught itself in the act on UXL-027/028. Referenced forward in UXL-039/040 execution.
+
+**Wave 3 Part 1 — commands↔skills mapping audit (UXL-002 Phase 1)**:
+- Plan committed 14fe217 (`notes/impl-plan-commands-skills-migration-2026-04-24.md`, 265 lines) with F001-F012 acceptance + 4 ADRs; plan refined d794e33 post-SME feedback (F009 content-quality preservation + F010 redundancy catch + F011 executing-tasks↔planning-implementation coupling + F012 naming standardization)
+- Mapping artifact committed 3de63ff (`notes/commands-skills-mapping-2026-04-24.md`, 243 lines) — all 15 CAB commands categorized: 6 WRAPPER, 7 ORPHAN, 2 HYBRID. Proposed F012 skill renames (drop `-ing` gerund; prefer single-word where clear). F011 flagged executing-tasks↔planning-implementation overlap at PLAN phase with 3 consolidation options.
+- SME Phase 2 decisions captured (2026-04-24): promote all orphans except init-worktree; merge hybrids into `scaffold` (unified skill with `--mode` extensions per D3); Option A delegation for F011; D5 naming preference = single-word first then verb+action; command-trigger PRESERVE default, archive after UX validation.
+
+**Wave 3 Phase 3a — effort + rule refresh (2 rows resolved)**:
+- UXL-039 (fdfea25): removed `effort: high` from 5 skills (architecture-analyzer, auditing-workspace, executing-tasks, planning-implementation, scaffolding-projects). Max subscription users on Opus 4.7 recover their xhigh default (was silently downgraded to high).
+- UXL-040 (fdfea25): refreshed `.claude/rules/component-standards.md` §Skill Frontmatter. 250-char cap → 1,536 (combined description + when_to_use per current CC docs); full valid-field list aligned with current spec (+when_to_use, arguments, disable-model-invocation, user-invocable, paths, shell); effort CAB convention documented (omit by default).
+- CSV state-machine chore (3c61293): both resolved with linked_commit fdfea25.
+
+### New UXL rows logged during Session 36
+
+- **UXL-035** (triaged, Wave 11, L effort): Formalize cross-project "CAB-side deliverable + external-repo apply" propagation pattern
+- **UXL-036** (triaged, Wave 10, H effort): HydroCast comprehensive state-mgmt alignment audit (deferred post-Wave-5/6 to avoid redundant re-alignment)
+- **UXL-037** (triaged, Wave 8, M effort): CAB design principles ↔ extensions alignment audit (DP1-DP9 coverage matrix)
+- **UXL-038** (triaged, Wave 8+, H effort, MoSCoW=C): Agentic OS platform end-vision deep dive (skill = software = modularized codebase; not strict requirement; reflects user's longer-horizon vision)
+- **UXL-039 + UXL-040**: already resolved above
+
+### Session 36 tracker state (end)
+
+| Status | Count | Delta vs Session 35 end |
+|---|---|---|
+| resolved | **16** | +7 (UXL-008, 011, 018, 019, 020, 021, 022, 024, 031, 032, 033, 039, 040 — wait, includes prior; Session 36 added UXL-008/019/020/021/024/039/040) |
+| triaged | 20 | +2 net (UXL-035/036/037/038 added = +4; UXL-027/028 moved to wontfix = -2) |
+| deferred | 2 | unchanged (UXL-009, UXL-010) |
+| wontfix | **2** | **+2** (UXL-027, UXL-028) |
+| **Total** | **40** | +5 (UXL-035/036/037/038/039/040; wait, added 6 minus one...) |
+
+Actually-accurate final distribution: 16 resolved / 20 triaged / 2 deferred / 2 wontfix = 40 total.
+
+### Key design decisions / principles reinforced in Session 36
+
+- **Dual-POV check before building** (saved to auto-memory): every new automation requires empirical + cost-reality validation BEFORE design. Caught UXL-027 + UXL-028 in the act of being over-built.
+- **Windows process-spawn as planning constraint**: any per-invocation hook must pay hello-world timing budget BEFORE design. Python cold-start on Windows ≈ 400-500ms alone.
+- **RICE calibration lesson**: "problem is recurring" assumption needs empirical validation; without it, Confidence scores overestimate.
+- **Soft-signal principle extends recursively**: bootstrap-token ceiling (UXL-018) applies to hook perf acceptance (UXL-028 dropped) applies to the orchestrator's own scope decisions. "Limits are signals, not prescriptions" is fractal.
+- **Skill frontmatter authority drift pattern** (UXL-031 agents → UXL-040 skills): CAB rules periodically drift from current CC docs; LL-10 fresh-fetch needs applied proactively to rule files, not just KB cards.
+- **`effort: high` was silently hurting Max users** — CAB-native defaults shouldn't floor below CC-native subscription defaults without a specific reason.
+
+### Queued after Session 36
+
+- **Wave 3 Phase 3b**: wrapper command trim (6 wrappers → pure shims) + skill renames per F012 (single-word preferred: `audit`, `execute`, `plan`, `scaffold`, `validate`, etc.) + atomic cross-reference updates. Next session.
+- **Wave 3 Phase 3c**: orphan promotions (5 orphans → new skills) + hybrid merges into `scaffold` with `--mode` extensions + F011 Option A (executing-tasks delegates to planning-implementation for non-trivial plans)
+- **Wave 3 Phase 3d**: archive wrapper commands after empirical validation that `/cab:<skill>` = `/cab:<command>` UX
+- **Wave 3 Part 2 (UXL-001)**: default setup protocol project-schema-first — plan authoring after Phase 3b+ lands
+- **Phase D HydroCast state-mgmt comparison**: still gated on PR #8 merge (unchanged)
+- **Wave 8**: UXL-037 DP alignment audit + UXL-038 agentic-OS end-vision deep dive
+
+---
+
+## Session 35 — UX Log + Ideabox Tracker build-out (2026-04-22)
+
+**Session**: 35 — Implementation of CAB UX Log + Ideabox Tracker per `notes/impl-plan-ux-log-tracker-2026-04-22.md` (674-line plan, tier-refined, SME-verified). Phases 1-4 executed with Phase 5 spec folded into the guide opportunistically.
+**Bootstrap tokens**: ~6,651 (3-file cascade measured 2026-04-22 via `hooks/scripts/bootstrap-cost.sh`; 7% below Session 32 baseline 7,169; well under 15% soft ceiling of 200K context window) — new header convention per UXL-018, see [bootstrap-read-pattern.md §Budget Ceiling](../knowledge/operational-patterns/state-management/bootstrap-read-pattern.md#budget-ceiling--soft-signal-not-prescription-uxl-018). **This is a signal, not a prescription** — do not compact curated session narrative to hit a number (LL-29 quality-over-tokens invariant).
 
 ---
 
