@@ -11,7 +11,7 @@ Create a new agent skill in the current project.
 Use the `create-components` skill to:
 
 1. **Gather skill details**:
-   - Skill name (gerund form recommended: `analyzing-data`)
+   - Skill name (verb+object recommended: `analyze-data`)
    - What it does
    - When Claude should trigger it
    - Key instructions/steps
@@ -45,10 +45,10 @@ Use the `create-components` skill to:
 /add-skill
 → Interactive skill creation
 
-/add-skill processing-pdfs
+/add-skill process-pdfs
 → Creates skill with name, asks for details
 
-/add-skill analyzing-data "Statistical analysis on datasets"
+/add-skill analyze-data "Statistical analysis on datasets"
 → Creates with name and description pre-filled
 ```
 
