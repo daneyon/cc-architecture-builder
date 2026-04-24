@@ -3,13 +3,13 @@ id: requirements-doc-guide
 title: Requirements Documents Deep Dive — MRD / PRD / SRD for Startups
 category: reference
 tags: [requirements, mrd, prd, srd, startup, documentation, hybrid]
-summary: Comparative deep dive on Market / Product / Software Requirements Documents and the hybrid Startup Requirement Document approach. Advisory reference consulted during planning-implementation scoping for early-stage product work.
+summary: Comparative deep dive on Market / Product / Software Requirements Documents and the hybrid Startup Requirement Document approach. Advisory reference consulted during plan-implementation scoping for early-stage product work.
 depends_on: []
-related: [planning-implementation, product-design-cycle]
+related: [plan-implementation, product-design-cycle]
 complexity: foundational
 last_updated: 2026-04-22
 estimated_tokens: 5500
-source: CAB-curated synthesis; relocated from skills/planning-implementation/references/ in Phase 2.6 of impl-plan-ux-log-tracker-2026-04-22.md
+source: CAB-curated synthesis; relocated from skills/plan-implementation/references/ in Phase 2.6 of impl-plan-ux-log-tracker-2026-04-22.md
 confidence: B
 review_by: 2026-10-22
 ---

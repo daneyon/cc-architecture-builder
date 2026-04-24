@@ -1,5 +1,5 @@
 ---
-name: executing-tasks
+name: execute-task
 description: >-
   Enforce PLAN → REVIEW → EXECUTE → VERIFY → COMMIT protocol for non-trivial
   tasks. Prevents one-shotting, premature completion, and scope drift. Triggers:

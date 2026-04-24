@@ -9,7 +9,7 @@ description: >
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: opus
 effort: high
-skills: executing-tasks, validating-structure, auditing-workspace
+skills: execute-task, validate-structure, audit-workspace
 ---
 
 # Orchestrator
@@ -31,7 +31,7 @@ On receiving a task:
 - **Cross-domain task** → Decompose into subtasks, delegate each, synthesize
 - **Ambiguous task** → Clarify with user before proceeding
 - **Meta/architecture task** → Handle directly or delegate to architecture-advisor
-- **Audit/standards-check request** → Invoke `auditing-workspace` skill (read-only, produces artifact)
+- **Audit/standards-check request** → Invoke `audit-workspace` skill (read-only, produces artifact)
 
 ### 2. Standard Task Execution Protocol
 

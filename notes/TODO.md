@@ -71,7 +71,7 @@
 - [ ] **LL-27 follow-on: Add shadow-check to `/validate --cab-audit` methodology** — Audit skill should enumerate all plugin agents and check for any same-named file at higher-precedence layers. Fold into the agent dimension scoring.
 - [ ] **LL-27 follow-on: Update global `~/.claude/CLAUDE.md` Extension Registry** — Add explicit "CAB provides this — do not create a global copy" notes to `orchestrator` and `verifier` entries. Prevents future recreation of the shadow copy from operator confusion (the exact pattern that caused this incident).
 - [ ] **LL-27 follow-on: Add "CAB provides" notes to CAB's own extension registry** — Mirror the above note inside CAB's CLAUDE.md so that operators reading CAB docs immediately know global copies are contraindicated.
-- [ ] **LL-28 follow-on: Design event-triggered state write protocol** — Complement LL-26's phase-triggered writes. Candidate trigger events: (a) new architectural insight, (b) HITL decision point (write pending question + options before asking user), (c) investigation finding contradicting/updating prior LL/DD, (d) discovery implying new LL entry. Implementation sketch: add "dialogue checkpoint" step to `executing-tasks` — append 5-10 line "dialogue state" block to `progress.md` after analytical turns >N tokens OR HITL questions. Cost ~200-400 tokens/checkpoint. **Not to be hard-coded** — tag as CANDIDATE until it survives at least one real dying-session recovery test (per Session 27 user directive on iterative optimization).
+- [ ] **LL-28 follow-on: Design event-triggered state write protocol** — Complement LL-26's phase-triggered writes. Candidate trigger events: (a) new architectural insight, (b) HITL decision point (write pending question + options before asking user), (c) investigation finding contradicting/updating prior LL/DD, (d) discovery implying new LL entry. Implementation sketch: add "dialogue checkpoint" step to `execute-task` — append 5-10 line "dialogue state" block to `progress.md` after analytical turns >N tokens OR HITL questions. Cost ~200-400 tokens/checkpoint. **Not to be hard-coded** — tag as CANDIDATE until it survives at least one real dying-session recovery test (per Session 27 user directive on iterative optimization).
 - [ ] **LL-28 follow-on: Fallback recovery protocol for mid-dialogue death** — Codify the Session 27 recovery method as a reusable skill or playbook: (1) bootstrap from `notes/` first, (2) identify dying-session JSONL transcript, (3) extract last N turns, (4) synthesize coverage gap, (5) backfill discoveries into new LL entries + state files, (6) resume at the exact HITL question. Deliverable: either a new `skills/recover-from-dying-session/` skill or a new subsection in `filesystem-patterns.md`. Input to the design: Session 27 itself is a working example — use its transcript as validation dataset.
 - [ ] **LL-28 follow-on: Bootstrap token cost tracking** — Per user directive (Session 27), every new protocol layer expands the cold-anchor cost. Add a standing measurement: record `bootstrap_tokens` consumed at Session start in `progress.md` header. Set a soft budget ceiling (e.g., 15% of context window) beyond which bootstrap optimization takes priority over new protocol additions. Starting data point: Session 27 bootstrap + investigation + LL drafting consumed ~70K tokens before answering the actual pending question; remaining budget 22% at state-refresh time.
 - [ ] **LL-28 follow-on: Reversibility inventory** — Per user directive, every state-mgmt protocol addition must be individually revertable. Maintain an inventory table in `filesystem-patterns.md` mapping protocol → commit hash → revert command. LL-25 = `302f872`, LL-26 = `62bf4a9`, LL-27 = `436ffbd`, LL-28 candidate = TBD. This makes rollback a one-liner if any layer proves counterproductive.
@@ -198,7 +198,7 @@ Lower-priority audit findings — quality improvements, not blocking operation.
 - [ ] Add hooks configuration (SessionStart bootstrap, PreToolUse security gate) — needs design
 - [ ] Add sandbox configuration to `.claude/settings.json`
 - [ ] Add `## See Also` KB cross-references to 8 skills
-- [ ] Add `agent: true` to multi-step investigation skills (executing-tasks, scaffolding-projects, session-close, planning-implementation, validating-structure)
+- [ ] Add `agent: true` to multi-step investigation skills (execute-task, scaffold-project, close-session, plan-implementation, validate-structure)
 
 ---
 
@@ -212,7 +212,7 @@ Lower-priority audit findings — quality improvements, not blocking operation.
 - [ ] Collect external references for state management + orchestration (user queued reminder)
 - [ ] State management standardization ideas — evaluate after full audit patterns visible (user queued reminder)
 - [ ] Validate existing project (e.g., HEC-RAS) with latest CAB protocols end-to-end (user queued reminder)
-- [ ] deep dive: have statistical/pattern/trend analyses as additional optional/advanced verification, as part of post-eval (in addition to standalone scoring/risk classification system e.g. see 'auditing-workspace' skill classification)
+- [ ] deep dive: have statistical/pattern/trend analyses as additional optional/advanced verification, as part of post-eval (in addition to standalone scoring/risk classification system e.g. see 'audit-workspace' skill classification)
 
 ### Strategic — Global Orchestrator Specialization
 
@@ -351,7 +351,7 @@ Lower-priority audit findings — quality improvements, not blocking operation.
 - [X] T5-07: Managed settings documentation (COVERED: global-user-config.md + memory-claudemd.md)
 - [X] T5-08: INDEX.md final update — master 33→36, components 7→10, op-patterns 11→12
 - [X] T5-09: Official `.claude/` directory schema alignment — 8 items added to global schema tree
-- [X] T5-10: `/session-close` skill — standardized session state persistence + context handoff
+- [X] T5-10: `/close-session` skill — standardized session state persistence + context handoff
 - [X] T5-11: `/sync-check` command — automated CAB↔global drift detection
 
 ### PA-01: Global Config Audit ✅ (2026-04-06)
@@ -364,8 +364,8 @@ Lower-priority audit findings — quality improvements, not blocking operation.
 <details>
 <summary>P1-HOT: Initial 6-Extension Reconciliation ✅ (2026-04-03)</summary>
 
-- [X] Merge `architecture-analyzer` skill INTO CAB plugin (global → CAB, cleaned stale refs)
-- [X] Merge `planning-implementation` skill + assets INTO CAB plugin (global → CAB, 3 files)
+- [X] Merge `analyze-architecture` skill INTO CAB plugin (global → CAB, cleaned stale refs)
+- [X] Merge `plan-implementation` skill + assets INTO CAB plugin (global → CAB, 3 files)
 - [X] Reconcile `verifier` agent (CAB authoritative → deployed to global)
 - [X] Update `commit-push-pr` command (CAB authoritative → deployed to global)
 - [X] Update `context-sync` command (CAB authoritative → deployed to global)
@@ -415,7 +415,7 @@ Lower-priority audit findings — quality improvements, not blocking operation.
 - [X] Revise `multi-agent-collaboration.md` to v2.0 — Worktrees-first, Agent Teams, effort scaling, cross-session persistence
 - [X] Create verifier agent (`agents/verifier.md`) with adversarial challenge patterns
 - [X] Create orchestrator agent (`agents/orchestrator.md`) with PLAN→VERIFY→COMMIT enforcement
-- [X] Create `skills/executing-tasks/SKILL.md` — Standard task execution protocol as model-invoked skill
+- [X] Create `skills/execute-task/SKILL.md` — Standard task execution protocol as model-invoked skill
 - [X] Update agent template with Verification (REQUIRED) section
 - [X] Update CLAUDE.md template — Hybrid: Role, Domain Guidelines, Constraints, Guardrails, Workflows, Verification, State Management, Extension Registry
 - [X] Update global CLAUDE.md template (`templates/global/CLAUDE.md.template`)
@@ -457,8 +457,8 @@ Lower-priority audit findings — quality improvements, not blocking operation.
 <details>
 <summary>P-LIVE: Skill Expansion ✅</summary>
 
-- [X] Create planning-implementation, assessing-quality, designing-workflows, visualizing-data skills
-- [X] Broaden architecture-analyzer description
+- [X] Create plan-implementation, assessing-quality, designing-workflows, visualizing-data skills
+- [X] Broaden analyze-architecture description
 - [X] Verify all 8 skills load via /memory
 
 </details>
@@ -466,7 +466,7 @@ Lower-priority audit findings — quality improvements, not blocking operation.
 <details>
 <summary>P-LIVE: A-Team/Product-Design Integration ✅</summary>
 
-- [X] Create reference/INDEX.md, update commands, update planning-implementation skill
+- [X] Create reference/INDEX.md, update commands, update plan-implementation skill
 
 </details>
 

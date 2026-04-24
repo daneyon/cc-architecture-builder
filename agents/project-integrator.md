@@ -4,7 +4,7 @@ description: Analyzes existing projects and proposes Claude Code architecture in
 tools: Read, Glob, Grep, Write, Edit, Bash
 model: opus
 effort: high
-skills: architecture-advisor, creating-components, scaffolding-projects, validating-structure
+skills: architecture-advisor, create-components, scaffold-project, validate-structure
 memory: user
 ---
 

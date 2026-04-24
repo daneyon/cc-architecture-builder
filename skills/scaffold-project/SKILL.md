@@ -1,5 +1,5 @@
 ---
-name: scaffolding-projects
+name: scaffold-project
 description: >-
   Create new CC project structures from scratch. Interactive discovery, structure
   recommendation, directory scaffolding, core file creation, git init. Triggers:

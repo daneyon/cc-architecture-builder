@@ -21,11 +21,11 @@
 
 | Skill | Summary |
 |-------|---------|
-| `architecture-analyzer` | Codebase analysis, system architecture design, ADRs |
+| `analyze-architecture` | Codebase analysis, system architecture design, ADRs |
 | `assessing-quality` | Testing strategies, quality frameworks, acceptance criteria |
 | `claude-docs-helper` | Fetch/search official CC docs from docs.claude.com |
 | `designing-workflows` | Process flows, automation pipelines, orchestration patterns |
-| `planning-implementation` | Project scoping, phased deliverables, SOW generation |
+| `plan-implementation` | Project scoping, phased deliverables, SOW generation |
 | `presentation-outline` | Structured outline with timing and visual strategy |
 | `readme-generator` | Python project README documentation |
 | `slide-designer` | HTML presentations, PowerPoint conversion |
@@ -83,7 +83,7 @@
 
 - **Agents (4)**: architecture-advisor, orchestrator, project-integrator, verifier
 - **Commands (14)**: add-agent, add-command, add-skill, commit-push-pr, context-sync, execute-task, init-plugin, init-worktree, integrate-existing, kb-index, new-global, new-project, techdebt, validate
-- **Skills (5)**: creating-components, executing-tasks, quick-scaffold, scaffolding-projects, validating-structure
+- **Skills (5)**: create-components, execute-task, quick-scaffold, scaffold-project, validate-structure
 
 ### claude-hud
 

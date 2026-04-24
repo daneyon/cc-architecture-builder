@@ -12,7 +12,7 @@
 
 1. **14:25Z Bootstrap** — Session 28 read all 4 state files per standardized protocol. Immediately burned ~40K tokens (62% of context) on state-file intake alone. `current-task.md` was 174 lines (74% over its <100 hard target). `progress.md` hit `Read` truncation limit (22K tokens). `TODO.md` hit truncation limit (10K tokens). Problem was obvious on turn 1.
 
-2. **15:04Z User confrontation** — User pointed out the regression in unmistakable terms: *"i've never properly counted how much tokens the original bootstrapping used to cost, but it's never been this much (since our updates earlier this week)."* Directed investigation via `planning-implementation` + `cab:execute-task`.
+2. **15:04Z User confrontation** — User pointed out the regression in unmistakable terms: *"i've never properly counted how much tokens the original bootstrapping used to cost, but it's never been this much (since our updates earlier this week)."* Directed investigation via `plan-implementation` + `cab:execute-task`.
 
 3. **15:06Z Honest acknowledgment** — Owned the math: ~50-55K state-file load + ~20K plugin/tool overhead + ~5K response = ~80K tokens for a simple session transfer. 4-5× regression from pre-LL-25 baseline.
 

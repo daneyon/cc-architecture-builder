@@ -42,7 +42,7 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 ### Wave 1 — Hygiene Batch (5 rows; all L effort)
 
 **Rows**: UXL-008, UXL-019, UXL-020, UXL-021, UXL-024
-**Coupling rationale**: All L/L (low value + low effort) — none individually warrants `/cab:planning-implementation` overhead. Batched inline to clear the backlog in one focused pass.
+**Coupling rationale**: All L/L (low value + low effort) — none individually warrants `/cab:plan-implementation` overhead. Batched inline to clear the backlog in one focused pass.
 **MoSCoW per row (Wave 1 release)**: M, M, M, M, M
 **Execution approach**: Ad-hoc inline with `[UXL-NNN]` commits per row; uxl-update.py helper for resolutions.
 
@@ -74,7 +74,7 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 **Rows**: UXL-002 (commands→skills migration audit), UXL-001 (default setup protocol project-schema-first)
 **Coupling rationale**: UXL-002 produces mapping of existing skill↔command pairs that may inform UXL-001 scope (if default setup creates commands, the commands-deprecation question lands here). Sequential execution.
 **MoSCoW**: M (UXL-002), S (UXL-001)
-**Execution approach**: TWO separate `/cab:planning-implementation` invocations — these are deep strategic work. UXL-002 FIRST; user reviews mapping; decides on migration sequencing; UXL-001 follows with informed context.
+**Execution approach**: TWO separate `/cab:plan-implementation` invocations — these are deep strategic work. UXL-002 FIRST; user reviews mapping; decides on migration sequencing; UXL-001 follows with informed context.
 
 **Why not Wave 1 despite user's original brain-dump**: Both are H/M. Hygiene batch unblocks context; hook bracket proves the per-row planning pattern; THEN strategic work gets full attention.
 
@@ -112,7 +112,7 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 **UXL-014 + UXL-015 auto-supersede**: when UXL-025 lands, it subsumes the "CAB provides" notes convention. Log them as `status=superseded` at UXL-025 resolution.
 
 **MoSCoW**: M (UXL-025), S (UXL-034)
-**Execution approach**: Two separate `/cab:planning-implementation` plans — UXL-025 is architectural; UXL-034 is skill scaffolding. Can execute in parallel worktrees if desired.
+**Execution approach**: Two separate `/cab:plan-implementation` plans — UXL-025 is architectural; UXL-034 is skill scaffolding. Can execute in parallel worktrees if desired.
 
 **Estimated cost**: UXL-025 = 1-2 sessions; UXL-034 = 2-3 sessions (skill + measurement infrastructure + KPI rollup + documentation).
 
@@ -120,7 +120,7 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 
 ### Wave 7 — Architecture Open Questions (3 rows; light batch)
 
-**Rows**: UXL-003 (CAB orchestrator subagent global-default decision), UXL-023 (Dream consolidation skill — narrowed scope), UXL-006 (planning-implementation a-team + product-design-cycle integration — verify remaining scope post user's SKILL.md commit)
+**Rows**: UXL-003 (CAB orchestrator subagent global-default decision), UXL-023 (Dream consolidation skill — narrowed scope), UXL-006 (plan-implementation a-team + product-design-cycle integration — verify remaining scope post user's SKILL.md commit)
 **Coupling rationale**: All M-value architecture-review items. UXL-003 is analysis-only (no implementation needed, just a decision). UXL-023 scope was narrowed post-UXL-022 docs refresh. UXL-006 may be largely resolved already via user's 0275794 commit — needs re-triage.
 **MoSCoW**: M (UXL-003), C (UXL-023), C (UXL-006)
 **Execution approach**: Batch as "architecture review session" — each row gets a short plan OR a decision memo. UXL-006 may resolve to `status=superseded` if user's edits already address the scope.
@@ -134,7 +134,7 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 **Rows**: UXL-005 (KB → knowledge-graph standardization)
 **Coupling rationale**: Foundational architectural work. H/H effort but unblocks UXL-004, UXL-009, UXL-010 downstream. Dedicated wave because scope is substantial and stands alone.
 **MoSCoW**: M
-**Execution approach**: Full `/cab:planning-implementation` with multi-phase plan; likely 3-5 sessions. Should absorb HydroCast KG patterns (cross-refs UXL-009 deferred).
+**Execution approach**: Full `/cab:plan-implementation` with multi-phase plan; likely 3-5 sessions. Should absorb HydroCast KG patterns (cross-refs UXL-009 deferred).
 
 **Pre-req**: Wave 6 completion preferable (UXL-025 + UXL-034 = stable state-mgmt foundation before adding KG on top).
 
@@ -161,7 +161,7 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 **Deferral rationale**: CAB still iterating state-mgmt through Wave 5 (LL-28 state-write protocol) + Wave 6 (CLAUDE.md v2 + state-mgmt-capture skill). Aligning HydroCast now = re-aligning later. Wave 10 placement avoids redundant work. HydroCast Phase D comparison (queued on PR #8) will naturally surface alignment deltas as byproduct.
 
 **MoSCoW**: S
-**Execution approach**: Dedicated `/cab:planning-implementation` plan; possibly split into sub-phases per alignment dimension. Couples to Phase D output where available.
+**Execution approach**: Dedicated `/cab:plan-implementation` plan; possibly split into sub-phases per alignment dimension. Couples to Phase D output where available.
 
 **Estimated cost**: 3-5 sessions.
 
@@ -209,7 +209,7 @@ Wave 9 completion closes the current pass cycle. Pass 2 opens fresh with new cap
 ### Execution Discipline Standard (user directive 2026-04-22)
 
 Rows and waves of **L effort** may execute inline with ad-hoc sequencing (Wave 1 hygiene batch).
-Rows and waves of **M-H effort** MUST go through `/cab:planning-implementation` → `/cab:execute-task` per the standard protocol. Per-wave plans are preferred over per-row plans when rows are tightly coupled (proven pattern: UXL-011+UXL-013 trio, UXL-022+UXL-032 trio, UXL-027+UXL-028 pair).
+Rows and waves of **M-H effort** MUST go through `/cab:plan-implementation` → `/cab:execute-task` per the standard protocol. Per-wave plans are preferred over per-row plans when rows are tightly coupled (proven pattern: UXL-011+UXL-013 trio, UXL-022+UXL-032 trio, UXL-027+UXL-028 pair).
 
 ### Sign-Off Gate
 
@@ -222,4 +222,4 @@ This wave plan awaits user review before Wave 1 execution begins. Adjustments we
 - `knowledge/reference/prioritization-frameworks.md` — tiered stack applied
 - `notes/ux-log-001-2026-04-22-pass-1.csv` — source data (34 rows)
 - `notes/progress.md` Session 35 — prior informal ranking (top-10 list; this pass formalizes)
-- User directive 2026-04-22: "M-H effort tasks should be operating based on our usual standard of /planning-implementation and /cab:execute-task"
+- User directive 2026-04-22: "M-H effort tasks should be operating based on our usual standard of /plan-implementation and /cab:execute-task"

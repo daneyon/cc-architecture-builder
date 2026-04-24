@@ -8,7 +8,7 @@ Create a new custom slash command in the current project.
 
 ## Behavior
 
-Use the `creating-components` skill to:
+Use the `create-components` skill to:
 
 1. **Gather command details**:
    - Command name (what user types after `/`)

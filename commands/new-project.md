@@ -23,7 +23,7 @@ When invoked, initiate the project scaffolding workflow:
    and suggest appropriate phase-gate criteria. Not all projects need all 7 phases —
    adapt to actual complexity.
 
-2. **Based on responses, use the `scaffolding-projects` skill** to:
+2. **Based on responses, use the `scaffold-project` skill** to:
    - Create directory structure appropriate to complexity
    - Generate core files from templates
    - Initialize git repository

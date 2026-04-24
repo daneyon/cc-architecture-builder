@@ -121,7 +121,7 @@ content — for true scrub, use `git filter-repo` (requires explicit user intent
 - **filesystem-patterns.md** — Git Tracking Policy section documents the full protocol
 - **LL-25** — The lesson that motivated this skill
 - **hooks/pre-push-state-review.json** — The deterministic gate layer
-- **session-close skill** — Runs after each session; state is curated before push
+- **close-session skill** — Runs after each session; state is curated before push
 
 ## Verification
 
@@ -136,5 +136,5 @@ This skill is working correctly when:
 ## See Also
 
 - [filesystem-patterns.md](../../knowledge/operational-patterns/state-management/filesystem-patterns.md) — Full state management policy
-- [session-close](../session-close/SKILL.md) — Session state persistence (runs before pre-push review)
+- [close-session](../close-session/SKILL.md) — Session state persistence (runs before pre-push review)
 - `lessons-learned.md` LL-25 — Rationale and multi-archetype justification

@@ -229,7 +229,7 @@ CC's harness runs a 7-layer memory architecture: tool result storage (L1), micro
 
 The pattern:
 
-1. **Structural weaving is the enforcement mechanism** — protocols, skills, agents, and hooks reference LL IDs explicitly where their behavior is governed by a past correction. Example: the `executing-tasks` skill references LL-12 ("never delegate file writes to background agents") directly in its delegation step. The enforcement lives in the skill, not in a cold-start re-read.
+1. **Structural weaving is the enforcement mechanism** — protocols, skills, agents, and hooks reference LL IDs explicitly where their behavior is governed by a past correction. Example: the `execute-task` skill references LL-12 ("never delegate file writes to background agents") directly in its delegation step. The enforcement lives in the skill, not in a cold-start re-read.
 2. **Classification drives cadence** — each LL carries a Classification (`INTEGRATED` / `ACTIVE` / `ADVISORY` / `ARCHIVED`). `INTEGRATED` LLs are woven into a skill/hook/rule and don't need operational re-reading. `ACTIVE` LLs lack structural weaving and should be re-read at phase transitions until integrated.
 3. **New LL entries trigger protocol updates** — adding an LL is the *start* of integration, not the end. The corresponding protocol/skill/agent must cite the LL or mechanically prevent the failure mode. Until weaving exists, the entry's Classification is `ACTIVE` (not `INTEGRATED`).
 4. **On-demand reads at phase transitions** — at major phase boundaries in a task, scan the LL Classification column for `ACTIVE` entries touching the next phase's domain. Grep specific LL IDs when a decision matches their governed domain. See `bootstrap-read-pattern.md §When to Read lessons-learned.md`.
@@ -261,8 +261,8 @@ Token cost ~130/session (0.065% budget) = negligible. A tense-neutral single-com
 
 ### Enforcement Layers (Architecturally Woven)
 
-- `skills/session-close/SKILL.md` Step 4 — two-phase close protocol
-- `skills/executing-tasks/SKILL.md` Phase 5 — requires post-commit refresh + second commit
+- `skills/close-session/SKILL.md` Step 4 — two-phase close protocol
+- `skills/execute-task/SKILL.md` Phase 5 — requires post-commit refresh + second commit
 - `hooks/scripts/pre-push-state-review.sh` — anchored status-line regex blocks stale push
 - Commit-per-phase cadence (DD-4) — recommended for multi-phase tasks
 
@@ -297,7 +297,7 @@ See LL-26 in `notes/lessons-learned.md` for full root cause + corrective protoco
 
 **Integration flow**: new LL enters as `ACTIVE-P0/P1/P2` → structural weaving lands in a skill/hook/rule → re-classify to `INTEGRATED` → if later superseded, re-classify to `ARCHIVED`. Re-prioritization and re-scoring happen at major task phase transitions or during periodic audit, not continuously.
 
-**Schema heritage**: modeled on the `auditing-workspace` classification-schema pattern (MISSING/STALE/ENHANCEMENT/CURRENT + severity), adapted to the LL lifecycle. Deliberately kept to two dimensions (Classification + Priority) for operational simplicity.
+**Schema heritage**: modeled on the `audit-workspace` classification-schema pattern (MISSING/STALE/ENHANCEMENT/CURRENT + severity), adapted to the LL lifecycle. Deliberately kept to two dimensions (Classification + Priority) for operational simplicity.
 
 ---
 
@@ -319,7 +319,7 @@ protocol is formally superseded (not just evolved).
 | LL-29 — Bootstrap token efficiency restoration (3-file cascade + T1 boundary + L1 hard gate) | `8dfef75..572988e` (P1..P5) | `git revert 572988e^..572988e` (or per-phase reverts) | Multi-commit span across Sessions 28-32. Each phase independently revertable per Session 27 directive. See `notes/impl-plan-bootstrap-efficiency-2026-04-11.md`. |
 | UXL-011 — /sync-check shadow detection | `2185da9` | `git revert 2185da9` | Adds shadow-scan step to sync-check command. Declarative-command edit only; no new backing script. |
 | UXL-012 — agent-resolution.md KB card (LL-27 canonical spec) | `a9796fa` | `git revert a9796fa` | Reference documentation; no runtime behavior. Revert = remove card + INDEX.md delta. |
-| UXL-013 — Shadow scan folded into /validate --cab-audit | `e985760` | `git revert e985760` | Adds criterion 15 to agent-standards.md + shadow-scan step to auditing-workspace SKILL.md. |
+| UXL-013 — Shadow scan folded into /validate --cab-audit | `e985760` | `git revert e985760` | Adds criterion 15 to agent-standards.md + shadow-scan step to audit-workspace SKILL.md. |
 | UXL-018 — Bootstrap token cost tracking (soft signal framing) | `d1a0b23` | `git revert d1a0b23` | progress.md header convention + soft-signal philosophy in bootstrap-read-pattern.md. Signal, not prescription (LL-29 alignment). |
 | UXL-022 — CC memory layer alignment KB card | `7db3a2a` | `git revert 7db3a2a` | Reference documentation; no runtime behavior. |
 | UXL-024 — Pre-push backtick-wrapped marker exclusion | `430fe64` | `git revert 430fe64` | Second-pass filter on draft-marker regex. LL-26 refinement. |

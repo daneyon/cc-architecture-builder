@@ -173,6 +173,8 @@ Routes to `validating-structure` OR `auditing-workspace` based on `--cab-audit` 
 
 ## F012 Naming Standardization — Proposed Skill Renames
 
+> **D5 history**: originally proposed single-word names (Phase 2 SME sign-off 2026-04-24 AM). Amended Session 37 2026-04-24 PM to two-word default after user UX observation on skill-picker type-as-you-go narrowing. The table below is the FINAL rename target applied in Phase 3b.1. See `impl-plan-commands-skills-migration-2026-04-24.md` §D5 Amendment for rationale.
+
 Apply verb+object concise convention during Phase 3 carry-over. Cross-references in CLAUDE.md, plugin.json, KB, and other skills/agents must be updated atomically with renames.
 
 | Current skill | Proposed rename | Rationale |

@@ -110,7 +110,7 @@ For non-trivial tasks, force plan-first execution:
 - **CLI**: `claude --plan` to start in plan-only mode
 - **In-session**: Type "plan mode" or Shift+Tab toggle
 
-Plan Mode makes Claude outline approach before writing code. The CAB `executing-tasks` skill enforces this automatically.
+Plan Mode makes Claude outline approach before writing code. The CAB `execute-task` skill enforces this automatically.
 
 ---
 

@@ -29,7 +29,7 @@ A flat-notes CSV tracker (`notes/ux-log-*.csv`) + companion guide (`notes/ux-log
 - Preserves user raw comments full-fidelity in `user_comment` column; orchestrator synthesis in `orchestrator_take`
 - Anchors every entry to ISO 9241-210 lifecycle stage + a surface-appropriate heuristic/principle
 - Routes resolved entries to `LL` / `KB` / `rule` / `skill` / `hook` / `TODO` / `progress` / `followup` via `downstream_target`
-- Enforces `/cab:planning-implementation` → `/cab:execute-task` as the ONLY path to execution (no direct row-to-commit). `planning` status between `triaged` and `in-progress` makes this machine-enforceable.
+- Enforces `/cab:plan-implementation` → `/cab:execute-task` as the ONLY path to execution (no direct row-to-commit). `planning` status between `triaged` and `in-progress` makes this machine-enforceable.
 - Programmatically links to plan files (`linked_plan`) and commits (`linked_commit`) for deterministic state-mgmt traceability
 - Jira/Linear-portable schema for optional future export
 
@@ -74,7 +74,7 @@ A flat-notes CSV tracker (`notes/ux-log-*.csv`) + companion guide (`notes/ux-log
 **In scope**:
 - CSV template + guide + examples for the CAB tracker
 - Two new KB cards in `knowledge/reference/`
-- Relocation of 3 orphan files from `skills/planning-implementation/references/` → `knowledge/reference/` (per established folder purpose)
+- Relocation of 3 orphan files from `skills/plan-implementation/references/` → `knowledge/reference/` (per established folder purpose)
 - Initial pass population (user's 7 items + deferred TODO absorption)
 - Orchestrator triage of initial pass
 - Documented state-linkage protocol (hook spec — implementation in a separate tracker row)
@@ -130,8 +130,8 @@ A flat-notes CSV tracker (`notes/ux-log-*.csv`) + companion guide (`notes/ux-log
 | F005 | UX-testing-for-agentic-OS KB card | As an adopter (CAB or project), I want the coupled traditional+CC-native protocol documented | `knowledge/reference/ux-testing-agentic-os.md` passes audit, ≤300 lines, maps surfaces → frameworks → evidence types → verification instruments | Must |
 | F006 | Initial pass population | As a user, I want my 7 brain-dump items + deferred TODO items logged verbatim in a first pass | `notes/ux-log-001-2026-04-22-pass-1.csv` contains ≥25 rows; `user_comment` columns are verbatim (not paraphrased) for user-originated items | Must |
 | F007 | Orchestrator triage of initial pass | As user reviewing the pass, I want orchestrator synthesis, framework anchors, and routing decisions populated | `orchestrator_take`, `framework_anchor`, `downstream_target`, `kano` (where applicable), `rice_score` (where ≥3 peers) are populated; user signs off before Phase 5 | Must |
-| F008 | State-linkage protocol spec | As an operator invoking planning-implementation + cab:execute-task, I want deterministic row-status updates | Phase 5 deliverable: written spec for `ux-log-sync.sh` hook behavior, status-transition rules, commit-message UXL reference convention. Implementation is a separate tracker row. | Should |
-| F009 | Relocate orphan references | As skill-maintenance hygiene, I want `skills/planning-implementation/references/*` moved to `knowledge/reference/` (correct semantic home) | 3 files relocated, `planning-implementation/SKILL.md` references updated, `knowledge/reference/INDEX.md` updated | Must |
+| F008 | State-linkage protocol spec | As an operator invoking plan-implementation + cab:execute-task, I want deterministic row-status updates | Phase 5 deliverable: written spec for `ux-log-sync.sh` hook behavior, status-transition rules, commit-message UXL reference convention. Implementation is a separate tracker row. | Should |
+| F009 | Relocate orphan references | As skill-maintenance hygiene, I want `skills/plan-implementation/references/*` moved to `knowledge/reference/` (correct semantic home) | 3 files relocated, `plan-implementation/SKILL.md` references updated, `knowledge/reference/INDEX.md` updated | Must |
 | F010 | Distributable template spec | As a CAB-consuming project, I want a copy-paste-adoptable template after CAB validates it internally | Phase 6 deliverable: `knowledge/reference/ux-log-template/` extracted generic template with adaptation notes; only after ≥2 pass cycles on CAB itself | Could |
 
 ### 2.2 Non-Functional Requirements
@@ -164,13 +164,13 @@ knowledge/reference/
 ├── INDEX.md                                 # update to reference new files (F004, F005)
 ├── prioritization-frameworks.md             # NEW (F004)
 ├── ux-testing-agentic-os.md                 # NEW (F005)
-├── requirements-doc-guide.md                # RELOCATED from skills/planning-implementation/references/ (F009)
+├── requirements-doc-guide.md                # RELOCATED from skills/plan-implementation/references/ (F009)
 ├── visualization-workflow.md                # RELOCATED (F009)
 ├── workflow-processflow.md                  # RELOCATED + UTF-16→UTF-8 fix (F009) - surfaces as first tracker row
 ├── product-design-cycle.md                  # existing
 └── a-team-database.yaml                     # existing
 
-skills/planning-implementation/
+skills/plan-implementation/
 ├── SKILL.md                                 # update references to point to knowledge/reference/ (F009)
 └── [references/ folder removed after relocation]
 ```
@@ -206,7 +206,7 @@ User-fill burden for KG-minimum participation: **1 column (`surface`)**. Everyth
 │ tracker row     │  status=open → triaged
 │ UXL-NNN         │
 └────────┬────────┘
-         │ /cab:planning-implementation invoked
+         │ /cab:plan-implementation invoked
          ▼
 ┌────────────────────────┐     writes: linked_plan = notes/impl-plan-<slug>-<date>.md
 │ impl-plan-NNN.md       │     updates: status = planning
@@ -230,7 +230,7 @@ User-fill burden for KG-minimum participation: **1 column (`surface`)**. Everyth
 ```
 
 Hook enforcement (Phase 5 spec; implementation is a later tracker row):
-- Pre-SkillUse hook: detect `/cab:planning-implementation` or `/cab:execute-task` with args referencing `UXL-\d+`; auto-update corresponding row
+- Pre-SkillUse hook: detect `/cab:plan-implementation` or `/cab:execute-task` with args referencing `UXL-\d+`; auto-update corresponding row
 - Post-commit hook: scan commit message for `[UXL-\d+]` pattern; update row's `linked_commit`; run `/validate` subset against UXL acceptance criteria; if pass → status=resolved
 - Script: `hooks/scripts/ux-log-sync.sh` — deterministic row updater
 
@@ -243,7 +243,7 @@ Hook enforcement (Phase 5 spec; implementation is a later tracker row):
 | User-comment preservation | Paraphrase OK / Verbatim only | Verbatim only | User explicit directive; LL-28 dialogue-state preservation |
 | Prioritization at log time | Single framework / Tiered stack | Tiered (Value-Effort+Severity at log; Kano+RICE at triage; MoSCoW at promotion) | Minimizes log-time friction; richer triage when orchestrator attention available |
 | Framework anchor column | Universal / Surface-conditional | Surface-conditional vocabularies | Nielsen/WCAG don't apply to meta/agentic; CAB-DP doesn't apply to GUI. Forcing universal would produce junk data. |
-| Prioritization KB home | In `notes/ux-log-guide.md` (P1) / `knowledge/reference/` (P2) / `planning-implementation/SKILL.md` (P3) | P2 (`knowledge/reference/prioritization-frameworks.md`) | Universal utility asset; planning-implementation skill + tracker guide both reference it; wrapper axiom (don't duplicate) |
+| Prioritization KB home | In `notes/ux-log-guide.md` (P1) / `knowledge/reference/` (P2) / `plan-implementation/SKILL.md` (P3) | P2 (`knowledge/reference/prioritization-frameworks.md`) | Universal utility asset; plan-implementation skill + tracker guide both reference it; wrapper axiom (don't duplicate) |
 | Orphan references migration | Keep in skill / Relocate to knowledge/reference/ | Relocate | `knowledge/reference/INDEX.md` defines it as "Generalized conceptual frameworks... advisory references" — exact semantic match. Orphan-from-skill was the deviation. |
 
 ---
@@ -275,7 +275,7 @@ Hook enforcement (Phase 5 spec; implementation is a later tracker row):
 | 2.3 Author examples | `notes/ux-log-examples.csv` | ≥5 rows (1 per surface); each demonstrates realistic log-time + triage-time population | pending |
 | 2.4 Author prioritization KB card | `knowledge/reference/prioritization-frameworks.md` | ≤300 lines, frontmatter-compliant per kb-conventions, source citations, tiered-application section | pending |
 | 2.5 Author UX-testing-agentic-OS KB card | `knowledge/reference/ux-testing-agentic-os.md` | ≤300 lines, frontmatter-compliant, couples traditional+CC-native, per-surface evidence table | pending |
-| 2.6 Relocate orphan references | `skills/planning-implementation/references/*` → `knowledge/reference/*` | 3 files moved; `workflow-processflow.md` converted UTF-16→UTF-8 during move; `planning-implementation/SKILL.md` references updated; `knowledge/reference/INDEX.md` updated | pending |
+| 2.6 Relocate orphan references | `skills/plan-implementation/references/*` → `knowledge/reference/*` | 3 files moved; `workflow-processflow.md` converted UTF-16→UTF-8 during move; `plan-implementation/SKILL.md` references updated; `knowledge/reference/INDEX.md` updated | pending |
 | 2.7 Commit | git commit | Single commit or logical split; message references this plan file | pending |
 
 **Phase Gate**: `/validate --cab-audit` passes on new KB files; `/validate` passes overall; no `notes/` subdirs created.
@@ -305,7 +305,7 @@ Hook enforcement (Phase 5 spec; implementation is a later tracker row):
 | 4.3 Fill `kano` | UX-surface rows only (gui + applicable cli/agentic) | Rows where Kano doesn't map left blank; rationale implicit via empty | pending |
 | 4.4 Fill `rice_score` | Rows where ≥3 comparable peers in same surface/category exist | Numerical score; others left blank | pending |
 | 4.5 Fill `downstream_target` | All rows | One of 8 values per Appendix B.downstream_target | pending |
-| 4.6 Produce prioritized queue | Ordered list in triage commit message or `notes/progress.md` update | Top N rows identified for next `/cab:planning-implementation` invocations; rationale cited | pending |
+| 4.6 Produce prioritized queue | Ordered list in triage commit message or `notes/progress.md` update | Top N rows identified for next `/cab:plan-implementation` invocations; rationale cited | pending |
 | 4.7 User review + sign-off | User inline approval | User either approves triage as-is or provides per-row corrections; plan file's Phase 4 section updated with approval note | pending |
 
 **Phase Gate**: User sign-off on triage. Prioritized queue exists. Phase 5 spec is reviewed.
@@ -397,7 +397,7 @@ CSV and markdown files — `git revert` on any commit; zero external service imp
 - [ ] `knowledge/reference/prioritization-frameworks.md` — deliverable of Phase 2
 - [ ] `knowledge/reference/ux-testing-agentic-os.md` — deliverable of Phase 2
 - [ ] `knowledge/reference/INDEX.md` updated — Phase 2
-- [ ] `skills/planning-implementation/SKILL.md` reference updates — Phase 2
+- [ ] `skills/plan-implementation/SKILL.md` reference updates — Phase 2
 - [ ] `.claude/rules/kb-conventions.md` updated for `[UXL-NNN]` commit convention — Phase 5
 
 ### 8.2 Maintenance Plan
@@ -429,7 +429,7 @@ This IS an AI-integrated project (CAB is the agentic OS platform). Applicable co
 | Framework anchor selection | Review / override | **Default author** |
 | Priority triage (kano/RICE) | Approves / re-ranks | **Default author** |
 | Promotion decision (downstream_target) | Approves | **Default author** |
-| Plan creation (/cab:planning-implementation) | SME verification before execute | **Default author** |
+| Plan creation (/cab:plan-implementation) | SME verification before execute | **Default author** |
 | Execution | Approves via command invocation | **Default author** once approved |
 
 ### Responsible AI Checklist (applicable subset)
@@ -614,9 +614,9 @@ open → triaged → planning → in-progress → resolved
 
 > It's my general (assumed) understanding from my UX so far of trying to implement CAB to integrate CC CLI into project codebases, many of these, esp. the above item #4 imo,  could have been influenced by our lack of proper KB standardization to turn the static knowledge base into holistically standardized and efficiently generalized knowledge graph with readily actionable/programmable metadata details for orchestration and state management. some of these will be reflective when we review current standardized protocols of Hydrocast project's knowledge graph essentially programmatically linking the notes\ folder of state mangement and knowledge\ folder of customized domain knowledge base.
 
-### UXL-006 — surface=meta (planning-implementation skill enhancement)
+### UXL-006 — surface=meta (plan-implementation skill enhancement)
 
-> i made some minor edits to the 'planning-implementation' skill that hasn't been properly recorded via git yet. Review yourself what i've changed/edited/added. I have additional plans to properly incorporate the generalized comprehensive "a-team" and full-stack product design cycle templates to be part of the standard protocol to refer as general conceptual context to strategize holistically and comprehensively, then obviously naturally, adaptively/agentically optimizing to be tailored specifically to the project-specific and/or phase task-specific intentions from the generic comprehensive version. It doesn't necessarily have to be done within this specific skill alone, but we need to strategically plan how we can properly/systematically leverage these resources more adapatively in knowledge\reference
+> i made some minor edits to the 'plan-implementation' skill that hasn't been properly recorded via git yet. Review yourself what i've changed/edited/added. I have additional plans to properly incorporate the generalized comprehensive "a-team" and full-stack product design cycle templates to be part of the standard protocol to refer as general conceptual context to strategize holistically and comprehensively, then obviously naturally, adaptively/agentically optimizing to be tailored specifically to the project-specific and/or phase task-specific intentions from the generic comprehensive version. It doesn't necessarily have to be done within this specific skill alone, but we need to strategically plan how we can properly/systematically leverage these resources more adapatively in knowledge\reference
 
 ### UXL-007 — surface=meta (CLAUDEmd template + memory layer alignment)
 
@@ -624,14 +624,14 @@ open → triaged → planning → in-progress → resolved
 
 ### Additional seed: user follow-up on schema/framework
 
-> for our UI/UX test tracker template, I like the idea of having a column of my review comments and another column for your general concise takes/internal reasoning on my comments. I think "recommended action" column is not needed, but do be aware each of these ideas/test comments should be categorically grouped/phased and then prioritized via our standardized practice of leveraging '/planning-implementation' to plan and '/cab:execute-task' to execute; aka, you should never be rolling straight to execution with such generic, brief context as the implementation plan. [...]
+> for our UI/UX test tracker template, I like the idea of having a column of my review comments and another column for your general concise takes/internal reasoning on my comments. I think "recommended action" column is not needed, but do be aware each of these ideas/test comments should be categorically grouped/phased and then prioritized via our standardized practice of leveraging '/plan-implementation' to plan and '/cab:execute-task' to execute; aka, you should never be rolling straight to execution with such generic, brief context as the implementation plan. [...]
 > basically, this idea of creating a properly structured iterative/live UI/UX test tracker is my "next practical step" based on my current UXs of trying to leverage CAB for multiple projects, where we are now systematizing the state mgmt and the planned enhancement of KB more programmatically with this tabular repo as the backend db and the context knowledge graph visualized as the "frontend", where all TODO tasks of past, active, and deferred/potential ideas are centralized with proper seamless filtering mechanisms
 
 (This excerpt captures the meta-framing — preserved here for downstream reference but NOT a tracker row itself; the 7 items above and the self-dogfood row below are the rows.)
 
 ### Dogfood self-reference: UXL-008 — surface=meta, drift
 
-> Discovered during Phase 1 plan research (2026-04-22): `skills/planning-implementation/references/workflow-processflow.md` is UTF-16 encoded, rendering as spaced characters when read. Identical failure mode as HydroCast `USGS_WPI/usgs_data_categories.md` fixed in Session 33. Belongs in `knowledge/reference/` (per folder semantics) AND needs UTF-16→UTF-8 conversion during relocation. This row exists as the first self-application proof that the tracker captures real CAB-internal drift — not just external observations.
+> Discovered during Phase 1 plan research (2026-04-22): `skills/plan-implementation/references/workflow-processflow.md` is UTF-16 encoded, rendering as spaced characters when read. Identical failure mode as HydroCast `USGS_WPI/usgs_data_categories.md` fixed in Session 33. Belongs in `knowledge/reference/` (per folder semantics) AND needs UTF-16→UTF-8 conversion during relocation. This row exists as the first self-application proof that the tracker captures real CAB-internal drift — not just external observations.
 
 ### Deferred TODO source — `notes/TODO.md` lines 50+ (below T1 boundary)
 

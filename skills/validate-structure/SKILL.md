@@ -1,5 +1,5 @@
 ---
-name: validating-structure
+name: validate-structure
 description: >-
   Validate CC project structure against CAB conventions. Checks required files,
   plugin.json, CLAUDE.md, components, security, and KB. Triggers: validate

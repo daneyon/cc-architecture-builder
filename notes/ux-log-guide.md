@@ -113,13 +113,13 @@ Per row (top-to-bottom through new/open rows):
    - `rice_score` if ≥3 peers
    - `downstream_target` — decide routing
 4. Update `status`: `open` → `triaged`
-5. Identify top-N candidates for next `/cab:planning-implementation`
+5. Identify top-N candidates for next `/cab:plan-implementation`
 
 ### Promotion Workflow (per release / sprint / phase batch)
 
 1. Select rows to promote into active release scope
 2. Fill T6 `moscow`
-3. For each promoted row, invoke `/cab:planning-implementation` → produces
+3. For each promoted row, invoke `/cab:plan-implementation` → produces
    `notes/impl-plan-<slug>-<date>.md`
 4. Row's `linked_plan` auto-populates (hook); `status` → `planning`
 5. User approves plan; invoke `/cab:execute-task`; `status` → `in-progress`
@@ -198,9 +198,9 @@ Implementation is deferred to a separate tracker row (self-referential).
 Spec:
 
 - **PreToolUse hook on Skill invocation**: if skill arg matches
-  `UXL-\d+` pattern and skill is `cab:planning-implementation` or
+  `UXL-\d+` pattern and skill is `cab:plan-implementation` or
   `cab:execute-task`, update matching row's `status` column:
-  - `cab:planning-implementation` → status becomes `planning`; writes
+  - `cab:plan-implementation` → status becomes `planning`; writes
     `linked_plan` with emitted plan path
   - `cab:execute-task` → status becomes `in-progress`
 - **PostToolUse hook on git commit**: parse latest commit message for

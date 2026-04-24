@@ -1,5 +1,5 @@
 ---
-name: auditing-workspace
+name: audit-workspace
 description: >-
   Audit CC project workspace against CAB v1.1.0 standards. Read-only 7-dimension
   scored assessment with YAML + markdown artifacts. Triggers: audit workspace,

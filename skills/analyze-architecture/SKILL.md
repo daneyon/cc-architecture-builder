@@ -1,5 +1,5 @@
 ---
-name: architecture-analyzer
+name: analyze-architecture
 description: >-
   Deep codebase analysis and system architecture design. Covers structure review,
   component decomposition, data modeling, API design, and ADRs. Triggers: review

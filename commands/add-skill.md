@@ -8,7 +8,7 @@ Create a new agent skill in the current project.
 
 ## Behavior
 
-Use the `creating-components` skill to:
+Use the `create-components` skill to:
 
 1. **Gather skill details**:
    - Skill name (gerund form recommended: `analyzing-data`)

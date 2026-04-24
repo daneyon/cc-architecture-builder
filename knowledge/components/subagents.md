@@ -143,8 +143,8 @@ CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=80  # compact earlier
 
 ```yaml
 skills:
-  - executing-tasks
-  - validating-structure
+  - execute-task
+  - validate-structure
 ```
 
 - Listed skills have their **full content** injected into the agent's context at start
@@ -209,7 +209,7 @@ The `orchestrator` agent acts as a central router: receives tasks, classifies th
 ```yaml
 name: orchestrator
 model: opus
-skills: executing-tasks, validating-structure
+skills: execute-task, validate-structure
 ```
 
 See `agents/orchestrator.md` for the full definition.

@@ -5,7 +5,7 @@ category: reference
 tags: [prioritization, rice, moscow, kano, value-effort, wsjf, ice, triage, backlog]
 summary: Eight prioritization frameworks surveyed with when-wins / when-fails / data-cost evaluation, plus CAB's tiered-application stack (Value-Effort+Severity at log-time, Kano+RICE at triage, MoSCoW at promotion). Primary reference for UX-log-tracker's prioritization columns.
 depends_on: []
-related: [planning-implementation, product-design-cycle, ux-testing-agentic-os]
+related: [plan-implementation, product-design-cycle, ux-testing-agentic-os]
 complexity: intermediate
 last_updated: 2026-04-22
 estimated_tokens: 3000
@@ -18,7 +18,7 @@ review_by: 2026-10-22
 
 > CAB operational anchor for `ux-log-*.csv`'s `kano`, `rice_score`, `moscow`
 > columns + `value`/`effort`/`severity` log-time fields. Also consulted by
-> `planning-implementation` skill when sequencing scope. Advisory, not
+> `plan-implementation` skill when sequencing scope. Advisory, not
 > prescriptive — pick the framework whose data/context cost matches the
 > decision stakes.
 
@@ -146,7 +146,7 @@ exactly when release scope is the constraint.
 
 - Tracker rows SHOULD populate Tier 1 always, Tier 2 where conditions met,
   Tier 3 only when a release/sprint scopes the row in.
-- `planning-implementation` skill MAY invoke this reference when sequencing
+- `plan-implementation` skill MAY invoke this reference when sequencing
   SOW phases — apply V/E + Severity at phase level to identify minimum viable
   phase set.
 - When authoring a CAB lessons-learned entry from a tracker row, the

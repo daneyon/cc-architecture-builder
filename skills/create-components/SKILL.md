@@ -1,5 +1,5 @@
 ---
-name: creating-components
+name: create-components
 description: >-
   Scaffold individual CC components (skills, agents, commands, hooks) with proper
   frontmatter, naming, and template compliance. Triggers: add skill, add agent,

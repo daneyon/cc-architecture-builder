@@ -18,7 +18,7 @@ last_updated: 2026-04-22
 |------|---------|
 | [product-design-cycle.md](product-design-cycle.md) | Universal 7-phase product lifecycle (Discovery → Operations) with sub-processes, deliverables, discipline mapping, phase gates, and CC extension mapping. Synthesizes Double Diamond, SDLC, Lean Startup, Design Thinking, and Stage-Gate. |
 | [a-team-database.yaml](a-team-database.yaml) | Machine-parseable roster of 22 product team roles with CC extension mapping, scaling tiers (solo → enterprise), phase participation, and key deliverables per role. Use for team formation suggestions during project initialization. |
-| [requirements-doc-guide.md](requirements-doc-guide.md) | Deep dive on Market / Product / Software Requirements Documents (MRD/PRD/SRD) and hybrid Startup Requirement Document approach. Consulted during planning-implementation scoping for early-stage product work. |
+| [requirements-doc-guide.md](requirements-doc-guide.md) | Deep dive on Market / Product / Software Requirements Documents (MRD/PRD/SRD) and hybrid Startup Requirement Document approach. Consulted during plan-implementation scoping for early-stage product work. |
 | [visualization-workflow.md](visualization-workflow.md) | Hybrid visualization design workflow (Yau + Cleveland-McGill + Munzner nested model). Consulted when planning dashboards, charts, or visualization-heavy deliverables. |
 | [workflow-processflow.md](workflow-processflow.md) | Comparative reference distinguishing workflow diagrams (role-centric sequence) from process flow diagrams (operational detail with decision points). Consulted when selecting diagramming approach. |
 | [prioritization-frameworks.md](prioritization-frameworks.md) | Comparative reference on 8 prioritization frameworks (RICE, MoSCoW, Kano, Value-vs-Effort, WSJF, ICE, Eisenhower, Stack Ranking) with tiered-application stack for log-time / triage-time / promotion-time usage. |
@@ -31,7 +31,7 @@ last_updated: 2026-04-22
   size, and complexity.
 - **`/cab:new-project` command**: References `product-design-cycle.md` to help
   users identify which lifecycle phases their project will traverse.
-- **`planning-implementation` skill**: Uses `product-design-cycle.md`,
+- **`plan-implementation` skill**: Uses `product-design-cycle.md`,
   `requirements-doc-guide.md`, `visualization-workflow.md`, and
   `workflow-processflow.md` as optional conceptual frameworks when structuring
   SOWs and implementation plans.

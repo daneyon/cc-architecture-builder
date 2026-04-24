@@ -5,11 +5,11 @@ category: reference
 tags: [visualization, data-viz, perception, iterative-design, nested-model]
 summary: Hybrid visualization design workflow synthesizing Yau's data-viz process, Cleveland-McGill visual encoding effectiveness, and Munzner's nested model. Advisory reference for planning dashboards, charts, or visualization-heavy deliverables.
 depends_on: []
-related: [planning-implementation, product-design-cycle]
+related: [plan-implementation, product-design-cycle]
 complexity: foundational
 last_updated: 2026-04-22
 estimated_tokens: 1200
-source: CAB-curated synthesis (Yau 2013, Cleveland-McGill 1984, Munzner 2014); relocated from skills/planning-implementation/references/ in Phase 2.6 of impl-plan-ux-log-tracker-2026-04-22.md
+source: CAB-curated synthesis (Yau 2013, Cleveland-McGill 1984, Munzner 2014); relocated from skills/plan-implementation/references/ in Phase 2.6 of impl-plan-ux-log-tracker-2026-04-22.md
 confidence: A
 review_by: 2026-10-22
 ---

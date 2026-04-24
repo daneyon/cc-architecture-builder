@@ -1,5 +1,5 @@
 ---
-name: session-close
+name: close-session
 description: >-
   Cleanly close session with state persistence and context handoff. Updates
   progress.md, TODO.md, current-task.md. Triggers: close, wrap up, save state,

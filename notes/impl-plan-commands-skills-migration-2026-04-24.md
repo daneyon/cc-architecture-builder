@@ -268,6 +268,31 @@ User responses on original 5 questions:
 
 Plan now reflects these refinements as F009-F012 + 3 additional ADRs.
 
+### D5 Amendment (Session 37, 2026-04-24 — Phase 3b in-flight)
+
+**Original D5**: single-word preferred; verb+action fallback only when single-word too generic.
+
+**Revised D5**: two-word verb+object default; drop `-ing` gerund. Single-word reserved for truly narrow domains (none identified in current skill set).
+
+**Rationale**: user UX observation in skill-picker — type-as-you-go narrows equally fast with two-word names, and two-word is self-documenting vs requiring description-read for disambiguation. Generic single-word names (`plan`, `audit`, `execute`, `validate`) compete with agent-instruction language and lack cognitive signal that "this is a discrete action unit". Also aligns with existing two-word command convention (`/cab:execute-task`, `/cab:new-project`) for within-plugin consistency.
+
+**Revised rename table** (applies to Phase 3b.1):
+
+| Old | Originally D5 | Revised |
+|---|---|---|
+| `architecture-analyzer` | `analyze-arch` | `analyze-architecture` |
+| `auditing-workspace` | `audit` | `audit-workspace` |
+| `creating-components` | `create-components` | `create-components` (unchanged) |
+| `executing-tasks` | `execute` | `execute-task` |
+| `planning-implementation` | `plan` | `plan-implementation` |
+| `scaffolding-projects` | `scaffold` | `scaffold-project` |
+| `session-close` | `close-session` | `close-session` (unchanged) |
+| `validating-structure` | `validate` | `validate-structure` |
+
+**Downstream impact on Phase 3c**:
+- D3 hybrid-merge target: unified skill becomes `scaffold-project` (not `scaffold`); `quick-scaffold` merges via `--mode quick` extension
+- F011 Option A wiring: `execute-task` delegates to `plan-implementation` for non-trivial (naming more readable than single-word)
+
 ---
 
 ## Sign-Off

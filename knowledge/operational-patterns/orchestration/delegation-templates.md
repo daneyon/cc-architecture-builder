@@ -77,10 +77,10 @@ Map project lifecycle phases to specialist agents best suited for each. This ali
 
 | Phase | Primary Agents | Supporting Skills |
 |-------|---------------|-------------------|
-| 0 – Discovery | product-manager, ux-researcher | planning-implementation |
-| 1 – Definition | software-architect, product-manager | planning-implementation |
-| 2 – Design | ux-designer, software-architect | architecture-analyzer |
-| 3 – Build | code-reviewer, debugger-specialist | architecture-analyzer |
+| 0 – Discovery | product-manager, ux-researcher | plan-implementation |
+| 1 – Definition | software-architect, product-manager | plan-implementation |
+| 2 – Design | ux-designer, software-architect | analyze-architecture |
+| 3 – Build | code-reviewer, debugger-specialist | analyze-architecture |
 | 4 – Verify | verifier, security-auditor | assessing-quality |
 | 5 – Launch | tech-writer, product-manager | readme-generator |
 | 6 – Iterate | performance-optimizer, codebase-manager | designing-workflows |

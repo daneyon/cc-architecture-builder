@@ -70,7 +70,7 @@ global copy is frozen at a snapshot and won't receive plugin updates.
      ...
 
    ⚠️  Drift detected (N files)
-     skills/architecture-analyzer/SKILL.md
+     skills/analyze-architecture/SKILL.md
        CAB newer: 2026-04-05 | Global: 2026-04-03
        Lines changed: +12 -3
      commands/techdebt.md
@@ -88,7 +88,7 @@ global copy is frozen at a snapshot and won't receive plugin updates.
        Risk: LL-27 already active — global override intentional? If not, remove shadow
 
    ❌ Missing from global (N files)
-     skills/session-close/SKILL.md
+     skills/close-session/SKILL.md
      commands/sync-check.md
 
    ❌ Extra in global (not in CAB) (N files)

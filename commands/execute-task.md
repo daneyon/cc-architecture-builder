@@ -9,11 +9,11 @@ VERIFY → COMMIT cycle.
 
 ## Behavior
 
-Use the `executing-tasks` skill to enforce the protocol:
+Use the `execute-task` skill to enforce the protocol:
 
 1. **If arguments provided**: Use as task objective, proceed to PLAN phase
 2. **If no arguments**: Ask user for task objective and acceptance criteria
-3. **Create plan** ; use `planning-implementation` skill for extensive tasks ideal for phases and/or user requests detailed phased planning 
+3. **Create plan** ; use `plan-implementation` skill for extensive tasks ideal for phases and/or user requests detailed phased planning 
 4. **Present plan** for user review
 5. **On approval**: Execute subtasks with incremental commits
 6. **After execution**: Run verification (invoke verifier agent if available)
@@ -64,6 +64,6 @@ Verification: [commands]
 
 ## See Also
 
-- `skills/executing-tasks/` — The protocol skill (model-invoked, auto-triggered)
+- `skills/execute-task/` — The protocol skill (model-invoked, auto-triggered)
 - `agents/verifier.md` — Independent verification agent
 - `agents/orchestrator.md` — Autonomous orchestration

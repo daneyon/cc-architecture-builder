@@ -94,7 +94,7 @@ CAB currently maintains 14 commands in `commands/` (at plugin root). These funct
 
 | Pattern | Example |
 |---------|---------|
-| Command triggers skill | `/execute-task` loads `executing-tasks` skill |
+| Command triggers skill | `/execute-task` loads `execute-task` skill |
 | Command triggers workflow | `/commit-push-pr` runs multi-step git workflow |
 | Command is self-contained | `/validate` runs structural checks directly |
 

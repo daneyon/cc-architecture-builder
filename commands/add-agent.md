@@ -8,7 +8,7 @@ Create a new subagent in the current project.
 
 ## Behavior
 
-Use the `creating-components` skill to:
+Use the `create-components` skill to:
 
 1. **Gather agent details**:
    - Agent name (lowercase-hyphens)

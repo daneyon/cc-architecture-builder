@@ -1,5 +1,5 @@
 ---
-name: planning-implementation
+name: plan-implementation
 description: >-
   Generate SOW, implementation plans, acceptance criteria, and phased backlogs.
   Decomposes requirements into actionable deliverables. Triggers: plan project,
@@ -36,7 +36,7 @@ Idea/Request
             |
             v
 +--------------------------+
-| 3. EXECUTE               |  Handed off to executing-tasks skill
+| 3. EXECUTE               |  Handed off to execute-task skill
 |    Sprint -> Build ->    |  or domain-specific project agents
 |    Verify -> Commit      |
 +--------------------------+
@@ -48,7 +48,7 @@ Idea/Request
 | -------------------------------------- | ------------------------------------------------------------ | ------------------------------- |
 | New project proposal / internal pitch  | **SOW**                                                | PM, advisor, client, leadership |
 | Approved project ready for development | **Implementation Plan**                                | Engineering team, QA, DevOps    |
-| Quick feature addition                 | Neither — use executing-tasks skill directly                | Self                            |
+| Quick feature addition                 | Neither — use execute-task skill directly                | Self                            |
 | Complex feature with unknowns          | SOW (lightweight) -> Implementation Plan (targeted sections) | Team                            |
 
 ## Scoping: The SOW Approach
@@ -153,7 +153,7 @@ When the project involves AI/ML components, add these considerations:
 ## Integration with Other Extensions
 
 - **Orchestrator agent**: Invokes this skill when decomposing complex tasks
-- **executing-tasks skill**: Takes over at Phase 3 (EXECUTE) with the plan this skill produced
+- **execute-task skill**: Takes over at Phase 3 (EXECUTE) with the plan this skill produced
 - **assessing-quality skill**: Provides quality framework referenced in Phase 6 (testing strategy)
 - **designing-workflows skill**: Produces the workflow diagrams referenced in SOW Section 8
 - **verifier agent**: Validates deliverables against acceptance criteria from this plan

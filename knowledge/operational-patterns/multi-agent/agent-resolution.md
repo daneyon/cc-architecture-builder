@@ -92,7 +92,7 @@ command spec including `--shadow-only` flag for fast periodic audit.
 
 ### Periodic audit: `/validate --cab-audit` (UXL-013 fold-in)
 
-The Agent Frontmatter dimension in `skills/auditing-workspace/SKILL.md`
+The Agent Frontmatter dimension in `skills/audit-workspace/SKILL.md`
 absorbs the shadow scan as part of agent-dimension scoring (UXL-013).
 Findings fold into the audit's overall score: a plugin project with
 unresolved shadows cannot reach EXEMPLARY on Agent Frontmatter dimension
@@ -179,6 +179,6 @@ override from forgotten shadow.
 
 - LL-27 (`notes/lessons-learned.md`) — origin incident
 - [commands/sync-check.md](../../../commands/sync-check.md) — user-triggered shadow detection (UXL-011)
-- [skills/auditing-workspace/SKILL.md](../../../skills/auditing-workspace/SKILL.md) — automated shadow scan during `/validate --cab-audit` (UXL-013)
+- [skills/audit-workspace/SKILL.md](../../../skills/audit-workspace/SKILL.md) — automated shadow scan during `/validate --cab-audit` (UXL-013)
 - [collaboration-patterns.md](collaboration-patterns.md) — multi-agent coordination context
 - UXL-025 (tracker row) — Global CLAUDE.md v2; pending Plugin Hygiene Policy will formalize override documentation convention

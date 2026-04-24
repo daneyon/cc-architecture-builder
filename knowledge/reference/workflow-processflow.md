@@ -3,13 +3,13 @@ id: workflow-processflow
 title: Workflow Diagram vs Process Flow Diagram — Key Differences
 category: reference
 tags: [workflow, process-flow, diagramming, business-process, swimlane, sipoc]
-summary: Comparative reference distinguishing workflow diagrams (role-centric sequence) from process flow diagrams (operational detail with decision points). Advisory reference for selecting visualization approach during planning-implementation.
+summary: Comparative reference distinguishing workflow diagrams (role-centric sequence) from process flow diagrams (operational detail with decision points). Advisory reference for selecting visualization approach during plan-implementation.
 depends_on: []
-related: [planning-implementation, visualization-workflow, product-design-cycle]
+related: [plan-implementation, visualization-workflow, product-design-cycle]
 complexity: foundational
 last_updated: 2026-04-22
 estimated_tokens: 2500
-source: 3rd-party article (sixsigmadsi.com) curated into CAB reference; relocated from skills/planning-implementation/references/ in Phase 2.6; mojibake (Windows-1252 smart-quote residue) remediated in UXL-008 via codepoint substitution (U+00F4→U+201C, U+00F6→U+201D, U+00C6→U+2019) + stray HTML brace cleanup
+source: 3rd-party article (sixsigmadsi.com) curated into CAB reference; relocated from skills/plan-implementation/references/ in Phase 2.6; mojibake (Windows-1252 smart-quote residue) remediated in UXL-008 via codepoint substitution (U+00F4→U+201C, U+00F6→U+201D, U+00C6→U+2019) + stray HTML brace cleanup
 confidence: B
 review_by: 2026-07-22
 ---

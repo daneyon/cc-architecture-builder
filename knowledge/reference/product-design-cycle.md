@@ -5,7 +5,7 @@ category: reference
 tags: [lifecycle, phases, deliverables, methodology, design-thinking, sdlc, lean]
 summary: Generalized product/app engineering lifecycle (7 phases) with sub-processes, deliverables, and discipline mapping. Framework-agnostic synthesis of Double Diamond, SDLC, Lean Startup, Design Thinking, and Stage-Gate.
 depends_on: []
-related: [planning-implementation, executing-tasks]
+related: [plan-implementation, execute-task]
 complexity: foundational
 last_updated: 2026-03-15
 estimated_tokens: 1500

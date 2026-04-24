@@ -8,7 +8,7 @@ Check the current project for compliance with Claude Code architecture standards
 
 ## Behavior
 
-Use the `validating-structure` skill to:
+Use the `validate-structure` skill to:
 
 1. **Detect project type** (plugin or global config)
 2. **Run validation checks** based on mode
@@ -26,7 +26,7 @@ Use the `validating-structure` skill to:
 | `--security` | Include security audit |
 | `--prepublish` | Full + security (for distribution) |
 | `--audit` | Read-only analysis of existing project |
-| `--cab-audit` | **CAB standards compliance audit** — routes to `auditing-workspace` skill for 7-dimension quality assessment with scored findings and persistent artifacts |
+| `--cab-audit` | **CAB standards compliance audit** — routes to `audit-workspace` skill for 7-dimension quality assessment with scored findings and persistent artifacts |
 
 ## Examples
 

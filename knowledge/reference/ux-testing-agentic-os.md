@@ -5,7 +5,7 @@ category: reference
 tags: [ux-testing, nielsen, wcag, iso-9241-210, iso-25010, llm-eval, observability, agentic-os, context-degradation]
 summary: Coupled UX-evaluation protocol for agentic OS platforms — marries traditional UX frameworks (Nielsen 10 Heuristics, WCAG 2.2 AA, ISO 9241-210 lifecycle, ISO/IEC 25010 quality attributes, Shneiderman's 8 Rules) with LLM-evaluation industry practice (eval harness, observability, context degradation, multi-agent testing antipatterns). Surface-to-framework mapping anchors UX-log-tracker's framework_anchor column.
 depends_on: [prioritization-frameworks]
-related: [planning-implementation, executing-tasks]
+related: [plan-implementation, execute-task]
 complexity: intermediate
 last_updated: 2026-04-22
 estimated_tokens: 3200

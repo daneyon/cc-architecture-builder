@@ -25,12 +25,12 @@
 - **New durable principle saved to auto-memory**: `memory/feedback_dual_pov_check.md` — dual-POV check before building automation. Caught itself in the act on UXL-027/028. Referenced forward in UXL-039/040 execution.
 
 **Wave 3 Part 1 — commands↔skills mapping audit (UXL-002 Phase 1)**:
-- Plan committed 14fe217 (`notes/impl-plan-commands-skills-migration-2026-04-24.md`, 265 lines) with F001-F012 acceptance + 4 ADRs; plan refined d794e33 post-SME feedback (F009 content-quality preservation + F010 redundancy catch + F011 executing-tasks↔planning-implementation coupling + F012 naming standardization)
-- Mapping artifact committed 3de63ff (`notes/commands-skills-mapping-2026-04-24.md`, 243 lines) — all 15 CAB commands categorized: 6 WRAPPER, 7 ORPHAN, 2 HYBRID. Proposed F012 skill renames (drop `-ing` gerund; prefer single-word where clear). F011 flagged executing-tasks↔planning-implementation overlap at PLAN phase with 3 consolidation options.
+- Plan committed 14fe217 (`notes/impl-plan-commands-skills-migration-2026-04-24.md`, 265 lines) with F001-F012 acceptance + 4 ADRs; plan refined d794e33 post-SME feedback (F009 content-quality preservation + F010 redundancy catch + F011 execute-task↔plan-implementation coupling + F012 naming standardization)
+- Mapping artifact committed 3de63ff (`notes/commands-skills-mapping-2026-04-24.md`, 243 lines) — all 15 CAB commands categorized: 6 WRAPPER, 7 ORPHAN, 2 HYBRID. Proposed F012 skill renames (drop `-ing` gerund; prefer single-word where clear). F011 flagged execute-task↔plan-implementation overlap at PLAN phase with 3 consolidation options.
 - SME Phase 2 decisions captured (2026-04-24): promote all orphans except init-worktree; merge hybrids into `scaffold` (unified skill with `--mode` extensions per D3); Option A delegation for F011; D5 naming preference = single-word first then verb+action; command-trigger PRESERVE default, archive after UX validation.
 
 **Wave 3 Phase 3a — effort + rule refresh (2 rows resolved)**:
-- UXL-039 (fdfea25): removed `effort: high` from 5 skills (architecture-analyzer, auditing-workspace, executing-tasks, planning-implementation, scaffolding-projects). Max subscription users on Opus 4.7 recover their xhigh default (was silently downgraded to high).
+- UXL-039 (fdfea25): removed `effort: high` from 5 skills (analyze-architecture, audit-workspace, execute-task, plan-implementation, scaffold-project). Max subscription users on Opus 4.7 recover their xhigh default (was silently downgraded to high).
 - UXL-040 (fdfea25): refreshed `.claude/rules/component-standards.md` §Skill Frontmatter. 250-char cap → 1,536 (combined description + when_to_use per current CC docs); full valid-field list aligned with current spec (+when_to_use, arguments, disable-model-invocation, user-invocable, paths, shell); effort CAB convention documented (omit by default).
 - CSV state-machine chore (3c61293): both resolved with linked_commit fdfea25.
 
@@ -66,7 +66,7 @@ Actually-accurate final distribution: 16 resolved / 20 triaged / 2 deferred / 2 
 ### Queued after Session 36
 
 - **Wave 3 Phase 3b**: wrapper command trim (6 wrappers → pure shims) + skill renames per F012 (single-word preferred: `audit`, `execute`, `plan`, `scaffold`, `validate`, etc.) + atomic cross-reference updates. Next session.
-- **Wave 3 Phase 3c**: orphan promotions (5 orphans → new skills) + hybrid merges into `scaffold` with `--mode` extensions + F011 Option A (executing-tasks delegates to planning-implementation for non-trivial plans)
+- **Wave 3 Phase 3c**: orphan promotions (5 orphans → new skills) + hybrid merges into `scaffold` with `--mode` extensions + F011 Option A (execute-task delegates to plan-implementation for non-trivial plans)
 - **Wave 3 Phase 3d**: archive wrapper commands after empirical validation that `/cab:<skill>` = `/cab:<command>` UX
 - **Wave 3 Part 2 (UXL-001)**: default setup protocol project-schema-first — plan authoring after Phase 3b+ lands
 - **Phase D HydroCast state-mgmt comparison**: still gated on PR #8 merge (unchanged)
@@ -89,7 +89,7 @@ Actually-accurate final distribution: 16 resolved / 20 triaged / 2 deferred / 2 
 **What landed in Session 35**:
 
 - **Phase 1 (planning refinement)** — commit `eb0cdd5`: §3.2 7-tier hierarchy (T1 user-braindump minimum → T7 hook-auto); Appendix B schema Tier+KG columns added to all 25 rows; 2 user-directed deferrals absorbed into Appendix C + §1.1 out-of-scope
-- **Phase 2 (scaffolding)** — commit `537b511` (10 files, 1376 insertions): `notes/ux-log-template.csv` (25 headers), `notes/ux-log-examples.csv` (5 rows, 1+ per surface), `notes/ux-log-guide.md` (241 lines, includes Phase 5 protocol spec), `knowledge/reference/prioritization-frameworks.md` (155 lines), `knowledge/reference/ux-testing-agentic-os.md` (200 lines), 3 orphan reference files relocated from `skills/planning-implementation/references/` with UTF-16→UTF-8 fix on `workflow-processflow.md`, `.claude/rules/kb-conventions.md` governance update (reference-folder carve-out + [UXL-NNN] commit convention + LL↔tracker cross-ref convention), `knowledge/reference/INDEX.md` updated
+- **Phase 2 (scaffolding)** — commit `537b511` (10 files, 1376 insertions): `notes/ux-log-template.csv` (25 headers), `notes/ux-log-examples.csv` (5 rows, 1+ per surface), `notes/ux-log-guide.md` (241 lines, includes Phase 5 protocol spec), `knowledge/reference/prioritization-frameworks.md` (155 lines), `knowledge/reference/ux-testing-agentic-os.md` (200 lines), 3 orphan reference files relocated from `skills/plan-implementation/references/` with UTF-16→UTF-8 fix on `workflow-processflow.md`, `.claude/rules/kb-conventions.md` governance update (reference-folder carve-out + [UXL-NNN] commit convention + LL↔tracker cross-ref convention), `knowledge/reference/INDEX.md` updated
 - **Phase 3+4 (initial pass + triage)** — see pending commit: `notes/ux-log-001-2026-04-22-pass-1.csv` with 30 rows (UXL-001..030), verbatim fidelity verified via Python DictReader prefix-match against plan Appendix C
 
 **Phase 3+4 pass content**:
@@ -109,7 +109,7 @@ Actually-accurate final distribution: 16 resolved / 20 triaged / 2 deferred / 2 
 - kb-conventions carve-out documented for `knowledge/reference/**` — formalizes de-facto policy (product-design-cycle.md at 339 lines pre-existed)
 - Python build script used to construct pass-1 CSV (proper RFC 4180 quoting via csv.DictWriter); transient script deleted after run
 
-### Prioritized Queue (Phase 4 output — top candidates for next `/cab:planning-implementation`)
+### Prioritized Queue (Phase 4 output — top candidates for next `/cab:plan-implementation`)
 
 Ranked by composite of severity + value/effort + strategic leverage. Top-10 for user review:
 
@@ -141,7 +141,7 @@ Ranked by composite of severity + value/effort + strategic leverage. Top-10 for 
 - **UXL-023** scope narrowed: auto-memory already implements Layer-6-dreaming-adjacent behavior; Dream consolidation skill scope narrows to LL → CLAUDE.md human-curated promotion only.
 - **UXL-032** added: agent memory-field audit. Deferred; coupled with UXL-022 for spec-first execution. Candidate adoption by agent: architecture-advisor + verifier + project-integrator → project scope likely; orchestrator → likely NONE (stateless-per-invocation by design).
 
-**Gate**: User sign-off on this triage + prioritized queue before proceeding to first `/cab:planning-implementation` on a UXL row.
+**Gate**: User sign-off on this triage + prioritized queue before proceeding to first `/cab:plan-implementation` on a UXL row.
 
 ---
 
@@ -153,7 +153,7 @@ Ranked by composite of severity + value/effort + strategic leverage. Top-10 for 
 
 - **CAB project CLAUDE.md** (`2de116d`): 242→189 lines. Added Identity (intermediary wrapper layer concept from KB), Operating Philosophy (9-principle decision-axis table), Human-AI Collaboration Contract, Anti-Patterns (7 items at bottom for U-curve attention). Removed Extension Registry tables, Commands table, workflow diagrams, templates listing (all auto-load or exist elsewhere). Compressed State Management from ~50→18 lines.
 - **Global `~/.claude/CLAUDE.md`** (not in git, file write only): 152→138 lines. Resolved bootstrap protocol conflict (global was prescribing pre-Session-28 4-file order that contradicted CAB's post-Session-32 3-file cascade). Removed Extension Registry, project-level State Management, CAB Plugin Awareness. Added Anti-Patterns section with LL-27 shadowing rule. Added three-layer complement model (global=generic, project=specialized, agent=subagent).
-- **`commands/execute-task.md`** (`b0571cc`): Pre-existing user change committed — step 3 references `planning-implementation` skill for phased planning.
+- **`commands/execute-task.md`** (`b0571cc`): Pre-existing user change committed — step 3 references `plan-implementation` skill for phased planning.
 
 **Key design decisions (Session 34)**:
 - Template used as conceptual reference, not 1:1 prescription (user feedback: v1 draft was too template-aligned; v2 grounded identity in `knowledge/overview/` materials instead)
@@ -225,7 +225,7 @@ This is a strong test case for LL-28 structural countermeasures and a high-value
 
 ### Session 32 Pivots (executed mid-session per HITL dialogue)
 
-1. **Pivot 1** — Drop `lessons-learned.md` from standardized bootstrap entirely. LLs are reference data (read on-demand at phase transitions / decision-domain matches), not operational state. The unvalidated "Status" feature (active/integrated/superseded) was replaced with a validated **Classification** (`INTEGRATED` / `ACTIVE` / `ADVISORY` / `ARCHIVED`) + **Priority** (`P0` / `P1` / `P2` / `—`) schema modeled on `auditing-workspace/references/classification-schema.md`. Cascade went from 4-file → 3-file.
+1. **Pivot 1** — Drop `lessons-learned.md` from standardized bootstrap entirely. LLs are reference data (read on-demand at phase transitions / decision-domain matches), not operational state. The unvalidated "Status" feature (active/integrated/superseded) was replaced with a validated **Classification** (`INTEGRATED` / `ACTIVE` / `ADVISORY` / `ARCHIVED`) + **Priority** (`P0` / `P1` / `P2` / `—`) schema modeled on `audit-workspace/references/classification-schema.md`. Cascade went from 4-file → 3-file.
 2. **Pivot 2** — Flat `notes/` directory policy. No subfolders except `_archive/`. Removed `notes/references/`, `notes/qa/`, `notes/metrics/`. 22 stale files archived. One path domain, one mental model.
 3. **Pivot 3** — Holistic instrument-grounded efficiency: always verify cost via proper instruments (`/context`, `bootstrap-cost.sh`), not self-estimates. Self-estimation was the recurring failure mode through Sessions 28-31.
 
@@ -281,7 +281,7 @@ The content below this line is pre-Session-28 narrative. Retained for historical
 - `302f872` (Session 24): LL-25 state management reform — PUSHED (Session 26 Phase B.5)
 - `56975f8` (Session 25): PLAN v2 drafted — PUSHED
 - `264a861` (Session 25): A.5 regex design nuance captured from smoke test — PUSHED
-- `62bf4a9` (Session 26): **feat: state file tense hygiene protocol (LL-26)** — 5 files changed (+257/-75). Implements LL-26 lesson, v3.2 filesystem-patterns.md section, two-phase session-close, executing-tasks Phase 5 split (5a/5b/5c), anchored hook regex with case-insensitive tense matching. All 7 ACs PASS. PUSHED.
+- `62bf4a9` (Session 26): **feat: state file tense hygiene protocol (LL-26)** — 5 files changed (+257/-75). Implements LL-26 lesson, v3.2 filesystem-patterns.md section, two-phase close-session, execute-task Phase 5 split (5a/5b/5c), anchored hook regex with case-insensitive tense matching. All 7 ACs PASS. PUSHED.
 - `726c50b` (Session 26): **chore(session-26): refresh state post-62bf4a9** — Phase 5b state refresh dogfooding the new two-commit pattern. PUSHED clean with no `CAB_SKIP_PREPUSH_REVIEW=1` bypass (A.5 regex eliminated the dependency).
 - `436ffbd` (Session 27): **docs(ll): LL-27 agent name-resolution shadowing + LL-28 dialogue-level state gap** — lessons-learned.md only. LL-27 captures the shadowing discovery that Session 26 surfaced but never recorded (CC agent resolution order: local → user → plugin silently overrides plugin-authored agents). LL-28 captures the emergence-staleness gap that LL-26 didn't solve (state writes trigger on phase boundaries, not on dialogue-level discovery/decision events).
 - `bc9ce69` (Session 27): **chore(session-27): state refresh post-436ffbd** — progress.md/current-task.md/TODO.md backfill of Session 26 post-death work + Session 27 recovery record. Two-commit pattern continues.
@@ -361,15 +361,15 @@ The content below this line is pre-Session-28 narrative. Retained for historical
 | Command | `~/.claude/commands/context-sync.md` | `rm` single file |
 | Command | `~/.claude/commands/execute-task.md` | `rm` single file |
 | Command | `~/.claude/commands/techdebt.md` | `rm` single file |
-| Skill | `~/.claude/skills/architecture-analyzer/SKILL.md` + parent dir | file rm + `rmdir` |
-| Skill | `~/.claude/skills/planning-implementation/{SKILL.md, assets/implementation-plan-template.md, assets/sow-template.md}` + `assets/` + parent dir | file-by-file + cascade `rmdir` |
+| Skill | `~/.claude/skills/analyze-architecture/SKILL.md` + parent dir | file rm + `rmdir` |
+| Skill | `~/.claude/skills/plan-implementation/{SKILL.md, assets/implementation-plan-template.md, assets/sow-template.md}` + `assets/` + parent dir | file-by-file + cascade `rmdir` |
 
 **Security gate validation (LL-14)**: Initial attempt used `rm -rf` which was **correctly blocked** by `~/.claude/scripts/bash-security-gate.sh` (`PreToolUse:Bash` hook, `decision: block, reason: Blocked: recursive force delete`). Fell back to file-by-file deletion + `rmdir` cascade. This incidentally validates LL-14's architectural claim that command-type hooks with exit-code-2 blocks are independent verification, not self-policing.
 
 **Global `CLAUDE.md` Extension Registry post-cleanup state**:
 
 - **Agents (3)**: code-reviewer, debugger-specialist, general-researcher — no CAB overlap
-- **Skills (8)**: assessing-quality, claude-docs-helper, designing-workflows, presentation-outline, readme-generator, slide-designer, token-optimizer, visualizing-data — no CAB overlap (architecture-analyzer + planning-implementation removed in this phase)
+- **Skills (8)**: assessing-quality, claude-docs-helper, designing-workflows, presentation-outline, readme-generator, slide-designer, token-optimizer, visualizing-data — no CAB overlap (analyze-architecture + plan-implementation removed in this phase)
 - **Commands (0)**: all 4 removed; CAB plugin is now the sole resolution target for `/commit-push-pr`, `/context-sync`, `/execute-task`, `/techdebt`
 
 **LL-27 shadowing rule added as permanent policy block**: global `CLAUDE.md` now contains a dedicated shadowing-prevention rule warning any future session against creating `~/.claude/{agents,skills,commands}/*` files that collide with plugin-provided names, with the explicit architectural framing that identity/persona lives in `CLAUDE.md` not in agent behavioral files.
@@ -414,8 +414,8 @@ The content below this line is pre-Session-28 narrative. Retained for historical
 
 1. **LL-26 entry** (`notes/lessons-learned.md`) — full root cause, forbidden/approved patterns, two-commit pattern rationale, enforcement layers, smoke test outcome, reinforces LL-25/LL-20
 2. **Filesystem patterns KB** (`filesystem-patterns.md` v3.2, 299 lines) — new top-level "State File Tense Hygiene (LL-26)" section with forbidden/approved table, two-commit pattern steps, enforcement layer list
-3. **session-close skill** — Step 2 (work commit first) with work-vs-state classification rule, Step 3 (past-tense refresh citing hash), Step 4 (tense hygiene grep check), Step 5 (state refresh commit), Step 6-7 (verify + report). Anti-patterns updated with LL-26 reference.
-4. **executing-tasks skill** — Phase 3 gains commit-per-phase cadence guidance (DD-4) + defer-state-updates rule. Phase 5 split into 5a (work commit), 5b (state refresh), 5c (state refresh commit). Classification table distinguishes work deliverables (including new LL entries) from tense-sensitive state artifacts.
+3. **close-session skill** — Step 2 (work commit first) with work-vs-state classification rule, Step 3 (past-tense refresh citing hash), Step 4 (tense hygiene grep check), Step 5 (state refresh commit), Step 6-7 (verify + report). Anti-patterns updated with LL-26 reference.
+4. **execute-task skill** — Phase 3 gains commit-per-phase cadence guidance (DD-4) + defer-state-updates rule. Phase 5 split into 5a (work commit), 5b (state refresh), 5c (state refresh commit). Classification table distinguishes work deliverables (including new LL entries) from tense-sensitive state artifacts.
 5. **Pre-push hook regex v2** (`pre-push-state-review.sh`) — two pattern types:
    - Draft labels: `\b(WIP|DRAFT|NOCOMMIT|PRIVATE):` (colon-suffix required, eliminates prose false-positives, resolves existing LL-25 follow-on)
    - Tense markers: `^\*\*(Status|Phase|Gate|Current Position|Next action)\*\*:.*\b(pending commit|ready for commit|awaiting commit|will commit)\b` (anchored, case-insensitive, rejects descriptive prose + table cells)
@@ -435,7 +435,7 @@ The content below this line is pre-Session-28 narrative. Retained for historical
 
 **Design decisions applied**: DD-1 (two-commit default ✅ dogfooded), DD-4 (commit-per-phase ✅ single Phase A commit), LL-25/LL-26 architectural integration pattern (lessons woven into skills/agents/hooks, not passive documentation).
 
-**Edge case surfaced mid-execution**: "Where does a new LL entry codifying the current work's lesson belong — work commit or state refresh commit?" Resolved by adding a classification rule to both session-close and executing-tasks skills: knowledge artifacts (new LL entries, KB files, impl-plans) go with the work commit; only tense-sensitive status artifacts (progress.md, current-task.md, TODO.md) get deferred to the state refresh commit. This refinement was added to the Phase A deliverables before the `62bf4a9` commit landed.
+**Edge case surfaced mid-execution**: "Where does a new LL entry codifying the current work's lesson belong — work commit or state refresh commit?" Resolved by adding a classification rule to both close-session and execute-task skills: knowledge artifacts (new LL entries, KB files, impl-plans) go with the work commit; only tense-sensitive status artifacts (progress.md, current-task.md, TODO.md) get deferred to the state refresh commit. This refinement was added to the Phase A deliverables before the `62bf4a9` commit landed.
 
 **Remaining LL-26 follow-on added to TODO**: Backtick-wrapped marker exclusion (low priority — primary failure mode is cleanly handled).
 
@@ -443,7 +443,7 @@ The content below this line is pre-Session-28 narrative. Retained for historical
 
 **Files touched this session**:
 
-- *(Work commit `62bf4a9`)*: `notes/lessons-learned.md`, `knowledge/operational-patterns/state-management/filesystem-patterns.md`, `skills/session-close/SKILL.md`, `skills/executing-tasks/SKILL.md`, `hooks/scripts/pre-push-state-review.sh`
+- *(Work commit `62bf4a9`)*: `notes/lessons-learned.md`, `knowledge/operational-patterns/state-management/filesystem-patterns.md`, `skills/close-session/SKILL.md`, `skills/execute-task/SKILL.md`, `hooks/scripts/pre-push-state-review.sh`
 - *(Phase 5b state refresh commit `726c50b`)*: `notes/current-task.md`, `notes/progress.md`, `notes/TODO.md`
 
 **Post-state-refresh work (backfilled from transcript 2026-04-11 by Session 27)**:
@@ -457,7 +457,7 @@ This is the block Session 26 never recorded because the session died with "Promp
    | Category | Duplicates | Unique to global | Unique to CAB |
    |---|---|---|---|
    | Commands | 4 (`commit-push-pr`, `context-sync`, `execute-task`, `techdebt`) | 0 | 11 (add-*, init-*, integrate-*, kb-index, new-*, sync-check, validate) |
-   | Skills | 2 (`architecture-analyzer`, `planning-implementation`) | 8 (assessing-quality, claude-docs-helper, designing-workflows, presentation-outline, readme-generator, slide-designer, token-optimizer, visualizing-data) | 7 (CAB-specific audit/scaffold skills) |
+   | Skills | 2 (`analyze-architecture`, `plan-implementation`) | 8 (assessing-quality, claude-docs-helper, designing-workflows, presentation-outline, readme-generator, slide-designer, token-optimizer, visualizing-data) | 7 (CAB-specific audit/scaffold skills) |
    | Agents | 2 (`orchestrator`, `verifier`) | 3 (code-reviewer, debugger-specialist, general-researcher) | 2 (architecture-advisor, project-integrator) |
 
 3. **Phase C.1 diff analysis**: All 8 duplicates were confirmed as **CAB strict supersets**. Specifically:
@@ -465,7 +465,7 @@ This is the block Session 26 never recorded because the session died with "Promp
    - `context-sync.md`: CAB added session-lifecycle reference; global lags
    - `execute-task.md`: Global has stale `allowed-tools:` frontmatter that CAB intentionally dropped (CAB pattern: 7 of 15 commands use `allowed-tools`, 8 don't — `execute-task` is a lean trigger). Not a regression.
    - `techdebt.md`: CAB version SIGNIFICANTLY longer (expanded detail, options, examples); global is condensed/older. Strict superset.
-   - `architecture-analyzer/SKILL.md` + `planning-implementation/SKILL.md`: CAB has R2-remediation updates (imperative descriptions, `argument-hint`, `effort`, scoped `allowed-tools`); global frozen at pre-R2 state.
+   - `analyze-architecture/SKILL.md` + `plan-implementation/SKILL.md`: CAB has R2-remediation updates (imperative descriptions, `argument-hint`, `effort`, scoped `allowed-tools`); global frozen at pre-R2 state.
    - `orchestrator.md` + `verifier.md`: CAB has R2 remediation (LL-15 `context:` removal, LL-21 paths, permissionMode cleanup); global frozen at April-7 snapshot.
 
 4. **LL-27 DISCOVERY (surfaced during orchestrator.md diff)**: The orchestrator diff revealed that global `~/.claude/agents/orchestrator.md` was silently SHADOWING CAB's plugin orchestrator via CC agent resolution order (local → user → plugin). All R2 remediation updates to CAB's orchestrator.md since Session 19 had NOT been reaching operational reality — the April-7 snapshot had been the operationally-active version for ~2 weeks. Same risk confirmed for `verifier.md`. **Discovery recorded as LL-27 in Session 27's `436ffbd`.**
@@ -498,20 +498,20 @@ This is the block Session 26 never recorded because the session died with "Promp
 
 **Root causes documented in `notes/current-task.md`**:
 
-1. **Tense hygiene gap**: `skills/session-close/` Step 4 commits state updates but doesn't distinguish work-commit from state-refresh-commit. `skills/executing-tasks/` Phase 5 says update state AFTER commit but doesn't require a second commit for the refresh. Pre-push hook regex doesn't include tense markers. No documented tense-hygiene convention in `filesystem-patterns.md`. This is exactly the failure mode LL-25's "Lessons-Referenced Protocols" pattern was created to prevent — and it slipped through because LL-25 itself was the work being committed.
-2. **Global↔CAB duplication**: Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-task`, `commit-push-pr`, `context-sync`, `techdebt`). Global `~/.claude/skills/` and `agents/` also overlap with CAB (`architecture-analyzer`, `planning-implementation` skills; `orchestrator`, `verifier` agents). Two copies drift, confuses operators, violates CAB source-of-truth principle, obsolete since CAB is registered globally via `enabledPlugins`.
+1. **Tense hygiene gap**: `skills/close-session/` Step 4 commits state updates but doesn't distinguish work-commit from state-refresh-commit. `skills/execute-task/` Phase 5 says update state AFTER commit but doesn't require a second commit for the refresh. Pre-push hook regex doesn't include tense markers. No documented tense-hygiene convention in `filesystem-patterns.md`. This is exactly the failure mode LL-25's "Lessons-Referenced Protocols" pattern was created to prevent — and it slipped through because LL-25 itself was the work being committed.
+2. **Global↔CAB duplication**: Global `~/.claude/commands/` contains direct copies of 4 CAB commands (`execute-task`, `commit-push-pr`, `context-sync`, `techdebt`). Global `~/.claude/skills/` and `agents/` also overlap with CAB (`analyze-architecture`, `plan-implementation` skills; `orchestrator`, `verifier` agents). Two copies drift, confuses operators, violates CAB source-of-truth principle, obsolete since CAB is registered globally via `enabledPlugins`.
 
 **User-confirmed design decisions (DD-1 through DD-5)**:
 
 - **DD-1**: Two-commit pattern = default for session close (token cost negligible at ~130/session, 0.065% of budget); tense-neutral single-commit as lightweight fallback for mid-session state touches.
 - **DD-2**: Sync-upstream HITL default with minor auto-commit escape hatch for trivial deltas (whitespace, typos, already-aligned content) with clear log trail.
 - **DD-3**: HydroCast comparison-first — if CAB captures everything HydroCast's 3-layer practice offers AND nothing unique-to-HydroCast is advantageous, full restructure pre-approved; otherwise preserve unique value.
-- **DD-4**: Commit-per-phase = recommended guidance (not prescription) in CAB standardization — new AC-6 in Phase A adds this to `executing-tasks` skill.
+- **DD-4**: Commit-per-phase = recommended guidance (not prescription) in CAB standardization — new AC-6 in Phase A adds this to `execute-task` skill.
 - **DD-5**: Global dedup = delete confirmed duplicates outright (global copies expected to be older); sync upstream only if global is rarely newer (HITL).
 
 **Plan structure (6 phases, see `notes/current-task.md` for full detail)**:
 
-- **Phase A** — CAB protocol hardening: 7 ACs, 5 files touched (LL-26 in lessons-learned.md, tense hygiene section in filesystem-patterns.md, two-phase close in session-close SKILL.md, Phase 5 refresh + commit-per-phase guidance in executing-tasks SKILL.md, tense marker regex in pre-push hook). Smoke test via retroactive validation against Session 24 state.
+- **Phase A** — CAB protocol hardening: 7 ACs, 5 files touched (LL-26 in lessons-learned.md, tense hygiene section in filesystem-patterns.md, two-phase close in close-session SKILL.md, Phase 5 refresh + commit-per-phase guidance in execute-task SKILL.md, tense marker regex in pre-push hook). Smoke test via retroactive validation against Session 24 state.
 - **Phase B** — CAB finalization: refresh state files using Phase A protocols, LL-25 artifact smoke tests, push decision (recommend `CAB_SKIP_PREPUSH_REVIEW=1` bypass for known false-positives), commit Phase A+B together as `feat: state file tense hygiene protocol (LL-26)`.
 - **Phase C** — Global↔CAB deduplication: inventory + diff global copies vs CAB equivalents, sync upstream any global improvements (rare), delete duplicates, update global `~/.claude/CLAUDE.md` registry, smoke test `/execute-task` still resolves via CAB plugin path.
 - **Phase D** — HydroCast strategic comparison (read-only): read HydroCast Tier 1 (learned-corrections.md, design-decisions.md D96, CLAUDE.md §Persistent Memory Architecture), Tier 2 (current-task.md, progress.md, session-24-transfer.md exemplar), compare to CAB baseline post-Phase-A, write comparison doc at `HydroCast/notes/cab-vs-hydrocast-state-mgmt-comparison-2026-04-10.md` answering the 7 review questions from `cab-state-mgmt-review-brief.md`.
@@ -699,7 +699,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 - 2A: `git mv .claude/{agents,skills,commands}/` to root — 28 renames (4 agents, 17 commands, 10 skill dirs)
 - 2B: `plugin.json` — removed 3 custom component paths + fixed trailing comma
 - 2C: `CLAUDE.md` — updated constraint path refs (`.claude/agents` → `agents/`)
-- 2D: Cross-reference updates — 23 files across 5 priority tiers (CRITICAL: sync-check, sync-protocol; HIGH: 6 command See Also refs, 5 scaffold commands, creating-components skill, project-integrator agent; MEDIUM: 8 KB docs; LOW: templates verified clean)
+- 2D: Cross-reference updates — 23 files across 5 priority tiers (CRITICAL: sync-check, sync-protocol; HIGH: 6 command See Also refs, 5 scaffold commands, create-components skill, project-integrator agent; MEDIUM: 8 KB docs; LOW: templates verified clean)
 - 2E: `distributable-plugin.md` — standalone section relabeled as "Alternative", plugin-first framing strengthened
 - `.claude/` now retains only: `settings.json`, `settings.local.json` (project config, not distributed)
 - Remaining `.claude/` references (~55) are all legitimate: dual-path documentation, global `~/.claude/` paths, audit skill conditional logic, or illustrative examples
@@ -734,12 +734,12 @@ This is the block Session 26 never recorded because the session died with "Promp
 - Audit skill enforced standalone conventions on all projects indiscriminately.
 
 **Phase 1 executed (audit skill fix)**:
-- `auditing-workspace/SKILL.md`: Phase 0 `project_type` detection (plugin vs standalone), Phase 1 conditional structural checks, Phase 2 dual-path target table, `--changed-only` dual-path mapping
+- `audit-workspace/SKILL.md`: Phase 0 `project_type` detection (plugin vs standalone), Phase 1 conditional structural checks, Phase 2 dual-path target table, `--changed-only` dual-path mapping
 - `agent-standards.md`: Criterion 1 + score 0 ABSENT — both `agents/` (plugin) and `.claude/agents/` (standalone)
 - `settings-standards.md`: Criteria 14-15 for plugin root `settings.json`
 - `hooks-standards.md`: Criterion 13 for plugin `hooks/hooks.json`
 - `audit-methodology.md`: `project_type: "plugin | standalone"` (was `"plugin | cc-project"`)
-- `validating-structure/SKILL.md`: Plugin-aware Step 1, conditional directory checks, expanded common issues
+- `validate-structure/SKILL.md`: Plugin-aware Step 1, conditional directory checks, expanded common issues
 - Verifier: 6/6 AC PASS
 - Commit: `d8c0456`
 
@@ -815,7 +815,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 - LL-18 captured: audit skill must validate structural correctness, not just field presence
 
 **Skill visibility investigation**:
-- `executing-tasks` skill only in CAB plugin, never deployed to `~/.claude/skills/`
+- `execute-task` skill only in CAB plugin, never deployed to `~/.claude/skills/`
 - HydroCast `enabledPlugins` overrode global (only listed `followrabbit`, not `cab@cab`)
 - Fix: added `cab@cab: true` to HydroCast enabledPlugins (same commit as settings fix)
 - User confirmed both skill and command now visible in HydroCast
@@ -870,7 +870,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 
 ### Session 12 Summary (D1-2 Audit Test — HydroCast)
 
-**D1-2 test: auditing-workspace skill against HydroCast (Flood-Forecasting)**:
+**D1-2 test: audit-workspace skill against HydroCast (Flood-Forecasting)**:
 - Full 7-dimension audit of mature project (9 agents, 5 skills, 3 commands, 5 rules, 25+ KB files)
 - Score: 11/21 (52%) DEVELOPING — 28 findings (6 ERROR, 17 WARN, 5 INFO)
 - Scoring profile meaningfully different from D1 RAS-exec (+19 percentage points, 5/7 dimensions differ)
@@ -900,7 +900,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 
 ### Session 11 Summary (D1 Audit Test — RAS-exec)
 
-**D1 test: auditing-workspace skill against RAS-exec project**:
+**D1 test: audit-workspace skill against RAS-exec project**:
 - Full 7-dimension audit completed: CLAUDE.md (3/3 EXEMPLARY), Agents (0/3 ABSENT), Skills (0/3 ABSENT), Settings (1/3 MINIMAL), Rules (2/3 ADEQUATE), Knowledge (1/3 MINIMAL), Hooks (0/3 ABSENT)
 - Baseline: 7/21 (33%) NEEDS WORK — 11 ERROR, 19 WARN, 6 INFO findings
 - Key pattern: domain content quality is high, CC metadata layer is underdeveloped — "structural not creative" remediation
@@ -943,7 +943,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 - "Structural not creative" as a documented audit workflow UX pattern
 - Bidirectional CAB ↔ project integration — "plug connectivity" design philosophy
 
-### Session 10 Summary (notes/ History Scrub + auditing-workspace Skill Creation)
+### Session 10 Summary (notes/ History Scrub + audit-workspace Skill Creation)
 
 **Housekeeping**:
 - `notes/` added to `.gitignore` — personal session state excluded from public repo
@@ -956,7 +956,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 - Workflow design (designing-workflows): Full operational flow with Mermaid diagrams, actor/responsibility matrix, multi-pass architecture, incremental re-audit design, YAML+markdown dual artifact format.
 - Synthesis resolved 3 divergences: (1) separate skill ✓, (2) modular packs in skill references/ ✓, (3) combined graduated 0-3 + MISSING/STALE/ENHANCEMENT/CURRENT classification ✓
 
-**Implementation (planning-implementation → executing-tasks)**:
+**Implementation (plan-implementation → execute-task)**:
 - Phase A: Skill skeleton — SKILL.md (195 lines, agent:true, effort:high), classification-schema.md (84 lines), audit-methodology.md (164 lines, YAML/markdown artifact schemas)
 - Phase B: 7 standard packs — one per audit dimension (claudemd, agents, skills, settings, rules, knowledge, hooks), ~42 lines / ~537 tokens each, each links to authoritative KB source
 - Phase C: Integration — validate.md (--cab-audit flag), CLAUDE.md (command table updated, aligned), orchestrator.md (routing + skills list)
@@ -964,7 +964,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 
 **Deferred to next session**:
 - Phase D testing (D1: user project audit, D2: CAB self-audit, D3: delta test, D4: structural gate)
-- Implementation plan artifact: `notes/impl-plan-auditing-workspace-2026-04-07.md`
+- Implementation plan artifact: `notes/impl-plan-audit-workspace-2026-04-07.md`
 
 ### Session 9 Summary (PA-01 Phase 3 Revised — Global Config + Active Extensions)
 
@@ -980,7 +980,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 **Phase 3 execution (6 subtasks, 10 acceptance criteria)**:
 - S1: Archived 2 skills (presentation-outline, slide-designer) + 2 commands (init-plugin, init-worktree) to `~/.claude/backups/_archive/`
 - S2: Orchestrator agent enhanced (86→94 lines) — `effort: high`, skill-first heuristic, state bootstrap protocol, delegation heuristics with LL constraints, meta/architecture routing, Extension Awareness preserved
-- S3: 8 skills enhanced — imperative trigger descriptions, `argument-hint`, `effort`, `allowed-tools`, `agent: true` (architecture-analyzer), stale `@knowledge-base/` refs fixed, `reference/` → `references/` renamed
+- S3: 8 skills enhanced — imperative trigger descriptions, `argument-hint`, `effort`, `allowed-tools`, `agent: true` (analyze-architecture), stale `@knowledge-base/` refs fixed, `reference/` → `references/` renamed
 - S4: 4 commands enhanced — `.claude/` See-Also paths, `allowed-tools` on execute-task, techdebt description enriched
 - S5: 7 rules verified — `paths:` frontmatter added to practices.md, other 6 confirmed current
 - S6: CLAUDE.md Extension Registry updated (Skills 10→8, Commands 6→4)
@@ -1070,7 +1070,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 - T5-06: NEW KB card — lsp-integration.md (.lsp.json config, pre-built plugins, operational notes)
 - T5-08: INDEX.md final update — master 33→36, components 7→10, op-patterns 11→12
 - T5-09: Schema alignment — 8 items added to global schema directory tree (output-styles/, keybindings.json, CLAUDE.local.md, projects/memory/, plugins/{cache,data}, plans/, work/ipc/)
-- T5-10: NEW skill — session-close (5-step state persistence protocol)
+- T5-10: NEW skill — close-session (5-step state persistence protocol)
 - T5-11: NEW command — sync-check (CAB↔global drift detection)
 - CLAUDE.md updated with /sync-check in command table
 - Verification: 11/11 PASS after 2 minor fixes (TODO checkboxes, INDEX count)
@@ -1113,7 +1113,7 @@ This is the block Session 26 never recorded because the session died with "Promp
 ## Key User Directives (persistent)
 
 - **State management hierarchy**: Implementation plan → TODO.md (incrementalized tasks, never delete, reorder) → progress.md (live session state, can compact)
-- **Leverage CAB extensions**: planning-implementation, architecture-analyzer, designing-workflows skills actively
+- **Leverage CAB extensions**: plan-implementation, analyze-architecture, designing-workflows skills actively
 - **Context engineering**: Check context % at every phase boundary, avoid forced compaction at all costs
 - **CAB philosophy**: EXTEND not DUPLICATE official CC — use EXTEND/DUPLICATE/BRIDGE/STALE classification
 - **Centralized state**: All persistent context in `notes/` as SSOT

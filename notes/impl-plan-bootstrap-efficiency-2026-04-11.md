@@ -1,7 +1,7 @@
 # Implementation Plan: Bootstrap Token Efficiency Restoration
 
 **Created**: 2026-04-11 (Session 28)
-**Author**: CAB orchestrator (via `planning-implementation` skill)
+**Author**: CAB orchestrator (via `plan-implementation` skill)
 **Status**: APPROVED — HITL-1 passed, execution starting
 **Scope**: Fix bootstrap token-cost regression introduced by LL-25/26/27/28 cumulative state-management work
 **Supersedes**: N/A (new task)
@@ -291,7 +291,7 @@ From `c1f13ecc-4e09-45fa-a3e3-a9517f739eae.jsonl` Session (2026-04-10), assistan
 
 **Mid-session strategic pivots** (P4 scope reframed three times during HITL dialogue):
 
-1. **Pivot 1 — Drop `lessons-learned.md` from bootstrap entirely**. The Session 31 byte-weight finding (`lessons-learned.md` ~489 chars/line dense table) had been queued as "P4 LL table compact-index/verbose-detail split" — a sycophantic adherence to keeping LLs in the always-loaded tier. Re-examination reframed this as a category error: **LLs are reference data, not operational state**. Fix: 4-file cascade → 3-file cascade. LLs read on-demand at phase transitions / decision-domain matches. The unvalidated `Status: active/integrated/superseded` feature was replaced with a validated **Classification (INTEGRATED/ACTIVE/ADVISORY/ARCHIVED) + Priority (P0/P1/P2/—)** schema modeled on `auditing-workspace/references/classification-schema.md`.
+1. **Pivot 1 — Drop `lessons-learned.md` from bootstrap entirely**. The Session 31 byte-weight finding (`lessons-learned.md` ~489 chars/line dense table) had been queued as "P4 LL table compact-index/verbose-detail split" — a sycophantic adherence to keeping LLs in the always-loaded tier. Re-examination reframed this as a category error: **LLs are reference data, not operational state**. Fix: 4-file cascade → 3-file cascade. LLs read on-demand at phase transitions / decision-domain matches. The unvalidated `Status: active/integrated/superseded` feature was replaced with a validated **Classification (INTEGRATED/ACTIVE/ADVISORY/ARCHIVED) + Priority (P0/P1/P2/—)** schema modeled on `audit-workspace/references/classification-schema.md`.
 
 2. **Pivot 2 — Flat `notes/` directory policy**. Removed `notes/references/`, `notes/qa/`, `notes/metrics/`. 22 stale files archived to `notes/_archive/`. Eliminates path-domain ambiguity and prevents subfolder proliferation drift. Rationale: balance performance efficiency with minimalism — one path domain, one mental model.
 
