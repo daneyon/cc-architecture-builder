@@ -6,7 +6,6 @@ description: >-
   scope feature, write requirements, create SOW, define acceptance criteria.
 argument-hint: "Project or feature to plan (e.g., 'plan migration from REST to GraphQL API')"
 allowed-tools: Read, Write, Grep, Glob
-effort: high
 ---
 # Planning & Implementation
 

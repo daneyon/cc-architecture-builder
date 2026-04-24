@@ -6,7 +6,6 @@ description: >-
   check standards, cab audit, workspace health check, assess CC setup.
 argument-hint: "Target path (default: cwd) and flags (e.g., '--changed-only')"
 agent: true
-effort: high
 allowed-tools: Read, Grep, Glob, Bash
 ---
 

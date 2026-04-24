@@ -6,7 +6,6 @@ description: >-
   new project, start plugin, initialize project, scaffold from scratch.
 argument-hint: "Project name and domain (e.g., 'water-resources-toolkit for hydrology analysis')"
 allowed-tools: Read, Write, Bash, Glob
-effort: high
 ---
 
 # Project Scaffolding

@@ -6,7 +6,6 @@ description: >-
   architecture, analyze code, evaluate design, assess scalability, tech stack eval.
 argument-hint: "Target for analysis (e.g., 'src/auth/' or 'design a microservices architecture for order processing')"
 allowed-tools: Read, Grep, Glob, Bash
-effort: high
 agent: true
 ---
 # Architecture Analyzer & Designer Skill

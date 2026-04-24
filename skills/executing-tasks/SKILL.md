@@ -6,7 +6,6 @@ description: >-
   implement feature, fix bug, refactor, multi-step task.
 argument-hint: "Task objective (e.g., 'refactor auth module to use JWT tokens')"
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
-effort: high
 ---
 
 # Task Execution Protocol

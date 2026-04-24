@@ -21,10 +21,22 @@ Notes per field:
 
 ## Skill Frontmatter
 
-- Descriptions MUST be ≤250 characters. CC truncates beyond this in skill listings.
-- All skills MUST have `allowed-tools:` scoped to what the skill actually needs.
-- All skills MUST have `effort:` (low | medium | high) to guide CC runtime budget.
-- Valid top-level fields: `name`, `description`, `argument-hint`, `allowed-tools`, `effort`, `agent`, `hooks`, `context`, `model`. Do NOT nest these under `metadata:` (LL-16).
+**Valid CC-documented fields** (per current docs as of 2026-04-24 refresh —
+source: https://code.claude.com/docs/en/skills#frontmatter-reference):
+
+`name`, `description`, `when_to_use`, `argument-hint`, `arguments`,
+`disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`,
+`effort`, `context`, `agent`, `hooks`, `paths`, `shell`.
+
+All fields are optional per current docs; only `description` is recommended.
+
+Notes per field / CAB-specific conventions:
+
+- Combined `description` + `when_to_use` text is truncated at **1,536 characters** in the skill listing (per current CC docs; raised from prior 250-char cap per LL-16 refresh UXL-040). Front-load the key use case in description since char budget applies to combined text.
+- `allowed-tools:` — scope to what the skill actually needs (pre-approves tools while skill is active). Accepts space-separated string or YAML list.
+- `effort:` — optional; when set, overrides session level while skill is active. **CAB convention (UXL-039)**: OMIT by default so user's subscription-tier default drives (xhigh for Max on Opus 4.7; high for Pro). Set explicitly ONLY when the skill has a specific reason to floor effort (rare).
+- `context: fork` — runs skill in forked subagent context per `agent:` field.
+- Do NOT nest these under `metadata:` (LL-16 enforced).
 
 ## Plugin Architecture
 
