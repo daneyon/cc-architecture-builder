@@ -106,6 +106,10 @@ Two distinct failure modes this prevents:
 | F006 | User-trigger continuity notes | Per command, note whether the `/cab:xxx` trigger name should survive migration (default: YES, preserve user muscle memory) |
 | F007 | Deprecation risk annotation | Per command, note residual risk if CC sunsets commands before migration completes |
 | F008 | Mapping artifact SME-reviewable | File at `notes/commands-skills-mapping-2026-04-24.md` with scannable table format + per-command detail sections where analysis warrants |
+| **F009** | **Content-quality preservation check** | Per wrapper/hybrid command, explicitly flag whether the command body contains ANY context NOT present in the wrapped skill (e.g., "repeatable workflow" framing, invocation-context nuance, examples tailored to human-trigger use). Flagged content MUST be preserved in Phase 3 migration — either by merging into the skill's body or retaining in a compat-shim command. Default preservation behavior: merge-into-skill; command becomes pure-shim. |
+| **F010** | **Redundancy / duplication catch** | Per wrapper/hybrid command, flag content that EXISTS IN BOTH command body AND skill body (duplication risk — skill is canonical source; command should defer). Phase 3 synthesizes to eliminate duplication WITHOUT losing any unique framing flagged under F009. |
+| **F011** | **Special attention: executing-tasks ↔ planning-implementation coupling** | The dynamic relationship between these two skills (and their commands `/cab:execute-task` + `/cab:planning-implementation`) is explicitly analyzed: are they one workflow split into two, or distinct workflows? Does the split reflect the standard PLAN→REVIEW→EXECUTE→VERIFY→COMMIT protocol cleanly, or is the current split arbitrary/outdated? Flag for Phase 3 consolidation consideration. |
+| **F012** | **Naming convention standardization** | Phase 3 scope includes a pass renaming skills (and preserved command names) to a single standard: **verb + object** format, concise imperative (not gerund). Examples: `executing-tasks` → `execute-tasks` (or `execute-task`, singular); `validating-structure` → `validate-structure`; `auditing-workspace` → `audit-workspace`; `creating-components` → `create-components`. Apply during carry-over; update all cross-references. Default rule: drop `-ing` gerund; use bare verb. |
 
 ### 2.2 Non-Functional
 
@@ -169,7 +173,10 @@ A command is **hybrid** if:
 | Artifact location | `notes/` vs `knowledge/` | `notes/` | Audit artifact; not canonical reference; may be superseded by future mapping. Per flat-notes policy + `commands-skills-mapping-YYYY-MM-DD.md` prefix |
 | Mapping granularity | Summary table only vs summary + per-command detail | Both (summary scannable; detail on demand) | SME can decide scope from summary; details available when specific commands need attention |
 | Phase 3 scope authority | Pre-declared in this plan vs. SME-scoped at Phase 2 gate | SME-scoped at Phase 2 | Honors UXL-002 user directive "strategic and careful" + user trigger continuity concern |
-| Trigger compat default | Migrate trigger names vs preserve | Preserve (default) | User directive explicit about muscle-memory risk; migration changes UNDERLYING implementation not trigger UX |
+| Trigger compat default | Migrate trigger names vs preserve | Preserve (default) | User directive explicit about muscle-memory risk; CC's native plugin-prefix display e.g. "(cab)" already groups nicely; migration changes UNDERLYING implementation not trigger UX |
+| Content-quality preservation default (F009) | Merge-into-skill vs retain-as-command-shim | Merge-into-skill | Skill is canonical source; commands become pure-shim for trigger UX. Exception: if content is TRULY command-specific (e.g., argument-hint framing that only makes sense at trigger time), retain in shim with explicit rationale |
+| Naming standardization (F012) | Keep current mixed conventions vs verb+object consistent | verb + object consistent (drop `-ing`) | User directive 2026-04-24. Applies during carry-over migration pass. Reduces cognitive load of mixed conventions across 10 skills + preserved command names. Cross-references (KB links, plugin.json, CLAUDE.md mentions) updated atomically with rename |
+| Plugin-prefix display for skills | Add `(cab)` prefix convention to skills vs wait for native CC coverage | Note in mapping artifact; defer to separate row if action needed | CC already prefixes commands natively; skills don't yet. Not blocking UXL-002 scope — flag in artifact as observation, create new row if action needed |
 
 ---
 
@@ -250,16 +257,19 @@ In-repo hook-less changes. Rollout is immediate on commit. Rollback via `git rev
 
 ---
 
-## Verification Questions for User (SME Sign-Off Gate)
+## SME Sign-Off Captured (2026-04-24)
 
-1. **Phase 1 artifact scope** — is the 15-column summary table + per-command detail the right mapping format, or prefer a different structure (e.g., grouped by skill rather than by command)?
-2. **Trigger-compat default** — preserve `/cab:xxx` trigger names by default during migration, unless you explicitly approve changing one? Or different default?
-3. **Phase 3 scoping authority** — confirm SME (you) scopes Phase 3 migrations AFTER Phase 1 mapping, rather than this plan pre-declaring which migrations to execute?
-4. **Timeline** — Phase 1 this session OK, or defer to next session? Phase 2 is async. Phase 3 timing user-controlled.
-5. **UXL-001 sequencing** — confirm UXL-001 (default setup protocol) waits for Phase 2 SME decisions on UXL-002 before its plan is authored (since default-setup protocol may instantiate commands that are about to be migrated)?
+User responses on original 5 questions:
+- **Q1 (artifact format)**: "seems good for now; need to keep actively using/testing to truly validate further" → proceed with proposed format
+- **Q2 (trigger-compat)**: PRESERVE confirmed. Additional refinements now baked into F009/F010/F011/F012 (content-quality preservation, redundancy catch, executing-tasks↔planning-implementation special attention, verb+object naming standardization). CC now natively shows `(cab)` prefix on hover for commands; skills don't yet — noted as observation, not blocking
+- **Q3 (SME scope authority for Phase 3)**: confirmed
+- **Q4 (Phase 1 this session)**: confirmed
+- **Q5 (UXL-001 waits on UXL-002 Phase 2)**: confirmed
+
+Plan now reflects these refinements as F009-F012 + 3 additional ADRs.
 
 ---
 
 ## Sign-Off
 
-Plan awaits SME verification before Phase 1 execution. On approval, Phase 1 mapping audit runs this session; produces `notes/commands-skills-mapping-2026-04-24.md`; commits; pauses for Phase 2 async review.
+Plan SME-approved 2026-04-24. Phase 1 mapping audit runs this session; produces `notes/commands-skills-mapping-2026-04-24.md`; commits; pauses for Phase 2 async review.
