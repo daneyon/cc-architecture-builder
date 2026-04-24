@@ -58,14 +58,14 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 
 ---
 
-### Wave 2 — Background-Agent Post-Check (UXL-028 only; scope revised 2026-04-23)
+### Wave 2 — VOID (both rows dropped 2026-04-23)
 
-**Rows**: UXL-028 (LL-08 post-check)
-**Scope revision rationale**: UXL-027 (LL-02/12 pre-gate) dropped as `wontfix` after SME review — empirical non-recurrence of LL-02/12 + perf-tax-per-Agent-invocation + subagent `tools:` frontmatter already gates write capability structurally + heuristic fuzziness of prompt-regex matching. Dual-POV check (memory/feedback_dual_pov_check.md) argued against the over-build. UXL-028 retained because post-tool surgical check fires only on empirical failures, zero pre-invocation latency, no heuristic matching.
-**MoSCoW**: M
-**Execution approach**: single-phase execution; plan updated at `notes/impl-plan-bg-agent-bracket-2026-04-22.md` §Revision Note. Perf acceptance criterion added: <20ms per fire + no false-positive WARN in steady state.
+**Rows**: ~~UXL-027~~ (dropped → `wontfix`), ~~UXL-028~~ (dropped → `wontfix`)
+**Void rationale**: Perf benchmarking of the UXL-028 prototype hook revealed ~1.27s per fire on Windows Git Bash (python cold-start + process-spawn dominance), ~60x the 20ms acceptance criterion. Combined with empirical non-recurrence of LL-02/12/08 post rules + memory + model upgrades, both rows fail the dual-POV check (memory/feedback_dual_pov_check.md). Artifacts deleted: `hooks/scripts/bg-agent-post-check.sh` + `notes/impl-plan-bg-agent-bracket-2026-04-22.md` (commit history preserves the investigation trail via `f9b035d` and `7054c5c`).
 
-**Estimated cost**: ~30-45 min (single script + hooks.json registration + reversibility inventory row).
+**Escalation path preserved**: if LL-02/12 or LL-08 recurs with empirical evidence, file a fresh row with measurement data + revisit whether a redesigned hook (pure bash, single-python-invocation, or compiled-language variant) can meet perf targets. Rerun dual-POV check before shipping.
+
+**Sequencing consequence**: Wave 3 (strategic CC-trajectory alignment) becomes next active wave.
 
 ---
 
