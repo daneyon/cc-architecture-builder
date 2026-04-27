@@ -1,8 +1,55 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-22 → 2026-04-24 (Session 35-36 — **UX Log + Ideabox Tracker** build-out + Wave 1 + Wave 2 VOID + Wave 3 Phase 1 mapping + Phase 3a effort/rule refresh)
-**Current task**: UX Log Tracker — Wave 3 Phase 3b+ pending SME decisions (see `notes/current-task.md`)
+**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b** Commands→Skills Migration: 8 skill renames + atomic cross-ref sweep + wrapper command trims + D5 amendment)
+**Current task**: Phase 3b LANDED. Phase 3c queued (orphan promotions + hybrid merges + F011 Option A wiring).
 **Branch**: `master` (CAB, local-only; solo workflow)
+
+---
+
+## Session 37 — Wave 3 Phase 3b Commands→Skills Migration (2026-04-24)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; rename-driven progress.md growth absorbed inline; remains ~3% under 7,500 watch threshold).
+
+### What landed in Session 37
+
+**Phase 3b.1 — Skill renames + atomic cross-ref sweep** (commit `0a7bcd8`):
+- 8 skill folders renamed via `git mv` (history preserved): `architecture-analyzer→analyze-architecture`, `auditing-workspace→audit-workspace`, `creating-components→create-components`, `executing-tasks→execute-task`, `planning-implementation→plan-implementation`, `scaffolding-projects→scaffold-project`, `session-close→close-session`, `validating-structure→validate-structure`
+- Frontmatter `name:` field updated atomically in each renamed SKILL.md
+- Cross-reference sweep: 37 files updated across `agents/` (2), `commands/` (8), `knowledge/` (13), `notes/` (10) — replace_all per old name; 3 protected files (`current-task.md`, `impl-plan-commands-skills-migration-2026-04-24.md`, `commands-skills-mapping-2026-04-24.md`) retain old names as historical rename-table record
+- Single atomic commit chosen over per-skill commits because mid-state would leave invalid references
+
+**Phase 3b.2 — Wrapper command trims** (commit `5301325`):
+- `commands/execute-task.md` trimmed from ~70 lines → 33 lines: removed F010-flagged duplicated PLAN/REVIEW/EXECUTE/VERIFY/COMMIT phase narration (skill owns it); kept invocation pointer + arg semantics + examples + See Also
+- `commands/add-skill.md` outdated gerund examples updated: `analyzing-data → analyze-data`, `processing-pdfs → process-pdfs` per D5-revised verb+object convention
+- Other 4 wrappers (`add-agent`, `add-command`, `new-project`, `validate`) already in clean shim form per F009/F010 mapping; no trim
+
+**Phase 3b.3 — VERIFY** (no commit; gate):
+- Stale-name grep: 0 matches outside the 3 protected files ✓
+- All 10 SKILL.md `name:` fields match folder names ✓
+- `plugin.json` valid JSON ✓
+- Independent verifier agent: PASS on all 7 acceptance criteria
+
+### D5 amendment (Session 37 in-flight)
+
+Original D5 (Session 36 SME): single-word skill names preferred (`plan`, `audit`, `execute`, `validate`, `scaffold`).
+
+**Revised D5**: two-word verb+object default; drop `-ing` gerund. Rationale (user UX observation): (a) skill-picker type-as-you-go narrows equally fast with two-word names; (b) generic single-word names compete with agent-instruction language ("let me plan this") in multi-plugin namespace; (c) self-documenting without description-read; (d) aligns with existing two-word command convention.
+
+Recorded in parent plan §SME Sign-Off + mapping artifact §F012 header. Downstream: Phase 3c hybrid-merge target becomes `scaffold-project` (not `scaffold`); F011 Option A wiring becomes `execute-task` delegates to `plan-implementation`.
+
+### Key principles reinforced in Session 37
+
+- **Atomic-commit-with-cross-refs over per-component splits**: mid-state validity matters more than fine-grained revert points when references span 37 files. The "clean revert points" intent is preserved via single-commit rollback.
+- **D5 reversal as case-study in dual-POV check** (governing principle from Session 36): the original D5 came from one POV (token efficiency, narrow domains); user surfaced the missing UX-discovery POV (skill-picker behavior, multi-plugin namespace pressure). Reversal cost: 5 minutes of plan amendment + 0 broken work because we caught it pre-EXECUTE.
+- **Verifier agent dispatch on every phase gate**: PASS confirmation came from independent process with no shared mental model of what was attempted — caught the case where I might have missed a cross-ref. None found, but the gate itself is the architectural value.
+
+### Queued after Session 37
+
+- **Wave 3 Phase 3c**: orphan promotions (`commit-push-pr`, `context-sync`, `kb-index`, `sync-check`, `techdebt` → new skills) + hybrid merges into unified `scaffold-project` skill with `--mode` extensions (`init-plugin`, `integrate-existing`, `new-global`, `quick-scaffold` all become modes) + F011 Option A wiring (`execute-task` delegates to `plan-implementation` for non-trivial)
+- **Wave 3 Phase 3d**: archive wrapper commands once empirical UX-equivalence validated (per D6)
+- **Wave 3 Part 2 (UXL-001)**: default setup protocol project-schema-first — gated on Phase 3b+ landing (now unblocked)
+- **Phase D HydroCast state-mgmt comparison**: still gated on PR #8 merge (unchanged)
+- **Wave 8**: UXL-037 DP alignment audit + UXL-038 agentic-OS end-vision deep dive
 
 ---
 

@@ -1,9 +1,9 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-12 (Session 34 — CLAUDE.md restructure)
+**Last Updated**: 2026-04-24 (Session 37 — Wave 3 Phase 3b LANDED)
 **Plugin Version**: 1.1.0
-**Active Implementation Plan**: (none — Phase D queued on HydroCast PR #8 merge)
-**Active Task**: see `notes/current-task.md` (Phase D HydroCast ↔ CAB state-mgmt comparison, QUEUED)
+**Active Implementation Plan**: `notes/impl-plan-commands-skills-migration-2026-04-24.md` (Phase 3b complete; Phase 3c next)
+**Active Task**: Wave 3 Phase 3c queued — orphan promotions + hybrid merges + F011 Option A wiring (see `notes/current-task.md`)
 
 ---
 
