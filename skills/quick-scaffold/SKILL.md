@@ -1,291 +1,39 @@
 ---
 name: quick-scaffold
 description: >-
-  Fast, no-questionnaire CC configuration scaffolding. Template-driven, user
-  refines afterward. Triggers: quick setup, generate CLAUDE.md, scaffold fast,
-  create template, placeholder files.
-argument-hint: "Scaffold target (e.g., 'global config', 'project plugin', 'skill template', 'CLAUDE.md')"
-allowed-tools: Read, Write, Glob
-effort: low
+  Alias for `scaffold-project --mode quick`. Preserves the "quick-scaffold"
+  skill-name trigger after the Phase 3c.2 hybrid merge (UXL-002). All logic
+  + templates live in `skills/scaffold-project/`. Triggers: quick scaffold,
+  generate template, fast setup, placeholder files.
+allowed-tools: Read
 ---
 
-# Quick Scaffold
+# quick-scaffold (Alias)
 
-Generate Claude Code configuration scaffolding aligned with the CAB base architecture.
+This skill is a **trigger-preserving alias** — its body is intentionally
+minimal. All scaffolding logic + templates were merged into the
+`scaffold-project` skill under `--mode quick` per UXL-002 Phase 3c.2.
 
-## When to Use
+## Action
 
-- User already knows what they want
-- Quick setup of new project structure
-- Generating component templates to customize
-- Creating placeholder files for iterative refinement
+When invoked, delegate immediately to the unified scaffold skill:
 
-## Scaffolding Options
+> "Invoking `scaffold-project` with `--mode quick` — see
+> `skills/scaffold-project/SKILL.md` for the router and
+> `skills/scaffold-project/assets/mode-quick.md` for the procedure."
 
-### 1. Global User Config (`~/.claude/`)
+For template files: `skills/scaffold-project/assets/templates/`.
 
-```
-~/.claude/
-├── CLAUDE.md                     # Personal baseline
-├── settings.json                 # User settings
-├── rules/                        # Personal modular rules
-│   └── .gitkeep
-├── skills/                       # Personal skills
-│   └── .gitkeep
-└── agents/                       # Personal agents
-    └── .gitkeep
-```
+## Why This Alias Exists
 
-### 2. Project Plugin Config
+Per D6 (preserve user/agent triggers across migrations), this stub
+preserves the `quick-scaffold` skill-name trigger. If empirical testing
+shows zero invocations over time, this stub can be removed in Phase 3d
+along with other archived shims.
 
-```
-project/
-├── .claude-plugin/
-│   └── plugin.json               # Marketplace metadata
-├── CLAUDE.md                     # Project instructions
-├── .claude/
-│   ├── rules/                    # Modular project rules
-│   └── skills/                   # Project skills
-├── .mcp.json                     # MCP configurations
-├── commands/                     # Slash commands
-├── agents/                       # Subagents
-├── hooks/
-│   └── hooks.json                # Event handlers
-├── knowledge/
-│   └── INDEX.md                  # Knowledge base entry
-└── docs/
-    └── README.md
-```
+## See Also
 
-## Templates
-
-### Global CLAUDE.md Template
-
-```markdown
-# Personal Configuration
-
-## Communication Style
-- [Your preferred communication patterns]
-- [Response structure preferences]
-- [Formatting preferences]
-
-## Default Behaviors
-- [Cross-project behaviors]
-- [Tool usage preferences]
-
-## Personal Context
-- [Background, expertise areas]
-- [Common workflows]
-
-## Optional Project Customization
-@~/.claude/rules/preferences.md
-```
-
-### Project CLAUDE.md Template
-
-```markdown
-# [Project Name]
-
-## Role
-You are a [domain] specialist working on [project purpose].
-
-## Project Overview
-[Brief description of what this project does]
-
-## Key Workflows
-1. [Primary workflow]
-2. [Secondary workflow]
-3. [Tertiary workflow]
-
-## Technical Context
-- Language/Framework: [tech stack]
-- Key directories: [important paths]
-- Build/Run: [common commands]
-
-## Constraints
-- [Project-specific constraints]
-- [Quality standards]
-
-## Knowledge Base
-@knowledge/INDEX.md
-
-## Personal Customization (Optional)
-@~/.claude/project-preferences.md
-```
-
-### plugin.json Template
-
-```json
-{
-  "name": "[project-name]",
-  "version": "0.1.0",
-  "description": "[Project description]",
-  "author": {
-    "name": "[Your Name]"
-  },
-  "repository": "[repo-url]",
-  "keywords": [],
-  "license": "MIT"
-}
-```
-
-### settings.json Template (Global)
-
-```json
-{
-  "model": "sonnet",
-  "permissions": {
-    "allow": [
-      "Read",
-      "Write", 
-      "Edit",
-      "Bash(git *)",
-      "Bash(npm *)"
-    ],
-    "deny": []
-  }
-}
-```
-
-### Knowledge INDEX.md Template
-
-```markdown
-# Knowledge Base Index
-
-## Core Documentation
-- [Link to core docs]
-
-## Reference Materials
-- [Link to references]
-
-## Examples
-- [Link to examples]
-
-## Templates
-- [Link to templates]
-```
-
-### Skill Template
-
-```yaml
----
-name: [skill-name]
-description: [What this skill does AND when to use it. Include trigger words.]
----
-
-# [Skill Name]
-
-## Purpose
-[What this skill accomplishes]
-
-## Instructions
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-
-## Examples
-[Concrete examples]
-```
-
-### Agent Template
-
-```yaml
----
-name: [agent-name]
-description: [When to invoke this agent]
-tools: Read, Grep, Glob
-model: sonnet
----
-
-# [Agent Name]
-
-You are a specialized agent focused on [purpose].
-
-## Approach
-1. [Step 1]
-2. [Step 2]
-
-## Constraints
-- [Constraint 1]
-- [Constraint 2]
-
-## Output Format
-[Expected output structure]
-```
-
-### Command Template
-
-```markdown
----
-description: [Brief description for /help]
-allowed-tools: Read, Write
----
-
-# [Command Name]
-
-[Instructions for what Claude should do]
-
-## Arguments
-$ARGUMENTS contains: [expected input]
-
-## Steps
-1. [Step 1]
-2. [Step 2]
-
-## Output
-[Expected output format]
-```
-
-### hooks.json Template
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo 'File modified: $FILE_PATH'"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### .mcp.json Template
-
-```json
-{
-  "mcpServers": {}
-}
-```
-
-## Usage
-
-When user requests scaffolding:
-
-1. **Ask scope**: "Global config, project config, or specific component?"
-2. **Generate**: Provide appropriate templates inline
-3. **Customize**: User specifies what to fill in
-4. **Create**: Only write files when user approves
-
-## Quick Commands
-
-| Request | Action |
-|---------|--------|
-| "Scaffold global config" | Generate ~/.claude/ structure |
-| "Scaffold new project" | Generate full project structure |
-| "Create skill template" | Generate SKILL.md template |
-| "Create agent template" | Generate agent.md template |
-| "Create CLAUDE.md" | Generate appropriate CLAUDE.md |
-
-## Reference
-
-For architecture details, see:
-- `knowledge/schemas/global-user-config.md`
-- `knowledge/schemas/distributable-plugin.md`
-- `knowledge/overview/executive-summary.md`
+- `skills/scaffold-project/SKILL.md` — Unified scaffolding router
+- `skills/scaffold-project/assets/mode-quick.md` — Quick mode procedure
+- `notes/impl-plan-commands-skills-migration-2026-04-24.md` — UXL-002 plan
+  + D6 trigger-continuity rationale

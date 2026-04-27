@@ -1,120 +1,120 @@
 ---
 name: scaffold-project
 description: >-
-  Create new CC project structures from scratch. Interactive discovery, structure
-  recommendation, directory scaffolding, core file creation, git init. Triggers:
-  new project, start plugin, initialize project, scaffold from scratch.
-argument-hint: "Project name and domain (e.g., 'water-resources-toolkit for hydrology analysis')"
+  Create or extend Claude Code project structures. Five modes via --mode flag:
+  default (interactive new project), plugin (CAB plugin scaffold + git +
+  optional GitHub remote), integrate (overlay CC architecture onto existing
+  codebase), global (set up ~/.claude/ user config), quick (template-driven
+  fast scaffold, no questionnaire). Triggers: new project, scaffold, init
+  plugin, integrate existing, global config, quick template, start project.
+argument-hint: "Project name + optional --mode plugin|integrate|global|quick"
 allowed-tools: Read, Write, Bash, Glob
 ---
 
-# Project Scaffolding
+# Scaffold Project — Multi-Mode Router
 
 ## Overview
 
-This skill guides the creation of properly structured Claude Code projects following the standardized two-schema architecture.
+This skill is the unified entry point for all CAB scaffolding workflows.
+The `--mode` flag dispatches to mode-specific procedures defined in
+`assets/mode-*.md` files (progressive disclosure — load mode body just in
+time when invoked).
 
-## Instructions
+## Mode Comparison
 
-### Step 1: Gather Requirements
+| Mode | Use case | Procedure file | KB references |
+|---|---|---|---|
+| (default) | Interactive discovery for any new project type | `assets/mode-default.md` | `knowledge/schemas/`, `knowledge/implementation/workflow.md` |
+| `--mode plugin` | New CAB-compliant plugin: full structure + git init + optional GitHub | `assets/mode-plugin.md` | `knowledge/schemas/distributable-plugin.md`, `knowledge/distribution/marketplace.md`, `knowledge/prerequisites/git-foundation.md` |
+| `--mode integrate` | Overlay CC architecture onto existing project (preserves existing code) | `assets/mode-integrate.md` | `knowledge/components/`, `knowledge/operational-patterns/`, `knowledge/reference/` (a-team-database) |
+| `--mode global` | Set up `~/.claude/` user config | `assets/mode-global.md` | `knowledge/schemas/global-user-config.md`, `knowledge/components/memory-claudemd.md` |
+| `--mode quick` | Template-only fast scaffold; user already knows what they want | `assets/mode-quick.md` + `assets/templates/` | `knowledge/schemas/*` (templates align with schemas) |
 
-Ask the user about:
+## Dispatch Protocol
 
-1. **Project type**: Plugin project or global user config?
-2. **Domain**: What domain/application will this serve?
-3. **Complexity estimate**: 
-   - Small (< 20 KB files): Level 1 structure
-   - Medium (20-100 KB files): Level 2 structure
-   - Large (100+ KB files): Level 3 structure
-4. **Team context**: Solo use or team distribution?
-5. **Existing content**: Any files to migrate?
+### Step 1: Common Pre-Steps (all modes)
 
-### Step 2: Recommend Structure
+1. Parse `$ARGUMENTS` for `--mode <name>` (default if absent).
+2. Validate target path: confirm parent directory exists; confirm no
+   collision with existing project (unless `--mode integrate`).
+3. Confirm intent with user if mode is destructive (e.g., `--mode global`
+   with existing `~/.claude/CLAUDE.md`).
 
-Based on responses, recommend:
+### Step 2: Mode Dispatch
 
-| Complexity | Structure | Features |
-|------------|-----------|----------|
-| Level 1 | Simple flat | INDEX.md, core files only |
-| Level 2 | Categorized | Category directories, full INDEX hierarchy |
-| Level 3 | Scalable | Level 2 + metadata manifests, MCP consideration |
-
-### Step 3: Scaffold Directory Structure
-
-Create base directories:
-
-```bash
-# For plugin project (Level 2)
-mkdir -p {{PROJECT_NAME}}/.claude-plugin
-mkdir -p {{PROJECT_NAME}}/{commands,agents,skills,hooks,knowledge,templates,docs}
-mkdir -p {{PROJECT_NAME}}/knowledge/{core,reference,examples}
-```
-
-### Step 4: Create Core Files
-
-Using templates from `templates/plugin/`:
-
-1. `.claude-plugin/plugin.json` — Marketplace metadata
-2. `CLAUDE.md` — Project system instructions
-3. `README.md` — User documentation
-4. `.gitignore` — Security defaults
-5. `.mcp.json` — MCP configuration (if needed)
-6. `knowledge/INDEX.md` — Knowledge base index
-
-### Step 5: Initialize Git
-
-```bash
-cd {{PROJECT_NAME}}
-git init
-git add .
-git commit -m "Initial project structure"
-```
-
-If GitHub integration requested:
-```bash
-gh repo create {{PROJECT_NAME}} --private --source=. --push
-```
-
-### Step 6: Guide Customization
-
-Walk user through:
-1. Editing CLAUDE.md with domain-specific instructions
-2. Adding initial knowledge files
-3. Creating first skill or agent if applicable
-4. Validating structure with `/validate`
-
-## Questionnaire Template
-
-When user requests a new project, ask:
+Read the mode-specific procedure file just-in-time:
 
 ```
-I'll help you create a new Claude Code project. Let me ask a few questions:
-
-1. What's the name for this project?
-2. What domain or application will it serve? (e.g., "water resources engineering", "code review assistant", "research helper")
-3. Roughly how much reference content do you expect?
-   - Small (a few key documents)
-   - Medium (20-100 files)
-   - Large (100+ files, may need advanced retrieval)
-4. Will this be for personal use or team distribution?
-5. Do you have existing files to migrate into this structure?
+Read("skills/scaffold-project/assets/mode-<mode>.md")
 ```
 
-## Output
+Follow the steps in that file. Each mode asset is self-contained for its
+domain — common steps are router-owned (above + below), mode-specific
+steps live in the asset.
 
-After scaffolding, provide:
-- Directory tree of created structure
-- List of files created with descriptions
-- Next steps for customization
-- Command to validate: `/validate`
+### Step 3: Common Post-Steps (all modes)
 
-## Templates Used
+1. Run structural validation: invoke `validate-structure` skill on the
+   created project.
+2. Report directory tree + next-step guidance to the user.
+3. If git was initialized in-mode, confirm initial commit succeeded.
 
-- `templates/plugin/plugin.json.template`
-- `templates/plugin/CLAUDE.md.template`
-- `templates/plugin/README.md.template`
+## Knowledge Integration
+
+This skill is **procedural** — it executes the scaffolding. The
+**conceptual depth** for each mode lives in the linked KB cards (see Mode
+Comparison table). Mode assets reference KB cards rather than duplicate
+their content (per CAB wrapper philosophy + LL-11):
+
+- **What schemas look like** → `knowledge/schemas/*` (canonical specs)
+- **Why each component exists** → `knowledge/components/*` (per-component deep dives)
+- **How distribution works** → `knowledge/distribution/marketplace.md`
+- **Git/security prerequisites** → `knowledge/prerequisites/*`
+
+When a mode asset says "follow the plugin schema," it points at the KB
+card; the mode asset itself stays procedural and short.
+
+## Templates
+
+Templates for `--mode quick` and shared template needs live in
+`assets/templates/`:
+
+- `claude-md-global.md`, `claude-md-project.md`
+- `plugin-json.md`, `settings-json.md`
+- `skill.md`, `agent.md`, `command.md`
+- `hooks-json.md`, `mcp-json.md`
+- `knowledge-index.md`
+
+Templates are reusable across modes — `--mode plugin` and `--mode quick`
+both reference the same `claude-md-project.md` template, eliminating
+duplication.
+
+## Verification
+
+This skill is working correctly when:
+
+- The `--mode` arg correctly dispatches to the matching asset file (no
+  silent fallthrough to default)
+- Created project structure passes `validate-structure` skill on first run
+- No content from KB cards is duplicated inside mode assets — assets
+  reference KB by path
+- Templates are referenced (not inlined) when used by multiple modes
+
+## Integration Points
+
+- `commands/new-project.md` → shim invoking default mode
+- `commands/init-plugin.md` → shim invoking `--mode plugin`
+- `commands/integrate-existing.md` → shim invoking `--mode integrate`
+- `commands/new-global.md` → shim invoking `--mode global`
+- `skills/quick-scaffold/SKILL.md` → 1-line alias preserving "quick-scaffold"
+  skill-name trigger; delegates to `--mode quick`
+- `validate-structure` skill — invoked at common post-step; verifies
+  scaffolded structure
 
 ## See Also
 
-- `knowledge/schemas/distributable-plugin.md` — Full schema documentation
-- `knowledge/implementation/workflow.md` — Complete implementation guide
+- `assets/mode-*.md` — per-mode procedural detail
+- `assets/templates/` — reusable templates
+- `knowledge/schemas/distributable-plugin.md` — canonical plugin structure
+- `knowledge/schemas/global-user-config.md` — canonical global structure
+- `.claude/rules/component-standards.md` — component frontmatter rules
