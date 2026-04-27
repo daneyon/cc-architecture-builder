@@ -37,12 +37,29 @@ already acknowledged elsewhere so it isn't re-flagged on every run.
 # Otherwise hand-spot blocks of >10 nearly-identical lines via grep heuristics
 ```
 
-**Stale markers** (across code + docs):
+**Stale markers** (source files by default; markdown opt-in):
 
 ```bash
+# Default scope: source files only — avoids false positives from markdown
+# files (skill bodies, docs) that legitimately discuss these markers as content
 grep -rEn 'TODO|FIXME|HACK|XXX|TEMP|DEPRECATED' \
-  --include='*.{py,ts,js,md,sh,go,rs,java}' .
+  --include='*.{py,ts,js,sh,go,rs,java}' .
 ```
+
+**Markdown opt-in** (when explicitly scanning docs for stale markers):
+
+```bash
+# Add --include='*.md' AND filter out matches inside markdown code spans
+# (backtick-wrapped) and code fences. Mirrors LL-26 backtick-exclusion pattern
+# from pre-push hook. Required to avoid surfacing skill bodies that document
+# the markers themselves (pre-push-state-review, scan-techdebt SKILL.md).
+grep -rEn 'TODO|FIXME|HACK|XXX|TEMP|DEPRECATED' --include='*.md' . \
+  | grep -v '`[^`]*\(TODO\|FIXME\|HACK\|XXX\|TEMP\|DEPRECATED\)[^`]*`' \
+  | grep -v '^[^:]*:[^:]*:\s*```'
+```
+
+If invoked with `--include-docs` flag (or `$ARGUMENTS` includes a markdown
+path explicitly), use the opt-in pattern.
 
 **Dead code**:
 

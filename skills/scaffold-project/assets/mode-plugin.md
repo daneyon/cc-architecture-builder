@@ -38,7 +38,7 @@ Source: `skills/scaffold-project/assets/templates/`.
 | Target | Template |
 |---|---|
 | `.claude-plugin/plugin.json` | `plugin-json.md` |
-| `.claude-plugin/marketplace.json` | (LL-24 — required for plugin discovery) |
+| `.claude-plugin/marketplace.json` | `marketplace-json.md` (required for plugin discovery per LL-24) |
 | `CLAUDE.md` | `claude-md-project.md` |
 | `.claude/settings.json` | `settings-json.md` |
 | `README.md` | (project-specific; user fills) |
