@@ -153,7 +153,13 @@ When the project involves AI/ML components, add these considerations:
 ## Integration with Other Extensions
 
 - **Orchestrator agent**: Invokes this skill when decomposing complex tasks
-- **execute-task skill**: Takes over at Phase 3 (EXECUTE) with the plan this skill produced
+- **execute-task skill**: F011 Option A delegation — `execute-task` Phase 1
+  (PLAN) delegates *to this skill* when work spans 3+ phases, plan body
+  would exceed ~80 lines, user explicitly requests SOW/implementation plan,
+  or a stakeholder review gate is in scope. After this skill produces the
+  SOW + Implementation Plan artifacts, control returns to `execute-task`
+  Phase 2 (REVIEW). For lightweight single-phase work, `execute-task`
+  authors the plan inline without delegating here.
 - **assessing-quality skill**: Provides quality framework referenced in Phase 6 (testing strategy)
 - **designing-workflows skill**: Produces the workflow diagrams referenced in SOW Section 8
 - **verifier agent**: Validates deliverables against acceptance criteria from this plan

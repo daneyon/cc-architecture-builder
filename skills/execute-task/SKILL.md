@@ -52,6 +52,24 @@ Before writing any code or making any changes:
 
 **Failure mode prevented**: One-shotting (dumping a feature list and hoping for the best).
 
+#### Delegation to `plan-implementation` (F011 Option A)
+
+Phase 1 authors plans inline by default. **Delegate to the
+`plan-implementation` skill** when ANY of the following apply:
+
+- Task spans 3+ phases (multi-phase work needing SOW + phased deliverables)
+- Plan body would exceed ~80 lines (artifact-worthy persistence)
+- User explicitly requests "implementation plan" or "SOW"
+- Stakeholder review gate is part of the workflow (cross-functional sign-off)
+
+When delegating: invoke `plan-implementation` with the same objective +
+context, accept its SOW + Implementation Plan artifacts, then resume
+Phase 2 (REVIEW) on the produced plan. The plan-implementation skill
+owns artifact authoring; this skill owns execution.
+
+For everything else (single-phase work, contained scope, no artifact
+needed): keep the plan inline per the template above.
+
 ### Phase 2: REVIEW
 
 Before executing:
