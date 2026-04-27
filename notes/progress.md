@@ -1,8 +1,61 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b + 3c.1 + 3c.3** Commands→Skills Migration: renames + 5 orphan-promotions + F011 delegation wiring; Phase 3c.2 hybrid merges deferred to next session for separate REVIEW gate)
-**Current task**: Phase 3b + 3c.1 + 3c.3 LANDED. Phase 3c.2 queued (hybrid merges into `scaffold-project --mode` — needs architectural design).
-**Branch**: `master` (CAB, local-only; solo workflow)
+**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b + 3c.1 + 3c.2 + 3c.3** Commands→Skills Migration: renames + 5 orphan-promotions + F011 delegation wiring + hybrid merges into scaffold-project --mode router)
+**Current task**: Phase 3b + 3c (full) LANDED. Phase 3d queued (wrapper command archival per D6 — pending empirical UX validation).
+**Branch**: `master` (pushed to origin/master after Phase 3c.1+3c.3)
+
+---
+
+## Session 37 (cont.²) — Wave 3 Phase 3c.2 (2026-04-24)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable).
+
+### What landed in Session 37 cont.²
+
+**Phase 3c.2 — Hybrid merges into scaffold-project --mode router** (work commit `6653a25`):
+
+Architectural choice: **Option B (assets-based progressive disclosure)** per REVIEW gate. `scaffold-project/SKILL.md` becomes a 120-line router that dispatches on `--mode` flag to mode-specific procedures in `assets/`. 21 files changed, 998+/638-.
+
+**5 modes via assets/mode-*.md** (each links to relevant KB; never duplicates):
+- `(default)` 118L — interactive discovery; references `knowledge/schemas/`, `knowledge/implementation/workflow.md`
+- `--mode plugin` 114L — full CAB plugin scaffold + git + GitHub; references `knowledge/schemas/distributable-plugin.md`, `knowledge/distribution/marketplace.md`, `knowledge/prerequisites/git-foundation.md`
+- `--mode integrate` 123L — 5-phase overlay onto existing codebase; references `knowledge/components/`, `knowledge/operational-patterns/`, `knowledge/reference/` (a-team-database)
+- `--mode global` 94L — `~/.claude/` setup; references `knowledge/schemas/global-user-config.md`, `knowledge/components/memory-claudemd.md`
+- `--mode quick` 76L — slim quick-mode procedure; templates externalized
+
+**10 templates extracted** to `assets/templates/`: `claude-md-{global,project}.md`, `plugin-json.md`, `settings-json.md`, `skill.md`, `agent.md`, `command.md`, `hooks-json.md`, `mcp-json.md`, `knowledge-index.md`. Now reusable across modes (e.g., both `--mode plugin` and `--mode quick` reference the same `claude-md-project.md`).
+
+**4 commands trimmed to mode shims** per D6 (trigger preservation):
+- `init-plugin` (37L) → `--mode plugin`
+- `integrate-existing` (35L) → `--mode integrate`
+- `new-global` (29L) → `--mode global`
+- `new-project` (43L) → default mode + **F009-unique Lifecycle Advisory section preserved** (not merged into mode-default.md to keep it command-trigger-specific)
+
+**`quick-scaffold` skill** retained as 1-line alias (per Decision 2b) preserving `quick-scaffold` skill-name trigger; body delegates to `scaffold-project --mode quick`. Skill count therefore **unchanged at 15** (correcting prior expectation of 15→14 — the alias retention preserves the count).
+
+**Knowledge integration philosophy explicit**: router SKILL.md has a "Knowledge Integration" section establishing the link-not-duplicate pattern citing LL-11 (wrapper philosophy). Each mode asset has a "Knowledge Anchors" section pointing at the relevant KB cards. This is the **seed** for the user's end-vision of KB→skill migration toward domain-specialized skill packs (downstream phase, likely UXL-038 territory).
+
+**Phase 3c.2 VERIFY**: independent verifier agent — PASS on all 8 acceptance criteria including F009 Lifecycle Advisory preservation, no new KB redundancy, all 9 spot-checked cross-refs resolvable.
+
+### Math correction
+
+Earlier state refresh (post-3c.1+3c.3) projected post-3c.2 skill count = 12 (math error). **Actual post-3c.2 count = 15** because:
+- 3 hybrid commands (init-plugin/integrate-existing/new-global) were never skills, so absorbing their content doesn't reduce skill count
+- `quick-scaffold` retained as alias (per Decision 2b), so its absorption doesn't reduce count either
+- Router pattern adds modes/templates as ASSETS, not new skills
+
+If `quick-scaffold` alias is removed in Phase 3d after empirical validation: **15 → 14**. No further reduction expected unless future phases consolidate other skills.
+
+### Push state
+
+After this commit lands locally, total unpushed = 1 work commit + 1 state refresh commit (this one). Will push at session close OR when user instructs.
+
+### Queued after Session 37 (cont.²)
+
+- **Phase 3d**: archive wrapper commands once empirical UX-equivalence validated (per D6). Candidates after 3c.2: 4 mode-shim commands + 5 orphan-promoted shims + 6 wrapper trims from 3b = potentially 15 commands → 0 if full archive validated.
+- **Wave 3 Part 2 (UXL-001)**: default setup protocol project-schema-first — gated on Phase 3d landing
+- **UXL-038 territory**: KB→skill migration toward domain-specialized skill packs (user end-vision; the 3c.2 router pattern is the seed)
+- **Phase D HydroCast state-mgmt comparison**: still gated on PR #8 merge
 
 ---
 
