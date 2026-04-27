@@ -1,8 +1,60 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b** Commands→Skills Migration: 8 skill renames + atomic cross-ref sweep + wrapper command trims + D5 amendment)
-**Current task**: Phase 3b LANDED. Phase 3c queued (orphan promotions + hybrid merges + F011 Option A wiring).
+**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b + 3c.1 + 3c.3** Commands→Skills Migration: renames + 5 orphan-promotions + F011 delegation wiring; Phase 3c.2 hybrid merges deferred to next session for separate REVIEW gate)
+**Current task**: Phase 3b + 3c.1 + 3c.3 LANDED. Phase 3c.2 queued (hybrid merges into `scaffold-project --mode` — needs architectural design).
 **Branch**: `master` (CAB, local-only; solo workflow)
+
+---
+
+## Session 37 (cont.) — Wave 3 Phase 3c.1 + 3c.3 (2026-04-24)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable post-3b).
+
+### What landed in Session 37 cont.
+
+**Phase 3c.1 — Orphan promotions** (work commit `7b23830`):
+- 5 new skills created with rich body content (Purpose / When-to-Invoke / Protocol / Verification / Integration sections; 119–162 lines each):
+  - `commit-push-pr` (kept name; verb-led 3-word workflow descriptor matches command for trigger continuity)
+  - `sync-context` (from `context-sync` command)
+  - `index-kb` (from `kb-index` command)
+  - `check-sync` (from `sync-check` command)
+  - `scan-techdebt` (from `techdebt` command)
+- 5 corresponding commands trimmed to pure shims (28–33 lines each, down from 64–146)
+- `init-worktree` skipped per D2 (CC built-in `--worktree` covers single case)
+- Command names PRESERVED per D6 — full trigger continuity preserved
+
+**Phase 3c.3 — F011 Option A delegation wiring** (same commit `7b23830`):
+- `execute-task` SKILL.md Phase 1 (PLAN) gained `#### Delegation to plan-implementation (F011 Option A)` subsection at lines 55-71 with 4 explicit boundary criteria:
+  - Task spans 3+ phases
+  - Plan body would exceed ~80 lines
+  - User explicitly requests SOW or "implementation plan"
+  - Stakeholder review gate is part of workflow
+- `plan-implementation` SKILL.md Integration section gained reciprocal F011 documentation including return-to-Phase-2 handoff
+- Pure documentation wiring (no code dependency); preserves both skills' independent invocability
+
+**Phase 3c VERIFY**: independent verifier agent — PASS on all 8 acceptance criteria (15/15 SKILL.md frontmatter aligned, 9/9 cross-refs exist, F011 wiring symmetrical and complete).
+
+### Skill count growth
+
+- Pre-Session-37: 10 skills (post-Session-36)
+- Post-3b (skill renames only, no count change): 10
+- Post-3c.1: **15 skills** (5 new from orphan promotions)
+- Post-3c.2 (next session): expected **12** (15 - 3 absorbed: `quick-scaffold`, plus `init-plugin`/`integrate-existing`/`new-global` command bodies merging into `scaffold-project --mode`)
+
+### Phase 3c.2 deferred — architectural decision required
+
+Phase 3c.2 requires separate REVIEW gate because:
+- `quick-scaffold` is 292 lines of templates — merging inline into `scaffold-project` would balloon SKILL.md past 400 lines
+- 4 modes (plugin / integrate / global / quick) each have distinct preconditions, prompts, and outputs
+- Architectural choice: inline-body vs `assets/mode-*.md` progressive disclosure routing
+- Recommended for next session: separate plan + REVIEW + EXECUTE; the assets/ progressive-disclosure pattern looks more maintainable but warrants explicit user input
+
+### Queued after Session 37 (cont.)
+
+- **Phase 3c.2**: hybrid merges into unified `scaffold-project --mode` skill (4 commands + quick-scaffold skill absorbed)
+- **Phase 3d**: archive wrapper commands once empirical UX-equivalence validated (per D6)
+- **Wave 3 Part 2 (UXL-001)**: default setup protocol project-schema-first — gated on Phase 3c+3d landing
+- **Phase D HydroCast state-mgmt comparison**: still gated on PR #8 merge
 
 ---
 

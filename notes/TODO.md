@@ -1,9 +1,9 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-24 (Session 37 — Wave 3 Phase 3b LANDED)
+**Last Updated**: 2026-04-24 (Session 37 cont. — Wave 3 Phase 3b + 3c.1 + 3c.3 LANDED)
 **Plugin Version**: 1.1.0
-**Active Implementation Plan**: `notes/impl-plan-commands-skills-migration-2026-04-24.md` (Phase 3b complete; Phase 3c next)
-**Active Task**: Wave 3 Phase 3c queued — orphan promotions + hybrid merges + F011 Option A wiring (see `notes/current-task.md`)
+**Active Implementation Plan**: `notes/impl-plan-commands-skills-migration-2026-04-24.md` (Phases 3b, 3c.1, 3c.3 complete; Phase 3c.2 next)
+**Active Task**: Wave 3 Phase 3c.2 queued — hybrid merges into `scaffold-project --mode` (architectural REVIEW gate needed; see `notes/current-task.md`)
 
 ---
 
