@@ -1,8 +1,61 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b + 3c.1 + 3c.2 + 3c.3** Commands→Skills Migration: renames + 5 orphan-promotions + F011 delegation wiring + hybrid merges into scaffold-project --mode router)
-**Current task**: Phase 3b + 3c (full) LANDED. Phase 3d queued (wrapper command archival per D6 — pending empirical UX validation).
-**Branch**: `master` (pushed to origin/master after Phase 3c.1+3c.3)
+**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b + 3c (full)** Commands→Skills Migration + **Wave 7** Architecture Open Questions Batch [UXL-003, UXL-006, UXL-023])
+**Current task**: Wave 3 + Wave 7 LANDED. Phase 3d gated on UX validation (per D6); Wave 4 next non-blocked candidate (with dual-POV gate for hook-cluster work).
+**Branch**: `master` (pushed through 311d6e3; Wave 7 commits pending push)
+
+---
+
+## Session 37 (cont.³) — Wave 7 Architecture Open Questions Batch (2026-04-24)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable).
+
+### What landed in Session 37 cont.³
+
+**Wave 7 — Architecture decisions** (work commit `3ee74fc` + this state refresh):
+
+Three open architecture rows resolved in one batch session per the wave plan's "1 session for the batch" estimate. All used the `analyze-architecture` skill's analytical structure (Question → Component Decomposition → Pros/Cons → Decision Verdict), applied manually because mid-session-renamed skill names are not in the runtime registry until next session restart (useful empirical finding for future skill renames).
+
+**UXL-006 — plan-implementation a-team integration**:
+- Verified `plan-implementation/SKILL.md` already referenced `product-design-cycle.md` but NOT `a-team-database.yaml`
+- Added "Team Formation Advisory (Knowledge Anchor)" section mirroring the pattern from `scaffold-project/assets/mode-integrate.md` (link-not-duplicate philosophy)
+- References section now includes `a-team-database.yaml` + `requirements-doc-guide.md`
+
+**UXL-003 — orchestrator subagent global-default disposition**:
+- Verdict: **REMOVE** `"agent": "orchestrator"` from `~/.claude/settings.json` (recommendation only; user owns global config)
+- Captured in `notes/global-extensions-map.md` as a UXL-003 Decision section
+- Empirical confirmation: `~/.claude/agents/orchestrator.md` and `verifier.md` shadow copies have ALREADY been removed (LL-27 enforcement); only 3 global agents remain (code-reviewer, debugger-specialist, general-researcher). Map refreshed 5→3.
+- CAB plugin's `agents/orchestrator.md` stays unchanged — invokable explicitly when cross-domain coordination genuinely needed
+- Three-layer model purity reinforced: subagents = domain specialists, not session defaults
+
+**UXL-023 — Dream consolidation skill scope**:
+- Verdict: **SUPERSEDED** for general memory consolidation (auto-memory layer already does Layer-6-Dreaming-adjacent behavior)
+- Narrowed to manual LL→CLAUDE.md promotion convention; documented in `notes/lessons-learned.md` as "Conventions (cross-cutting) → LL → CLAUDE.md Promotion (manual, judgment-based)" with 4-criterion test
+- No skill built; dual-POV check applied (frequency too low ~1-2/quarter; judgment is load-bearing not procedure)
+
+**Wave 7 VERIFY**: independent verifier agent — PASS on all 7 acceptance criteria.
+
+### Notes count
+
+Top-level `notes/` unchanged at 16 visible files + README. No new files added; modifications only to `lessons-learned.md` (small convention addition), `global-extensions-map.md` (UXL-003 decision section + agent-table refresh), and CSV (3 row updates). Per user's directional signal — keep notes/ lean, this batch added conventions + decisions IN-PLACE rather than as new artifacts.
+
+### Skills exercised hands-on this wave
+
+- `plan-implementation` — wave plan authoring (you read it earlier)
+- `analyze-architecture` — manual application for 3 sub-tasks (Skill tool dispatch failed for renamed skills until session restart; useful empirical finding worth a future LL)
+- `execute-task` — overarching protocol enforcement
+- `verifier` agent — independent Phase 4 PASS
+
+**Skills NOT yet exercised**: `audit-workspace` (no audit triggered), `index-kb` (no KB index regeneration needed), `commit-push-pr` (used direct git commits per protocol), `quick-scaffold` alias / scaffold-project modes (no scaffolding triggered). All available for future wave work.
+
+### Queued after Session 37 (cont.³)
+
+- **Phase 3d** (UXL-002 wrapper archival): GATED on empirical UX validation per D6
+- **Wave 4** (Structural Hook Enforcers — UXL-029/030/026): next non-blocked candidate; carries dual-POV risk (Wave 2 voided UXL-027/028 for over-building); should apply dual-POV check before any hook implementation
+- **Wave 5** (LL-28 State-Write Protocol Pair — UXL-017→UXL-016): sequential, dying-session recovery validation needed first
+- **Wave 6** (UXL-025 Global CLAUDE.md v2 + UXL-034 state-mgmt-capture skill): architectural; UXL-025 was queued behind Phase D HydroCast comparison
+- **Wave 8+** (UXL-005 KB→KG foundation, then UXL-004/009/010 post-KG deliverables): aligned with user's KB→skill end-vision direction
+- **Phase D HydroCast state-mgmt comparison**: still gated on PR #8 merge
 
 ---
 
