@@ -1,8 +1,43 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-28 (Session 38 — Plugin/settings remediation [UXL-041 logged] before Wave 8 Phase 2)
-**Current task**: Plugin schema alignment + settings cascade fix LANDED. Wave 8 Phase 2 still queued (after user verifies plugin auto-update works).
-**Branch**: `master` (pushed through 53889cf; Session 38 commits pending push)
+**Last session**: 2026-04-28 (Session 38 closed — plugin remediation + structural DP8 enforcement + KB cruft cleanup)
+**Current task**: Wave 8 Phase 2 awaits user comments before kickoff (per session-close gate).
+**Branch**: `master` (Session 38 closed cleanly; KB cruft cleanup + close commit pending push)
+
+---
+
+## Session 38 (cont.²) — KB cruft cleanup + session close (2026-04-28)
+
+### What landed in Session 38 cont.²
+
+User caught a load-bearing issue: KB artifacts I edited in Session 38 cont. contained incremental state details (session refs, dates, UXL/LL incident narrative) that violate KB-vs-state-artifact separation. Cleaned 3 files to be temporally neutral:
+
+1. **`knowledge/overview/design-principles.md` DP8 §Operational embodiment**: removed "(added 2026-04-28 per LL-30)" annotation, "Sessions 36-37 violated DP8 by..." narrative, "(UXL-041)" parenthetical. Rewrote as timeless reference — describes the principle/enforcement, points at LL-30 for the recurrence pattern (LL is stable reference data; KB references LL by ID, doesn't restate incident content).
+2. **`skills/audit-workspace/SKILL.md` Dimension 8**: removed "(LL-30)" parenthetical from frontmatter description + table row + section header (LL ref retained as separate "see LL-30" pointer). Removed "LATEST-ADDED (2026-04-28 per LL-30)... UXL-041 refactor candidates" temporal/state cruft from scoring impact paragraph; rewrote as timeless ("for projects with pre-existing overlap-but-no-wrap components...").
+3. **`skills/scaffold-project/SKILL.md` Step 0**: removed "Sessions 36-37 built 3 CAB components..." narrative from "Why this gate exists"; rewrote as "passive documentation of DP8 does not prevent violation at scaffolding time. See LL-30 for the recurrence pattern this gate prevents."
+
+### Meta-rule surfaced (deferred codification to Wave 8 Phase 2)
+
+KB authoring rule: KB artifacts must be temporally neutral. No "added on date X", "Sessions Y-Z violated", "UXL-NNN tracks" content. KB cross-references LL entries by ID (LLs are themselves stable reference data) but doesn't restate session-specific incident content. Candidate addition to `.claude/rules/kb-conventions.md`.
+
+### User confirmations on settings finalization
+
+User answered all 3 audit follow-ups:
+1. Settings diff (9-line allow + 2-line allowedTools removal): APPROVED — user will apply manually
+2. Side-effects from earlier removal pass:
+   - `subagentModel: opus` removed: INTENTIONAL ✓
+   - `RUST_LOG: info` added: can DELETE (not used)
+   - `GITHUB_PERSONAL_ACCESS_TOKEN`: never used; intentional removal ✓
+   - `CLAUDE_CODE_DISABLE_TELEMETRY: "true"` removed: UNCERTAIN — user noted CC's native OpenTelemetry support (https://code.claude.com/docs/en/monitoring-usage) could be useful for token-tracking metrics, replacing custom utility scripts. DEFERRED.
+3. Hooks: user asked for advice. Recommendation = KEEP both. `bash-security-gate.sh` (PreToolUse Bash) provides command-pattern denylist complementary to sandbox container isolation; `ruff format` (PostToolUse Write|Edit) silently no-ops on non-Python files and serves real Python workflow.
+
+### OpenTelemetry observation (deferred consideration)
+
+User's OpenTelemetry interest aligns with DP8 wrap-and-extend pattern. Instead of CAB building custom token-tracking utilities (e.g., `hooks/scripts/bootstrap-cost.sh` and any future state-mgmt token instrumentation), leverage CC's native OpenTelemetry metrics. Not formalized as UXL row to keep notes/ lean per user's directional signal; surfaced in current-task.md for future decision.
+
+### Session 38 close
+
+Tense hygiene CLEAN. State files current. Bootstrap cascade ready for fresh-session pickup with explicit AWAIT USER COMMENTS gate at top of current-task.md.
 
 ---
 

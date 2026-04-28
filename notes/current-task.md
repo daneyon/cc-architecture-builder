@@ -1,39 +1,56 @@
-# Current Task: User-side settings finalization → then Wave 8 Phase 2
+# Current Task: Wave 8 Phase 2 (KB → KG Graph Schema Design) — AWAIT USER COMMENTS
 
-**Status**: Session 38 cont. settings audit presented + structural DP8 enforcement layer LANDED (LL-30 + scaffold-project Step 0 + audit-workspace Dim 8 + design-principles DP8 extension). User must finalize settings.json + clarify shelved-hooks reference before Wave 8 Phase 2.
-**Last active**: 2026-04-28 (Session 38 cont.)
-**Branch**: `master` (Session 38 cont. commits pending push at session close)
+**Status**: Session 38 closed cleanly 2026-04-28. User has signaled they will provide comments before Wave 8 Phase 2 kicks off. Do NOT auto-proceed on cold start — wait for user input first.
+**Last active**: 2026-04-28 (Session 38 closed)
+**Branch**: `master` (clean; all Session 38 commits pushed)
 **Active plan**: [notes/impl-plan-kb-to-kg-2026-04-24.md](impl-plan-kb-to-kg-2026-04-24.md)
 
 ---
 
-## User-side actions required (do BEFORE Wave 8 Phase 2)
+## User-side actions still pending (apply at your convenience)
 
-### 1. Verify CAB plugin auto-update now works
+### Settings.json finalization
 
-```bash
-/plugin update cab@cab
-# OR restart CC entirely
+**Apply diff** (confirmed approved):
+
+Remove from `permissions.allow` (9 lines):
+```diff
+-    "Skill(commit-push-pr)",
+-    "Skill(commit-push-pr:*)",
+-    "Skill(cab:techdebt)",
+-    "Skill(cab:techdebt:*)",
+-    "Skill(execute-task)",
+-    "Skill(execute-task:*)",
+-    "mcp__claude_ai_Context7__resolve-library-id",
+-    "mcp__claude_ai_Context7__query-docs",
+-    "WebSearch",
 ```
 
-**Expected**: cache at `~/.claude/plugins/cache/cab/cab/` will move from `1.1.0/` semver dir to a new commit-hash dir (e.g., `0880cea/` or whatever the latest pushed commit short-hash is). The new dir should contain ALL 16 current skills with renamed verb+object pattern (analyze-architecture, audit-workspace, check-sync, close-session, commit-push-pr, create-components, execute-task, index-kb, plan-implementation, pre-push-state-review, quick-scaffold, recover-session, scaffold-project, scan-techdebt, sync-context, validate-structure).
-
-**If verification fails**: revert via `git revert 0880cea` (rollback the schema change) and investigate further.
-
-### 2. (Recommended) Remove orchestrator global-default from ~/.claude/settings.json
-
-Per Wave 7 UXL-003 decision (already executed at project + project-root layers in Session 38):
-
-```json
-// Remove this line from ~/.claude/settings.json:
-"agent": "orchestrator",
+Remove from `allowedTools` (2 lines):
+```diff
+-    "mcp__filesystem_read_file": "auto_approve",
+-    "mcp__filesystem_list_directory": "auto_approve"
 ```
 
-Net effect across all 3 layers: orchestrator subagent no longer auto-binds as session default; CLAUDE.md persona drives main session; subagent invokable explicitly when cross-domain delegation needed.
+Fix or remove `additionalDirectories: ["\\tmp"]` per actual intent.
+
+Remove from `environmentVariables` (you confirmed):
+```diff
+-    "RUST_LOG": "info"
+```
+
+**Defer decision**: `CLAUDE_CODE_DISABLE_TELEMETRY`. CC's native OpenTelemetry support (https://code.claude.com/docs/en/monitoring-usage) could provide token-tracking metrics that eliminate the need for CAB to build custom utility scripts (e.g., `bootstrap-cost.sh`). Aligns with DP8 wrap-and-extend. Recommend evaluating before re-adding the disable flag.
+
+### Hooks recommendation (per your ask)
+
+**KEEP both hooks** — both are real, functional, and complementary to sandbox:
+
+- `bash-security-gate.sh` (PreToolUse on Bash): provides a deterministic command allowlist gate. The CC sandbox provides container-level isolation (filesystem, network); the security gate provides command-pattern denial (e.g., catches `rm -rf` patterns the sandbox might still permit inside its allowed paths). Defense in depth — they complement, don't duplicate.
+- `ruff format` (PostToolUse on Write|Edit): silently no-ops on non-Python files (`2>/dev/null || true`). Useful for Python work; zero overhead for non-Python. You have `Bash(ruff check:*)` in allow → you do use ruff → keep.
 
 ---
 
-## Next Session Pickup — Wave 8 Phase 2 (after verification)
+## Wave 8 Phase 2 (next session, after your comments)
 
 ### Scope
 
@@ -41,12 +58,13 @@ Graph schema design — node types + edge types + serialization + documentation.
 
 1. **Multi-type node taxonomy**: `kb-card`, `skill`, `agent`, `command`, `notes-artifact`, `lesson`
 2. **Edge type taxonomy**: `depends_on`, `related` (existing) + `governs`, `embodies`, `references` (new)
-3. **Serialization decision**: JSON-LD (W3C standard) vs custom JSON (pragmatic)
+3. **Serialization decision**: JSON-LD (W3C standard) vs custom JSON
 4. **Schema documentation**: extend `knowledge/components/knowledge-base-structure.md`
 
-### Phase 1 finding driving Phase 2
+### Deferred to Wave 8 Phase 2 (or appropriate future wave)
 
-8 dangling cross-references from `knowledge/reference/` files pointed at SKILL names (`plan-implementation`, `execute-task`) — confirming KB cards already cross-reference skills as if they were nodes. Schema MUST accommodate multi-type nodes.
+- **KB authoring rule** (codify the lesson from Session 38 cont.²): KB artifacts must be temporally neutral — no "added on date X", "Sessions Y-Z violated", "UXL-NNN tracks" content. KB cross-references LL entries by ID (LLs are stable reference) but doesn't restate their session-specific content. Candidate addition to `.claude/rules/kb-conventions.md`.
+- **OpenTelemetry-as-state-mgmt-tooling consideration** — alternative to CAB-built token-tracking utilities (DP8 wrap pattern).
 
 ### Wave order reminder
 
@@ -56,26 +74,14 @@ Wave 5 ✓ → Wave 8 (in progress) → Wave 4 (hooks; dual-POV gated)
 
 ## Session 38 Closure
 
-- **Commits this session**: `0880cea` work (5 files, 8+/10-) + this state refresh (next commit)
-- **Pending push**: 2 commits (Session 38 work + state refresh)
-- **Verifier**: NOT invoked (structural-only fix; verification = user runs `/plugin update`)
-- **UXL log**: UXL-041 logged for DP8 wrap-and-extend refactor opportunity (deferred wave)
-- **Skill count**: 16 (unchanged in Session 38)
+Full arc summary in `notes/progress.md` Session 38 + cont./cont.²/cont.³ entries. New artifacts: LL-30 (DP8 enforcement gap), UXL-041 (DP8 wrap refactor candidates). Modified: scaffold-project Step 0, audit-workspace Dim 8, design-principles.md DP8.
 
----
+## Reference
 
-## Pre-2026-04-22 Queued Work (unchanged)
-
-- **Phase D — HydroCast ↔ CAB State-Management Comparison** — HARD-BLOCKED on PR #8
-
----
-
-## Reference Artifacts
-
-- **Wave plan**: `notes/ux-log-wave-plan-2026-04-22.md`
-- **Tracker**: `notes/ux-log-001-2026-04-22-pass-1.csv` (UXL-041 added; UXL-017/006/003/023 resolved)
-- **Active plans**: 2 impl-plan-* files (UXL-002, UXL-005)
-- **Auto-memory**: `memory/feedback_dual_pov_check.md`
-- **Plugin-dev cache (DP8 wrap target)**: `~/.claude/plugins/cache/claude-plugins-official/plugin-dev/<commit-hash>/`
+- Wave plan: `notes/ux-log-wave-plan-2026-04-22.md`
+- Active plans: 2 (UXL-002 Phase 3d gated; UXL-005 Phase 2 next)
+- Tracker: `notes/ux-log-001-2026-04-22-pass-1.csv`
+- Plugin-dev (DP8 wrap target): `~/.claude/plugins/cache/claude-plugins-official/plugin-dev/`
+- Phase D HydroCast: still PR #8 blocked
 
 <!-- T1:BOUNDARY — current-task.md is entirely T1 (<100L hard cap). -->

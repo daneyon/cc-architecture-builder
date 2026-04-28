@@ -2,8 +2,8 @@
 name: audit-workspace
 description: >-
   Audit CC project workspace against CAB v1.1.0 standards. Read-only 8-dimension
-  scored assessment with YAML + markdown artifacts (8th dimension = DP8 wrap-and-extend
-  compliance per LL-30). Triggers: audit workspace, check standards, cab audit,
+  scored assessment with YAML + markdown artifacts; Dimension 8 covers DP8
+  wrap-and-extend compliance. Triggers: audit workspace, check standards, cab audit,
   workspace health check, assess CC setup, dp8 compliance check.
 argument-hint: "Target path (default: cwd) and flags (e.g., '--changed-only')"
 agent: true
@@ -115,17 +115,19 @@ For **each dimension**, follow this protocol:
 | 5 | Rules Coverage | `rules-standards.md` | `.claude/rules/**/*.md` | same |
 | 6 | Knowledge Structure | `knowledge-standards.md` | `knowledge/**` | same |
 | 7 | Hooks Configuration | `hooks-standards.md` | `hooks/hooks.json` | hooks in `.claude/settings.json` |
-| 8 | **DP8 Wrap-and-Extend Compliance** (LL-30) | inline (see scan protocol below) | all `skills/`, `agents/`, `commands/` cross-checked vs installed plugins | same |
+| 8 | **DP8 Wrap-and-Extend Compliance** | inline (see scan protocol below) | all `skills/`, `agents/`, `commands/` cross-checked vs installed plugins | same |
 
 For dimensions with zero applicable components at the project's complexity tier,
 score as N/A rather than ABSENT. A minimal project with no agents is not
 penalized for lacking agent frontmatter.
 
-**Dimension 8 — DP8 Wrap-and-Extend Compliance Scan (LL-30 enforcement)**:
+**Dimension 8 — DP8 Wrap-and-Extend Compliance Scan**:
 
 Read-only check for substantial domain overlap between project's CC extensions
-and INSTALLED CC plugins (especially Anthropic-official). For each project
-skill/agent/command, classify:
+and INSTALLED CC plugins (especially Anthropic-official). Operational
+enforcement of DP8 — see `knowledge/overview/design-principles.md` §Principle 8
++ `notes/lessons-learned.md` LL-30 for the recurrence pattern this scan
+prevents. For each project skill/agent/command, classify:
 
 - **CLEAR** — no installed plugin covers the domain; build was justified
 - **WRAPS-EXISTING** — project component documents a wrap relationship to a
@@ -155,9 +157,9 @@ done
 
 Scoring impact: DUPLICATES findings cap dimension score at MINIMAL (1).
 WRAPS-EXISTING is full credit for the wrap. CLEAR is also full credit.
-This dimension is LATEST-ADDED (2026-04-28 per LL-30); existing CAB
-projects will have known DUPLICATES (UXL-041 refactor candidates) until
-the wrap-and-extend refactor wave executes.
+For projects with pre-existing overlap-but-no-wrap components (refactor
+debt), DUPLICATES findings surface them so the wrap-and-extend refactor
+can convert DUPLICATES → WRAPS-EXISTING.
 
 **Agent Frontmatter dimension — mandatory shadow scan (LL-27 enforcement
 via UXL-013)**: for plugin projects, after the per-file frontmatter

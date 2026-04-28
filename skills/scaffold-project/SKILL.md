@@ -36,9 +36,10 @@ time when invoked).
 
 **Before** any mode dispatches that creates a new skill / agent / command /
 hook / MCP server, **explicitly verify** no existing CC capability already
-covers the domain. This is the operational embodiment of LL-30 — passive
-documentation of DP8 (Wrap & Extend) is insufficient; the gate must fire
-before scaffolding work begins.
+covers the domain. This is the operational embodiment of DP8 (Wrap & Extend);
+the gate must fire before scaffolding work begins. See
+`knowledge/overview/design-principles.md` §Principle 8 + `notes/lessons-learned.md`
+LL-30 for principle + recurrence-pattern rationale.
 
 **Pre-flight checklist** (answer ALL before proceeding):
 
@@ -53,7 +54,7 @@ before scaffolding work begins.
 - **Overlap found + not wrappable** (rare) → document why wrap is infeasible BEFORE proceeding. Update LL-30 with the new insight.
 - **No overlap found** → proceed with scaffolding. Add a "DP8 Check Passed" note to the new skill body documenting what was checked.
 
-**Why this gate exists**: see `notes/lessons-learned.md` LL-30 — Sessions 36-37 built 3 CAB components (`create-components`, `validate-structure`, `scaffold-project --mode plugin`) duplicating `plugin-dev`'s offering because the DP8 principle was documented but not enforced at the scaffolding entry point. UXL-041 tracks refactor candidates; this gate prevents future recurrence.
+**Why this gate exists**: passive documentation of DP8 does not prevent violation at scaffolding time. See `notes/lessons-learned.md` LL-30 for the recurrence pattern this gate prevents.
 
 ### Step 1: Common Pre-Steps (all modes)
 

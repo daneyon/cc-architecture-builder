@@ -165,22 +165,23 @@ Before building any extension, check whether an existing package, plugin, MCP se
 
 **The CAB-specific application**: CAB itself follows this principle by wrapping CC's official capabilities rather than duplicating them. KB files link to official docs. Skills wrap CC primitives into standardized workflows. Agents compose CC's native subagent system with domain expertise. The entire framework is an extension layer, not a replacement.
 
-**Operational embodiment** (added 2026-04-28 per LL-30):
+**Operational embodiment**:
 
-Documentation alone is insufficient — Sessions 36-37 violated DP8 by building `create-components`, `validate-structure`, and `scaffold-project --mode plugin` from scratch despite Anthropic's official `plugin-dev` plugin already covering the domain (UXL-041). DP8 now has structural enforcement at three points:
+DP8 enforcement lives at two operational gates (per the principle that structural integration > passive documentation — see LL-19 and LL-29):
 
-1. **`skills/scaffold-project/SKILL.md` Step 0 — DP8 Pre-Flight Check**: mandatory gate before any `--mode` dispatch creates new components. Forces explicit verification of installed plugins + Anthropic-official plugin cache + native CC capabilities + MCP wrap opportunities BEFORE scaffolding work begins.
-2. **`skills/audit-workspace/SKILL.md` Dimension 8 — DP8 Compliance Scan**: read-only audit that classifies each project skill/agent/command as CLEAR / WRAPS-EXISTING / DUPLICATES / POTENTIAL-OVERLAP relative to installed plugins. DUPLICATES findings cap the dimension score, surfacing refactor debt explicitly.
-3. **`notes/lessons-learned.md` LL-30**: documents the recurrence pattern + integration hooks above. Reinforces LL-19 (KB must be programmatically actionable) and LL-29 (passive documentation does not prevent recurrence; structural integration does).
+1. **Component scaffolding gate** — `skills/scaffold-project/SKILL.md` Step 0 (DP8 Pre-Flight Check): mandatory verification of installed plugins + Anthropic-official plugin cache + native CC capabilities + MCP wrap opportunities BEFORE any new component is scaffolded.
+2. **Workspace audit gate** — `skills/audit-workspace/SKILL.md` Dimension 8 (DP8 Compliance Scan): read-only audit classifying each project skill/agent/command as CLEAR / WRAPS-EXISTING / DUPLICATES / POTENTIAL-OVERLAP relative to installed plugins. DUPLICATES findings cap the dimension score.
 
-**Pre-build checklist** (encode this mentally for any new component proposal):
+For the recurrence pattern + rationale see `notes/lessons-learned.md` LL-30.
 
-- Have I listed enabled plugins via `~/.claude/settings.json .enabledPlugins`?
-- Have I scanned `~/.claude/plugins/cache/claude-plugins-official/` for prior art?
-- Have I cross-checked CC native built-in tools/settings/hooks?
-- Is there an MCP-wrappable external service that fits better than building?
+**Pre-build checklist** (mental model for any new component proposal):
 
-If overlap found → STOP scaffolding; either invoke directly OR write a thin wrap. If no overlap → proceed AND document "DP8 check passed" in the new component's body.
+- Listed enabled plugins via `~/.claude/settings.json .enabledPlugins`?
+- Scanned `~/.claude/plugins/cache/claude-plugins-official/` for prior art?
+- Cross-checked CC native built-in tools/settings/hooks?
+- MCP-wrappable external service better than building?
+
+Overlap found → STOP scaffolding; invoke directly OR write a thin wrap. No overlap → proceed AND document "DP8 check passed" in the new component's body.
 
 ---
 
