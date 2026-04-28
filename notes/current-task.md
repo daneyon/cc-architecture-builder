@@ -1,13 +1,14 @@
-# Current Task: Wave 8 Phase 2 — KB → KG Graph Schema Design
+# Current Task: Wave 8 Phase 2 — KB → KG Graph Schema Design (AWAIT USER COMMENTS)
 
-**Status**: Wave 3 + 5.1 + 7 + 8.1 LANDED. Wave 8 Phases 2-5 multi-session ahead.
-**Last active**: 2026-04-24 (Session 37 cont.⁵)
-**Branch**: `master`
+**Status**: Wave 3 + 5.1 + 7 + 8.1 LANDED in Session 37 arc (closed 2026-04-28). Wave 8 Phases 2-5 multi-session ahead.
+**Last active**: 2026-04-24 (Session 37 work) → **closed 2026-04-28**
+**Next session entry gate**: User has signaled they will provide comments to address BEFORE Wave 8 Phase 2 kicks off. Do NOT auto-proceed to Phase 2 PLAN/EXECUTE on cold start — wait for user input first.
+**Branch**: `master` (clean; all Session 37 commits pushed through `53889cf`)
 **Active plan**: [notes/impl-plan-kb-to-kg-2026-04-24.md](impl-plan-kb-to-kg-2026-04-24.md)
 
 ---
 
-## Next Session Pickup — Wave 8 Phase 2
+## Next Session Pickup — Wave 8 Phase 2 (after user comments addressed)
 
 ### Scope
 
