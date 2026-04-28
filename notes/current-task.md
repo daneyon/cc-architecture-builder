@@ -1,8 +1,8 @@
-# Current Task: User-side plugin update verification → then Wave 8 Phase 2
+# Current Task: User-side settings finalization → then Wave 8 Phase 2
 
-**Status**: Session 38 plugin/settings remediation LANDED. User must verify plugin auto-update works before Wave 8 Phase 2 kicks off.
-**Last active**: 2026-04-28 (Session 38)
-**Branch**: `master` (Session 38 commits pending push at session close)
+**Status**: Session 38 cont. settings audit presented + structural DP8 enforcement layer LANDED (LL-30 + scaffold-project Step 0 + audit-workspace Dim 8 + design-principles DP8 extension). User must finalize settings.json + clarify shelved-hooks reference before Wave 8 Phase 2.
+**Last active**: 2026-04-28 (Session 38 cont.)
+**Branch**: `master` (Session 38 cont. commits pending push at session close)
 **Active plan**: [notes/impl-plan-kb-to-kg-2026-04-24.md](impl-plan-kb-to-kg-2026-04-24.md)
 
 ---

@@ -6,6 +6,49 @@
 
 ---
 
+## Session 38 (cont.) — Settings audit + structural DP8 enforcement (2026-04-28)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable).
+
+### What landed in Session 38 cont.
+
+**Settings audit** (presented to user; manual application required):
+- Confirmed both prior actions: `agent: orchestrator` removed; plugin update working
+- Flagged 4 side-effects since prior read: `subagentModel: opus` removed, `CLAUDE_CODE_DISABLE_TELEMETRY` removed, `GITHUB_PERSONAL_ACCESS_TOKEN` removed, `RUST_LOG: info` added — user to confirm intentional
+- User's requested removals identified (9 lines from `permissions.allow`: 6 Skill + 2 MCP + 1 WebSearch)
+- Additional stale findings: `mcp__filesystem_*` references in `allowedTools` (no global `.mcp.json` exists), `additionalDirectories: ["\\tmp"]` (suspicious escaped path)
+- Hooks block: `bash-security-gate.sh` exists; `ruff format` PostToolUse looks functional. Asked user to clarify which hook(s) they consider "shelved"
+- Three reference plugins user mentioned (pr-review-toolkit, plugin-dev, feature-dev) NOT directly applicable to settings audit; claude-docs-helper was the right tool + used
+
+**Structural DP8 enforcement** (work commit `de16155`):
+
+User's deeper push-back surfaced the DP8 documentation→enforcement gap. Closing that gap with 3+1 integration hooks following the LL-25/26/27/28 operational embodiment pattern:
+
+1. **LL-30** (NEW, ACTIVE-P0): documents the DP8 enforcement gap + Sessions 36-37 incident + integration hooks. Reinforces LL-19 (KB programmatic actionability) + LL-29 (passive documentation insufficient)
+2. **scaffold-project Step 0** (MANDATORY pre-flight): 4-item checklist + decision gate before any `--mode` dispatch creates new components
+3. **audit-workspace Dimension 8** (DP8 Compliance Scan): read-only audit classifies project components as CLEAR / WRAPS-EXISTING / DUPLICATES / POTENTIAL-OVERLAP relative to installed plugins
+4. **design-principles.md DP8** (extended with Operational embodiment section): closes the documentation→enforcement loop with explicit pointers + pre-build checklist
+5. **UXL-041 ↔ LL-30 bidirectional cross-reference** added per kb-conventions LL ↔ tracker rule
+
+### Skills exercised hands-on this session
+
+- `claude-docs-helper` (settings doc fetch — partial accuracy; user-side cross-checking still needed)
+- `execute-task` (inline path; structural addition was contained scope)
+- `verifier` agent — NOT invoked (structural-only changes; verification = next audit run + future scaffolding triggering Step 0 gate)
+
+### User-side actions still required
+
+1. Apply suggested settings.json diff (remove 9 lines from allow + 2 stale MCP from allowedTools + fix/remove `additionalDirectories`)
+2. Confirm 4 side-effects from earlier removal pass (subagentModel/telemetry/github-token/RUST_LOG)
+3. Clarify which hook(s) you considered "shelved"
+
+### Queued after Session 38 cont.
+
+- Wave 8 Phase 2 (graph schema design): unchanged; user gates on settings finalization + verification
+- All prior gated/queued work unchanged
+
+---
+
 ## Session 38 — Plugin loading triage + DP8 acknowledgment (2026-04-28)
 
 **Bootstrap tokens**: ~7,200 (3-file cascade; stable).

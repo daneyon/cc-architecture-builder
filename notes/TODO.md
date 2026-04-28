@@ -1,6 +1,6 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-28 (Session 38 — Plugin schema alignment + settings cascade fix + UXL-041 logged)
+**Last Updated**: 2026-04-28 (Session 38 cont. — Settings audit presented + structural DP8 enforcement layer added [LL-30])
 **Plugin Version**: (now commit-hash keyed; no semver field — matches official plugin-dev pattern)
 **Active Implementation Plans**:
 - `notes/impl-plan-commands-skills-migration-2026-04-24.md` (UXL-002; Phase 3d gated on UX)
