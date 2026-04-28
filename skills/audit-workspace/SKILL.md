@@ -1,9 +1,10 @@
 ---
 name: audit-workspace
 description: >-
-  Audit CC project workspace against CAB v1.1.0 standards. Read-only 7-dimension
-  scored assessment with YAML + markdown artifacts. Triggers: audit workspace,
-  check standards, cab audit, workspace health check, assess CC setup.
+  Audit CC project workspace against CAB v1.1.0 standards. Read-only 8-dimension
+  scored assessment with YAML + markdown artifacts (8th dimension = DP8 wrap-and-extend
+  compliance per LL-30). Triggers: audit workspace, check standards, cab audit,
+  workspace health check, assess CC setup, dp8 compliance check.
 argument-hint: "Target path (default: cwd) and flags (e.g., '--changed-only')"
 agent: true
 allowed-tools: Read, Grep, Glob, Bash
@@ -91,7 +92,7 @@ quality of files in the wrong location produces confusing results.
 If critical checks fail: emit structural report and **STOP**. Recommend
 `/validate --full` to fix structural issues before re-running audit.
 
-### Phase 2: Standards Audit (7 Dimensions)
+### Phase 2: Standards Audit (8 Dimensions)
 
 For **each dimension**, follow this protocol:
 
@@ -114,10 +115,49 @@ For **each dimension**, follow this protocol:
 | 5 | Rules Coverage | `rules-standards.md` | `.claude/rules/**/*.md` | same |
 | 6 | Knowledge Structure | `knowledge-standards.md` | `knowledge/**` | same |
 | 7 | Hooks Configuration | `hooks-standards.md` | `hooks/hooks.json` | hooks in `.claude/settings.json` |
+| 8 | **DP8 Wrap-and-Extend Compliance** (LL-30) | inline (see scan protocol below) | all `skills/`, `agents/`, `commands/` cross-checked vs installed plugins | same |
 
 For dimensions with zero applicable components at the project's complexity tier,
 score as N/A rather than ABSENT. A minimal project with no agents is not
 penalized for lacking agent frontmatter.
+
+**Dimension 8 — DP8 Wrap-and-Extend Compliance Scan (LL-30 enforcement)**:
+
+Read-only check for substantial domain overlap between project's CC extensions
+and INSTALLED CC plugins (especially Anthropic-official). For each project
+skill/agent/command, classify:
+
+- **CLEAR** — no installed plugin covers the domain; build was justified
+- **WRAPS-EXISTING** — project component documents a wrap relationship to a
+  specific plugin component (e.g., "delegates to plugin-dev/agent-creator")
+- **DUPLICATES** — substantial overlap with installed plugin, no wrap
+  documented → ENHANCEMENT finding (refactor candidate)
+- **POTENTIAL OVERLAP** — partial overlap, ambiguous; flag for human review
+
+Scan protocol:
+
+```bash
+# 1. Enumerate enabled plugins
+jq -r '.enabledPlugins | to_entries | map(select(.value == true)) | .[].key' \
+  ~/.claude/settings.json
+
+# 2. For each enabled plugin, list its skills/agents/commands
+for plugin in $(jq -r '.enabledPlugins | to_entries | map(select(.value == true)) | .[].key' ~/.claude/settings.json); do
+  cache_root=$(find ~/.claude/plugins/cache -maxdepth 4 -type d -name "${plugin%@*}" 2>/dev/null | head -1)
+  if [ -n "$cache_root" ]; then
+    find "$cache_root" -maxdepth 3 -name 'SKILL.md' -o -name '*.md' -path '*/agents/*' -o -name '*.md' -path '*/commands/*'
+  fi
+done
+
+# 3. For each project component, name-match + tag-match against plugin components
+# 4. Generate overlap report
+```
+
+Scoring impact: DUPLICATES findings cap dimension score at MINIMAL (1).
+WRAPS-EXISTING is full credit for the wrap. CLEAR is also full credit.
+This dimension is LATEST-ADDED (2026-04-28 per LL-30); existing CAB
+projects will have known DUPLICATES (UXL-041 refactor candidates) until
+the wrap-and-extend refactor wave executes.
 
 **Agent Frontmatter dimension — mandatory shadow scan (LL-27 enforcement
 via UXL-013)**: for plugin projects, after the per-file frontmatter
