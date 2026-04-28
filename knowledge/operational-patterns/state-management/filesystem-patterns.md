@@ -236,6 +236,15 @@ The pattern:
 
 This is the antidote to the LL-12/LL-17/LL-20 recurrence pattern: passive documentation doesn't prevent recurrence; structural integration does. Reading the file every session does neither.
 
+**Operational embodiments by LL** (selected):
+
+| LL | Operational embodiment | Invocation |
+|---|---|---|
+| LL-25 | `pre-push-state-review` skill + pre-push hook | Auto on `git push`; explicit invocation when reviewing notes/ |
+| LL-26 | `execute-task` Phase 5 two-commit pattern | Every non-trivial task |
+| LL-27 | `check-sync` skill shadow scan | `/cab:sync-check` or `/cab:sync-check --shadow-only` |
+| **LL-28** | **`recover-session` skill** (UXL-017) | After mid-dialogue death; explicit invocation only |
+
 ---
 
 ## State File Tense Hygiene (LL-26)
@@ -325,7 +334,8 @@ protocol is formally superseded (not just evolved).
 | UXL-024 — Pre-push backtick-wrapped marker exclusion | `430fe64` | `git revert 430fe64` | Second-pass filter on draft-marker regex. LL-26 refinement. |
 | UXL-032 — Agent memory: field adoption (3 CAB agents) | `600d9ba` | `git revert 600d9ba` | Frontmatter-only change on architecture-advisor, verifier, project-integrator. Orchestrator intentionally skipped. |
 | UXL-033 — uxl-update.py helper + active-top sort | `008f90e` | `git revert 008f90e` | Adds `hooks/scripts/uxl-update.py` + applies sort to pass-1 CSV. Future resolutions use the helper; reverting removes the helper but not the CSV changes from other commits. |
-| LL-28 candidate (event-triggered state-write protocol) | *TBD (Wave 5)* | *TBD* | Per Session 27 directive: "at least one survived dying-session recovery test before hard-coding." Not yet shipped. |
+| UXL-017 — Recover-session skill (LL-28 fallback recovery formalized) | *TBD (Wave 5.1 commit)* | `git revert <hash>` | New skill `skills/recover-session/SKILL.md` codifying the 6-step Session 27 recovery method (bootstrap → locate JSONL → extract → synthesize gap → backfill → resume HITL). Procedural; no runtime hook. Revert removes the skill folder. |
+| LL-28 candidate UXL-016 (event-triggered state-write protocol) | *TBD (deferred)* | *TBD* | Per Session 27 directive: "at least one survived dying-session recovery test before hard-coding." Now gated on `recover-session` skill (UXL-017) surviving its first real recovery use. |
 
 **Append convention**: when a new state-mgmt protocol lands, add its row here in the same commit that introduces it. Include `[UXL-019]` in the commit message suffix when doing so, so the post-commit hook (once shipped) can verify the inventory stays current.
 
