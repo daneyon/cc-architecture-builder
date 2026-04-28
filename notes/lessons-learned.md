@@ -115,6 +115,25 @@ These are the load-bearing constraints currently held only by passive documentat
 
 ---
 
+## Conventions (cross-cutting)
+
+### LL → CLAUDE.md Promotion (manual, judgment-based)
+
+**Context** (UXL-023 disposition, 2026-04-24): the original "Dream consolidation skill" concept (mimicking CC Layer 6 — Dreaming) was scoped to automate LL→CLAUDE.md promotion. After the auto-memory layer's introduction, that scope is **superseded for general memory consolidation** (auto-memory already decides what's worth remembering and writes to `MEMORY.md`). What remains is the narrow case of promoting durable cross-project learnings from `lessons-learned.md` into project or global `CLAUDE.md` — and this is a **judgment call best kept manual**, not a skill.
+
+**Convention** — promote an LL entry to a CLAUDE.md when ALL of:
+
+1. The lesson is **structural** (governs how work is done across projects), not procedural (one-time fix recipe)
+2. It applies to **3+ projects** or to the global orchestrator persona
+3. Forgetting it has caused recurrence at least once (empirical signal)
+4. Promotion costs <10 lines of CLAUDE.md (otherwise: keep as LL reference and link from CLAUDE.md instead of inlining)
+
+**Mechanism**: edit the relevant CLAUDE.md `## Learned Corrections` section directly; cross-link by citing `LL-NN` so the durable lesson stays single-source-of-truth in `lessons-learned.md`.
+
+**Why not a skill**: frequency is too low (~1-2/quarter at most); judgment is the load-bearing input, not procedure; auto-memory + manual editing already cover the actual workflow without a dedicated skill's overhead. Documented per dual-POV check (`memory/feedback_dual_pov_check.md`).
+
+---
+
 ## Pending
 
 User has additional lessons-learned to add after audit cycles. New entries append at the bottom of the appropriate Class/Pri section.

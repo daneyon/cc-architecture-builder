@@ -1,21 +1,42 @@
 # Global CC Extensions Map
 
-**Snapshot date**: 2026-04-04
+**Snapshot date**: 2026-04-04 (initial); refreshed 2026-04-24 (Wave 7 / UXL-003)
 **Source**: `~/.claude/` (C:\Users\daniel.kang\.claude\)
+
+---
+
+## UXL-003 Decision (2026-04-24) — Orchestrator Subagent Global-Default Disposition
+
+**Question**: Should `"agent": "orchestrator"` remain set in `~/.claude/settings.json`, auto-binding the CAB plugin's `agents/orchestrator.md` as the default session agent?
+
+**Verdict**: **REMOVE** (recommendation; user owns `~/.claude/`).
+
+**Rationale**:
+- Global CLAUDE.md ALREADY embodies the "master strategist + orchestrator" persona; project CLAUDE.md specializes it. Setting orchestrator subagent as default duplicates the layer.
+- Three-layer model purity: subagents are domain specialists (verifier, code-reviewer, debugger-specialist), invoked when delegation is needed — not session defaults.
+- Per-session token overhead: subagent system prompt expands the effective context every session, even for trivial tasks where orchestration framing adds no value.
+- Skill-first execution philosophy already routes most work via skills; the orchestrator subagent rarely adds unique value beyond CLAUDE.md persona.
+- Empirical signal: across Sessions 36-37 (heavy CAB development), the orchestrator subagent has never been the load-bearing entity — main session driven by CLAUDE.md + skills handles all observed workflows.
+
+**Implementation** (user-side, optional):
+1. Remove `"agent": "orchestrator"` line from `~/.claude/settings.json`.
+2. CAB plugin's `agents/orchestrator.md` stays unchanged — invokable explicitly via Skill tool or `--agent orchestrator` flag when cross-domain coordination is genuinely needed.
+
+**LL-27 status (resolved separately)**: prior `~/.claude/agents/orchestrator.md` and `verifier.md` shadow copies have been REMOVED (confirmed 2026-04-24); only domain-specialist agents remain at global scope. CAB plugin agents now resolve cleanly through plugin precedence.
 
 ---
 
 ## Custom Extensions (direct in ~/.claude/)
 
-### Agents (5)
+### Agents (3 — refreshed 2026-04-24; orchestrator + verifier shadows removed per LL-27)
 
 | Agent | Model | Purpose |
 |-------|-------|---------|
-| `orchestrator.md` | opus | Central task router, PLAN->VERIFY->COMMIT enforcement |
-| `verifier.md` | inherit | End-to-end verification, adversarial challenge |
 | `code-reviewer.md` | inherit | Code quality, security, maintainability review |
 | `debugger-specialist.md` | inherit | Token-efficient debugging, root cause analysis |
 | `general-researcher.md` | inherit | Cross-domain research, technology evaluation |
+
+> Pre-2026-04-24 the table also listed `orchestrator.md` and `verifier.md` as global agents. Those have been removed (LL-27 shadow elimination). They now resolve via the CAB plugin (`local → user → plugin` precedence) rather than being shadowed.
 
 ### Skills (11)
 

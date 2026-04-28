@@ -177,8 +177,31 @@ When planning full-stack implementations, consider the dependency graph between 
 Let the project's actual architecture determine which pattern fits — don't default to
 one approach for all projects.
 
+## Team Formation Advisory (Knowledge Anchor)
+
+When the plan involves team composition or role allocation, consult
+`knowledge/reference/INDEX.md` to access the **a-team-database** — 22 roles
+with CC extension mapping (`cc_mapping` field) and scaling tiers
+(solo / small / medium / enterprise).
+
+Use as a **conceptual menu**, NOT a checklist. Filter by:
+
+- Project's team size (solo vs medium vs enterprise)
+- Active phase(s) from the product-design-cycle (which roles are load-bearing in this phase)
+- Pain points surfaced during planning (which roles directly address them)
+
+Suggest only the roles that add value for the specific project. For each
+suggested role, map to its recommended CC extension type (agent vs skill
+vs command) per the database's `cc_mapping` field. This grounds team-shape
+proposals in a curated reference rather than ad-hoc improvisation.
+
+Mirrors the Team Formation Advisory pattern in
+`skills/scaffold-project/assets/mode-integrate.md`.
+
 ## References
 
 - `assets/sow-template.md` — Full SOW template
 - `assets/implementation-plan-template.md` — Full hybrid PRD+SRD template
-- CAB plugin `knowledge/reference/product-design-cycle.md` — Universal 7-phase lifecycle (conceptual framework, not prescriptive)
+- `knowledge/reference/product-design-cycle.md` — Universal 7-phase lifecycle (conceptual framework, not prescriptive)
+- `knowledge/reference/a-team-database.yaml` — 22-role team formation reference (Team Formation Advisory pattern)
+- `knowledge/reference/requirements-doc-guide.md` — MRD/PRD/SRD deep dive for hybrid plan structure
