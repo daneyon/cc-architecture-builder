@@ -1,8 +1,66 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-24 (Session 37 — **Wave 3** + **Wave 7** + **Wave 5.1** + **Wave 8 plan + Phase 1**)
-**Current task**: Waves 3, 5.1, 7, 8.1 LANDED. Wave 8 Phase 2-5 multi-session ahead. Wave 4 (hooks) gated on dual-POV; Phase 3d gated on UX.
-**Branch**: `master` (pushed through cb6ee77; Wave 8 commits pending push)
+**Last session**: 2026-04-28 (Session 38 — Plugin/settings remediation [UXL-041 logged] before Wave 8 Phase 2)
+**Current task**: Plugin schema alignment + settings cascade fix LANDED. Wave 8 Phase 2 still queued (after user verifies plugin auto-update works).
+**Branch**: `master` (pushed through 53889cf; Session 38 commits pending push)
+
+---
+
+## Session 38 — Plugin loading triage + DP8 acknowledgment (2026-04-28)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable).
+
+### Trigger
+
+User unable to load latest CAB extensions across VS Code session + terminal session despite multiple pushes. Asked to investigate before Wave 8 Phase 2. Three concerns surfaced:
+1. CAB plugin broken (can't load latest refinements)
+2. Three-layer model (global orchestrator → project orchestrator → CAB subagent) clarification + standardization decision
+3. Global settings.json model selection — wants xhigh + default-recommended, not Opus + high
+
+### What landed in Session 38
+
+**Diagnosis** (commit `0880cea`):
+
+**Root cause identified — plugin cache pinned to stale semver dir** (`~/.claude/plugins/cache/cab/cab/1.1.0/` had only 9 pre-3b-rename skills; source has 16). Caused by: CAB's plugin.json declared `version: "1.1.0"` field, which CC native plugin manager uses for cache keying. When version stays unchanged, no auto-update.
+
+**Comparison with official plugin-dev** (`~/.claude/plugins/cache/claude-plugins-official/plugin-dev/`):
+- plugin-dev's plugin.json has NO `version` field → cache keys by COMMIT HASH (e.g., `1c81b812991b/`)
+- Auto-updates fire on every git push because commit hash always changes
+- marketplace.json plugin entry: `name, description, author, category, source, homepage` — NO version
+
+**Fix applied**: REMOVED `version` field from CAB's plugin.json AND marketplace.json plugin entry. Aligned marketplace.json schema to official (added category + homepage). CAB now uses commit-hash caching matching official pattern. Auto-updates work on every git push going forward; no more manual semver bumps required.
+
+**Settings cascade clobber** also addressed:
+- `/settings.json` (project root) was `{"agent": "orchestrator"}` — CC does NOT auto-load files at project root. Dead code; deleted via `git rm`.
+- `.claude/settings.json` explicitly set `model:opus, effortLevel:high, agent:orchestrator` — overriding global `xhigh + default-recommended + (Wave 7 recommendation: no agent-default)`. Trimmed to permissions block only.
+
+**Three-layer model verdict** (responding to user's Q2):
+- Technically sound + worth standardizing as CAB official framework
+- CAB unique value-add: orchestration + state-mgmt + context-engineering (the agentic OS platform layer)
+- CAB does NOT own component-creation primitives (those belong to plugin-dev)
+- Wave 7 UXL-003 already decided remove global-default orchestrator binding; this session executed at project + project-root layers; user-side action remaining: also remove from `~/.claude/settings.json`
+
+**DP8 violation acknowledged** (UXL-041 logged):
+- Honest admission: across Sessions 36-37, NEVER invoked plugin-dev's tools before building CAB equivalents
+- plugin-dev offers: 7 skills (agent-development, command-development, hook-development, mcp-integration, plugin-settings, plugin-structure, skill-development) + 3 agents (agent-creator, plugin-validator, skill-reviewer) + 1 command (create-plugin)
+- CAB partially duplicates: create-components, validate-structure, scaffold-project --mode plugin
+- Refactor candidates flagged in UXL-041; deferred to dedicated wave (likely couples to UXL-005 KB-to-KG + UXL-004 advisor bridge)
+
+### User-side actions required
+
+1. **`/plugin update cab@cab`** (or restart CC) → verify cache moves from `1.1.0/` to commit-hash dir with all 16 current skills
+2. **(Recommended) Remove `"agent": "orchestrator"` from `~/.claude/settings.json`** — completes Wave 7 UXL-003 across all 3 layers
+
+### Skills exercised hands-on this session
+
+- `execute-task` (inline path; single-cluster fix work)
+- `verifier` agent — NOT invoked this session (diagnosis-driven; structural fix verification = git log + plugin reload by user)
+
+### Queued after Session 38
+
+- **Wave 8 Phase 2** (graph schema design): unchanged; user gates on Wave 8 Phase 1 review + plugin verification
+- **UXL-041** (DP8 wrap-and-extend refactor): triaged; future wave; couples to UXL-005 + UXL-004
+- **All prior gated/queued work** unchanged: Wave 4 (dual-POV gate), Wave 5.2 (UXL-016 parked), Wave 6, Phase 3d, Phase D HydroCast
 
 ---
 

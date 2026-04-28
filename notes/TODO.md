@@ -1,11 +1,11 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-24 (Session 37 cont.⁵ — Wave 3 + Wave 7 + Wave 5.1 + Wave 8 plan + Phase 1 LANDED)
-**Plugin Version**: 1.1.0
+**Last Updated**: 2026-04-28 (Session 38 — Plugin schema alignment + settings cascade fix + UXL-041 logged)
+**Plugin Version**: (now commit-hash keyed; no semver field — matches official plugin-dev pattern)
 **Active Implementation Plans**:
 - `notes/impl-plan-commands-skills-migration-2026-04-24.md` (UXL-002; Phase 3d gated on UX)
 - `notes/impl-plan-kb-to-kg-2026-04-24.md` (UXL-005; Phase 1 ✓; Phases 2-5 multi-session)
-**Active Task**: Wave 8 Phase 2 (Graph schema design) next session — see `notes/current-task.md`
+**Active Task**: User-side: run `/plugin update cab@cab` to verify auto-update works → then Wave 8 Phase 2 (Graph schema design) — see `notes/current-task.md`
 
 ---
 
