@@ -1,8 +1,61 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-24 (Session 37 — **Wave 3 Phase 3b + 3c (full)** Commands→Skills Migration + **Wave 7** Architecture Open Questions Batch [UXL-003, UXL-006, UXL-023])
-**Current task**: Wave 3 + Wave 7 LANDED. Phase 3d gated on UX validation (per D6); Wave 4 next non-blocked candidate (with dual-POV gate for hook-cluster work).
-**Branch**: `master` (pushed through 311d6e3; Wave 7 commits pending push)
+**Last session**: 2026-04-24 (Session 37 — **Wave 3** + **Wave 7** + **Wave 5.1** [UXL-017 recover-session skill])
+**Current task**: Waves 3, 5.1, 7 LANDED. Phase 3d gated on UX validation; Wave 8 (KB→KG) next per advised order; Wave 4 (hooks) gated on dual-POV check.
+**Branch**: `master` (pushed through d524700; Wave 5.1 commits pending push)
+
+---
+
+## Session 37 (cont.⁴) — Wave 5.1 recover-session skill (2026-04-24)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable).
+
+### What landed in Session 37 cont.⁴
+
+**Wave 5.1 — UXL-017 recover-session skill** (work commit `0a35bbc`):
+
+New skill `skills/recover-session/SKILL.md` (199L) codifying the Session 27 mid-dialogue death recovery method as reusable, invokable procedure. The 6-step protocol:
+
+1. Standard Bootstrap First (3-file cascade — trusted-but-incomplete baseline)
+2. Locate Dying-Session JSONL Transcript (Windows path-encoding rule documented: `~/.claude/projects/<project-path-encoded>/<session-uuid>.jsonl`)
+3. Extract Last N Turns (default 30; `tail -100` for richer context)
+4. Synthesize Coverage Gap (6-row classification table mapping transcript-signal → backfill action)
+5. Backfill Durable Artifacts (state files, LL entries, filesystem mutations, auto-memory)
+6. Resume at HITL Question (re-pose with reconstructed context, OR offer top 1-3 next-action candidates)
+
+Naming per D5-revised (verb+object 2-word): `recover-session`. Alternatives `recover-from-dying-session` (4-word, too long) and `restore-session` (less specific) considered and rejected.
+
+**Cross-linking** (link-not-duplicate philosophy):
+- `filesystem-patterns.md` Lessons-Referenced Protocols section gained NEW "Operational embodiments by LL" table mapping LL-25→pre-push-state-review, LL-26→execute-task two-commit, LL-27→check-sync, **LL-28→recover-session**
+- Reversibility Inventory updated: prior "LL-28 candidate TBD" replaced with concrete UXL-017 row; UXL-016 (event-triggered state-write) row updated to reflect new gating (waits for first real recovery use of recover-session)
+- `lessons-learned.md` LL-28 entry revised to cite the new skill as fallback recovery formalization; UXL-016 status clarified
+
+**UXL-016 stays parked** per user directive — proactive event-triggered state-write protocol must wait for `recover-session` to survive at least one real recovery cycle. This validates the gap pattern empirically before hard-coding the proactive checkpoint (avoids the Wave 2 over-building failure mode).
+
+**Wave 5.1 VERIFY**: independent verifier agent — PASS on all 8 acceptance criteria.
+
+### Skill count growth
+
+- Pre-3c.1: 10 skills
+- Post-3c.1: 15 (5 orphan promotions)
+- Post-3c.2: 15 (quick-scaffold retained as alias)
+- **Post-Wave-5.1: 16** (recover-session added)
+
+### Skills exercised hands-on this wave
+
+- `execute-task` (inline path per F011 boundary check — single-skill build, contained scope, no SOW artifact needed)
+- `verifier` agent (Phase 4 PASS)
+
+**Skills NOT yet exercised in actual recovery scenario**: `recover-session` itself — it's built but unproven until a real dying-session occurs. UXL-016 deliberately waits for this empirical validation.
+
+### Queued after Session 37 (cont.⁴)
+
+- **Wave 8** (KB→KG foundation, UXL-005): next per advised order; user's stated end-vision territory; H/H effort, 3-5 sessions
+- **Wave 4** (Structural Hook Enforcers): gated on dual-POV check; would need empirical evidence of LL-17/LL-10 recurrence before implementation
+- **Wave 5.2** (UXL-016 event-triggered state-write): parked until recover-session survives first real recovery
+- **Wave 6** (UXL-025 Global CLAUDE.md v2 + UXL-034 state-mgmt-capture skill): UXL-025 still queued behind HydroCast Phase D
+- **Phase 3d** (UXL-002 wrapper archival): GATED on empirical UX validation per D6
+- **Phase D HydroCast state-mgmt comparison**: HARD-BLOCKED on PR #8 merge
 
 ---
 

@@ -1,54 +1,55 @@
-# Current Task: Wave 4 Candidate (gated by dual-POV check) OR Wave 5/6/8
+# Current Task: Wave 8 — KB → Knowledge-Graph Foundation (UXL-005)
 
-**Status**: Wave 3 Phase 3b + 3c (full) LANDED + Wave 7 Architecture Decisions LANDED. Phase 3d gated on UX validation. Next non-blocked wave selection pending.
-**Last active**: 2026-04-24 (Session 37 cont.³)
+**Status**: Wave 3 + Wave 7 + Wave 5.1 LANDED. Wave 8 next per user advised order (Wave 5 → Wave 8 → Wave 4).
+**Last active**: 2026-04-24 (Session 37 cont.⁴)
 **Branch**: `master`
 **Wave plan**: [notes/ux-log-wave-plan-2026-04-22.md](ux-log-wave-plan-2026-04-22.md)
 
 ---
 
-## Next Session Pickup — Wave Selection
+## Next Session Pickup — Wave 8
 
-### Phase 3d (UXL-002 wrapper archival) — GATED
-Hard-gated on empirical UX validation per D6. Won't auto-execute. Use the F011-wired skills + scaffold-project router + 5 orphan-promoted skills in real work; report friction back. Until then, all 15 shim commands stay.
+### Scope (UXL-005)
 
-### Wave 4 (Structural Hook Enforcers) — next non-blocked candidate
+KB → Knowledge-Graph standardization. Foundational architectural work. H/H effort. Unblocks UXL-004 (CAB advisor ↔ project-orchestrator agentic bridge), UXL-009 (HydroCast KB-plan pattern extraction), UXL-010 (AgentContextGraphVisualizer feasibility).
 
-Three rows: UXL-029 (LL-17 worktree auto-detect), UXL-030 (LL-10 fresh-fetch pre-edit hook), UXL-026 (LL-19/20 sycophancy protocol counter).
+**User end-vision context** (cited multiple times across Session 37):
+- "KB modularizes into programmatic knowledge graph for each domain specialized skillsets"
+- "ultimately have all existing KB packs into domain specialized skillsets"
+- "downstreaming wrapping design philosophy to compose the static KB assistance into readily agentic, actionable assistance"
 
-**Dual-POV gate REQUIRED before EXECUTE** (per `memory/feedback_dual_pov_check.md`):
-- Wave 2 (UXL-027/028) was VOIDED for hook over-building after Windows ~1.27s perf reality vs 20ms acceptance criterion
-- Each Wave 4 row needs explicit empirical validation BEFORE implementation:
-  - UXL-029: is LL-17 worktree concurrency actually recurring? Or theoretical?
-  - UXL-030: is KB-fresh-fetch drift recurring? UXL-040 says yes — moderate evidence
-  - UXL-026: how do you DETECT "sycophantic agreement" deterministically? Design ambiguity
-- Apply top-down (does it solve a real recurring problem?) + bottom-up (what's the implementation cost on Windows?) BEFORE writing any code
+The Phase 3c.2 `scaffold-project` router pattern (router + assets/ + Knowledge Anchors links to KB) is the **seed** for Wave 8's broader pattern.
 
-### Wave 5 (LL-28 State-Write Protocol Pair) — sequential
+### Pre-EXECUTE: heavy plan needed
 
-UXL-017 (fallback dying-session recovery) → UXL-016 (event-triggered state-write). UXL-017 first — codifies Session 27 recovery as reusable skill/playbook.
+Per F011: H/H effort + 3+ phases + plan body would exceed 80L → **execute-task DELEGATES to plan-implementation**. This wave warrants a real SOW + Implementation Plan artifact, not inline plan.
 
-### Wave 6 (Architecture Evolution)
+Suggested plan structure (for plan-implementation to author):
+1. **Phase 1 — Audit existing KB metadata** (frontmatter coverage, depends_on/related edges, source citations)
+2. **Phase 2 — Design graph schema** (node types, edge types, query patterns; learn from HydroCast's notes↔knowledge linkage if PR #8 has merged)
+3. **Phase 3 — Build extractor/indexer** (parse frontmatter → emit graph; tooling: Python/jq/MCP server?)
+4. **Phase 4 — Visualization surface** (renderer; format: Mermaid? interactive HTML? CLI table?)
+5. **Phase 5 — Migration plan for existing KB** (which cards repack into which skill folders per Phase 3c.2 pattern)
 
-UXL-025 (Global CLAUDE.md v2 — Extension Registry removal + Plugin Hygiene Policy reinvestment) + UXL-034 (state-mgmt-capture skill). UXL-025 queued behind HydroCast Phase D comparison per Session 27 directive.
+### Pre-req consideration
 
-### Wave 8 (KB → Knowledge-Graph Foundation) — aligns with user's end-vision
+Per wave plan: "Wave 6 completion preferable (UXL-025 + UXL-034 = stable state-mgmt foundation before adding KG on top)." UXL-025 is queued behind HydroCast Phase D (PR #8). UXL-034 has not started.
 
-UXL-005 (KB→KG standardization). H/H effort, foundational for UXL-004/009/010 downstream. Pre-req: Wave 6 completion preferable. **This is the user's stated end-vision territory** — KB packs into domain-specialized skill folders. The Phase 3c.2 router pattern + assets/ + Knowledge Anchors are the seed.
+**Decision needed at Wave 8 PLAN gate**: proceed despite Wave 6 not being complete, OR acknowledge dependency and defer? Given the user's end-vision urgency, recommendation is to proceed — Wave 6 work can run in parallel via worktree if resources allow.
 
-### Recommended next: Wave 5 OR Wave 8 (skip Wave 4 unless UX surfaces hook recurrence)
+### Wave 4 (Hook Enforcers) — still gated on dual-POV check
 
-**Wave 5 rationale**: smaller scope, architecturally meaningful (state-mgmt protocol), no over-building risk. Aligns with user's "leaner state mgmt protocol" directional signal.
+Deferred to after Wave 8 per user's advised order.
 
-**Wave 8 rationale**: directly serves user's end-vision; foundational; large but high-leverage.
+### Wave 5.2 (UXL-016 event-triggered state-write) — parked
 
-**Wave 4 caution**: dual-POV risk + Wave 2 precedent of voiding hook work. Only proceed if UX surfaces real recurrence.
+Waits for `recover-session` skill (UXL-017) to survive at least one real dying-session recovery use.
 
 ---
 
-## Session 37 Closure (full arc — 4 sub-sessions)
+## Session 37 Closure (full arc — 5 sub-sessions)
 
-- **Commits this session arc**:
+- **Commits this session arc** (chronological):
   - `0a7bcd8` 3b.1 (skill renames + cross-ref sweep)
   - `5301325` 3b.2 (wrapper trims)
   - `b251b09` 3b state refresh
@@ -58,11 +59,13 @@ UXL-005 (KB→KG standardization). H/H effort, foundational for UXL-004/009/010 
   - `311d6e3` 3c.2 state refresh
   - `6fd700a` notes README + 2 historical archives
   - `d1dfde3` test-pass remediation (marketplace-json template + scan-techdebt md filter)
-  - `3ee74fc` Wave 7 architecture decisions (UXL-003, UXL-006, UXL-023)
-  - (this commit) Wave 7 state refresh
-- **Pushed through `d1dfde3`**; `3ee74fc` + this state refresh pending push
-- **Verifier PASS**: 4 independent runs across 3b, 3c.1+3c.3, 3c.2, Wave 7 — all criteria met every time
-- **Skill count**: 15 (5 added in 3c.1; quick-scaffold retained as alias in 3c.2)
+  - `3ee74fc` Wave 7 architecture decisions (UXL-003/006/023)
+  - `d524700` Wave 7 state refresh
+  - `0a35bbc` Wave 5.1 recover-session skill (UXL-017)
+  - (this commit) Wave 5.1 state refresh
+- **Pushed through `d524700`**; `0a35bbc` + this state refresh pending push
+- **Verifier PASS**: 5 independent runs across 3b, 3c.1+3c.3, 3c.2, Wave 7, Wave 5.1 — all criteria met every time
+- **Skill count**: 16 (10 prior + 5 orphan promotions + 1 recover-session; quick-scaffold retained as alias)
 
 ---
 
@@ -74,10 +77,8 @@ UXL-005 (KB→KG standardization). H/H effort, foundational for UXL-004/009/010 
 
 ## Reference Artifacts
 
-- **Wave plan**: `notes/ux-log-wave-plan-2026-04-22.md` (Wave 1 ✓, 2 VOID, 3 ✓ except 3d, 7 ✓; 4-6, 8-11 pending)
-- **UXL-002 parent plan**: `notes/impl-plan-commands-skills-migration-2026-04-24.md`
-- **Mapping**: `notes/commands-skills-mapping-2026-04-24.md`
-- **Tracker**: `notes/ux-log-001-2026-04-22-pass-1.csv`
-- **Auto-memory**: `memory/feedback_dual_pov_check.md` (governing for any Wave 4 hook work)
+- **Wave plan**: `notes/ux-log-wave-plan-2026-04-22.md`
+- **Tracker**: `notes/ux-log-001-2026-04-22-pass-1.csv` (UXL-017 now resolved)
+- **Auto-memory**: `memory/feedback_dual_pov_check.md` (governing for Wave 4 hook work)
 
 <!-- T1:BOUNDARY — current-task.md is entirely T1 (<100L hard cap). -->

@@ -1,9 +1,9 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-24 (Session 37 cont.³ — Wave 3 Phase 3b + 3c (full) + Wave 7 LANDED)
+**Last Updated**: 2026-04-24 (Session 37 cont.⁴ — Wave 3 + Wave 7 + Wave 5.1 LANDED)
 **Plugin Version**: 1.1.0
-**Active Implementation Plan**: `notes/impl-plan-commands-skills-migration-2026-04-24.md` (UXL-002 Phases 3b + 3c complete; Phase 3d gated on UX). Wave 7 (UXL-003, 006, 023) closed in-batch.
-**Active Task**: Phase 3d gated; Wave 4 next non-blocked candidate (apply dual-POV check before hook work) — see `notes/current-task.md`
+**Active Implementation Plan**: `notes/impl-plan-commands-skills-migration-2026-04-24.md` (UXL-002 Phases 3b + 3c complete; Phase 3d gated on UX). Wave 7 + Wave 5.1 closed in-batch.
+**Active Task**: Wave 8 (KB→KG foundation, UXL-005) next per advised order — see `notes/current-task.md`
 
 ---
 
