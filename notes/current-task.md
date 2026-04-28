@@ -1,53 +1,54 @@
-# Current Task: Wave 8 — KB → Knowledge-Graph Foundation (UXL-005)
+# Current Task: Wave 8 Phase 2 — KB → KG Graph Schema Design
 
-**Status**: Wave 3 + Wave 7 + Wave 5.1 LANDED. Wave 8 next per user advised order (Wave 5 → Wave 8 → Wave 4).
-**Last active**: 2026-04-24 (Session 37 cont.⁴)
+**Status**: Wave 3 + 5.1 + 7 + 8.1 LANDED. Wave 8 Phases 2-5 multi-session ahead.
+**Last active**: 2026-04-24 (Session 37 cont.⁵)
 **Branch**: `master`
-**Wave plan**: [notes/ux-log-wave-plan-2026-04-22.md](ux-log-wave-plan-2026-04-22.md)
+**Active plan**: [notes/impl-plan-kb-to-kg-2026-04-24.md](impl-plan-kb-to-kg-2026-04-24.md)
 
 ---
 
-## Next Session Pickup — Wave 8
+## Next Session Pickup — Wave 8 Phase 2
 
-### Scope (UXL-005)
+### Scope
 
-KB → Knowledge-Graph standardization. Foundational architectural work. H/H effort. Unblocks UXL-004 (CAB advisor ↔ project-orchestrator agentic bridge), UXL-009 (HydroCast KB-plan pattern extraction), UXL-010 (AgentContextGraphVisualizer feasibility).
+Graph schema design — node types + edge types + serialization + documentation. Per Phase 1 findings, focus on:
 
-**User end-vision context** (cited multiple times across Session 37):
-- "KB modularizes into programmatic knowledge graph for each domain specialized skillsets"
-- "ultimately have all existing KB packs into domain specialized skillsets"
-- "downstreaming wrapping design philosophy to compose the static KB assistance into readily agentic, actionable assistance"
+1. **Multi-type node taxonomy**:
+   - `kb-card` (existing 44 KB files; uses `id:` field)
+   - `skill` (16 skills; uses `name:` field as ID)
+   - `agent` (3 agents; uses `name:` field)
+   - `command` (15 commands; uses filename stem as ID)
+   - `notes-artifact` (impl-plans, lessons-learned, etc.)
+   - `lesson` (LL-NN entries within lessons-learned.md — node per LL, not per file)
 
-The Phase 3c.2 `scaffold-project` router pattern (router + assets/ + Knowledge Anchors links to KB) is the **seed** for Wave 8's broader pattern.
+2. **Edge type taxonomy** (existing + new):
+   - `depends_on` (KB → KB; conceptual prerequisite)
+   - `related` (any → any; lateral association)
+   - **`governs`** (lesson → skill/agent/command/rule; structural enforcement) — NEW
+   - **`embodies`** (skill/agent/command → lesson; reverse of governs) — NEW
+   - **`references`** (notes-artifact → kb-card or notes-artifact → skill; mention without semantic dependency) — NEW
 
-### Pre-EXECUTE: heavy plan needed
+3. **Serialization decision**: JSON-LD (W3C standard, semantic-web compatible) vs custom JSON (pragmatic, simpler tooling). Recommendation pending — JSON-LD preferred IF graph extends to public consumption; custom JSON if CAB-internal only.
 
-Per F011: H/H effort + 3+ phases + plan body would exceed 80L → **execute-task DELEGATES to plan-implementation**. This wave warrants a real SOW + Implementation Plan artifact, not inline plan.
+4. **Schema documentation** target: extend `knowledge/components/knowledge-base-structure.md` with new "Multi-Type Node Schema" section (current card focuses on KB structure; this expands to whole-platform graph).
 
-Suggested plan structure (for plan-implementation to author):
-1. **Phase 1 — Audit existing KB metadata** (frontmatter coverage, depends_on/related edges, source citations)
-2. **Phase 2 — Design graph schema** (node types, edge types, query patterns; learn from HydroCast's notes↔knowledge linkage if PR #8 has merged)
-3. **Phase 3 — Build extractor/indexer** (parse frontmatter → emit graph; tooling: Python/jq/MCP server?)
-4. **Phase 4 — Visualization surface** (renderer; format: Mermaid? interactive HTML? CLI table?)
-5. **Phase 5 — Migration plan for existing KB** (which cards repack into which skill folders per Phase 3c.2 pattern)
+### Phase 1 finding driving Phase 2
 
-### Pre-req consideration
+8 dangling cross-references from `knowledge/reference/` files pointed at skill names (`plan-implementation`, `execute-task`) — confirming KB cards already cross-reference skills as if they were nodes. The schema MUST accommodate this; otherwise Phase 3 extractor would emit broken edges or require manual edge-resolution.
 
-Per wave plan: "Wave 6 completion preferable (UXL-025 + UXL-034 = stable state-mgmt foundation before adding KG on top)." UXL-025 is queued behind HydroCast Phase D (PR #8). UXL-034 has not started.
+### Phases 3-5 preview (after Phase 2)
 
-**Decision needed at Wave 8 PLAN gate**: proceed despite Wave 6 not being complete, OR acknowledge dependency and defer? Given the user's end-vision urgency, recommendation is to proceed — Wave 6 work can run in parallel via worktree if resources allow.
+- **Phase 3**: build `hooks/scripts/kb-graph-extract.py`; emit `knowledge/_graph/index.json`
+- **Phase 4**: notes/ ↔ knowledge/ linking convention; possibly extend `index-kb` skill
+- **Phase 5**: Mermaid CLI renderer (minimum); interactive HTML (stretch)
 
-### Wave 4 (Hook Enforcers) — still gated on dual-POV check
+### Wave order reminder (per user advised)
 
-Deferred to after Wave 8 per user's advised order.
-
-### Wave 5.2 (UXL-016 event-triggered state-write) — parked
-
-Waits for `recover-session` skill (UXL-017) to survive at least one real dying-session recovery use.
+Wave 5 ✓ → Wave 8 (in progress) → Wave 4 (hooks; dual-POV gated)
 
 ---
 
-## Session 37 Closure (full arc — 5 sub-sessions)
+## Session 37 Closure (full arc — 6 sub-sessions)
 
 - **Commits this session arc** (chronological):
   - `0a7bcd8` 3b.1 (skill renames + cross-ref sweep)
@@ -58,27 +59,32 @@ Waits for `recover-session` skill (UXL-017) to survive at least one real dying-s
   - `6653a25` 3c.2 (hybrid merges into scaffold-project --mode router)
   - `311d6e3` 3c.2 state refresh
   - `6fd700a` notes README + 2 historical archives
-  - `d1dfde3` test-pass remediation (marketplace-json template + scan-techdebt md filter)
-  - `3ee74fc` Wave 7 architecture decisions (UXL-003/006/023)
+  - `d1dfde3` test-pass remediation
+  - `3ee74fc` Wave 7 architecture decisions
   - `d524700` Wave 7 state refresh
-  - `0a35bbc` Wave 5.1 recover-session skill (UXL-017)
-  - (this commit) Wave 5.1 state refresh
-- **Pushed through `d524700`**; `0a35bbc` + this state refresh pending push
-- **Verifier PASS**: 5 independent runs across 3b, 3c.1+3c.3, 3c.2, Wave 7, Wave 5.1 — all criteria met every time
-- **Skill count**: 16 (10 prior + 5 orphan promotions + 1 recover-session; quick-scaffold retained as alias)
+  - `0a35bbc` Wave 5.1 recover-session skill
+  - `cb6ee77` Wave 5.1 state refresh
+  - `b88236a` Wave 8 plan + Phase 1 audit
+  - (this commit) Wave 8 state refresh
+- **Pushed through `cb6ee77`**; Wave 8 commits (`b88236a` + this state refresh) pending push
+- **Verifier PASS**: 5 independent runs (3b, 3c.1+3c.3, 3c.2, Wave 7, Wave 5.1) — all criteria met
+- **Skill count**: 16 (recover-session added in Wave 5.1)
+- **Active plans**: 2 (UXL-002 Phase 3d gated; UXL-005 Phase 2 next)
 
 ---
 
 ## Pre-2026-04-22 Queued Work (unchanged)
 
-- **Phase D — HydroCast ↔ CAB State-Management Comparison** — HARD-BLOCKED on HydroCast PR #8 merge
+- **Phase D — HydroCast ↔ CAB State-Management Comparison** — HARD-BLOCKED on PR #8
 
 ---
 
 ## Reference Artifacts
 
 - **Wave plan**: `notes/ux-log-wave-plan-2026-04-22.md`
-- **Tracker**: `notes/ux-log-001-2026-04-22-pass-1.csv` (UXL-017 now resolved)
-- **Auto-memory**: `memory/feedback_dual_pov_check.md` (governing for Wave 4 hook work)
+- **Active plans**: 2 impl-plan-* files (UXL-002, UXL-005)
+- **Tracker**: `notes/ux-log-001-2026-04-22-pass-1.csv`
+- **Audit tool**: `hooks/scripts/kb-audit.py` (re-runnable)
+- **Auto-memory**: `memory/feedback_dual_pov_check.md` (Wave 4 hook gate)
 
 <!-- T1:BOUNDARY — current-task.md is entirely T1 (<100L hard cap). -->

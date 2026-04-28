@@ -1,8 +1,65 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-24 (Session 37 — **Wave 3** + **Wave 7** + **Wave 5.1** [UXL-017 recover-session skill])
-**Current task**: Waves 3, 5.1, 7 LANDED. Phase 3d gated on UX validation; Wave 8 (KB→KG) next per advised order; Wave 4 (hooks) gated on dual-POV check.
-**Branch**: `master` (pushed through d524700; Wave 5.1 commits pending push)
+**Last session**: 2026-04-24 (Session 37 — **Wave 3** + **Wave 7** + **Wave 5.1** + **Wave 8 plan + Phase 1**)
+**Current task**: Waves 3, 5.1, 7, 8.1 LANDED. Wave 8 Phase 2-5 multi-session ahead. Wave 4 (hooks) gated on dual-POV; Phase 3d gated on UX.
+**Branch**: `master` (pushed through cb6ee77; Wave 8 commits pending push)
+
+---
+
+## Session 37 (cont.⁵) — Wave 8 plan + Phase 1 audit (2026-04-24)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable).
+
+### What landed in Session 37 cont.⁵
+
+**Wave 8 — KB → Knowledge-Graph Foundation** (work commit `b88236a`):
+
+UXL-005 plan authored via F011 delegation (execute-task → plan-implementation), 5-phase architecture estimated 3-5 sessions:
+
+1. **Phase 1 — KB metadata audit** (executed this session)
+2. Phase 2 — Graph schema design (next session)
+3. Phase 3 — Extractor build (`knowledge/_graph/index.json`)
+4. Phase 4 — notes/ ↔ knowledge/ linking convention
+5. Phase 5 — Visualization surface (Mermaid CLI + optional HTML)
+
+**`notes/impl-plan-kb-to-kg-2026-04-24.md`** (249L) — full SOW + 5-phase plan + risk register + acceptance criteria. Phase 1 findings appended inline rather than separate file (per user's "lean state mgmt" directional signal).
+
+**`hooks/scripts/kb-audit.py`** (135L) — idempotent inventory tool; reports coverage matrix + gap list + dangling cross-ref detection.
+
+### Phase 1 findings (verdict: KB is graph-ready)
+
+Coverage matrix across 44 KB files:
+- 100% on `source` (REQUIRED), `id`, `title`, `category`, `tags`, `related`, `complexity`
+- 77.3% on `depends_on` (10 foundational cards legitimately have no upstream deps)
+- 0 files missing frontmatter; 0 missing source
+- 44 unique IDs across 44 files (clean 1:1 mapping; zero ID collisions)
+
+**Critical empirical signal**: 8 dangling cross-references all in `knowledge/reference/`, all pointing at SKILL names (`plan-implementation`, `execute-task`) NOT KB card IDs. These are NOT bugs — they're a **schema requirement signal for Phase 2**: the graph must accommodate **multi-type nodes** (KB card + skill + agent + command + notes-artifact + lesson). Once skills/agents/commands are first-class nodes, the 8 dangling refs become valid edges with no KB content changes needed.
+
+This is the user's end-vision territory crystallizing in concrete form: **KB ↔ skills ↔ agents form a unified graph**. Phase 2 schema design has clear marching orders.
+
+### Implications captured in plan
+
+Phase 2 priorities:
+1. Multi-type nodes (`kb-card`, `skill`, `agent`, `command`, `notes-artifact`, `lesson`)
+2. Edge type taxonomy expansion (`depends_on`, `related` + new `governs`, `embodies`, `references`)
+3. Serialization choice (JSON-LD vs custom JSON)
+4. Schema documented in `knowledge/components/knowledge-base-structure.md`
+
+### Skills exercised hands-on this wave
+
+- `plan-implementation` — Wave 8 plan structure (you're reading the embodied output)
+- `execute-task` — overarching protocol; F011 boundary check correctly triggered delegation
+- (Skill tool dispatch still blocked by mid-session-rename caveat; manual application of skill bodies)
+
+### Queued after Session 37 (cont.⁵)
+
+- **Wave 8 Phase 2-5**: graph schema design + extractor + linking + visualization (3-4 more sessions)
+- **Wave 4** (Hook Enforcers): per advised order, after Wave 8 lands; dual-POV gate first
+- **Wave 5.2** (UXL-016 event-triggered state-write): parked until recover-session survives first real recovery
+- **Wave 6** (UXL-025 + UXL-034): UXL-025 still queued behind HydroCast Phase D
+- **Phase 3d** (wrapper archival): UX-validation gated
+- **Phase D HydroCast**: PR #8 blocked
 
 ---
 
