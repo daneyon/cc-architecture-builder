@@ -1,87 +1,71 @@
-# Current Task: Wave 8 Phase 2 (KB → KG Graph Schema Design) — AWAIT USER COMMENTS
+# Current Task: Wave 8 Phase 2 (REFRAMED) — KB Standardization + Lightweight KG + Vision-Anchored
 
-**Status**: Session 38 closed cleanly 2026-04-28. User has signaled they will provide comments before Wave 8 Phase 2 kicks off. Do NOT auto-proceed on cold start — wait for user input first.
-**Last active**: 2026-04-28 (Session 38 closed)
-**Branch**: `master` (clean; all Session 38 commits pushed)
-**Active plan**: [notes/impl-plan-kb-to-kg-2026-04-24.md](impl-plan-kb-to-kg-2026-04-24.md)
-
----
-
-## User-side actions still pending (apply at your convenience)
-
-### Settings.json finalization
-
-**Apply diff** (confirmed approved):
-
-Remove from `permissions.allow` (9 lines):
-```diff
--    "Skill(commit-push-pr)",
--    "Skill(commit-push-pr:*)",
--    "Skill(cab:techdebt)",
--    "Skill(cab:techdebt:*)",
--    "Skill(execute-task)",
--    "Skill(execute-task:*)",
--    "mcp__claude_ai_Context7__resolve-library-id",
--    "mcp__claude_ai_Context7__query-docs",
--    "WebSearch",
-```
-
-Remove from `allowedTools` (2 lines):
-```diff
--    "mcp__filesystem_read_file": "auto_approve",
--    "mcp__filesystem_list_directory": "auto_approve"
-```
-
-Fix or remove `additionalDirectories: ["\\tmp"]` per actual intent.
-
-Remove from `environmentVariables` (you confirmed):
-```diff
--    "RUST_LOG": "info"
-```
-
-**Defer decision**: `CLAUDE_CODE_DISABLE_TELEMETRY`. CC's native OpenTelemetry support (https://code.claude.com/docs/en/monitoring-usage) could provide token-tracking metrics that eliminate the need for CAB to build custom utility scripts (e.g., `bootstrap-cost.sh`). Aligns with DP8 wrap-and-extend. Recommend evaluating before re-adding the disable flag.
-
-### Hooks recommendation (per your ask)
-
-**KEEP both hooks** — both are real, functional, and complementary to sandbox:
-
-- `bash-security-gate.sh` (PreToolUse on Bash): provides a deterministic command allowlist gate. The CC sandbox provides container-level isolation (filesystem, network); the security gate provides command-pattern denial (e.g., catches `rm -rf` patterns the sandbox might still permit inside its allowed paths). Defense in depth — they complement, don't duplicate.
-- `ruff format` (PostToolUse on Write|Edit): silently no-ops on non-Python files (`2>/dev/null || true`). Useful for Python work; zero overhead for non-Python. You have `Bash(ruff check:*)` in allow → you do use ruff → keep.
+**Status**: Session 39 reframe ACTIVE. Wave 8 plan officially switched from "graph over existing KB" → **"skills-as-modular-software with KG as systematization map"** per user direction 2026-04-28. End-vision artifact + KB card update DONE this session. Next: scenario-analyst stress-test → `/cab:plan-implementation` formal plan.
+**Last active**: 2026-04-28 (Session 39 in progress)
+**Branch**: `master` (Session 38 closed cleanly; Session 39 commits pending)
+**End-vision (load every Wave 8-11 bootstrap)**: [notes/end-vision-cab-2026-04-28.md](end-vision-cab-2026-04-28.md)
+**Original plan (to be archived)**: [notes/impl-plan-kb-to-kg-2026-04-24.md](impl-plan-kb-to-kg-2026-04-24.md) — superseded by formal plan from `/cab:plan-implementation`
 
 ---
 
-## Wave 8 Phase 2 (next session, after your comments)
+## Session 39 Reframe Summary
 
-### Scope
+User brain-dump surfaced the load-bearing reframing: "skill = software = modularized codebase into specific domain-specialized skillsets." After feasibility check + corrected metaphor (skill ≠ Python `src/` module; **skill = UNIX coreutil + man page = autonomous NL-invocable capability**), user confirmed switch.
 
-Graph schema design — node types + edge types + serialization + documentation. Per Phase 1 findings:
+**Decisions locked (D1-D6)**:
+- D1: end-vision at `notes/end-vision-cab-2026-04-28.md` (separate artifact)
+- D2: switch to "skills-as-modular-software with KG as systematization map"
+- D3: 5-axis audit framework (existence / actionability / skill-pack home / temporal neutrality / end-vision alignment); KEEP/MERGE/REPACK/REWRITE/DELETE/GAP
+- D4: JSON KG substrate MVP (`knowledge/_graph/index.json`); SQLite revisit if KB > 100 files
+- D5: `knowledge/reference/llm-interaction-patterns.md` card + thin cross-refs from rules
+- D6: invoke `strategy-pathfinder:scenario-analyst` BEFORE `/cab:plan-implementation`
 
-1. **Multi-type node taxonomy**: `kb-card`, `skill`, `agent`, `command`, `notes-artifact`, `lesson`
-2. **Edge type taxonomy**: `depends_on`, `related` (existing) + `governs`, `embodies`, `references` (new)
-3. **Serialization decision**: JSON-LD (W3C standard) vs custom JSON
-4. **Schema documentation**: extend `knowledge/components/knowledge-base-structure.md`
-
-### Deferred to Wave 8 Phase 2 (or appropriate future wave)
-
-- **KB authoring rule** (codify the lesson from Session 38 cont.²): KB artifacts must be temporally neutral — no "added on date X", "Sessions Y-Z violated", "UXL-NNN tracks" content. KB cross-references LL entries by ID (LLs are stable reference) but doesn't restate their session-specific content. Candidate addition to `.claude/rules/kb-conventions.md`.
-- **OpenTelemetry-as-state-mgmt-tooling consideration** — alternative to CAB-built token-tracking utilities (DP8 wrap pattern).
-
-### Wave order reminder
-
-Wave 5 ✓ → Wave 8 (in progress) → Wave 4 (hooks; dual-POV gated)
+**Graphiti**: pattern-steal (bi-temporal, episode-as-provenance, hybrid retrieval, ontology, incremental ingestion); NOT adopt-as-is (over-build at 44-file scale).
 
 ---
 
-## Session 38 Closure
+## Reframed Phasing (CONSOLIDATED post scenario-analyst stress-test)
 
-Full arc summary in `notes/progress.md` Session 38 + cont./cont.²/cont.³ entries. New artifacts: LL-30 (DP8 enforcement gap), UXL-041 (DP8 wrap refactor candidates). Modified: scaffold-project Step 0, audit-workspace Dim 8, design-principles.md DP8.
+| Phase | Status |
+|---|---|
+| 2A — Vision Anchoring | DONE (this session) |
+| 2B' — Architectural Tier + Interaction Patterns Card + KB Authoring Rule | PENDING |
+| 2C — Component Tier Audit | PENDING |
+| 2D' — Operational + Tail Audit | PENDING |
+| 2F — KG Schema Design (Schwerpunkt; 1.5 sessions; hand-author stress gate before 2G) | PENDING |
+| 2G — Extractor + Indexer | PENDING |
+| **HITL gate** — viz scope decision (Mermaid-only / Mermaid + HTML stub / full HTML) | PENDING |
+| 2I — Visualization (scope per HITL) | PENDING |
+| (deferred) — Notes ↔ KB linking implementation → Wave 9 | DEFERRED |
+
+Total ~7 sessions. Ships when 2G + 2I render a coherent graph (sessions are estimate, not contract).
+
+---
+
+## Next Steps (this session)
+
+1. ✅ End-vision artifact + arch-philosophy KB card — DONE
+2. ⏳ Strategy-pathfinder:scenario-analyst stress-test (OODA + First Principles) of phase sequencing
+3. ⏳ `/cab:plan-implementation` — formal multi-phase plan with acceptance criteria + KPIs
+4. ⏳ Archive `impl-plan-kb-to-kg-2026-04-24.md` → `_archive/`; replace with formal plan
+5. ⏳ Session 39 commit + close
+
+---
+
+## Pending User-Side Actions (carried forward from Session 38)
+
+- Apply settings.json diff (9-line allow + 2-line allowedTools removal + `additionalDirectories` fix + `RUST_LOG` removal — confirmed approved)
+- Defer decision: `CLAUDE_CODE_DISABLE_TELEMETRY` (CC native OpenTelemetry as DP8 wrap candidate)
+- Hooks: KEEP both (`bash-security-gate.sh` + `ruff format` PostToolUse) — defense-in-depth complementary
+
+---
 
 ## Reference
 
-- Wave plan: `notes/ux-log-wave-plan-2026-04-22.md`
-- Active plans: 2 (UXL-002 Phase 3d gated; UXL-005 Phase 2 next)
-- Tracker: `notes/ux-log-001-2026-04-22-pass-1.csv`
-- Plugin-dev (DP8 wrap target): `~/.claude/plugins/cache/claude-plugins-official/plugin-dev/`
-- Phase D HydroCast: still PR #8 blocked
+- End-vision: `notes/end-vision-cab-2026-04-28.md`
+- Wave plan: `notes/ux-log-wave-plan-2026-04-22.md` Wave 8
+- KB conventions: `.claude/rules/kb-conventions.md`
+- Component standards: `.claude/rules/component-standards.md`
+- Phase D HydroCast: still PR #8 blocked (parallel track)
 
 <!-- T1:BOUNDARY — current-task.md is entirely T1 (<100L hard cap). -->

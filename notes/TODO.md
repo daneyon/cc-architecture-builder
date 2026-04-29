@@ -36,6 +36,7 @@
 - [ ] **LL-17 worktree auto-detect** (ACTIVE-P1) — pre-commit branch context verification + worktree suggestion when concurrent-session risk detected. KB exists; programmatic surface does not.
 - [ ] **LL-27 follow-on: extend `/sync-check`** for plugin↔global agent name-collision detection — highest-priority LL-27 enforcement layer (currently manual).
 - [ ] **Global CLAUDE.md v2 architecture upgrade** (Session 27 origin) — re-evaluate ~200-line global memory budget after Phase D comparison.
+- [ ] **Wave 9: Notes ↔ Knowledge linking implementation** (deferred from Wave 8 by scenario-analyst stress-test, Session 39) — `knowledge_refs:` frontmatter field + scanner. Wave 8 Phase 2F schema anticipates the `notes-artifact` edge type but does not implement field/scanner until repacking pressure validates the schema. Unblocked at Wave 8 completion.
 
 ### P2 — Nice to have
 
