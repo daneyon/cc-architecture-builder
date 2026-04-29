@@ -470,13 +470,22 @@ Pattern-stolen from Graphiti: bi-temporal edge validity, episode-as-provenance (
 
 - (a) Mermaid CLI: `hooks/scripts/kg-render.py` outputs `.mmd` for filtered queries (e.g., `--filter category:state-management`); sample queries documented
 - (b) + interactive HTML stub: same + minimal D3/Cytoscape proof-of-concept
-- (c) Full HTML: same + production-quality force-directed graph
+- (c) Full HTML: same + production-quality force-directed graph (D3.js / Cytoscape)
+- (d) **Adopt `visualizing-data` skill presets**: leverage the existing draft skill's workflow + diagram type selector; let skill drive viz format choices
+
+**Inputs for HITL gate** (per user feedback 2026-04-29 — visual-learner default + Mermaid-as-floor-not-default):
+
+- `~/.claude/skills/visualizing-data/SKILL.md` — Yau + Cleveland-McGill + Munzner workflow; encoding effectiveness ranking; diagram type selector. Candidate for migration into CAB plugin during this phase.
+- `knowledge/reference/visualization-workflow.md` — already in CAB; same Yau/Cleveland-McGill/Munzner basis (cross-references plan-implementation skill)
+- `Automoto/presentation-studio/.claude/skills/presentation-outline/references/mermaid-diagram-types.jpg` — preset diagram type catalog
+
+**Important**: user is an avid visual learner; HITL gate decision should weigh richer formats (b/c/d) higher, NOT default to (a) Mermaid-only without explicit signal. Mermaid is the floor for KG visualization at scale (44+ nodes growing); HTML interactive viz earns slot for the agentic OS architectural overviews + multi-phase plans + multi-agent orchestration views the v2 reframing implies.
 
 **Deliverables (regardless of scope)**:
 
-- `hooks/scripts/kg-render.py` — Mermaid renderer
+- `hooks/scripts/kg-render.py` — Mermaid renderer (always)
 - `skills/index-kb/assets/example-queries.md` — at least 3 sample queries documented
-- (HITL-dependent) `hooks/scripts/kg-render-html.py` or equivalent
+- (HITL-dependent) `hooks/scripts/kg-render-html.py` or `skills/visualizing-data/` migration into CAB plugin
 
 **Dependencies**: 2G complete; HITL decision documented
 

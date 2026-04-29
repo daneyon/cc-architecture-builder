@@ -91,6 +91,21 @@ Cold-start bootstrap from Session 38's AWAIT-USER-COMMENTS gate. User provided 4
 - Phase 2A DONE; Phase 2B' is next active phase
 - Bootstrap path: `notes/current-task.md` → `notes/end-vision-cab-2026-04-28.md` → `notes/impl-plan-kb-to-kg-2026-04-28-v2.md` §4 Phase 2B'
 
+### Late-session feedback captured (2026-04-29)
+
+User flagged 2 cross-cutting preferences during session-close acknowledgment:
+
+1. **Data format preference** (correction): my Session 39 framing of "markdown wins for human auditability" was wrong. User explicitly: default = AI-digestible / parseable / RAG-embeddable for LLM CLI artifacts. Reserve markdown for genuinely prose-heavy content. Saved as `feedback_data_format_ai_digestible.md`. Codification candidate: `.claude/rules/data-format-defaults.md` (Phase 2B'+).
+2. **Visual-learner orientation**: user is avid visual learner; Mermaid is the floor not the default; weigh richer formats (D3, Cytoscape, interactive HTML) higher at scale. Saved as `feedback_visual_learner_preference.md`.
+
+Phase 2I scope updated in v2 plan: HITL gate now explicitly enumerates option (d) "adopt visualizing-data skill presets"; "Inputs for HITL gate" section references existing draft skill at `~/.claude/skills/visualizing-data/SKILL.md`, CAB-side `knowledge/reference/visualization-workflow.md`, and `presentation-studio` mermaid-diagram-types.jpg catalog. Mermaid-only default-pick discouraged without explicit user signal.
+
+End-vision artifact updated with new "User Preferences (cross-cutting)" section preserving both preferences as durable cold-start anchors.
+
+**LL candidates surfaced**:
+- "Default-JSON for LLM CLI data artifacts" — promoted to feedback memory; codification target = global rule
+- "Visualization-format scope-aware selection" — promoted to feedback memory; codification target = update to existing visualizing-data skill OR new operational-pattern card
+
 ---
 
 ## Session 38 (cont.²) — KB cruft cleanup + session close (2026-04-28)

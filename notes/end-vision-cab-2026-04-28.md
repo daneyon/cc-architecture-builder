@@ -144,6 +144,14 @@ User-shared external schema with `project-manifest.json`, `active-plan-state.jso
 
 ---
 
+## User Preferences (cross-cutting; captured Session 39 close 2026-04-29)
+
+- **Data format default**: AI-digestible / RAG-embeddable / parseable (JSON / YAML / JSONL / CSV). Markdown only for genuinely prose-heavy content. User reads structured formats via tooling (e.g., VS Code JSON mind-map extensions). Historical "markdown wins for human auditability" framing is overridden. Memory ref: `feedback_data_format_ai_digestible.md`.
+- **Visual-learner orientation**: prefer visualization (diagrams, mind maps, force-directed graphs, interactive HTML) over text / tables / Mermaid alone for large-scale artifacts (architectural overviews, multi-phase plans, multi-agent orchestration flows). Mermaid is the floor, not default. Phase 2I HITL gate weighs richer formats higher. Memory ref: `feedback_visual_learner_preference.md`.
+- **Codification candidate**: `.claude/rules/data-format-defaults.md` global rule (Phase 2B'+ candidate).
+
+---
+
 ## Status & Lifecycle
 
 - **ACTIVE** — load on every Wave 8-11 session bootstrap (cold-start anchor)
