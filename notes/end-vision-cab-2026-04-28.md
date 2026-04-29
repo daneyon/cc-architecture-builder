@@ -152,6 +152,59 @@ User-shared external schema with `project-manifest.json`, `active-plan-state.jso
 
 ---
 
+## Strategic Intent: Protocol-Role Subagent Constellation (Wave 12+)
+
+**Captured 2026-04-29 during Phase 2B' verifier-output review.** User-shared pre-v1 design intent: verifier agent is one of a planned constellation of protocol-role subagents, each composed of domain-specialized skills.
+
+### The constellation
+
+Each phase of the standard operating protocol gets a domain-specialist subagent:
+
+| Protocol phase | Subagent | Composed of (illustrative) | Status |
+|---|---|---|---|
+| PLAN | `planner` | plan-implementation skill + analyze-architecture skill + product-design-cycle KB | Not created |
+| REVIEW | `reviewer` | code-review skill + assessing-quality skill + component-standards rule | Not created |
+| EXECUTE | `executor` | execute-task skill + domain-specific skill packs | Not created |
+| VERIFY | `verifier` | (current implementation: ad-hoc per-invocation acceptance criteria) | **Created (pre-v1)** |
+| COMMIT | `committer` | commit-push-pr skill + pre-push-state-review skill + tense-hygiene check | Not created |
+
+### Three-layer alignment intent
+
+1. **A-team conceptual model** — domain specialists assembled per task
+2. **Full-stack product-design-cycle** — Discovery → Definition → Design → Develop → Deliver stage mapping
+3. **CC extensions** — skills + agents + commands + hooks programmatically composed
+
+…all in service of end-vision: static KB → programmatic KG → readily actionable CC extensions holistically.
+
+### Sequencing constraint (endorsement with prerequisites)
+
+Wave 12+ candidate. Two prerequisites:
+
+1. **Wave 8 KG functional** — subagents need queryable composition substrate; pre-KG, agents would re-implement composition logic ad-hoc
+2. **Waves 9-11 skill repacking complete** — without modular skill packs (`references/` + `scripts/` + verification blocks), the constellation has no fuel; each subagent would re-implement logic
+
+Building pre-KG / pre-repacking is DP9 anti-pattern (top-down design imposed on under-developed primitives). The verifier-only model in operation today is the simplest viable expression of the vision; preserve and let evidence drive expansion.
+
+### A-team × lifecycle × CC-extensions mapping (richest realization)
+
+Each lifecycle stage = subagent role + composed skills + queryable KB cluster. Currently `prioritization-frameworks.md` + `product-design-cycle.md` + `requirements-doc-guide.md` (in `knowledge/reference/`) are advisory cards. They are **fuel for future constellation realization** — Phase 2D' tail audit should NOT auto-DELETE these even if stranded-doc-shaped today.
+
+### Operational implications for Waves 8-11
+
+- KG schema (Phase 2F) must support `agent` as first-class node + `composes` edges (skill → agent) + `governs` edges (subagent → protocol phase) — already covered in v2 plan §4 Phase 2F node taxonomy
+- Skill repacking (Waves 9-11) should produce skill packs that are **subagent-composable** (e.g., clean references/ folders, machine-readable verification blocks)
+- `knowledge/reference/` advisory cards: preserve unless redundantly covered, even if stranded today
+- Don't build constellation primitives prematurely; preserve optionality
+
+### References
+
+- `~/.claude/projects/.../memory/project_protocol_role_subagent_constellation.md` (orchestrator memory)
+- `notes/TODO.md` Wave 12+ backlog
+- v2 plan §4 Phase 2F node taxonomy (KG anticipates agent + plan-task as first-class nodes)
+- This file's earlier Operational Caveats #1 (operational vs domain skill classification)
+
+---
+
 ## Status & Lifecycle
 
 - **ACTIVE** — load on every Wave 8-11 session bootstrap (cold-start anchor)

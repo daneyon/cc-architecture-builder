@@ -1,0 +1,616 @@
+{
+  "audit_date": "2026-04-29",
+  "tier": "architectural",
+  "auditor": "orchestrator (CAB)",
+  "framework_version": "5-axis-v1",
+  "supplementary_axes": {
+    "freshness_note": {
+      "added": "2026-04-29 (mid Phase 2B' batch 3)",
+      "purpose": "Surface LL-10 fresh-fetch concerns (overdue review_by, stale example values) without conflating with axis 4 temporal_neutrality (which is specifically about CAB-development cruft like Session/UXL/LL markers).",
+      "scoring_levels": ["CLEAN (within window)", "ATTENTION (overdue)", "STALE (clearly drifted from current CC docs)"],
+      "verdict_role": "Supplementary signal only; does not directly drive structural verdict but informs follow_up_action and may co-trigger REWRITE when other axes also weak.",
+      "candidate_for_2F_schema": true
+    }
+  },
+  "session": "Session 40 (UXL-005 Phase 2B')",
+  "plan_reference": "notes/impl-plan-kb-to-kg-2026-04-28-v2.md §4 Phase 2B'",
+  "batches": {
+    "overview": "complete",
+    "prerequisites": "complete",
+    "schemas": "complete",
+    "rules": "complete",
+    "gaps": "complete"
+  },
+  "cards": [
+    {
+      "id": "executive-summary",
+      "path": "knowledge/overview/executive-summary.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "CAB-original synthesis of the two-schema architecture (source: CAB-original). Not a CC docs duplicate. Memory-hierarchy table + when-to-use guidance are wrap-and-extend layer over CC's documentation."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "skill:scaffold-project (assets/templates/knowledge-index.md, assets/mode-quick.md)",
+            "agent:architecture-advisor",
+            "kb:architecture-philosophy",
+            "kb:design-principles",
+            "kb:distributable-plugin",
+            "kb:global-user-config",
+            "kb:cc-architecture-diagrams",
+            "kb:INDEX",
+            "kb:overview/INDEX"
+          ],
+          "reasoning": "9+ inbound refs spanning skill assets, agent, multiple KB cards, and INDEX. Programmatically discoverable via standard navigation."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Foundational shared content per Operational Caveat #4 (architecture-philosophy.md): cross-skill foundational knowledge stays in knowledge/. No single skill would exclusively own the two-schema overview."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "No session/UXL/LL annotations or wave-specific markers in body. last_updated frontmatter metadata is appropriate."
+        },
+        "end_vision_alignment": {
+          "score": "WEAK",
+          "reasoning": "Purpose section mentions 'agentic OS platform' (1 phrase) but does not reference architecture-philosophy's new Skill Composition Model & End-Vision section or the corrected metaphor (skill = UNIX coreutil + man page). A 1-2 line pointer would close the gap."
+        }
+      },
+      "verdict": "REWRITE",
+      "verdict_justification": "4/5 PASS but end_vision_alignment WEAK. Lightweight REWRITE: add pointer/sentence linking executive-summary's 'agentic OS platform' phrasing to architecture-philosophy's Skill Composition Model section. Action deferred to Wave 9 per v2 plan §2.1.",
+      "confidence": "MEDIUM",
+      "follow_up_action": "Wave 9: REWRITE-lite — add end-vision pointer in Purpose or See Also section (~2 lines)."
+    },
+    {
+      "id": "architecture-philosophy",
+      "path": "knowledge/overview/architecture-philosophy.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "source: code.claude.com/docs/en/memory covers memory primitives only. Card extends with intermediary wrapper architecture diagram, invocation patterns table, runtime memory pipeline, and Skill Composition Model & End-Vision section. Clear wrap-and-extend per DP1/DP8."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "kb:executive-summary (See Also)",
+            "kb:design-principles (See Also)",
+            "kb:components/memory-claudemd",
+            "kb:components/custom-commands",
+            "kb:state-management/context-engineering",
+            "kb:INDEX",
+            "kb:overview/INDEX",
+            "skill:scaffold-project (assets/templates/knowledge-index.md)",
+            "notes:end-vision-cab-2026-04-28",
+            "notes:impl-plan-kb-to-kg-2026-04-28-v2",
+            "notes:progress.md",
+            "notes:TODO.md"
+          ],
+          "reasoning": "12+ inbound refs across KB, notes, skills. Highest structural centrality of any architectural-tier card. The card is the primary architectural reference for CC runtime mechanics + CAB end-vision."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Foundational system reference per Operational Caveat #4. Cross-cuts memory, skills, agents, hooks — no single skill could exclusively own this surface."
+        },
+        "temporal_neutrality": {
+          "score": "WEAK",
+          "issues": [
+            "Wave 8 onward / Waves 9-11 references in Operational Caveats #6 (line 182)",
+            "References notes/end-vision-cab-2026-04-28.md by date-stamped path (line 184)"
+          ],
+          "reasoning": "Body contains wave-specific roadmap context valuable in current state but historical post-Wave 11. Dated end-vision artifact path becomes stale once that artifact is archived/superseded. Mild — operational value justifies coupling for now."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Skill Composition Model + End-Vision: Skills-as-Modular-Software + Operational Caveats sections fully integrate the corrected metaphor (UNIX coreutil + man page) and KG-as-systematization-map framing. This card is the canonical end-vision codification."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "4/5 PASS. Temporal-neutrality WEAK is wave-staging-specific (Operational Caveats #6 line 182 + dated end-vision artifact path line 184) and provides operational context valuable in current development stage. Verdict KEEP with structurally queryable Wave 11+ deferral (see follow_up_action) — addresses verifier's flag that 'KEEP-AS-IS with deferral note buried in justification text' is borderline soft-pedal; deferral is now a queryable artifact, not narrative-only.",
+      "confidence": "MEDIUM",
+      "follow_up_action": "Wave 11 retrospective gate (post-Wave-10 completion): re-evaluate temporal-neutrality WEAK flags. Specifically (a) Operational Caveats #6 line 182 ('Wave 8 onward / Waves 9-11 progressively repack') — by Wave 11 these are historical and should abstract to wave-agnostic framing OR upgrade to REWRITE; (b) line 184 dated path 'notes/end-vision-cab-2026-04-28.md' — replace with status-stable pointer when end-vision artifact is promoted to KB or gets stable-name redirect. Tracked as queryable deferred-revisit, not narrative deferral.",
+      "verifier_note": "2026-04-29 verifier flagged this verdict as borderline soft-pedal vs design-principles' similar 1-WEAK case. Adjustment applied per user adjudication option (c): keep KEEP-AS-IS, make deferral structurally queryable via concrete Wave 11+ follow_up_action. Methodology candidate for 2F schema: introduce explicit KEEP-AS-IS-PROVISIONAL sub-verdict to formalize structurally-queryable deferral pattern."
+    },
+    {
+      "id": "design-principles",
+      "path": "knowledge/overview/design-principles.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "9 design principles = CAB's foundational philosophy layer (source: CAB-original). Not duplicating CC docs. Cited from project CLAUDE.md as the canonical design-principles reference."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "CLAUDE.md (project)",
+            "skill:scaffold-project",
+            "skill:audit-workspace",
+            "kb:architecture-philosophy",
+            "kb:overview/INDEX",
+            "kb:INDEX",
+            "kb:state-management/context-engineering",
+            "kb:operational-patterns/orchestration/framework",
+            "notes:lessons-learned",
+            "notes:ux-log-001-2026-04-22-pass-1.csv",
+            "notes:commands-skills-mapping-2026-04-24"
+          ],
+          "reasoning": "11+ inbound refs including project CLAUDE.md, 2 skills (scaffold-project DP8 pre-flight + audit-workspace Dimension 8), framework KB. Highest cross-extension centrality of overview/ tier."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Foundational principles cross-cut all skills (DP8 referenced by audit-workspace + scaffold-project). Distributing to one skill would break foundational status. KEEP foundational shared per Operational Caveat #4."
+        },
+        "temporal_neutrality": {
+          "score": "WEAK",
+          "issues": [
+            "Inline LL-19 / LL-29 / LL-30 references in DP8 body text (lines 170, 175)",
+            "(2026) parenthetical in DP2 body text (line 69) re: commands→skills merge"
+          ],
+          "reasoning": "Inline LL-NN markers are mutable indices — they don't survive LL renumbering and don't carry semantic content. Better: link by descriptive named reference with LL-NN as supplementary cite. (2026) parenthetical becomes stale by 2027."
+        },
+        "end_vision_alignment": {
+          "score": "WEAK",
+          "reasoning": "DP1 (Context Engineering), DP2 (Wrapping/Composition), DP3 (Standardized KB) overlap conceptually with end-vision (skills-as-modular-software with KG as systematization map) but do not reference it. No principle explicitly states the end-vision direction. Candidate: P10 (Skills-as-Modular-Software) OR thin pointer from DP2/DP3 to architecture-philosophy's new section."
+        }
+      },
+      "verdict": "REWRITE",
+      "verdict_justification": "3/5 PASS, 2 WEAK. Both flagged axes (temporal-neutrality + end_vision_alignment) point at fixable surface-level concerns. REWRITE-lite scope: (a) abstract inline LL-NN markers to descriptive named references, (b) add P10 OR thin DP2/DP3 pointer on skills-as-modular-software end-vision direction. Action deferred to Wave 9.",
+      "confidence": "MEDIUM",
+      "follow_up_action": "Wave 9: REWRITE-lite — (a) abstract inline LL-NN markers to wiki-style references; (b) add end-vision pointer (P10 or thin pointer in DP2/DP3)."
+    },
+    {
+      "id": "git-foundation",
+      "path": "knowledge/prerequisites/git-foundation.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "source: synthesized. CAB-specific framing 'git as architecturally required' + setup checklist + gitignore template + plugin-dev branch strategy + commit conventions. Not a duplicate of CC docs (CC has no consolidated git-foundations doc). Wrap-and-extend at the prerequisite layer."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "skill:scaffold-project (SKILL.md, assets/mode-plugin.md)",
+            "kb:operational-patterns/state-management/filesystem-patterns",
+            "kb:implementation/workflow",
+            "kb:INDEX",
+            "kb:prerequisites/INDEX",
+            "kb:security-defaults (depends_on)",
+            "notes:impl-plan-kb-to-kg-2026-04-28-v2",
+            "notes:progress.md",
+            "notes:TODO.md"
+          ],
+          "reasoning": "9+ inbound refs including 1 skill + 4 KB cards + INDEX. The card is the canonical git-prerequisite reference for both scaffold-project skill and security-defaults' depends_on chain."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Multiple skill + KB-card consumers. REPACK to scaffold-project alone would strand security-defaults' depends_on edge + filesystem-patterns/implementation-workflow refs. Foundational shared content per Operational Caveat #4."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "No session/UXL/LL/Wave markers in body. The 'Note on notes/' (line 57) cross-references filesystem-patterns without naming LL-25. last_updated frontmatter is metadata."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Card establishes git as the substrate the agentic OS platform builds on ('not merely recommended—it is architecturally required'). Doesn't invoke the literal 'agentic OS platform' phrase but framing is consistent — utility cards don't need explicit end-vision rhetoric to be aligned."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "5/5 PASS. Tight, utility-level prerequisite card with stable cross-refs. No drift candidates. Within review_by window (2026-07-05). No Wave 9 action.",
+      "confidence": "HIGH",
+      "follow_up_action": null
+    },
+    {
+      "id": "security-defaults",
+      "path": "knowledge/prerequisites/security-defaults.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "source: synthesized. CAB-original pre-publication checklist + never-commit-files list + MCP credential-handling patterns + accidental-commit recovery. CC docs do not consolidate these into a single security baseline."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "skill:scaffold-project (assets/mode-plugin.md, assets/mode-default.md)",
+            "skill:validate-structure (SKILL.md)",
+            "kb:distribution/marketplace",
+            "kb:implementation/workflow",
+            "kb:git-foundation (cross-ref)",
+            "kb:INDEX",
+            "kb:prerequisites/INDEX",
+            "notes:impl-plan-kb-to-kg-2026-04-28-v2",
+            "notes:TODO.md"
+          ],
+          "reasoning": "9+ inbound refs across 2 skills + 4 KB cards + INDEX. Validate-structure cites it for security-baseline check; scaffold-project cites it during plugin scaffolding."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Multiple skill consumers (scaffold-project + validate-structure) plus marketplace KB card. REPACK to either skill would strand the other's reference. Foundational shared per Operational Caveat #4."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "No session/UXL/LL/Wave markers in body. BFG and gh CLI commands referenced are stable tooling."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Security baseline applies regardless of platform vision. Card's framing (private-by-default, pre-pub checklist, secret-handling) is foundational to any agentic OS platform deployment. Aligned without needing explicit end-vision rhetoric."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "5/5 PASS. Tight utility card with clean cross-refs and stable tooling references. Within review_by window (2026-07-05). No Wave 9 action.",
+      "confidence": "HIGH",
+      "follow_up_action": null
+    },
+    {
+      "id": "global-user-config",
+      "path": "knowledge/schemas/global-user-config.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "source: code.claude.com/docs/en/settings (authoritative for 60+ fields). Card explicit wrapper philosophy at top: 'CAB-specific patterns, structural guidance, and behavioral notes only'. Provides directory tree, settings hierarchy table, CAB recommended config, effort guidance, project-override pattern. Strong wrap-and-extend per DP1/DP8."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "skill:scaffold-project (SKILL.md, mode-default, mode-quick, mode-global)",
+            "skill:audit-workspace (references/standards/settings-standards.md)",
+            "command:new-global",
+            "agent:project-integrator",
+            "agent:architecture-advisor",
+            "kb:executive-summary, distributable-plugin, marketplace, implementation/workflow, components/output-styles, INDEX, schemas/INDEX",
+            "templates/plugin/settings.json.template",
+            "notes:lessons-learned, progress, TODO, v2-plan"
+          ],
+          "reasoning": "23 inbound refs spanning 2 skills, 1 command, 2 agents, multiple KB cards, template, notes. Highest centrality of schemas/ tier. The card is the canonical Schema-1 reference."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Multiple skill + command + agent consumers. REPACK to scaffold-project would strand audit-workspace, validate-structure, project-integrator refs. Foundational shared per Operational Caveat #4."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "No session/UXL/LL/Wave markers in body. Behavioral notes (max effort, auto mode classifier) are confidence-tagged (B) — appropriate epistemic transparency, not temporal cruft."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Defines Schema 1 — the global config substrate of the agentic OS platform. CAB Recommended Global Config section bakes 'agent: orchestrator' default for autonomous multi-agent operation, directly enabling end-vision realization."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "5/5 PASS. Highest-centrality schemas/ card (23 inbound refs). Wrapper philosophy explicit. Note for Wave 9 freshness: example modelOverrides at line 195 references 'claude-sonnet-4-20250514' (old date-suffix ID) — refresh to current Sonnet 4.6 / Opus 4.7 IDs at next fresh-fetch. Not a verdict changer; LL-10 territory.",
+      "confidence": "HIGH",
+      "follow_up_action": "Wave 9 freshness pass: refresh stale model IDs in modelOverrides example (LL-10 fresh-fetch concern, not a REWRITE)."
+    },
+    {
+      "id": "distributable-plugin",
+      "path": "knowledge/schemas/distributable-plugin.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "source: code.claude.com/docs/en/plugins + plugins-reference. Explicit wrapper philosophy at top. Card provides plugin directory tree, plugin.json schema (CAB-relevant subset), CLI commands, scopes, caching mechanics, marketplace source types, managed controls, AND CAB's own plugin structure as worked example. Strong wrap-and-extend."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "skill:scaffold-project (SKILL.md + 5 mode assets + 2 templates)",
+            "skill:validate-structure (SKILL.md)",
+            "agent:project-integrator",
+            "agent:architecture-advisor",
+            "kb:executive-summary, security-defaults, marketplace, components/plugin-persistent-data, components/lsp-integration, components/output-styles, implementation/workflow, INDEX, schemas/INDEX",
+            "notes:lessons-learned, progress, v2-plan"
+          ],
+          "reasoning": "26 inbound refs — most-cited card in tier. Cross-cuts entire scaffold-project + validate-structure surfaces."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Many skill consumers across scaffolding, validation, integration. REPACK to one would strand others. Foundational shared per Operational Caveat #4."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "No session/UXL/LL/Wave markers. Self-referential 'How CAB Structures Its Own Plugin' uses CAB's actual structure as worked example, not historical narrative."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Defines Schema 2 — the project plugin substrate. The 'How CAB Structures Its Own Plugin' section demonstrates the knowledge-heavy plugin pattern with skills/, agents/, commands/, knowledge/ — embodies the skills-as-modular-software composition target."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "5/5 PASS. Highest-cited card in tier (26 inbound refs). Wrapper philosophy explicit. Worked example using CAB itself directly demonstrates end-vision composition pattern. No Wave 9 action.",
+      "confidence": "HIGH",
+      "follow_up_action": null
+    },
+    {
+      "id": "cc-architecture-diagrams",
+      "path": "knowledge/schemas/cc-architecture-diagrams.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "source: CAB-original. 5 ASCII visual diagrams (Runtime Layer / Global Config / Token Budget / Component Decision / Plugin Architecture). Not duplicating CC docs. Foundational visual reference."
+        },
+        "programmatic_actionability": {
+          "score": "WEAK",
+          "inbound_refs": [
+            "kb:INDEX",
+            "kb:schemas/INDEX",
+            "notes:audit-architectural-tier (this audit)",
+            "notes:impl-plan-kb-to-kg-2026-04-28-v2",
+            "notes:TODO.md"
+          ],
+          "reasoning": "5 inbound refs — only KB indices + notes/. Zero skill/agent/command consumers. Classic stranded-doc pattern (v2 plan §1.1 failure mode #4). The diagrams are static reference material; no programmatic invocation pathway."
+        },
+        "skill_pack_home": {
+          "score": "WEAK",
+          "target_skill": "visualizing-data (proposed migration target per v2 plan §4 Phase 2I)",
+          "reasoning": "No current skill home. Natural target: visualizing-data skill when migrated from ~/.claude/ to CAB plugin (v2 plan flags this for Phase 2I). The 5 architectural diagrams would belong in that skill's references/ as worked-example assets. Until migration: stranded."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "No session/UXL/LL/Wave markers in body. last_updated 2026-01-15 is metadata."
+        },
+        "end_vision_alignment": {
+          "score": "WEAK",
+          "reasoning": "Diagrams authored before Session 39 reframe. Diagram 1 (Runtime Layer) and Diagram 4 (Component Decision) both treat skills/agents as components without integrating the corrected metaphor (skill = UNIX coreutil + man page) or the skills-as-modular-software framing. Component Decision Framework (Diagram 4) skill/agent heuristics are accurate but pre-end-vision."
+        },
+        "freshness_note": {
+          "score": "ATTENTION",
+          "reasoning": "review_by: 2026-04-15 — 14 days OVERDUE as of audit date (2026-04-29). LL-10 fresh-fetch concern. Not a temporal-neutrality issue per axis 4 definition; flagged as supplementary observation."
+        }
+      },
+      "verdict": "DELETE",
+      "verdict_justification": "User-adjudicated 2026-04-29 batch-3 gate review: card is human-facing visual reference (not LLM-agent-actionable), and the conceptual content is appropriately covered in modular agent-facing cards (architecture-philosophy.md wrapping/composition + invocation patterns; design-principles.md DP2 4-layer wrapping; global-user-config.md directory tree; distributable-plugin.md plugin structure). REWRITE would clone v1-era card into v2-framing redundancy. ARCHIVE preferred. Coverage-confirmation pass scheduled for 2B'.3 to verify Diagrams 3 (Token Budget Quantification) and 4 (Component Decision Framework / skill-vs-agent heuristics) are NOT under-covered before final archive — if uncovered, raise as GAP candidates.",
+      "confidence": "HIGH",
+      "follow_up_action": "Wave 9: (a) verify Diagram 3 (Token Budget Quantification: ~6-12k baseline breakdown) coverage in modular cards — currently partial in architecture-philosophy.md; raise GAP if needed; (b) verify Diagram 4 (Component Decision Framework: skill-vs-agent heuristics) coverage — partial in design-principles.md / components/ cards; raise GAP if needed; (c) move card to knowledge/_archive/ with archive note citing Wave 8 audit verdict + commit hash. Memory ref: feedback_audit_archive_over_rewrite_when_modularly_covered.md.",
+      "user_adjudication": "2026-04-29 — verdict changed from orchestrator-proposed REWRITE to user-directed DELETE/archive. Rationale: human-facing v1-era artifact; content modularly covered; REWRITE creates redundancy. See memory feedback_audit_archive_over_rewrite_when_modularly_covered.md."
+    }
+  ],
+  "skills": [],
+  "agents": [],
+  "rules": [
+    {
+      "id": "kb-conventions",
+      "path": ".claude/rules/kb-conventions.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "Project-level rule file documenting CAB-specific KB conventions: 300-line cap (with reference/ exception), source: requirement, wrapper philosophy, fresh-fetch (LL-10), INDEX maintenance, [UXL-NNN] commit suffix convention, LL ↔ tracker bidirectional cross-ref convention. Not a CC-docs duplicate."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "auto-loaded by CC at session start (rules layer)",
+            "skill:scaffold-project (assets/templates/knowledge-index.md)",
+            "skill:index-kb (SKILL.md)",
+            "skill:commit-push-pr (SKILL.md)",
+            "command:kb-index, commit-push-pr",
+            "kb:reference/INDEX, reference/ux-testing-agentic-os",
+            "CLAUDE.md (project)",
+            "notes:lessons-learned, ux-log artifacts, impl-plans, current-task, progress, README"
+          ],
+          "reasoning": "19 inbound refs + automatic auto-load. Rule actionability is primarily through persistent-memory auto-load; cross-refs are bonus reachability."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Project-level rule file. .claude/rules/ is the structural home; not eligible for skill-pack repacking. Foundational project-shared infrastructure."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "Body uses [UXL-NNN] and LL-NN as USAGE PATTERN examples (the convention itself is what's documented). Not stale historical markers — the pattern IS the content."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Conventions support end-vision: atomic files (skills-as-modular composition), source: provenance (preservation during repacking per Operational Caveat #2), INDEX maintenance (KG extractor input), wrapper philosophy (skills wrap, don't reinvent). Will gain temporal-neutrality rule at 2B'.5 — additive enhancement."
+        },
+        "freshness_note": {
+          "score": "CLEAN",
+          "reasoning": "Conventions are stable; 300-line cap and source: requirement do not drift with CC docs."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "5/5 PASS. Auto-loaded foundational rule with 19 cross-refs. Planned 2B'.5 enhancement (temporal-neutrality rule codification) is additive, not corrective.",
+      "confidence": "HIGH",
+      "follow_up_action": null,
+      "planned_enhancement_in_phase_2B_prime": "2B'.5 — codify temporal-neutrality rule into this file (additive)."
+    },
+    {
+      "id": "component-standards",
+      "path": ".claude/rules/component-standards.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "Documents valid CC-documented frontmatter fields for agents + skills with explicit source URLs (code.claude.com/docs/en/sub-agents, code.claude.com/docs/en/skills) and refresh dates. Provides CAB-specific notes (e.g., 1,536-char description+when_to_use cap, effort-omission convention UXL-039, plugin-agent disallowed fields). Wrap-and-extend at the rule layer."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "auto-loaded by CC at session start (rules layer)",
+            "CLAUDE.md (project)",
+            "skill:scaffold-project (SKILL.md, assets/templates/agent.md, assets/templates/skill.md)",
+            "kb:operational-patterns/state-management/cc-memory-layer-alignment",
+            "kb:reference/ux-testing-agentic-os",
+            "notes:lessons-learned, ux-log, commands-skills-mapping, impl-plans"
+          ],
+          "reasoning": "16 inbound refs + auto-load. Cited from CLAUDE.md's component-standards anchor section + scaffold templates + lessons. High structural centrality for any component-authoring work."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Rule-layer file; not eligible for skill repacking. Foundational project-shared."
+        },
+        "temporal_neutrality": {
+          "score": "AMBIGUOUS",
+          "issues": [
+            "Inline LL-15 / LL-16 / LL-21 markers in body",
+            "UXL-039 / UXL-040 inline annotations"
+          ],
+          "reasoning": "Markers serve dual purpose: (a) provenance (this rule exists because of LL-NN incident) — STRUCTURAL & VALUABLE; (b) potentially stale UXL/LL identifiers if renumbering occurs. The 2B'.5 temporal-neutrality rule must disambiguate provenance-OK vs cruft-NOT-OK to give this card a clean verdict. Marked AMBIGUOUS pending 2B'.5 rule wording."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Defines valid component shapes — required substrate for skills-as-modular-software (skills must have valid frontmatter to be discoverable + invocable). Aligned."
+        },
+        "freshness_note": {
+          "score": "CLEAN",
+          "reasoning": "Refresh dates explicit (2026-04-22, 2026-04-24); within 90-day Tier-A window."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "4/5 PASS, 1 AMBIGUOUS pending 2B'.5 rule disambiguation. Provenance LL/UXL refs are structurally valuable — losing them would break lesson-to-rule traceability that LL-25/26/27 family relies on. Verdict KEEP for now; revisit during 2B'.5 application pass.",
+      "confidence": "MEDIUM",
+      "follow_up_action": "After 2B'.5 codifies temporal-neutrality rule with provenance vs cruft disambiguation, apply rule to this file and confirm AMBIGUOUS resolves to PASS or FAIL."
+    },
+    {
+      "id": "security",
+      "path": ".claude/rules/security.md",
+      "axes": {
+        "existence_justification": {
+          "score": "PASS",
+          "reasoning": "Concise (5-line) project-level security policy: never-commit-creds, no-destructive-git, settings.json self-modification semantics (LL-13), command-hook-not-prompt-hook (LL-14), sensitive-paths protection. Distillation of CAB security baseline."
+        },
+        "programmatic_actionability": {
+          "score": "PASS",
+          "inbound_refs": [
+            "auto-loaded by CC at session start (rules layer)",
+            "notes:lessons-learned",
+            "command:commit-push-pr",
+            "skill:commit-push-pr (SKILL.md)"
+          ],
+          "reasoning": "Rules' primary actionability is through auto-load; 3 explicit cross-refs are bonus reachability. Low cite count is fine for rules — they don't need to be name-cited to be active."
+        },
+        "skill_pack_home": {
+          "score": "PASS",
+          "target_skill": null,
+          "reasoning": "Rule-layer file; foundational project-shared."
+        },
+        "temporal_neutrality": {
+          "score": "PASS",
+          "issues": [],
+          "reasoning": "LL-13 / LL-14 inline refs are provenance only (the rule traces to those incidents). No development-stage narrative."
+        },
+        "end_vision_alignment": {
+          "score": "PASS",
+          "reasoning": "Security baseline applies regardless of platform vision; foundational to any agentic OS deployment."
+        },
+        "freshness_note": {
+          "score": "CLEAN",
+          "reasoning": "Security primitives (creds, destructive git, deny rules) are stable. No drift candidates."
+        }
+      },
+      "verdict": "KEEP-AS-IS",
+      "verdict_justification": "5/5 PASS. Tight, scannable, structurally complete. No follow-up needed.",
+      "confidence": "HIGH",
+      "follow_up_action": null
+    }
+  ],
+  "missing_cards": [
+    {
+      "proposed_id": "llm-interaction-patterns",
+      "proposed_path": "knowledge/reference/llm-interaction-patterns.md",
+      "rationale": "Patterns observable in CAB usage that govern LLM-interaction reliability: U-shaped attention, lost-in-middle, imperative trigger format ('INVOKE THIS SKILL when X / DO NOT Y / use Z'), value-density per token, cache-aware composition, T1 boundary partial-read, dual-POV check, 3-file bootstrap cascade, prescribed + emergent ontology, verification-as-runnable-contract. Currently scattered across rules/comm/interaction.md, rules/dev/token-efficiency.md, knowledge/operational-patterns/state-management/, and DP1.",
+      "target_tier": "architectural (knowledge/reference/)",
+      "status": "ACTIVE-IN-PHASE — authoring assigned to 2B'.4 (this phase)",
+      "anticipated_in_v2_plan": "yes — v2 plan §4 Phase 2B'.4"
+    },
+    {
+      "proposed_id": "audit-framework",
+      "proposed_path": "knowledge/operational-patterns/audit/5-axis-framework.md OR similar",
+      "rationale": "The 5-axis audit framework + supplementary freshness_note axis + 6 verdict types (KEEP-AS-IS / MERGE / REPACK / REWRITE / DELETE / GAP) + JSON schema + anti-sycophancy floor checks are reusable patterns. Currently only documented in v2 plan §3 + this audit. Future audit waves (Wave 9+ repacking validation, cross-project audits if HydroCast adopts) need this as a queryable, atomic KB card.",
+      "target_tier": "operational (knowledge/operational-patterns/audit/)",
+      "status": "GAP",
+      "anticipated_in_v2_plan": "no — surfaced by this audit",
+      "blocking_priority": "low — v2 plan reference is sufficient until cross-wave reuse demand validates"
+    },
+    {
+      "proposed_id": "token-budget-quantification",
+      "proposed_path": "knowledge/reference/token-budget-quantification.md OR section in architecture-philosophy.md",
+      "rationale": "Diagram 3 of cc-architecture-diagrams.md (now DELETE) carried specific quantification: ~2-3k system base + ~2-5k CLAUDE.md + ~1-2k metadata + ~0.5-1k MCP/server = ~6-12k baseline. architecture-philosophy.md has qualitative L0-L4 progressive-disclosure table but not the specific token breakdown. Token-budget discipline is operational guidance: knowing the baseline informs CLAUDE.md trim decisions (e.g., 200-line cap is downstream of this baseline math).",
+      "target_tier": "architectural (knowledge/reference/) OR section addition to architecture-philosophy.md",
+      "status": "GAP",
+      "anticipated_in_v2_plan": "no — surfaced by Diagram 3/4 coverage check (cc-architecture-diagrams DELETE follow-up)",
+      "blocking_priority": "low — qualitative coverage exists; quantification is enhancement"
+    },
+    {
+      "proposed_id": "component-decision-framework",
+      "proposed_path": "knowledge/components/component-decision.md OR section in components/agent-skills.md",
+      "rationale": "Diagram 4 of cc-architecture-diagrams.md (now DELETE) carried the skill-vs-agent decision tree + 'WHERE DOES THIS CONTENT BELONG?' framework (memory layer / skill / agent / reference-only). Decision tree is partially scattered across design-principles.md DP2 + components/ cards (subagents.md, agent-skills.md). Need verification at Phase 2C component-tier audit whether existing components/ cards adequately cover this; if not, GAP confirmed.",
+      "target_tier": "component (knowledge/components/)",
+      "status": "GAP-CANDIDATE (verify at Phase 2C)",
+      "anticipated_in_v2_plan": "no — surfaced by Diagram 3/4 coverage check (cc-architecture-diagrams DELETE follow-up)",
+      "blocking_priority": "medium — without explicit decision card, where-content-belongs decisions rely on tribal knowledge"
+    },
+    {
+      "proposed_id": "end-vision-architecture",
+      "proposed_path": "knowledge/overview/end-vision-architecture.md OR keep in notes/end-vision-cab-2026-04-28.md and cross-ref",
+      "rationale": "End-vision artifact lives in notes/ (transient state file path) but content is durable architectural anchor for Wave 8-11+. architecture-philosophy.md has the 'Skill Composition Model & End-Vision Architecture' section but full end-vision narrative + locked decisions D1-D6 + Graphiti verdict + GPT-5 schema reference are still in notes/. Question: should this content be promoted to a KB card? Or stay in notes/ as living-state-anchor? User adjudication.",
+      "target_tier": "overview (knowledge/overview/)",
+      "status": "GAP-CANDIDATE",
+      "anticipated_in_v2_plan": "implicit — v2 plan repeatedly cross-refs notes/end-vision-cab-2026-04-28.md as cold-start anchor; promotion to KB is unaddressed",
+      "blocking_priority": "low — notes/ anchor works; promotion is hygiene improvement"
+    }
+  ],
+  "diagram_3_4_coverage_check": {
+    "purpose": "Per cc-architecture-diagrams DELETE follow-up — verify content is modularly covered before archive",
+    "diagram_1_runtime_layers": {
+      "modular_coverage": "STRONG",
+      "covering_cards": ["design-principles.md DP2 (Wrapping/Composition Architecture, 4 layers)", "architecture-philosophy.md (Invocation & Extension Patterns table)"],
+      "verdict": "Fully covered; archive safe"
+    },
+    "diagram_2_global_config_dirs": {
+      "modular_coverage": "STRONG",
+      "covering_cards": ["global-user-config.md (Directory Structure section)", "executive-summary.md (Two-Schema Architecture)"],
+      "verdict": "Fully covered; archive safe"
+    },
+    "diagram_3_token_budget_quantification": {
+      "modular_coverage": "PARTIAL",
+      "covering_cards": ["architecture-philosophy.md (L0-L4 table — qualitative)", "design-principles.md DP1 (Context Engineering — narrative)"],
+      "missing": "Specific token-baseline breakdown (~6-12k = ~2-3k system + ~2-5k CLAUDE.md + ~1-2k metadata + ~0.5-1k MCP)",
+      "verdict": "Partial coverage; archive triggers GAP for token-budget-quantification (above)"
+    },
+    "diagram_4_component_decision_framework": {
+      "modular_coverage": "PARTIAL_PENDING_VERIFICATION",
+      "covering_cards_likely": ["components/agent-skills.md (per Phase 2C)", "components/subagents.md (per Phase 2C)", "design-principles.md DP2"],
+      "missing_likely": "Explicit skill-vs-agent decision tree + content-placement framework (memory/skill/agent/reference-only)",
+      "verdict": "Verify at Phase 2C; if missing, raise component-decision-framework GAP (above)"
+    },
+    "diagram_5_plugin_architecture_merge": {
+      "modular_coverage": "STRONG",
+      "covering_cards": ["distributable-plugin.md (full plugin structure + standalone alternative)", "executive-summary.md (memory hierarchy + precedence)", "architecture-philosophy.md (memory architecture)"],
+      "verdict": "Fully covered; archive safe"
+    },
+    "overall_verdict": "Archive proceedure SAFE for Diagrams 1, 2, 5 (full coverage). Diagrams 3, 4 surface as GAPs in missing_cards (above). Wave 9 archive operation should land AFTER token-budget-quantification + component-decision-framework GAPs are filled OR explicitly accepted as deferred."
+  },
+  "verdict_distribution_to_date": {
+    "cards": { "KEEP-AS-IS": 5, "REWRITE": 2, "MERGE": 0, "REPACK": 0, "DELETE": 1 },
+    "rules": { "KEEP-AS-IS": 3, "REWRITE": 0, "MERGE": 0, "DELETE": 0 },
+    "GAP_count": 5,
+    "GAP_breakdown": {
+      "ACTIVE_IN_PHASE": 1,
+      "TRUE_GAP": 2,
+      "GAP_CANDIDATE_pending_2C_or_user": 2
+    }
+  },
+  "anti_sycophancy_floor_check": {
+    "tier_complete": true,
+    "min_non_keep_required": 1,
+    "non_keep_count": 3,
+    "min_gap_required": 3,
+    "gap_count": 5,
+    "min_delete_required_cross_tier": 2,
+    "delete_count_this_tier": 1,
+    "status": "PASS (non-KEEP=3 ≥ 1, GAP=5 ≥ 3, cross-tier DELETE on track at 1/2). Tier audit anti-sycophancy thresholds satisfied. No stop-the-line triggers."
+  }
+}
