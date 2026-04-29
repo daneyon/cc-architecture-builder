@@ -1,9 +1,86 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-28 (Session 39 — Wave 8 reframe + Phase 2A Vision Anchoring complete)
-**Current task**: Wave 8 Phase 2B' — Architectural Tier Audit + Interaction Patterns Card + KB Authoring Rule
-**Branch**: `master` (ahead of origin by 2 commits — work `f95359a` + state refresh; push deferred per user)
-**Latest work commit**: `f95359a` — `feat(arch): Wave 8 reframe — skills-as-modular-software with KG as systematization map [UXL-005 Phase 2A]`
+**Last session**: 2026-04-29 (Session 40 — Wave 8 Phase 2B' subtasks 1-3 complete; subtasks 4-8 pending)
+**Current task**: Wave 8 Phase 2B' subtasks 2B'.4–2B'.8 (deferred to Session 41)
+**Branch**: `master` (ahead of origin by 5 commits — Session 39 work `f95359a` + state refresh `5238d92` + feedback capture `8486823` + Session 40 work `60e533a` + state refresh; push deferred per user)
+**Latest work commit**: `60e533a` — `feat(audit): architectural-tier 5-axis audit + Wave 12+ subagent intent [UXL-005 Phase 2B' partial]`
+
+---
+
+## Session 40 — Wave 8 Phase 2B' subtasks 1-3 complete (2026-04-29)
+
+**Bootstrap tokens**: ~7,300 (3-file cascade + L4 v2-plan + end-vision reads on demand; in line with Session 39 baseline).
+**Work commit**: `60e533a` (2 files, 669 insertions; 1 new audit artifact, 1 modified end-vision)
+
+### Trigger
+
+Cold-start bootstrap from Session 39 close. User invoked `/execute-task` for Phase 2B'. Plan authored inline (1.5-session split: Session 40 = audit/discover; Session 41 = author/cross-ref/INDEX/skill-template-enrichment). User approved per-directory batching cadence (Q1 option b) + verifier-once-at-end (Q2 option b).
+
+### What landed in Session 40
+
+**Audit produced** (`notes/audit-architectural-tier-2026-04-29.json`):
+
+- 8 cards audited (overview/, prerequisites/, schemas/) with full per-axis reasoning + confidence tags
+- 3 rule files audited (kb-conventions, component-standards, security)
+- 5 GAPs surfaced (1 ACTIVE-IN-PHASE for 2B'.4; 2 TRUE_GAP; 2 GAP-CANDIDATE)
+- Diagram 3/4 modular-coverage check (cc-architecture-diagrams DELETE follow-up)
+- 6th supplementary axis (`freshness_note`) introduced + formalized in metadata block
+
+**Verdict distribution** (anti-sycophancy floors honored):
+
+| Subject type | KEEP-AS-IS | REWRITE | DELETE | Total |
+|---|---|---|---|---|
+| Cards | 5 | 2 | 1 | 8 |
+| Rules | 3 | 0 | 0 | 3 |
+| GAPs | — | — | — | 5 |
+
+Floors: 3 non-KEEP (≥1 required) + 5 GAPs (≥3 required). Cross-tier DELETE on track at 1/2.
+
+**Notable adjudication**:
+
+- `cc-architecture-diagrams` user-adjudicated from orchestrator-proposed REWRITE → DELETE (archive). Rationale: v1-era human-facing artifact; content modularly covered; REWRITE clones into redundancy. Memory: `feedback_audit_archive_over_rewrite_when_modularly_covered.md`. Archive operation gated on filling token-budget-quantification + component-decision-framework GAPs (Wave 9).
+- `architecture-philosophy` verdict tightened (KEEP-AS-IS) with structurally-queryable Wave 11+ follow_up_action per cab:verifier flag. Borderline soft-pedal disclosed; deferral now queryable not narrative-only. Methodology candidate: KEEP-AS-IS-PROVISIONAL sub-verdict for 2F schema.
+
+**End-vision artifact enriched** (`notes/end-vision-cab-2026-04-28.md`):
+
+- New section: "Strategic Intent: Protocol-Role Subagent Constellation" (Wave 12+ candidate)
+- Per user-shared pre-v1 design intent: planner/reviewer/executor/committer subagents to complement existing verifier; aligned with A-team × full-stack product-design-cycle × CC extensions
+- Sequencing prerequisites: Wave 8 KG functional + Waves 9-11 skill repacking complete
+- Pre-Wave-12 implication: 2D' tail audit MUST NOT auto-DELETE `knowledge/reference/` advisory cards (constellation fuel)
+
+### Decisions locked (D7-D11, Session 40)
+
+- D7: per-directory batching cadence (Q1 option b) + verifier-once-at-end (Q2 option b)
+- D8: skip tier-gate review on uniform-KEEP batches (memory: `feedback_audit_gate_skip_uniform_keep.md`)
+- D9: ARCHIVE/DELETE preferred over REWRITE when content is human-facing AND modularly covered (memory: `feedback_audit_archive_over_rewrite_when_modularly_covered.md`)
+- D10: 6th supplementary axis `freshness_note` adopted (LL-10 fresh-fetch vs temporal-neutrality CAB-dev-cruft distinction); candidate for 2F schema absorption
+- D11: Protocol-role subagent constellation as Wave 12+ strategic intent (memory: `project_protocol_role_subagent_constellation.md`)
+
+### Skills + agents exercised
+
+- `cab:execute-task`: Phase 2B' protocol structure (PLAN → REVIEW → EXECUTE → VERIFY → COMMIT)
+- `cab:verifier`: PASS on all 14 acceptance criteria; 3 non-blocking flags surfaced (1 addressed via verdict tightening, 2 noted for Phase 2C / Wave 11)
+
+### LL candidates (not yet codified)
+
+1. KEEP-AS-IS-PROVISIONAL sub-verdict for structurally-queryable deferral (vs disclosed-rationalization-buried-in-justification). Codification target: Phase 2F schema design.
+2. Tier-gate skip on uniform-KEEP batches as protocol convention (currently captured as memory; could promote to skill convention if pattern recurs across 2C/2D').
+3. ARCHIVE-over-REWRITE rule for human-facing-AND-modularly-covered cards (currently captured as memory; rule candidate for `.claude/rules/audit-conventions.md` if Wave 8 audit work produces enough recurrence to warrant codification).
+
+### Queued for Session 41 (Phase 2B' subtasks 4-8)
+
+- 2B'.4 author `knowledge/reference/llm-interaction-patterns.md` (8+ patterns: U-shaped attention, imperative trigger format, value-density, cache-aware composition, T1 boundary partial-read, dual-POV check, 3-file bootstrap cascade, prescribed + emergent ontology, verification-as-runnable-contract)
+- 2B'.5 codify temporal-neutrality rule into `.claude/rules/kb-conventions.md` (must disambiguate provenance-OK vs CAB-dev-cruft-NOT-OK; resolves component-standards.md AMBIGUOUS axis)
+- 2B'.6 thin cross-refs from kb-conventions, component-standards, design-principles DP1 to new patterns card (≤2 lines per file)
+- 2B'.7 update `knowledge/INDEX.md` with new patterns card
+- 2B'.8 audit + enrich `plan-implementation` skill template with per-phase metadata convention (Priority / Session Budget / Parallelizable With / Depends On / Intervention Type) + ADR section explaining synthesis (prioritization-frameworks + bootstrap-cost discipline + worktree-workflows + KG dep-graph)
+- Phase Gate: audit JSON validates against schema + user reviews subtasks 4-8 deliverables before Phase 2C begins
+
+### State at session close
+
+- Branch: `master` ahead of origin by 5 commits; push deferred per user
+- Phase 2A DONE; Phase 2B' subtasks 1-3 ✓; subtasks 4-8 next session
+- Bootstrap path Session 41: `notes/current-task.md` → `notes/end-vision-cab-2026-04-28.md` → `notes/impl-plan-kb-to-kg-2026-04-28-v2.md` §4 Phase 2B' (subtasks 4-8) → `notes/audit-architectural-tier-2026-04-29.json` (audit findings inform 2B'.4 patterns card content)
 
 ---
 

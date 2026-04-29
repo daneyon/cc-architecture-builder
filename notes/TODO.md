@@ -1,11 +1,11 @@
 # CAB (cc-architecture-builder): Live Task Tracker
 
-**Last Updated**: 2026-04-28 (Session 38 closed — KB cruft cleanup + AWAIT USER COMMENTS gate before Wave 8 Phase 2)
+**Last Updated**: 2026-04-29 (Session 40 — Wave 8 Phase 2B' subtasks 1-3 complete; 4-8 pending)
 **Plugin Version**: (now commit-hash keyed; no semver field — matches official plugin-dev pattern)
 **Active Implementation Plans**:
 - `notes/impl-plan-commands-skills-migration-2026-04-24.md` (UXL-002; Phase 3d gated on UX)
-- `notes/impl-plan-kb-to-kg-2026-04-24.md` (UXL-005; Phase 1 ✓; Phases 2-5 multi-session)
-**Active Task**: User-side: run `/plugin update cab@cab` to verify auto-update works → then Wave 8 Phase 2 (Graph schema design) — see `notes/current-task.md`
+- `notes/impl-plan-kb-to-kg-2026-04-28-v2.md` (UXL-005; Phase 2A ✓ + 2B' subtasks 1-3 ✓; subtasks 4-8 next; v1 plan archived `_archive/impl-plan-kb-to-kg-2026-04-24.md`)
+**Active Task**: Wave 8 Phase 2B' subtasks 4-8 (author llm-interaction-patterns card + codify temporal-neutrality rule + cross-refs + INDEX update + plan-implementation skill enrichment) — see `notes/current-task.md`
 
 ---
 
@@ -37,6 +37,7 @@
 - [ ] **LL-27 follow-on: extend `/sync-check`** for plugin↔global agent name-collision detection — highest-priority LL-27 enforcement layer (currently manual).
 - [ ] **Global CLAUDE.md v2 architecture upgrade** (Session 27 origin) — re-evaluate ~200-line global memory budget after Phase D comparison.
 - [ ] **Wave 9: Notes ↔ Knowledge linking implementation** (deferred from Wave 8 by scenario-analyst stress-test, Session 39) — `knowledge_refs:` frontmatter field + scanner. Wave 8 Phase 2F schema anticipates the `notes-artifact` edge type but does not implement field/scanner until repacking pressure validates the schema. Unblocked at Wave 8 completion.
+- [ ] **Wave 12+: Protocol-role subagent constellation** (strategic intent captured Session 40, 2026-04-29) — design + build planner / reviewer / executor / committer subagents to complement existing verifier; align with A-team × full-stack product-design-cycle × CC extensions. Sequencing prerequisites: (1) Wave 8 KG functional, (2) Waves 9-11 skill repacking complete. See `notes/end-vision-cab-2026-04-28.md` § "Strategic Intent: Protocol-Role Subagent Constellation". Pre-Wave-12 work should preserve optionality (e.g., 2D' tail audit MUST NOT auto-DELETE `knowledge/reference/` advisory cards — they're fuel for constellation realization).
 
 ### P2 — Nice to have
 
