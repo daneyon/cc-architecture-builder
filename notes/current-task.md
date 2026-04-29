@@ -28,7 +28,7 @@ User brain-dump surfaced the load-bearing reframing: "skill = software = modular
 
 | Phase | Status |
 |---|---|
-| 2A — Vision Anchoring | DONE (this session) |
+| 2A — Vision Anchoring | DONE — landed in `f95359a` |
 | 2B' — Architectural Tier + Interaction Patterns Card + KB Authoring Rule | PENDING |
 | 2C — Component Tier Audit | PENDING |
 | 2D' — Operational + Tail Audit | PENDING |
@@ -42,13 +42,21 @@ Total ~7 sessions. Ships when 2G + 2I render a coherent graph (sessions are esti
 
 ---
 
-## Next Steps (this session)
+## Session 39 Closure — Phase 2A landed
 
-1. ✅ End-vision artifact + arch-philosophy KB card — DONE
-2. ⏳ Strategy-pathfinder:scenario-analyst stress-test (OODA + First Principles) of phase sequencing
-3. ⏳ `/cab:plan-implementation` — formal multi-phase plan with acceptance criteria + KPIs
-4. ⏳ Archive `impl-plan-kb-to-kg-2026-04-24.md` → `_archive/`; replace with formal plan
-5. ⏳ Session 39 commit + close
+All Session 39 next-steps executed:
+
+1. ✅ End-vision artifact + arch-philosophy KB card — landed in `f95359a`
+2. ✅ Strategy-pathfinder:scenario-analyst stress-test — completed; consolidated 11→7 phases
+3. ✅ `/cab:plan-implementation` — formal v2 plan drafted at `notes/impl-plan-kb-to-kg-2026-04-28-v2.md`
+4. ✅ Archived v1 plan → `notes/_archive/impl-plan-kb-to-kg-2026-04-24.md`
+5. ✅ Session 39 work commit `f95359a` + state-refresh commit (this commit)
+
+## Next Session (Session 40) — Phase 2B'
+
+Bootstrap path: read this file → `notes/end-vision-cab-2026-04-28.md` → `notes/impl-plan-kb-to-kg-2026-04-28-v2.md` §4 Phase 2B'.
+
+Phase 2B' scope: Architectural Tier Audit (~10 cards + 3 rules) + new `knowledge/reference/llm-interaction-patterns.md` card + temporal-neutrality rule into `.claude/rules/kb-conventions.md` + 2B'.8 (plan-implementation skill template enrichment with per-phase metadata convention). 1.5 sessions; ON-THE-LOOP intervention.
 
 ---
 

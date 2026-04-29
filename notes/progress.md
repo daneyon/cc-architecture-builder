@@ -1,8 +1,95 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-28 (Session 38 closed — plugin remediation + structural DP8 enforcement + KB cruft cleanup)
-**Current task**: Wave 8 Phase 2 awaits user comments before kickoff (per session-close gate).
-**Branch**: `master` (Session 38 closed cleanly; KB cruft cleanup + close commit pending push)
+**Last session**: 2026-04-28 (Session 39 — Wave 8 reframe + Phase 2A Vision Anchoring complete)
+**Current task**: Wave 8 Phase 2B' — Architectural Tier Audit + Interaction Patterns Card + KB Authoring Rule
+**Branch**: `master` (ahead of origin by 2 commits — work `f95359a` + state refresh; push deferred per user)
+**Latest work commit**: `f95359a` — `feat(arch): Wave 8 reframe — skills-as-modular-software with KG as systematization map [UXL-005 Phase 2A]`
+
+---
+
+## Session 39 — Wave 8 reframe + Phase 2A (Vision Anchoring) complete (2026-04-28)
+
+**Bootstrap tokens**: ~7,200 (3-file cascade; stable).
+**Work commit**: `f95359a` (6 files, 914 insertions; v1 plan archived; 2 new artifacts; 3 modified)
+
+### Trigger
+
+Cold-start bootstrap from Session 38's AWAIT-USER-COMMENTS gate. User provided 4-point brain-dump on Wave 8 KG strategy: (1) end-vision UI/UX (skill = software = modularized codebase) — adequacy check on state files; (2) HydroCast KB standardization plan + Graphiti research paper as references; (3) top-down content audit methodology (anti-sycophantic); (4) standardize human-LLM interaction tips (U-shaped attention etc.).
+
+### What landed in Session 39
+
+**Strategic reframe** (locked):
+- Original Wave 8 plan: "graph over existing KB" (bottom-up data engineering)
+- New plan: "skills-as-modular-software with KG as systematization map" (top-down architecture)
+- Corrected metaphor: skill ≠ Python `src/` module; **skill = UNIX coreutil + man page** = autonomous NL-invocable capability with file-based composition
+- KG = service mesh + package registry for the agentic OS platform
+
+**Phase consolidation** (scenario-analyst stress-test):
+- 11 phases initially proposed → consolidated to **7 phases** + HITL gate
+- 2H (notes ↔ KB linking implementation) deferred to Wave 9 ("design for, defer building" — schema anticipates edges, doesn't ship field/scanner)
+- 2F identified as **Schwerpunkt** (1.5 sessions, mandatory hand-author stress gate)
+- HITL gate inserted post-2G for viz scope decision-from-data
+
+**Decisions locked (D1-D9)**:
+- D1: end-vision artifact at `notes/end-vision-cab-2026-04-28.md`
+- D2: switch to skills-as-modular-software (corrected metaphor)
+- D3: 5-axis audit framework; 6 verdict types (KEEP/MERGE/REPACK/REWRITE/DELETE/GAP)
+- D4: JSON KG substrate; SQLite revisit at >100 files
+- D5: dedicated `llm-interaction-patterns.md` card + thin cross-refs
+- D6: scenario-analyst stress-test BEFORE plan-implementation
+- D7: adopt consolidated 7-phase plan
+- D8: deferred 2H tracked in TODO.md + end-vision deferred-items
+- D9 (A+B+C): GTA-derived per-phase metadata pattern adopted — v2 plan tables enriched, 2B'.8 sub-task added (plan-implementation template enrichment), `plan-task` added as 7th node type to Phase 2F schema with `parallelizable_with`/`gates` edges
+
+**Graphiti verdict**: pattern-steal (bi-temporal, episode-as-provenance, hybrid retrieval, ontology, incremental ingestion); NOT adopt-as-is (over-build at 44-file scale; defer to JSONL session-archive ingestion / LL-28 territory).
+
+**HydroCast `responsible-ai.md` pattern absorbed**: v2 plan §11 enriched with EU AI Act / NIST intervention types (IN-THE-LOOP / ON-THE-LOOP / DIRECTED) per phase + 5 stop-the-line conditions + HIGH/MEDIUM/LOW confidence tagging + provenance requirements.
+
+### Artifacts (all in commit `f95359a`)
+
+**Created**:
+- `notes/end-vision-cab-2026-04-28.md` — cold-start anchor for Wave 8-11 sessions; verbatim brain-dump + synthesis + locked decisions + consolidated 7-phase layout
+- `notes/impl-plan-kb-to-kg-2026-04-28-v2.md` — formal 7-phase plan with per-phase metadata blocks, 5-axis audit framework, expanded AI-Integrated Addendum, plan-task as KG node type
+
+**Modified**:
+- `knowledge/overview/architecture-philosophy.md` — new "Skill Composition Model & End-Vision Architecture" section + 7th implication ("Skills compose via files, not imports"); `last_updated` 2026-04-05 → 2026-04-28; `estimated_tokens` 900 → 1100
+- `notes/current-task.md` — reframed phasing table; AWAIT-USER-COMMENTS gate replaced
+- `notes/TODO.md` — Wave 9 deferred 2H entry under P1
+
+**Archived**:
+- `notes/_archive/impl-plan-kb-to-kg-2026-04-24.md` — v1 plan (superseded)
+
+**Memory saved** (outside repo):
+- `feedback_ai_integrated_addendum_default.md` — all CAB plans default-include AI-Integrated Addendum
+
+### Skills + agents exercised
+
+- `general-researcher` (subagent): Graphiti paper analysis — verdict over-build
+- `strategy-pathfinder:scenario-analyst`: 11→7 phase consolidation + 2H defer + 2F Schwerpunkt + lock-in risk mitigations
+- `cab:plan-implementation`: formal v2 plan drafting via templates
+- `cab:verifier`: PASS on all 5 Phase 2A deliverables (no FAIL/PARTIAL)
+- `cab:close-session`: this invocation
+
+### LL candidates (not yet codified — surface if pattern recurs)
+
+1. Plan-implementation skill template is general-purpose; CAB internal tasks benefit from GTA-derived per-phase metadata. **Codification target**: 2B'.8.
+2. AI-Integrated Addendum default-include not optional. **Codification target**: 2B'.8 (same task).
+3. Decision-from-data HITL gate pattern (insert HITL between phases that depend on prior-phase output shape). **Codification target**: candidate for `knowledge/operational-patterns/` new card.
+
+### Queued for Session 40 (Phase 2B')
+
+- 1.5 sessions; ON-THE-LOOP intervention type
+- Audits ~10 architectural-tier cards + 3 rules → `notes/audit-architectural-tier-2026-04-XX.json`
+- Authors `knowledge/reference/llm-interaction-patterns.md`
+- Codifies temporal-neutrality rule into `.claude/rules/kb-conventions.md`
+- Includes 2B'.8 (plan-implementation skill template enrichment with per-phase metadata convention)
+- Phase Gate: audit JSON validates against schema; user reviews + approves verdicts before 2C
+
+### State at session close
+
+- Branch: `master` ahead of origin by 2 commits (work + state refresh); push deferred per user
+- Phase 2A DONE; Phase 2B' is next active phase
+- Bootstrap path: `notes/current-task.md` → `notes/end-vision-cab-2026-04-28.md` → `notes/impl-plan-kb-to-kg-2026-04-28-v2.md` §4 Phase 2B'
 
 ---
 
