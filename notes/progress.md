@@ -1,9 +1,105 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-29 (Session 40 — Wave 8 Phase 2B' subtasks 1-3 complete; subtasks 4-8 pending)
-**Current task**: Wave 8 Phase 2B' subtasks 2B'.4–2B'.8 (deferred to Session 41)
-**Branch**: `master` (ahead of origin by 5 commits — Session 39 work `f95359a` + state refresh `5238d92` + feedback capture `8486823` + Session 40 work `60e533a` + state refresh; push deferred per user)
-**Latest work commit**: `60e533a` — `feat(audit): architectural-tier 5-axis audit + Wave 12+ subagent intent [UXL-005 Phase 2B' partial]`
+**Last session**: 2026-04-30 (Session 41 — Phase 2B'.4 + Phase 2E recompose + Phase 2E.1-2.2 complete; mid-session state refresh)
+**Current task**: 2B'.5 placeholder staged for user authoring; 2B'.6-8 pending; Phase 2E.3-6 pending
+**Branch**: `master` (ahead of origin by 6 commits; push deferred per user)
+**Latest work commit**: `56e8d34` — `feat(arch): Phase 2E component-decision framework + DP8 revision + patterns card [UXL-005 P2B'.4 + P2E.1-2]`
+
+---
+
+## Session 41 — Phase 2B'.4 + Wave 8+ Strategic Recompose + Phase 2E.1-2.2 (2026-04-30)
+
+**Bootstrap tokens**: ~7,500 (3-file cascade + L4 v2-plan/end-vision/audit-JSON reads).
+**Work commit**: `56e8d34` (6 files; 708 insertions; 2 new KB cards + DP8 revision + end-vision section + 2B'.5 placeholder + ux-log user-edit)
+
+### Trigger
+
+Cold-start bootstrap from Session 40 close. User invoked `/execute-task` for Phase 2B' subtasks 4-8. Mid-flow (post-2B'.4 patterns card surface + 2B'.5 placeholder prep), user surfaced 4-point strategic input that reshaped Wave 8+ scope:
+1. LL → CC-component mapping (recommended advisory field at log-time)
+2. DP8 expansion to cover 4-component memory ecosystem (CLAUDE.md / rules / auto-memory / agent-memory)
+3. LL system vs UX-log system synthesis/replacement
+4. Female/male plug mirroring philosophy (deferred)
+
+Phase 2B'.5-8 PARKED; Phase 2E (DP8 expansion + canonical component-decision-framework realization + memory ecosystem) opened ahead of Phase 2C/2D'.
+
+### What landed in Session 41
+
+**Phase 2B'.4 — `knowledge/reference/llm-interaction-patterns.md`** (286 lines, NEW):
+- 9 patterns documented with Mermaid pattern→failure-mode map + provenance citations
+- Patterns: U-shape attention, imperative trigger, value-density, cache-aware composition, T1 boundary partial-read, dual-POV check, 3-file bootstrap cascade, prescribed+emergent ontology, verification-as-runnable-contract
+- Cross-refs canonical homes (bootstrap-read-pattern, context-engineering, design-principles)
+
+**Phase 2E.1 — DP8 revision** (`knowledge/overview/design-principles.md`):
+- Reduced from technical-realization-detail to principle-layer only
+- Added 4-component memory ecosystem operational inferences + three-question screening + decision-tree pointer
+- Aligns with KB layering convention (overview/ = inference; components/ = realization)
+
+**Phase 2E.2 — `knowledge/components/component-decision-framework.md`** (275 lines, NEW):
+- Canonical realization layer for DP8
+- Decision tree (Mermaid) covering 13 component leaves
+- Component matrix with 12 rows incl. SCHEDULE 4 sub-options
+- 4-component memory ecosystem visualization
+- 5 per-component scope tests (SKILL vs RULE; AUTO MEM vs CLAUDE.md; AGENT MEM vs SKILL REFS; HOOK vs SKILL; HOOK vs SCHEDULE)
+- 4 worked examples incl. cross-platform agentic-OS interop (HydroCast↔RAS-exec/GTA via MCP)
+- 9 anti-patterns
+- Skill bundled-resources taxonomy fix per skill-creator (scripts/, references/, assets/)
+- Forward-stated consumer integration (Phase 2E.5+ tracked in TODO P1)
+
+**Backend-first section in end-vision artifact** (`notes/end-vision-cab-2026-04-28.md`):
+- NEW Wave 8+ Cross-Cutting Design Constraint section
+- Codifies "pictorial for me, numerical for you" framing
+- Wave 8 KG implication: ALL viz MUST derive from `knowledge/_graph/index.json`
+- DP10 promotion candidate flagged
+
+**Phase 2B'.5 placeholder staged** (`.claude/rules/kb-conventions.md`):
+- HTML comment block + bullet stub for user authoring
+- Documents context, 4 edge cases (collapsed to 3 mechanisms: wave-anchored note marker / dated-path discipline / frontmatter metadata carve-out), references, suggested shape
+
+### Decisions locked (D12-D18, Session 41)
+
+- D12: KB layering convention (overview/ = inference; components/operational-patterns/ = realization)
+- D13: 4-component memory ecosystem treatment (CLAUDE.md/rules user-proactive; auto-memory/agent-memory Claude/subagent-reactive; ALL layer-1 in respective scope; ALL advisory)
+- D14: MCP/API/Plugin co-existence framing (not vs); each fits a different consumer profile
+- D15: Backend-first / Artifact-first architecture as Wave 8+ cross-cutting constraint
+- D16: Skill scaffolding default-include 3-dir bundled-resources placeholders (CAB convention)
+- D17: SCHEDULE component formalized parallel to HOOK; 4 sub-options documented
+- D18: 4 temporal-neutrality edge cases collapsed to 3 mechanisms (wave-anchored note pattern + dated-path discipline + metadata carve-out)
+
+### Memory saves (outside repo, 5 added Session 41)
+
+- `project_strategic_recompose_2026-04-30.md` — 4-point strategic input
+- `project_kb_layering_convention.md` — overview vs components separation
+- `feedback_skill_default_placeholder_bundled_resources.md` — Q1 preference
+- `project_backend_first_architecture_philosophy.md` — Q4 design philosophy + sharper "pictorial for me, numerical for you" framing
+- (Session 40's project_protocol_role_subagent_constellation persists)
+
+### Skills + agents exercised
+
+- `cab:execute-task`: Phase 2B' protocol structure + recompose handling
+- WebFetch (CC docs): auto-memory + sub-agents persistent-memory + scheduled-tasks + common-workflows
+- (verifier deferred to Phase 2E.5+ when consumers integrate)
+
+### LL candidates (not yet codified)
+
+1. KB layering convention as formal CAB design rule (currently memory + framework anti-pattern)
+2. Backend-first architecture as DP10 (currently memory + end-vision section + framework anti-pattern)
+3. MCP/API/Plugin co-existence framing as canonical advisory (currently framework worked example + future cross-platform-interop card)
+4. Mid-execute strategic-recompose pattern: "user surfaces architectural input that reshapes scope mid-phase; orchestrator should park current work + open new phase rather than inline-merge"
+
+### Queued for Session 42
+
+- 2B'.5 (USER TO AUTHOR temporal-neutrality rule using staged placeholder)
+- 2B'.6 + 2B'.7 + 2B'.8 (after 2B'.5 lands)
+- Phase 2E.3-6 (token-budget GAP card / Diagrams 1+2 migration / triage-lessons skill / consumer-skill updates)
+- Verifier on full Phase 2B'+2E final state
+- Then Phase 2C (Component Tier Audit) using 2E framework as scoring rubric
+
+### State at session close (mid-session refresh)
+
+- Branch: `master` ahead of origin by 6 commits; push deferred per user
+- Phase 2A DONE; Phase 2B' subtasks 1-4 ✓; 2B'.5 placeholder staged; 2B'.6-8 pending
+- Phase 2E.0-2.2 ✓; Phase 2E.3-6 pending
+- Bootstrap path Session 42: `notes/current-task.md` → end-vision (with new Backend-First section) → v2 plan → audit JSON → component-decision-framework + patterns card
 
 ---
 
