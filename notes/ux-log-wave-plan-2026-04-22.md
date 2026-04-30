@@ -11,6 +11,7 @@
 ## Framework Application Summary
 
 **Value-vs-Effort + Severity (Tier 1 — already captured)**:
+
 - Value distribution: 11 H / 7 M / 5 L
 - Effort distribution: 3 H / 11 M / 9 L
 - Two H/H rows (UXL-004, UXL-005) anchor long-horizon waves; UXL-023 M/H couples to UXL-022 (resolved).
@@ -21,14 +22,14 @@ CAB has no `gui` surface rows in this pass (0/24). Kano maps poorly to infrastru
 **RICE (Tier 2 — applied to hook-cluster peer group)**:
 Hook cluster has 6 peer rows (UXL-024, 026, 027, 028, 029, 030) — meets ≥3 peers threshold. Reach = conservative (all affect main-session and all subagents); Impact and Effort from triage; Confidence = B (no empirical data on frequency yet).
 
-| Row | Reach | Impact | Confidence | Effort | **RICE** |
-|---|---|---|---|---|---|
-| UXL-027 (LL-02/12 pre-gate) | 3 | 3 | 0.8 | 2 | **3.6** |
-| UXL-028 (LL-08 post-check) | 3 | 3 | 0.8 | 2 | **3.6** |
-| UXL-026 (LL-19/20 counter) | 3 | 3 | 0.5 | 2 | **2.25** |
-| UXL-030 (LL-10 fresh-fetch) | 2 | 2 | 0.7 | 2 | **1.4** |
-| UXL-029 (LL-17 worktree) | 2 | 2 | 0.6 | 2 | **1.2** |
-| UXL-024 (LL-26 regex) | 1 | 1 | 0.9 | 1 | **0.9** |
+| Row                         | Reach | Impact | Confidence | Effort | **RICE** |
+| --------------------------- | ----- | ------ | ---------- | ------ | -------------- |
+| UXL-027 (LL-02/12 pre-gate) | 3     | 3      | 0.8        | 2      | **3.6**  |
+| UXL-028 (LL-08 post-check)  | 3     | 3      | 0.8        | 2      | **3.6**  |
+| UXL-026 (LL-19/20 counter)  | 3     | 3      | 0.5        | 2      | **2.25** |
+| UXL-030 (LL-10 fresh-fetch) | 2     | 2      | 0.7        | 2      | **1.4**  |
+| UXL-029 (LL-17 worktree)    | 2     | 2      | 0.6        | 2      | **1.2**  |
+| UXL-024 (LL-26 regex)       | 1     | 1      | 0.9        | 1      | **0.9**  |
 
 Top RICE: UXL-027+UXL-028 (tied) → validates pairing them in Wave 2. UXL-026 third = design work needed first (lower Confidence reflects this).
 
@@ -46,13 +47,13 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 **MoSCoW per row (Wave 1 release)**: M, M, M, M, M
 **Execution approach**: Ad-hoc inline with `[UXL-NNN]` commits per row; uxl-update.py helper for resolutions.
 
-| Row | Effort | Lands |
-|---|---|---|
-| UXL-008 | L | Mojibake fix on `knowledge/reference/workflow-processflow.md` (UTF-16 residue from Phase 2.6) |
-| UXL-019 | L | Reversibility inventory table appended to `filesystem-patterns.md` (protocol → commit → revert) |
-| UXL-020 | L | RAS-exec LL-25 tracked-notes policy doc alignment |
-| UXL-021 | L | HydroCast LL-25 tracked-notes policy doc alignment |
-| UXL-024 | L | LL-26 pre-push hook regex refinement (backtick-wrapped marker exclusion via `grep -v` post-filter) |
+| Row     | Effort | Lands                                                                                                |
+| ------- | ------ | ---------------------------------------------------------------------------------------------------- |
+| UXL-008 | L      | Mojibake fix on `knowledge/reference/workflow-processflow.md` (UTF-16 residue from Phase 2.6)      |
+| UXL-019 | L      | Reversibility inventory table appended to `filesystem-patterns.md` (protocol → commit → revert)  |
+| UXL-020 | L      | RAS-exec LL-25 tracked-notes policy doc alignment                                                    |
+| UXL-021 | L      | HydroCast LL-25 tracked-notes policy doc alignment                                                   |
+| UXL-024 | L      | LL-26 pre-push hook regex refinement (backtick-wrapped marker exclusion via `grep -v` post-filter) |
 
 **Estimated cost**: ~30-60 min total; 5 commits + 5 CSV resolutions.
 
@@ -171,6 +172,7 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 
 **Rows**: UXL-035 (CAB-side deliverable + external-repo apply pattern formalization)
 **Coupling rationale**: Pattern proved in Wave 1 (UXL-020 RAS-exec patch-ready artifact). Needs standardization: template artifact structure, convention for when CAB-side work is "done" vs "needs external apply," cross-reference schema back to tracker.
+***remind user to elaborate fully on the "female/male plug mirroring alignment b/w CAB agentic OS and CC-integrated project to mandate project-specific standardizations on top of CAB architecture" design philosophy (user-noted)
 **MoSCoW**: C
 **Execution approach**: Short standalone plan; produces template + documentation.
 
@@ -186,18 +188,18 @@ Per-wave M/S/C/W assignments below — a row may be `M` in Wave 3 (release-scope
 
 ### Cumulative Row Count Per Wave
 
-| Wave | Rows | Cumulative resolved | Cumulative remaining triaged/deferred |
-|---|---|---|---|
-| current state | — | 9 | 25 |
-| 1 | 5 | 14 | 20 |
-| 2 | 2 | 16 | 18 |
-| 3 | 2 | 18 | 16 |
-| 4 | 3 | 21 | 13 |
-| 5 | 2 | 23 | 11 |
-| 6 | 2 + auto-supersede 2 | 25 + 2 superseded | 7 |
-| 7 | 3 | 28 | 4 |
-| 8 | 1 | 29 | 3 |
-| 9 | 3 | 32 | 0 |
+| Wave          | Rows                 | Cumulative resolved | Cumulative remaining triaged/deferred |
+| ------------- | -------------------- | ------------------- | ------------------------------------- |
+| current state | —                   | 9                   | 25                                    |
+| 1             | 5                    | 14                  | 20                                    |
+| 2             | 2                    | 16                  | 18                                    |
+| 3             | 2                    | 18                  | 16                                    |
+| 4             | 3                    | 21                  | 13                                    |
+| 5             | 2                    | 23                  | 11                                    |
+| 6             | 2 + auto-supersede 2 | 25 + 2 superseded   | 7                                     |
+| 7             | 3                    | 28                  | 4                                     |
+| 8             | 1                    | 29                  | 3                                     |
+| 9             | 3                    | 32                  | 0                                     |
 
 Wave 9 completion closes the current pass cycle. Pass 2 opens fresh with new captured observations.
 

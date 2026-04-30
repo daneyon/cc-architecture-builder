@@ -161,27 +161,31 @@ Verification is not QA bolted on at the end — it is a structural element of ev
 
 ## Principle 8: Don't Reinvent — Wrap and Extend
 
-Before building any extension, check whether an existing package, plugin, MCP server, or built-in capability handles it. Design hybrids from proven references rather than building from scratch. Wrap existing tools via MCP rather than rebuilding their logic.
+Before authoring any new content or behavior, check whether an existing CC component, plugin, or wrappable capability handles it. CAB's wrap-and-extend axiom applies recursively: across domains (wrap CC docs, wrap MCP servers, wrap external services) AND vertically within CAB itself (wrap modular KB cards into skill packs; wrap skill packs into domain-specialist subagents).
 
-**The CAB-specific application**: CAB itself follows this principle by wrapping CC's official capabilities rather than duplicating them. KB files link to official docs. Skills wrap CC primitives into standardized workflows. Agents compose CC's native subagent system with domain expertise. The entire framework is an extension layer, not a replacement.
+**The component-decision boundary**: every authored asset belongs to exactly one canonical CC component type. DP8 governs the *principle* (wrap don't reinvent; map to canonical component); the realization framework governs the *mechanics* (which component for which content/behavior). See [Component Decision Framework](../components/component-decision-framework.md) for the full decision tree, per-component scope tests, the 4-component memory ecosystem, and worked examples.
 
-**Operational embodiment**:
+**Operational inferences** (high-level guidance; full mechanics in the framework card):
 
-DP8 enforcement lives at two operational gates (per the principle that structural integration > passive documentation — see LL-19 and LL-29):
+- DETERMINISTIC prescription / domain-specialized procedure → SKILL
+- ADVISORY guidance, project-wide → memory layer (CLAUDE.md, rules, auto-memory, agent-memory — all four advisory, not enforced)
+- DOMAIN-SPECIALIZED orchestration with isolated context need → AGENT
+- EVENT-DRIVEN deterministic enforcement → HOOK
+- EXTERNAL service or persistent tool layer → MCP wrap
+- PROGRAMMATIC data or single-step deterministic logic → SCRIPT or structured asset
 
-1. **Component scaffolding gate** — `skills/scaffold-project/SKILL.md` Step 0 (DP8 Pre-Flight Check): mandatory verification of installed plugins + Anthropic-official plugin cache + native CC capabilities + MCP wrap opportunities BEFORE any new component is scaffolded.
-2. **Workspace audit gate** — `skills/audit-workspace/SKILL.md` Dimension 8 (DP8 Compliance Scan): read-only audit classifying each project skill/agent/command as CLEAR / WRAPS-EXISTING / DUPLICATES / POTENTIAL-OVERLAP relative to installed plugins. DUPLICATES findings cap the dimension score.
+**Three-question screening test** (mental model for any proposed new asset):
 
-For the recurrence pattern + rationale see `notes/lessons-learned.md` LL-30.
+1. Does a real demand exist? (vs. speculative authoring)
+2. Can the model handle it natively? (vs. duplicated wrapping)
+3. Would hard-coding create rigidity? (vs. flexible orchestration)
 
-**Pre-build checklist** (mental model for any new component proposal):
+**DP8 enforcement gates**:
 
-- Listed enabled plugins via `~/.claude/settings.json .enabledPlugins`?
-- Scanned `~/.claude/plugins/cache/claude-plugins-official/` for prior art?
-- Cross-checked CC native built-in tools/settings/hooks?
-- MCP-wrappable external service better than building?
+1. Component scaffolding — `skills/scaffold-project/SKILL.md` Step 0 (DP8 Pre-Flight Check): mandatory verification of installed plugins + native CC capabilities + MCP wrap opportunities BEFORE scaffolding.
+2. Workspace audit — `skills/audit-workspace/SKILL.md` Dimension 8 (DP8 Compliance Scan): read-only classification of each asset as CLEAR / WRAPS-EXISTING / DUPLICATES / POTENTIAL-OVERLAP.
 
-Overlap found → STOP scaffolding; invoke directly OR write a thin wrap. No overlap → proceed AND document "DP8 check passed" in the new component's body.
+For recurrence pattern + rationale see `notes/lessons-learned.md` LL-30. For full decision tree + per-component scope tests + worked examples + memory ecosystem mechanics, see [Component Decision Framework](../components/component-decision-framework.md).
 
 ---
 

@@ -152,6 +152,42 @@ User-shared external schema with `project-manifest.json`, `active-plan-state.jso
 
 ---
 
+## Wave 8+ Cross-Cutting Design Constraint: Backend-First / Artifact-First Architecture
+
+**Captured 2026-04-30 during Phase 2E.2 framework card review.** User's load-bearing design philosophy spanning all CC-integrated projects (CAB, HydroCast, RAS-exec, GTA). Operative as a cross-cutting constraint on ALL Wave 8+ work, especially Phase 2I (KG visualization).
+
+### The principle
+
+Pipeline → Outputs → API → GUI. One-direction data flow. Backend produces canonical structured outputs (JSON, KG, files); API serves them; GUI/viz renders them. **Visualizations are derivative artifacts, never authoritative.**
+
+User's sharpest framing: *"pictorial for me, numerical for you (generally speaking)"*. Pictorial visualizations are the user's consumption surface; the LLM agent operates on the structured backend (numerical/parseable), not on the pictorial rendering.
+
+### Wave 8 KG implication (load-bearing)
+
+ALL KG visualizations (Phase 2I scope: Mermaid CLI, optional D3/Cytoscape HTML, eventual interactive viz) MUST be derived programmatically from `knowledge/_graph/index.json` (or its supersession schema). The viz tools (`hooks/scripts/kg-render.py`, future `visualizing-data` skill) CONSUME the data — data is the source-of-truth. Hand-authored Mermaid that lives parallel to KG content is the anti-pattern this constraint prevents (vizes drift from canonical data the moment KG state evolves).
+
+Phase 2I plan (v2 plan §4) is structurally compliant by design (`kg-render.py` reads JSON, outputs `.mmd`). This section ensures every Wave 8-11 session bootstrap surfaces the constraint as a top-level design contract, not just an implementation note.
+
+### Operational implications across waves
+
+- **2F (KG schema design)**: schema must be the single source-of-truth; visualizations downstream
+- **2G (extractor + indexer)**: extractor populates the canonical JSON; vizes consume it
+- **2I (visualization HITL)**: scope decision is about RENDERING modality (Mermaid / HTML / D3); the underlying data flow is fixed (JSON → render)
+- **Wave 9-11 (skill repacking)**: skill `references/` may include rendered vizes only as derivative outputs of canonical data; never standalone
+- **Wave 12+ (subagent constellation)**: agents that produce vizes MUST trace to backend data; viz authoring without backend wiring is anti-pattern
+
+### Candidate for promotion to DP10
+
+Currently codified in: framework card anti-pattern row (`knowledge/components/component-decision-framework.md`), this section, project memory `project_backend_first_architecture_philosophy.md`. NOT yet a formal CAB design principle. Surface as DP10 candidate during next design-principles roster review (Wave 9+ or Wave 11+ consolidation).
+
+### References
+
+- Project memory `project_backend_first_architecture_philosophy.md` (load-bearing for all viz work)
+- `knowledge/components/component-decision-framework.md` § Anti-Patterns row "Visualization authored standalone"
+- v2 plan §4 Phase 2I (Visualization scope; HITL gate)
+
+---
+
 ## Strategic Intent: Protocol-Role Subagent Constellation (Wave 12+)
 
 **Captured 2026-04-29 during Phase 2B' verifier-output review.** User-shared pre-v1 design intent: verifier agent is one of a planned constellation of protocol-role subagents, each composed of domain-specialized skills.
