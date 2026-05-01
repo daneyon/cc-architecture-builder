@@ -1,9 +1,46 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-05-01 (Session 42 ACTIVE — Phase 2B'.7 ✓ in `9c04f21`)
-**Current task**: Phase 2B'.6 NEXT (thin cross-refs to llm-interaction-patterns.md); 2B'.8 + 2E.3-6 remain
-**Branch**: `master` (ahead of origin by 10 commits; push deferred per user)
-**Latest work commit**: `9c04f21` — `chore(kb): regenerate KB indexes — reference resync + components bump [UXL-005 Phase 2B'.7]`
+**Last session**: 2026-05-01 (Session 42 ACTIVE — 2B'.7 ✓ in `9c04f21`; 2B'.6 ✓ in `5688f19`)
+**Current task**: Phase 2B'.8 NEXT (plan-implementation skill template per-phase metadata enrichment); 2E.3-6 + 2C remain
+**Branch**: `master` (ahead of origin by 12 commits; push deferred per user)
+**Latest work commit**: `5688f19` — `feat(arch): thin inline cross-refs from rules + DP1 to llm-interaction-patterns [UXL-005 Phase 2B'.6]`
+
+---
+
+## Session 42 — Phase 2B'.6 Thin Cross-Refs (2026-05-01)
+
+**Work commit**: `5688f19` (3 files; +6/-0). Forward-only thin inline pointers from 3 consumer files to `knowledge/reference/llm-interaction-patterns.md`.
+
+### Trigger
+
+Following 2B'.7 INDEX regen, user selected Option C placement strategy (inline at the specific rule/principle being extended) over Options A (top-of-file blanket) and B (See Also at bottom). Option C optimizes for LLM-retrievability — cross-ref appears at the moment of relevance.
+
+### What landed
+
+- `.claude/rules/kb-conventions.md`: top-of-file blockquote pointer framing the rule set as operationalizing LLM-interaction patterns (attention, retrieval, invocation, authoring discipline, ontology, verification)
+- `.claude/rules/component-standards.md`: top-of-file pointer scoped to retrieval and invocation mechanics — description front-loading, signature parsing, skill-trigger reliability — that the frontmatter rules enforce
+- `knowledge/overview/design-principles.md` DP1: end-of-body pointer mirroring DP8 → component-decision-framework pattern (line 188); positions the patterns card as DP1's observable-mechanics realization layer
+
+### Direction
+
+Forward-only (rules/DP1 → patterns card). Bidirectional symmetry already in place via patterns card's `depends_on: [architecture-philosophy, design-principles]` frontmatter — no backlink edits needed.
+
+### Verification
+
+- 3 grep matches at expected anchors (1 per file)
+- All paths use markdown link syntax with correct relative depth (`../../knowledge/reference/...` from `.claude/rules/`; `../reference/...` from `knowledge/overview/`)
+- No new temporal-neutrality body violations
+- +6 lines total (2 per file: pointer + blank line); no scope drift
+
+### Decisions locked (D25, Session 42)
+
+- D25: Top-of-file rule-set-scope cross-ref pattern is appropriate when an entire rules file collectively operationalizes a pattern (not just one bullet) — cleaner than scattering inline cross-refs at every related bullet, while still satisfying Option C's "inline at the rule" intent (file-as-rule-set scope)
+
+### Open / Next
+
+- Phase 2B'.8 (plan-implementation skill template enrichment with per-phase metadata) — NEXT
+- Phase 2E.3-6 — queued
+- Phase 2C (Component Tier Audit) — gated on 2E completion
 
 ---
 
