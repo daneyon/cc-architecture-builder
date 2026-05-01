@@ -4,6 +4,8 @@ paths: "knowledge/**"
 
 # Knowledge Base Conventions
 
+> These rules operationalize the LLM-interaction patterns documented in [`knowledge/reference/llm-interaction-patterns.md`](../../knowledge/reference/llm-interaction-patterns.md) — consult that card for the underlying mechanics (attention, retrieval, invocation, authoring discipline, ontology, verification) these rules enforce.
+
 - KB files MUST be ≤300 lines. Split oversized files into focused subtopics.
   - **Exception**: `knowledge/reference/**` — advisory conceptual frameworks (e.g., product-design lifecycle deep dives, requirements-doc taxonomies) may exceed 300 lines when splits would fracture cohesive content. The ≤300 line rule exists to keep *operational wrappers* skim-able during active work; reference docs are consulted on-demand and benefit from preserved depth. Splits should only occur when natural subtopic boundaries exist.
 - Every KB file MUST have `source:` in YAML frontmatter citing the official reference.

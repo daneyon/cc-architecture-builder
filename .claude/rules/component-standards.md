@@ -1,5 +1,7 @@
 # Component Standards
 
+> Frontmatter and architecture rules for CC component authoring. The retrieval and invocation mechanics behind these rules — particularly description front-loading, signature parsing, and skill-trigger reliability — are documented in [`knowledge/reference/llm-interaction-patterns.md`](../../knowledge/reference/llm-interaction-patterns.md).
+
 ## Agent Frontmatter
 
 **Valid CC-documented fields** (per current docs as of 2026-04-22 refresh —

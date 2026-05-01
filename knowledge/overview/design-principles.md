@@ -34,6 +34,8 @@ The quality of AI output is determined by the quality of context provided. Conte
 - Prompt cache awareness: stable content at context start enables cache hits (~$0.003 vs ~$0.60 at 200K tokens). Avoid cache-breaking changes to system prompt structure.
 - Proactively manage context health: compact at ~70%, start fresh when context is poisoned, not just when auto-compact forces it.
 
+For the observable mechanics realizing this principle — nine cross-cutting patterns governing attention/context, bootstrap/retrieval, invocation, authoring, ontology, and verification — see [LLM Interaction Patterns](../reference/llm-interaction-patterns.md).
+
 ---
 
 ## Principle 2: The Wrapping/Composition Architecture
