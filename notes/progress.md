@@ -1,9 +1,57 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-30 (Session 41 — Phase 2B'.4 + 2B'.5 + 2E.1-2.2 + Settings Hardening complete; multi-deliverable mid-session state refresh)
-**Current task**: HydroCast + RAS-exec settings manual-apply diffs awaiting user; 2B'.6-8 + Phase 2E.3-6 pending
-**Branch**: `master` (ahead of origin by 7 commits; push deferred per user)
-**Latest work commit**: `bf174fd` — `feat(arch): cross-project settings hardening + temporal-neutrality rule + default-deny on settings edits [UXL-005 Phase 2B'.5 + Settings]`
+**Last session**: 2026-04-30 (Session 41 CLOSED — Phase 2B'.4 + 2B'.5 + 2E.1-2.2 + Settings Hardening complete across 3 work commits)
+**Current task**: Phase 2B'.6-8 + Phase 2E.3-6 pending Session 42
+**Branch**: `master` (ahead of origin by 9 commits; push deferred per user)
+**Latest work commit**: `ae6af93` — `chore(arch): refine settings-hardening advisory + remove applied pending-diffs [Session 41 close]`
+
+---
+
+## Session 41 (close) — User Manual-Apply HydroCast + RAS-exec + Advisory Refinement (2026-04-30)
+
+**Work commit**: `ae6af93` (2 files; +2/-114; pending-diffs file deleted; advisory card refined). Session 41 close commit.
+
+### Trigger
+
+User manually applied the 2 pending settings.json diffs (HydroCast + RAS-exec) via IDE. During apply, user CORRECTED 2 of my prior KEEP recommendations for HydroCast:
+- Removed `agent: orchestrator` (was drift — that's CAB's orchestrator agent name, not HydroCast-specific; HydroCast does not define its own orchestrator)
+- Removed `subagentModel: opus` (over-broad; per-agent `model:` frontmatter is the canonical override mechanism per CC sub-agents docs)
+
+### What landed in close
+
+- Memory `feedback_settings_agent_subagentmodel_canonical.md` saved (correction follow-up to feedback_settings_json_default_deny_edit; Session 41 cumulative memory saves now 9 total)
+- `cross-project-settings-hardening.md` inheritance matrix refined: `agent:` row clarified (project-specific orchestrator ONLY when project defines its own); NEW `subagentModel:` row added (RARELY at settings; per-agent frontmatter is canonical)
+- `notes/settings-hardening-pending-2026-04-30.md` DELETED per its self-deletion footer (both diffs applied)
+
+### Decision locked (D23, Session 41 close)
+
+- D23: `agent:` and `subagentModel:` at settings.json level have stricter canonical usage than my prior KEEP advice — settings should reflect project-OWNED orchestrator only; per-agent model frontmatter is canonical for subagent model overrides
+
+### Cumulative Session 41 deliverables (3 work commits + 3 state refreshes)
+
+| Commit | Type | Hash | Scope |
+|---|---|---|---|
+| Work 1 | feat | `56e8d34` | Phase 2B'.4 patterns card + Phase 2E.1-2 (DP8 revision + canonical framework) + end-vision Backend-First section |
+| State 1 | chore | `2e3006f` | Mid-session refresh #1 |
+| Work 2 | feat | `bf174fd` | Phase 2B'.5 temporal-neutrality rule + Settings Hardening (Global/CAB/GTA + advisory + default-deny rule) |
+| State 2 | chore | `76a3153` | Mid-session refresh #2 |
+| Work 3 | chore | `ae6af93` | Settings advisory refinement + pending-diffs deletion (this close) |
+| State 3 | chore | (this commit) | Session 41 close state refresh |
+
+### Memories saved (Session 41 cumulative: 9)
+
+From initial work: `project_strategic_recompose_2026-04-30`, `project_kb_layering_convention`, `feedback_skill_default_placeholder_bundled_resources`, `project_backend_first_architecture_philosophy`, `project_protocol_role_subagent_constellation` (Session 40 carryover).
+From settings hardening: `feedback_settings_json_default_deny_edit` (LL-31 candidate).
+From close: `feedback_settings_agent_subagentmodel_canonical`.
+Plus existing: `feedback_audit_gate_skip_uniform_keep`, `feedback_audit_archive_over_rewrite_when_modularly_covered`, `project_kb_v1_residue`.
+
+### Session 41 close state
+
+- Branch: `master` ahead of origin by 9 commits; push deferred per user
+- Phase 2B' subtasks 1-5 ✓; 6-8 pending Session 42
+- Phase 2E.1-2 ✓; 3-6 pending Session 42
+- Settings hardening DONE across all 5 locations + advisory card (Wave 9+ revisit gate documented)
+- Bootstrap path Session 42: `notes/current-task.md` → end-vision → v2 plan → cross-project-settings-hardening.md → component-decision-framework.md → patterns card
 
 ---
 
