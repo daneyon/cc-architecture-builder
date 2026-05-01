@@ -27,7 +27,12 @@
       "Edit(**/.ssh/*)",
       "Write(**/.ssh/*)",
       "Edit(**/.aws/*)",
-      "Write(**/.aws/*)"
+      "Write(**/.aws/*)",
+      "Edit(.claude/settings*)",
+      "Write(.claude/settings*)"
     ]
+  },
+  "sandbox": {
+    "enabled": true
   }
 }

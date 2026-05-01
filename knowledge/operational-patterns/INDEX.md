@@ -1,9 +1,9 @@
 ---
 type: index
 scope: operational-patterns
-file_count: 14
-last_updated: 2026-04-11
-revision_note: "v3.1 — Added state-management/bootstrap-read-pattern.md (P3/P4 of bootstrap efficiency task). v3.0 — Modularized into subdirectories. 3 monolith files split into 9 focused files across 3 subdirectories."
+file_count: 16
+last_updated: 2026-04-30
+revision_note: "v3.2 — Added cross-project-settings-hardening.md (Session 41 settings hardening pass) + back-filled cc-memory-layer-alignment.md and multi-agent/agent-resolution.md to structure tree (pre-Session-41 drift; documented per audit). v3.1 — Added state-management/bootstrap-read-pattern.md (P3/P4 of bootstrap efficiency task). v3.0 — Modularized into subdirectories."
 ---
 
 # Operational Patterns Index
@@ -21,15 +21,18 @@ operational-patterns/
 ├── multi-agent/            # Agent coordination, teams, worktrees
 │   ├── collaboration-patterns.md  # 4 patterns overview, effort scaling
 │   ├── agent-teams.md      # Agent Teams deep-dive, A-team alignment
-│   └── worktree-workflows.md  # Git worktree setup and patterns
+│   ├── worktree-workflows.md  # Git worktree setup and patterns
+│   └── agent-resolution.md  # local → user → plugin precedence + shadowing
 ├── state-management/       # Sessions, context, filesystem state
 │   ├── session-lifecycle.md # Session resume, context health, compaction
 │   ├── context-engineering.md  # 200-line discipline, optimization
 │   ├── filesystem-patterns.md  # notes/, cold-start anchors, persistence
-│   └── bootstrap-read-pattern.md  # Cheap-to-expensive partial-read cascade, T1 boundaries
+│   ├── bootstrap-read-pattern.md  # Cheap-to-expensive partial-read cascade, T1 boundaries
+│   └── cc-memory-layer-alignment.md  # CC's 6 memory layers ↔ CAB state-mgmt mapping
 ├── team-collaboration.md   # Multi-human + multi-agent protocols
 ├── extension-discovery.md  # Extension awareness, Three-Point Reinforcement
-└── sync-protocol.md        # CAB ↔ global ~/.claude/ deployment protocol
+├── sync-protocol.md        # CAB ↔ global ~/.claude/ deployment protocol
+└── cross-project-settings-hardening.md  # Settings.json layering + default-deny + tier discipline + drift detection
 ```
 
 ## Reading Order
@@ -63,6 +66,7 @@ operational-patterns/
 | Multiple people/agents on same repo | `team-collaboration.md` |
 | Skills forgotten mid-session | `extension-discovery.md` |
 | Deploying CAB changes to global | `sync-protocol.md` |
+| Authoring/auditing CC settings.json across global + project scopes | `cross-project-settings-hardening.md` |
 
 ## Migration Notes (v1.01)
 

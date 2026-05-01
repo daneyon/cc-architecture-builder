@@ -256,7 +256,7 @@ This card is the canonical realization layer consumed by:
 
 - `skills/scaffold-project/SKILL.md` Step 0 (DP8 Pre-Flight Check) — applies the decision tree at scaffolding time
 - `skills/audit-workspace/SKILL.md` Dimension 8 (DP8 Compliance Scan) — uses the matrix + anti-patterns to score existing assets
-- `skills/integrate-existing/SKILL.md` — applies the framework when overlaying CC architecture on a non-CAB codebase
+- `skills/integrate-existing/SKILL.md` (Wave 9+ skill — not yet implemented in CAB; forward-stated consumer) — would apply the framework when overlaying CC architecture on a non-CAB codebase
 - `agents/architecture-advisor.md` — references this for architectural review decisions
 - 5-axis audit framework's `skill_pack_home` axis (Wave 8 Phase 2B'/2C/2D' audits) — refined to "recommended_cc_component" determination per this matrix
 

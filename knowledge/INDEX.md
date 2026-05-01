@@ -19,7 +19,7 @@ last_updated: 2026-04-11
 | `components/` | 10 | Deep dives on each component type |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
 | `reference/` | 1 | Product design lifecycle (conceptual advisory framework) |
-| `operational-patterns/` | 12 | Orchestration (3), multi-agent (3), state management (3), team collaboration, extension discovery, sync protocol |
+| `operational-patterns/` | 16 | Orchestration (3), multi-agent (4), state management (5), team collaboration, extension discovery, sync protocol, cross-project settings hardening |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
 
@@ -116,15 +116,17 @@ Sharing and marketplace publication.
 - `marketplace.md` — Plugin distribution, team configuration, security review
 - `cowork.md` — Cowork sessions, enterprise distribution, team sharing
 
-### Operational Patterns (13 files in 3 subdirectories + 2 root)
+### Operational Patterns (16 files in 3 subdirectories + 4 root)
 
 Advanced workflow and orchestration patterns. See `operational-patterns/INDEX.md` for full directory structure.
 
 - `orchestration/` — Framework tenets, canonical patterns, delegation templates, cost model
-- `multi-agent/` — Collaboration patterns, Agent Teams, worktree workflows
-- `state-management/` — Session lifecycle, context engineering, filesystem state patterns, bootstrap read pattern
+- `multi-agent/` — Collaboration patterns, Agent Teams, worktree workflows, agent resolution + shadowing
+- `state-management/` — Session lifecycle, context engineering, filesystem state patterns, bootstrap read pattern, CC memory-layer alignment
 - `team-collaboration.md` — Shared-repo conventions, conflict resolution, PR review workflows
 - `extension-discovery.md` — Extension discovery patterns, Three-Point Reinforcement
+- `sync-protocol.md` — CAB ↔ global `~/.claude/` deployment + drift protocol
+- `cross-project-settings-hardening.md` — Settings.json layering pattern, default-deny on edits, tier discipline, drift detection (Session 41)
 
 ### Implementation (1 file)
 Practical execution guide.
