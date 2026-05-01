@@ -1,21 +1,23 @@
 ---
 type: index
 scope: reference
-file_count: 7
-last_updated: 2026-04-22
+file_count: 8
+last_updated: 2026-04-30
+revision_note: "Added llm-interaction-patterns.md (cross-cuts attention/context/invocation/retrieval/authoring/ontology/verification surfaces; canonical for the patterns themselves)."
 ---
 
 # Reference Materials Index
 
 > Generalized conceptual frameworks for project planning, team formation,
-> lifecycle management, prioritization, and UX evaluation. These are **advisory
-> references** — not prescriptive doctrine. Agents and skills read these
-> on-demand when relevant to the current task.
+> lifecycle management, prioritization, UX evaluation, and LLM-interaction
+> mechanics. These are **advisory references** — not prescriptive doctrine.
+> Agents and skills read these on-demand when relevant to the current task.
 
 ## Files
 
 | File | Summary |
 |------|---------|
+| [llm-interaction-patterns.md](llm-interaction-patterns.md) | Nine observable patterns governing LLM interaction reliability across attention/context, bootstrap/retrieval, invocation, authoring, ontology, and verification surfaces. Cross-cuts existing operational cards — canonical for the patterns themselves. |
 | [product-design-cycle.md](product-design-cycle.md) | Universal 7-phase product lifecycle (Discovery → Operations) with sub-processes, deliverables, discipline mapping, phase gates, and CC extension mapping. Synthesizes Double Diamond, SDLC, Lean Startup, Design Thinking, and Stage-Gate. |
 | [a-team-database.yaml](a-team-database.yaml) | Machine-parseable roster of 22 product team roles with CC extension mapping, scaling tiers (solo → enterprise), phase participation, and key deliverables per role. Use for team formation suggestions during project initialization. |
 | [requirements-doc-guide.md](requirements-doc-guide.md) | Deep dive on Market / Product / Software Requirements Documents (MRD/PRD/SRD) and hybrid Startup Requirement Document approach. Consulted during plan-implementation scoping for early-stage product work. |

@@ -1,13 +1,20 @@
 ---
 type: index
 scope: components
-file_count: 10
-last_updated: 2026-04-05
+file_count: 11
+last_updated: 2026-04-30
+revision_note: "Added component-decision-framework.md — DP8 realization layer (decision tree + per-component scope tests + 4-component memory ecosystem mechanics + worked examples). Consumed by scaffold-project (Step 0), audit-workspace (Dimension 8), integrate-existing, and architecture-advisor."
 ---
 
 # Components Index
 
 > Claude Code plugin components that extend functionality.
+
+## Cross-Cutting Reference
+
+| Card | Role |
+|------|------|
+| [Component Decision Framework](component-decision-framework.md) | DP8 realization — decision tree + per-component scope tests + 4-component memory ecosystem mechanics. Consult **before** authoring any new component to identify the canonical fit. |
 
 ## Quick Reference
 
@@ -26,6 +33,7 @@ last_updated: 2026-04-05
 
 ## Reading Order (Recommended)
 
+0. **component-decision-framework.md** — Meta-reference; consult before authoring (decision tree + scope tests)
 1. **memory-claudemd.md** — Foundation for everything else
 2. **agent-skills.md** — Core extension mechanism
 3. **subagents.md** — Specialized task delegation

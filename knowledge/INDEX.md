@@ -1,8 +1,9 @@
 ---
 type: index
 scope: master
-file_count: 37
-last_updated: 2026-04-11
+file_count: 48
+last_updated: 2026-04-30
+revision_note: "Reference category resync (1 → 8): back-filled prior-relocated cards (a-team-database.yaml, requirements-doc-guide, visualization-workflow, workflow-processflow, prioritization-frameworks, ux-testing-agentic-os) + new llm-interaction-patterns. Components category bump (10 → 11): added component-decision-framework (DP8 realization layer)."
 ---
 
 # Knowledge Base Index
@@ -16,9 +17,9 @@ last_updated: 2026-04-11
 | `overview/` | 3 | Executive summary, architecture philosophy, design principles |
 | `prerequisites/` | 2 | Git foundation, security defaults |
 | `schemas/` | 3 | Global user config, distributable plugin, architecture diagrams |
-| `components/` | 10 | Deep dives on each component type |
+| `components/` | 11 | Deep dives on each component type + DP8 decision framework |
 | `distribution/` | 2 | Marketplace, sharing, Cowork |
-| `reference/` | 1 | Product design lifecycle (conceptual advisory framework) |
+| `reference/` | 8 | Advisory conceptual frameworks — LLM interaction patterns, product lifecycle, team roster, requirements docs, visualization, diagramming, prioritization, UX testing |
 | `operational-patterns/` | 16 | Orchestration (3), multi-agent (4), state management (5), team collaboration, extension discovery, sync protocol, cross-project settings hardening |
 | `implementation/` | 1 | Step-by-step workflow |
 | `appendices/` | 2 | Glossary, references |
@@ -94,10 +95,11 @@ Complete structure specifications for both configuration layers.
 - `distributable-plugin.md` — Plugin structure, plugin.json schema, knowledge organization
 - `cc-architecture-diagrams.md` — Mermaid architecture diagrams and visual references
 
-### Components (10 files)
+### Components (11 files)
 
-Detailed documentation for each plugin component type.
+Detailed documentation for each plugin component type, plus the cross-cutting decision framework that governs which component fits which content/behavior.
 
+- `component-decision-framework.md` — DP8 realization (decision tree + per-component scope tests + 4-component memory ecosystem mechanics + worked examples). Consult **before** authoring any new component.
 - `memory-claudemd.md` — 5-tier memory system, imports, project rules
 - `agent-skills.md` — Model-invoked capabilities, SKILL.md format, progressive disclosure
 - `subagents.md` — Specialized assistants, separate context, built-in agents
@@ -116,6 +118,19 @@ Sharing and marketplace publication.
 - `marketplace.md` — Plugin distribution, team configuration, security review
 - `cowork.md` — Cowork sessions, enterprise distribution, team sharing
 
+### Reference (8 files)
+
+Advisory conceptual frameworks consulted on-demand by agents and skills. Not prescriptive doctrine. See `reference/INDEX.md` for per-file summaries.
+
+- `llm-interaction-patterns.md` — Nine observable patterns governing LLM interaction reliability across attention/context, bootstrap/retrieval, invocation, authoring, ontology, verification surfaces
+- `product-design-cycle.md` — Universal 7-phase product lifecycle, framework-agnostic synthesis
+- `a-team-database.yaml` — Machine-parseable roster of 22 product team roles + CC extension mapping
+- `requirements-doc-guide.md` — MRD / PRD / SRD deep dive + hybrid Startup Requirement Document
+- `visualization-workflow.md` — Hybrid viz design workflow (Yau + Cleveland-McGill + Munzner)
+- `workflow-processflow.md` — Workflow vs process flow diagram comparative reference
+- `prioritization-frameworks.md` — 8 frameworks (RICE, MoSCoW, Kano, etc.) + tiered application stack
+- `ux-testing-agentic-os.md` — Coupled UX-eval protocol (Nielsen + WCAG + ISO + LLM-eval practice)
+
 ### Operational Patterns (16 files in 3 subdirectories + 4 root)
 
 Advanced workflow and orchestration patterns. See `operational-patterns/INDEX.md` for full directory structure.
@@ -126,7 +141,7 @@ Advanced workflow and orchestration patterns. See `operational-patterns/INDEX.md
 - `team-collaboration.md` — Shared-repo conventions, conflict resolution, PR review workflows
 - `extension-discovery.md` — Extension discovery patterns, Three-Point Reinforcement
 - `sync-protocol.md` — CAB ↔ global `~/.claude/` deployment + drift protocol
-- `cross-project-settings-hardening.md` — Settings.json layering pattern, default-deny on edits, tier discipline, drift detection (Session 41)
+- `cross-project-settings-hardening.md` — Settings.json layering pattern, default-deny on edits, tier discipline, drift detection
 
 ### Implementation (1 file)
 Practical execution guide.
