@@ -69,7 +69,8 @@ flowchart TB
 | `effortLevel` | Subscription-tier default (xhigh) | OMIT (UXL-039) | Project downgrade to `high` without explicit cost-throttle rationale |
 | `permissions.allow` Bash | Cross-project patterns | Project-specific patterns | Duplicate-with-different-glob entries |
 | Self-modification deny | NOT applicable (per-project per LL-13) | `Edit/Write(.claude/settings*)` in deny | Editing global to add |
-| `agent` (default) | (default) | Project-specific orchestrator (e.g., `orchestrator`, `ras-orchestrator`) | — |
+| `agent` (default) | (default) | Project-specific orchestrator ONLY when project defines its own agent (e.g., RAS-exec's `ras-orchestrator`); do NOT set with a generic name from another project's plugin (drift) | Setting `agent: <name>` where `<name>` is not actually a project-scope agent |
+| `subagentModel` | (default) | RARELY — only for project-wide model-lock with documented rationale | Default override; per-agent `model:` frontmatter is the canonical model-override mechanism |
 | `enabledPlugins` | Comprehensive list | Project-specific additions | Re-listing all plugins (lose global inheritance) |
 | Settings-edit approval gate | `permissions.ask` for `Edit/Write(**/.claude/settings*)` | (covered by global ask + project deny) | Bypassing via direct Claude edits |
 
