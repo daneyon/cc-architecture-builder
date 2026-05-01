@@ -1,9 +1,47 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-30 (Session 41 CLOSED — Phase 2B'.4 + 2B'.5 + 2E.1-2.2 + Settings Hardening complete across 3 work commits)
-**Current task**: Phase 2B'.6-8 + Phase 2E.3-6 pending Session 42
-**Branch**: `master` (ahead of origin by 9 commits; push deferred per user)
-**Latest work commit**: `ae6af93` — `chore(arch): refine settings-hardening advisory + remove applied pending-diffs [Session 41 close]`
+**Last session**: 2026-05-01 (Session 42 ACTIVE — Phase 2B'.7 ✓ in `9c04f21`)
+**Current task**: Phase 2B'.6 NEXT (thin cross-refs to llm-interaction-patterns.md); 2B'.8 + 2E.3-6 remain
+**Branch**: `master` (ahead of origin by 10 commits; push deferred per user)
+**Latest work commit**: `9c04f21` — `chore(kb): regenerate KB indexes — reference resync + components bump [UXL-005 Phase 2B'.7]`
+
+---
+
+## Session 42 — Phase 2B'.7 KB INDEX Regen (2026-05-01)
+
+**Work commit**: `9c04f21` (3 files; +39/-14). Standalone deliverable resolving Session 41-surfaced INDEX drift before authoring 2B'.6 cross-refs.
+
+### Trigger
+
+User directed re-ordering of Session 42 sequence: invoke `/cab:index-kb` (Phase 2B'.7) BEFORE authoring 2B'.6 cross-refs so cross-refs reference clean INDEX state. Inverts the recommended order from Session 41 close.
+
+### Drift resolved
+
+- Root `knowledge/INDEX.md` `reference/`: 1 → 8 (back-filled prior-relocated cards: a-team-database.yaml, requirements-doc-guide, visualization-workflow, workflow-processflow, prioritization-frameworks, ux-testing-agentic-os; plus new llm-interaction-patterns)
+- Root `knowledge/INDEX.md` `components/`: 10 → 11 (added component-decision-framework.md as cross-cutting meta-card)
+- Root `knowledge/INDEX.md` `file_count`: 37 → 48
+- Root INDEX Category Summaries gained Reference subsection (was missing entirely)
+- `(Session 41)` temporal cruft removed from cross-project-settings-hardening row per LL-30
+- `knowledge/reference/INDEX.md` `file_count`: 7 → 8 (llm-interaction-patterns.md row added)
+- `knowledge/components/INDEX.md` `file_count`: 10 → 11 (NEW Cross-Cutting Reference section + Reading Order position-0)
+
+### Verification
+
+- All 47 KB .md files have `source:` frontmatter (LL-10 fresh-fetch convention satisfied)
+- Quick Reference arithmetic: 3+2+3+11+2+8+16+1+2 = 48 (matches file_count)
+- Idempotent re-run produces no diff
+- No body temporal-neutrality violations (frontmatter `revision_note` carve-out preserved per kb-conventions)
+
+### Decisions locked (D24, Session 42)
+
+- D24: User-driven sequence inversion (2B'.7 before 2B'.6) is the correct discipline — INDEX cleanliness is a precondition for cross-ref authoring; cross-refs against stale INDEX would either miss 6 of 7 reference/ files or bake stale counts into prose
+
+### Open / Next
+
+- Phase 2B'.6 (thin cross-refs from kb-conventions / component-standards / design-principles DP1 to llm-interaction-patterns.md) — NEXT in Session 42
+- Phase 2B'.8 (plan-implementation skill template enrichment) — queued
+- Phase 2E.3-6 — queued
+- Phase 2C (Component Tier Audit) — gated on 2E completion
 
 ---
 

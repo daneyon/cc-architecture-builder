@@ -1,9 +1,9 @@
-# Current Task: Wave 8 Phase 2B' + 2E + Settings Hardening — Session 41 CLOSED
+# Current Task: Wave 8 Phase 2B' + 2E + Settings Hardening — Session 42 ACTIVE
 
-**Status**: Session 41 CLOSED. Phase 2B'.4 ✓ + 2B'.5 ✓ + 2E.1-2.2 ✓ + Settings Hardening ✓ across 3 work commits (`56e8d34`, `bf174fd`, `ae6af93`). HydroCast + RAS-exec settings manually applied by user with 2 corrections to my prior advice. Phase 2B'.6-8 + 2E.3-6 pending Session 42.
-**Last active**: 2026-04-30 (Session 41 closed)
-**Branch**: `master` (ahead of origin by 9 commits; push deferred per user)
-**Latest work commit**: `ae6af93` — `chore(arch): refine settings-hardening advisory + remove applied pending-diffs [Session 41 close]`
+**Status**: Session 42 ACTIVE. Phase 2B'.7 ✓ in `9c04f21` (KB INDEX regen — root + reference + components resynced). Phase 2B'.4 ✓ + 2B'.5 ✓ + 2E.1-2.2 ✓ + Settings Hardening ✓ from Session 41. Phase 2B'.6 + 2B'.8 + 2E.3-6 remain.
+**Last active**: 2026-05-01 (Session 42 in progress)
+**Branch**: `master` (ahead of origin by 10 commits; push deferred per user)
+**Latest work commit**: `9c04f21` — `chore(kb): regenerate KB indexes — reference resync + components bump [UXL-005 Phase 2B'.7]`
 **Cold-start anchor**: [notes/end-vision-cab-2026-04-28.md](end-vision-cab-2026-04-28.md) — load every Wave 8-11 bootstrap (Backend-First section)
 **Active plan**: [notes/impl-plan-kb-to-kg-2026-04-28-v2.md](impl-plan-kb-to-kg-2026-04-28-v2.md) §4 Phase 2B' (6-8 pending) + Phase 2E (3-6 pending)
 
@@ -20,7 +20,7 @@
 | **2B'.5** | Codify temporal-neutrality rule into `kb-conventions.md` | ✓ in `bf174fd` |
 | **Settings hardening** | Cross-project (5 locations) + advisory card + default-deny rule | ✓ across `bf174fd` (CAB/global/GTA + advisory + rule) + user manual-apply (HydroCast + RAS-exec) + `ae6af93` (advisory refinement + cleanup) |
 | 2B'.6 | Thin cross-refs from kb-conventions/component-standards/design-principles DP1 to patterns card | PENDING (Session 42) |
-| 2B'.7 | Full INDEX regen via `cab:index-kb` (root INDEX still has reference/ + components/ count drift) | PENDING (Session 42) |
+| **2B'.7** | Full INDEX regen via `cab:index-kb` (root INDEX reference 1→8 + components 10→11 + file_count 37→48; sub-INDEXes resynced) | ✓ in `9c04f21` |
 | 2B'.8 | Enrich plan-implementation skill template with per-phase metadata | PENDING (Session 42) |
 | 2E.3 | Author `knowledge/reference/token-budget-quantification.md` (Session 40 GAP #3) | PENDING (Session 42+) |
 | 2E.4 | Migrate Diagrams 1+2 to skill references; archive cc-architecture-diagrams | PENDING (Session 42+) |
@@ -59,9 +59,9 @@ notes/current-task.md (this file, L1)
   → knowledge/reference/llm-interaction-patterns.md (Session 41 patterns card)
 ```
 
-**Recommended Session 42 sequence**:
-1. Phase 2B'.6 (cross-refs from kb-conventions, component-standards, design-principles DP1 to llm-interaction-patterns.md)
-2. Phase 2B'.7 — invoke `/cab:index-kb` skill for full INDEX regen (resolves reference/ + components/ count drift)
+**Session 42 sequence (re-ordered: 2B'.7 first per user direction so 2B'.6 cross-refs reference clean INDEX state)**:
+1. ✓ Phase 2B'.7 — INDEX regen done in `9c04f21` (root + reference + components sub-INDEXes resynced; arithmetic 48 = file_count)
+2. Phase 2B'.6 (cross-refs from kb-conventions, component-standards, design-principles DP1 to llm-interaction-patterns.md) — NEXT
 3. Phase 2B'.8 (plan-implementation skill template enrichment with per-phase metadata convention)
 4. Phase 2E.3-6 (token-budget GAP card / diagrams migration / triage-lessons skill / consumer-skill updates)
 5. Verifier on full Phase 2B'+2E final state
