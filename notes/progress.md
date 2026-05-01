@@ -1,9 +1,52 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-05-01 (Session 42 ACTIVE — 2B'.7 ✓ in `9c04f21`; 2B'.6 ✓ in `5688f19`)
-**Current task**: Phase 2B'.8 NEXT (plan-implementation skill template per-phase metadata enrichment); 2E.3-6 + 2C remain
-**Branch**: `master` (ahead of origin by 12 commits; push deferred per user)
+**Last session**: 2026-05-01 (Session 42 CLOSED — 2B'.7 ✓ in `9c04f21`; 2B'.6 ✓ in `5688f19`; LL-32 candidate surfaced as memory + TODO P1)
+**Current task**: Session 43 entry — commands sunset + archive (blocks LL-32) → Phase 2B'.8 → Phase 2E.3-6 → 2C
+**Branch**: `master` (ahead of origin by 13 commits; push deferred per user)
 **Latest work commit**: `5688f19` — `feat(arch): thin inline cross-refs from rules + DP1 to llm-interaction-patterns [UXL-005 Phase 2B'.6]`
+
+---
+
+## Session 42 (close) — Architectural Surface: LL-32 Type-Shadowing + Commands Sunset Upgrade (2026-05-01)
+
+**Trigger**: User pushback on my repeated `Skill("cab:execute-task")` invocations resolving to the command shim instead of the skill body — surfaced a previously un-named architectural failure pattern beyond LL-27's scope.
+
+### Empirical evidence
+
+Two consecutive `Skill` tool invocations of `cab:execute-task` returned the 13-line command shim (`commands/execute-task.md`), NOT the 245-line skill protocol (`skills/execute-task/SKILL.md`). User correctly identified this as silent shadowing contradicting design-principles.md DP2 line 69 ("Skills are preferred; commands still work but skills win when both exist").
+
+### LL-32 candidate identified
+
+LL-27 covers agent name-shadowing **across scope** (local → user → plugin). The Session 42 evidence revealed a distinct second shadow vector: TYPE-shadowing at the SAME scope — when `commands/<name>.md` and `skills/<name>/SKILL.md` coexist within the same plugin, the resolver routes to the command file regardless of DP2's stated precedence.
+
+### Decisions locked (D26-D27, Session 42 close)
+
+- D26: LL-32 is a distinct LL entry (not an LL-27 expansion) — agent-shadowing-across-scope and command↔skill-shadowing-at-same-scope are different mechanisms with different integration layers
+- D27: Commands archive upgraded from "validate" (Q2 surface) to "execute" P1 — empirical evidence + user pre-authorization make this actionable in Session 43
+
+### Cumulative Session 42 deliverables (4 commits)
+
+| Commit | Type | Hash | Scope |
+|---|---|---|---|
+| Work 1 | chore | `9c04f21` | Phase 2B'.7 KB INDEX regen (3 files; +39/-14) |
+| State 1 | chore | `6f90441` | State refresh post-9c04f21 |
+| Work 2 | feat | `5688f19` | Phase 2B'.6 thin inline cross-refs (3 files; +6/-0) |
+| State 2 | chore | `5f14e4a` | State refresh post-5688f19 |
+| Close | chore | (this commit) | Session 42 close — architectural surface + state refresh |
+
+### Memories saved (Session 42: 1)
+
+- `project_command_skill_type_shadowing.md` (LL-32 candidate; pre-archive checks; sync-check extension scope)
+
+### Session 42 close state
+
+- Branch: `master` ahead of origin by 13 commits; push deferred per user
+- Phase 2B' subtasks 1-7 ✓ (6 of 8 complete); 2B'.8 pending Session 43
+- Phase 2E.1-2 ✓; 3-6 pending Session 43+
+- Architectural backlog upgraded: commands sunset + archive (P1); LL-30+31+32 batch codification (P1)
+- Bootstrap path Session 43: `notes/current-task.md` → end-vision → v2 plan → existing references
+
+---
 
 ---
 

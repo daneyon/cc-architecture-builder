@@ -1,8 +1,8 @@
-# Current Task: Wave 8 Phase 2B' + 2E + Settings Hardening — Session 42 ACTIVE
+# Current Task: Wave 8 Phase 2B' + 2E + Settings Hardening — Session 42 CLOSED
 
-**Status**: Session 42 ACTIVE. Phase 2B'.7 ✓ in `9c04f21` (KB INDEX regen). Phase 2B'.6 ✓ in `5688f19` (thin inline cross-refs from kb-conventions + component-standards + DP1 to llm-interaction-patterns). Phase 2B'.4 ✓ + 2B'.5 ✓ + 2E.1-2.2 ✓ + Settings Hardening ✓ from Session 41. Phase 2B'.8 + 2E.3-6 remain.
-**Last active**: 2026-05-01 (Session 42 in progress)
-**Branch**: `master` (ahead of origin by 12 commits; push deferred per user)
+**Status**: Session 42 CLOSED. Phase 2B'.6 ✓ in `5688f19` + Phase 2B'.7 ✓ in `9c04f21` (2 work commits + 2 state refreshes this session). Architectural surface: LL-32 candidate codified as memory + TODO upgrade — empirically observed command↔skill type-shadowing at same scope contradicts DP2 "skills win" precedence. Phase 2B'.8 + 2E.3-6 + 2C remain Session 43+.
+**Last active**: 2026-05-01 (Session 42 closed)
+**Branch**: `master` (ahead of origin by 13 commits; push deferred per user)
 **Latest work commit**: `5688f19` — `feat(arch): thin inline cross-refs from rules + DP1 to llm-interaction-patterns [UXL-005 Phase 2B'.6]`
 **Cold-start anchor**: [notes/end-vision-cab-2026-04-28.md](end-vision-cab-2026-04-28.md) — load every Wave 8-11 bootstrap (Backend-First section)
 **Active plan**: [notes/impl-plan-kb-to-kg-2026-04-28-v2.md](impl-plan-kb-to-kg-2026-04-28-v2.md) §4 Phase 2B' (6-8 pending) + Phase 2E (3-6 pending)
@@ -48,26 +48,32 @@
 
 ---
 
-## Session 42 — Bootstrap Path
+## Session 43 — Bootstrap Path
 
 ```
 notes/current-task.md (this file, L1)
   → notes/end-vision-cab-2026-04-28.md (cold-start anchor; READ FULL)
-  → notes/impl-plan-kb-to-kg-2026-04-28-v2.md §4 (Phase 2B' 6-8 + Phase 2E 3-6)
-  → knowledge/operational-patterns/cross-project-settings-hardening.md (Session 41 advisory)
+  → notes/impl-plan-kb-to-kg-2026-04-28-v2.md §4 (Phase 2B'.8 + Phase 2E 3-6)
+  → knowledge/operational-patterns/cross-project-settings-hardening.md (advisory)
   → knowledge/components/component-decision-framework.md (canonical realization)
-  → knowledge/reference/llm-interaction-patterns.md (Session 41 patterns card)
+  → knowledge/reference/llm-interaction-patterns.md (patterns card)
 ```
 
-**Session 42 sequence (re-ordered: 2B'.7 first per user direction so 2B'.6 cross-refs reference clean INDEX state)**:
-1. ✓ Phase 2B'.7 — INDEX regen done in `9c04f21` (root + reference + components sub-INDEXes resynced; arithmetic 48 = file_count)
-2. ✓ Phase 2B'.6 — thin inline cross-refs done in `5688f19` (Option C placement at rule/principle: top-of-file pointers in kb-conventions + component-standards; DP1 end-of-body pointer mirroring DP8 pattern)
-3. Phase 2B'.8 (plan-implementation skill template enrichment with per-phase metadata convention) — NEXT
-4. Phase 2E.3-6 (token-budget GAP card / diagrams migration / triage-lessons skill / consumer-skill updates)
-5. Verifier on full Phase 2B'+2E final state
-6. Phase 2C (Component Tier Audit) using 2E framework as scoring rubric
+**Recommended Session 43 entry sequence** (queue from Session 42 architectural surface + planned phases):
 
-Estimated: 1-2 sessions for 2B' + 2E completion; then 1 session for 2C.
+1. **Commands sunset + archive** (P1, blocks LL-32 codification): fresh-fetch CC docs on skill `user-invocable` default → validate all 15 commands are shims → decision gate → archive or migrate-then-archive. See TODO.md row "CAB commands sunset + archive" for full plan.
+2. **Phase 2B'.8** — plan-implementation skill template enrichment with per-phase metadata convention. Design moment: schema for per-phase metadata fields (acceptance_criteria, verification_method, estimated_tokens, gates).
+3. **LL-30 + LL-31 + LL-32 batch codification** in `notes/lessons-learned.md` to resolve orphan references atomically.
+4. Phase 2E.3-6 (token-budget GAP card / diagrams migration / triage-lessons skill / consumer-skill updates).
+5. Verifier on full Phase 2B' + 2E final state.
+6. Phase 2C (Component Tier Audit) using 2E framework as scoring rubric.
+
+**Session 42 closed cumulatively (4 commits: 2 work + 2 state refresh)**:
+1. ✓ Phase 2B'.7 — INDEX regen done in `9c04f21` (root + reference + components sub-INDEXes resynced; arithmetic 48 = file_count)
+2. ✓ Phase 2B'.6 — thin inline cross-refs done in `5688f19` (Option C placement; D25 top-of-file rule-set-scope pattern when entire file collectively operationalizes a pattern)
+3. Architectural surface — commands sunset + LL-32 candidate (command↔skill type-shadowing at same scope; distinct from LL-27 scope-shadowing). Saved as memory + upgraded P1 in TODO.md.
+
+Estimated remaining: 1-2 sessions for Phase 2B'.8 + 2E completion; then 1 session for 2C.
 
 ---
 
