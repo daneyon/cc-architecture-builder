@@ -1,9 +1,93 @@
 # CAB Progress — Live Session State
 
-**Last session**: 2026-04-30 (Session 41 — Phase 2B'.4 + Phase 2E recompose + Phase 2E.1-2.2 complete; mid-session state refresh)
-**Current task**: 2B'.5 placeholder staged for user authoring; 2B'.6-8 pending; Phase 2E.3-6 pending
-**Branch**: `master` (ahead of origin by 6 commits; push deferred per user)
-**Latest work commit**: `56e8d34` — `feat(arch): Phase 2E component-decision framework + DP8 revision + patterns card [UXL-005 P2B'.4 + P2E.1-2]`
+**Last session**: 2026-04-30 (Session 41 — Phase 2B'.4 + 2B'.5 + 2E.1-2.2 + Settings Hardening complete; multi-deliverable mid-session state refresh)
+**Current task**: HydroCast + RAS-exec settings manual-apply diffs awaiting user; 2B'.6-8 + Phase 2E.3-6 pending
+**Branch**: `master` (ahead of origin by 7 commits; push deferred per user)
+**Latest work commit**: `bf174fd` — `feat(arch): cross-project settings hardening + temporal-neutrality rule + default-deny on settings edits [UXL-005 Phase 2B'.5 + Settings]`
+
+---
+
+## Session 41 (continued) — Phase 2B'.5 + Settings Hardening + Default-Deny Rule (2026-04-30)
+
+**Work commit**: `bf174fd` (8 files, 367 insertions; 2 new artifacts; 6 modified). Continuation of Session 41 mid-session work.
+
+### Trigger
+
+Post-`56e8d34` state refresh (`2e3006f`) + user surfaced: (1) authorize me to author final temporal-neutrality rule per Q3 mechanisms; (2) audit settings.json across 5 locations; (3) defer telemetry. Audit revealed broader drift than expected (allowedTools deprecated; HydroCast + RAS-exec downgrades; CAB minimal config; GTA bare-bones; CAB project hook reference broken). User added: "Always ask for approval for any CC settings.json edit; default-denied".
+
+### What landed in this continuation
+
+**Phase 2B'.5 — Temporal-neutrality rule** (`.claude/rules/kb-conventions.md`):
+- Lead bullet + 4 explicit carve-outs (provenance OK, frontmatter metadata OK, wave-anchored note marker pattern, dated cross-refs discipline)
+- LL-30 origin; operationalizes 5-axis audit framework axis 4
+- Resolves component-standards.md AMBIGUOUS verdict from Session 40 audit
+
+**Default-deny on CC settings.json edits** (NEW behavioral rule, 4-layer enforcement):
+- Memory: `feedback_settings_json_default_deny_edit.md` (LL-31 candidate)
+- Rule: `.claude/rules/security.md` 6th bullet (override paths: update-config skill, explicit user direction, hook-driven automation)
+- Backstop: global `permissions.ask` for `Edit/Write(**/.claude/settings*)`
+- Per-project: existing LL-13 self-modification deny (HydroCast, RAS-exec)
+
+**Settings hardening pass** (5 locations):
+- Global `~/.claude/settings.json`: REMOVED deprecated `allowedTools` block; ADDED `permissions.ask` settings-edit prompts
+- CAB `.claude/settings.json`: ADDED `sandbox.enabled: true` + LL-13 self-deny rules
+- GTA `.claude/settings.json`: ADDED `$schema` + `sandbox.enabled: true` + baseline deny rules + LL-13 self-deny (uplevels T3 → T2 hardening tier)
+- HydroCast: pending manual-apply diff in `notes/settings-hardening-pending-2026-04-30.md` (effortLevel removal per UXL-039)
+- RAS-exec: pending manual-apply diff (stub PreToolUse hook removal + effortLevel removal)
+
+**Canonical advisory card** (`knowledge/operational-patterns/cross-project-settings-hardening.md`, 221 lines):
+- Layering pattern (Mermaid) + inheritance matrix
+- Default-deny rule with 4-layer enforcement table
+- Settings-hardening tiers (T0/T1/T2/T3)
+- 9 anti-patterns + Session 41 concrete drift findings
+- CAB advisor role + Wave 9+ revisit gate
+- `confidence: B` (operational pattern; experimental)
+
+**KB INDEX hygiene** (partial):
+- `knowledge/INDEX.md`: operational-patterns count 12 → 16 + new card row
+- `knowledge/operational-patterns/INDEX.md`: file_count 14 → 16; structure tree + when-to-use updated; back-filled cc-memory-layer-alignment.md + multi-agent/agent-resolution.md (pre-Session-41 drift)
+- Remaining INDEX drift documented in TODO.md for full regen via `cab:index-kb`
+
+### Decisions locked (D19-D22, Session 41 continuation)
+
+- D19: Temporal-neutrality rule mechanisms — provenance-OK + frontmatter-metadata-OK + wave-anchored-note-marker pattern + dated-cross-refs discipline
+- D20: Default-deny on CC settings.json edits codified across 4 enforcement layers (memory + rule + global ask + per-project deny). Override paths explicit. LL-31 candidate.
+- D21: Settings hardening canonical pattern documented in operational-patterns/ as advisory card; CAB's role as cross-project settings advisor formalized
+- D22: Cross-project settings drift documented as Wave 9+ propagation lever; HydroCast bash-security-gate.sh script drift (1619B vs global 6062B) flagged
+
+### Skills + agents exercised
+
+- `cab:execute-task`: Phase 2B'.5 + Settings Hardening protocol structure
+- `cab:verifier`: PARTIAL → addressed must-fix items (INDEX registration); recommendations applied (Wave 9+ tag + LL-30/31 candidate flags)
+- WebFetch: CC settings docs verification (allowedTools deprecated; additionalDirectories valid)
+- Bash: hook script existence verification (global script exists; CAB referenced script DOES NOT exist; HydroCast script exists)
+
+### LL candidates (Session 41 cumulative)
+
+1. KEEP-AS-IS-PROVISIONAL sub-verdict for structurally-queryable deferral (Phase 2F schema)
+2. Tier-gate skip on uniform-KEEP batches (memory; rule promotion candidate)
+3. ARCHIVE-over-REWRITE for human-facing-AND-modularly-covered cards (memory; rule promotion candidate)
+4. Mid-execute strategic-recompose pattern (orchestrator parks current work + opens new phase)
+5. **NEW LL-31 candidate**: Default-deny on settings.json edits (this continuation)
+6. **NEW**: KB layering convention (overview = inference; components/operational-patterns = realization) — codified via memory + framework anti-pattern
+7. **NEW**: Backend-first / Artifact-first architecture (DP10 candidate)
+8. **NEW**: Cross-project settings drift detection methodology (advisory card pattern)
+
+### Queued for Session 42
+
+- User manual-apply: HydroCast + RAS-exec settings diffs (per `notes/settings-hardening-pending-2026-04-30.md`)
+- Phase 2B'.6 (cross-refs to patterns card)
+- Phase 2B'.7 full INDEX regen via `cab:index-kb` (resolve remaining drift in reference/ + components/ counts)
+- Phase 2B'.8 (plan-implementation skill template enrichment)
+- Phase 2E.3-6 (token-budget GAP card + diagrams migration + triage-lessons skill + consumer-skill updates)
+- Verifier on full state
+- Then Phase 2C (Component Tier Audit) using 2E framework
+
+### State at session continuation close
+
+- Branch: `master` ahead of origin by 7 commits; push deferred
+- Phase 2B' subtasks 1-5 ✓; 6-8 pending. Phase 2E.1-2 ✓; 3-6 pending. Settings hardening DONE for direct-edit files; pending for deny-protected.
+- Bootstrap path Session 42: `notes/current-task.md` → end-vision → v2 plan → cross-project-settings-hardening.md (NEW Session 41 advisory) → component-decision-framework.md → settings-hardening-pending notes file
 
 ---
 
